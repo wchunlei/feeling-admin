@@ -7,11 +7,13 @@
 </template>
 
 <script>
+/*
   import mixChart from 'components/Charts/mixChart';
 
   export default {
     components: { mixChart }
   };
+*/
 </script>
 
 <style scoped>
