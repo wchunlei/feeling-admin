@@ -40,7 +40,7 @@
 
                 <el-col :span="8">
                   
-                    <el-form-item label-width="50px" label="名称:" class="postInfo-container-item">
+                    <el-form-item label-width="50px" label="渠道名称:" class="postInfo-container-item">
                       <el-input placeholder="" style='min-width:150px;' v-model="postForm.source_name">
                       </el-input>
                     </el-form-item>
@@ -191,7 +191,7 @@
             { key: 'b-platform', name: 'b-platform' },
             { key: 'c-platform', name: 'c-platform' }
         ],
-        sexOptions: ['男', '女'],
+        sexOptions: ['男', '女1'],
         rules: {
           image_uri: [{ validator: validateRequire }],
           title: [{ validator: validateRequire }],

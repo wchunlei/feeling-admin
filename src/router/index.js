@@ -62,6 +62,18 @@ const Tab = _import('example/tab/index');
 /* permission */
 const Permission = _import('permission/index');
 
+/* actor 角色管理 */
+const actorForm = _import('actor/form');
+const actorTable = _import('actor/table');
+
+/* story 剧情管理 */
+const storyForm = _import('story/form');
+const storyTable = _import('story/table');
+
+/* app 渠道管理 */
+const appForm = _import('app/form');
+const appTable = _import('app/table');
+
 Vue.use(Router);
 
  /**
@@ -102,6 +114,62 @@ export default new Router({
 });
 
 export const asyncRouterMap = [
+  {
+    path: '/app',
+    component: Layout,
+    redirect: '/app/index',
+    name: '渠道管理',
+    icon: 'zujian',
+    children: [
+      { path: 'app/form/create', component: appForm, name: '新增渠道' },
+      { path: 'table', component: appTable, name: '渠道列表' }
+    ]
+  },
+  {
+    path: '/actor',
+    component: Layout,
+    redirect: '/actor/index',
+    name: '主角管理',
+    icon: 'zujian',
+    children: [
+      { path: 'actor/form/create', component: actorForm, name: '新增主角' },
+      { path: 'table', component: actorTable, name: '主角列表' }
+    ]
+  },
+  {
+    path: '/story',
+    component: Layout,
+    redirect: '/story/index',
+    name: '剧情管理',
+    icon: 'zujian',
+    children: [
+      { path: 'story/form/create', component: storyForm, name: '新增剧情' },
+      { path: 'table', component: storyTable, name: '剧情列表' }
+    ]
+  },
+  {
+    path: '/components',
+    component: Layout,
+    redirect: '/components/index',
+    name: '事件管理',
+    icon: 'zujian',
+    children: [
+      { path: 'index', component: componentsIndex, name: '剧情事件' },
+      { path: 'tinymce', component: Tinymce, name: '渠道事件' }
+    ]
+  },
+  {
+    path: '/components',
+    component: Layout,
+    redirect: '/components/index',
+    name: '数据报表',
+    icon: 'zujian',
+    children: [
+      { path: 'index', component: componentsIndex, name: '新增主角' },
+      { path: 'tinymce', component: Tinymce, name: '主角列表' }
+    ]
+  },
+  /*
   {
     path: '/permission',
     component: Layout,
@@ -208,6 +276,6 @@ export const asyncRouterMap = [
 
       { path: 'tab/index', component: Tab, name: 'Tab' }
     ]
-  },
+  },*/
   { path: '*', redirect: '/404', hidden: true }
 ];

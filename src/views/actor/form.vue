@@ -191,7 +191,7 @@
             { key: 'b-platform', name: 'b-platform' },
             { key: 'c-platform', name: 'c-platform' }
         ],
-        sexOptions: ['男', '女'],
+        sexOptions: ['男', '女1'],
         rules: {
           image_uri: [{ validator: validateRequire }],
           title: [{ validator: validateRequire }],
