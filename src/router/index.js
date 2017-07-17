@@ -74,6 +74,10 @@ const storyTable = _import('story/table');
 const appForm = _import('app/form');
 const appTable = _import('app/table');
 
+/* event 事件管理 */
+const eventStory= _import('event/tablestory');
+const eventApp = _import('event/tableapp');
+
 Vue.use(Router);
 
  /**
@@ -148,14 +152,14 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/components',
+    path: '/event',
     component: Layout,
-    redirect: '/components/index',
+    redirect: '/event/index',
     name: '事件管理',
     icon: 'zujian',
     children: [
-      { path: 'index', component: componentsIndex, name: '剧情事件' },
-      { path: 'tinymce', component: Tinymce, name: '渠道事件' }
+      { path: 'index', component: eventStory, name: '剧情事件' },
+      { path: 'tinymce', component: eventApp, name: '渠道事件' }
     ]
   },
   {
