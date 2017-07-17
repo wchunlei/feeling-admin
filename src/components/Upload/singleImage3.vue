@@ -1,13 +1,13 @@
 <template>
 	<div class="upload-container">
-		<el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="https://httpbin.org/post"
+		<el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="http://192.168.1.43:3000/system/upload"
 		  :on-success="handleImageScucess">
 			<i class="el-icon-upload"></i>
 			<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 		</el-upload>
 		<div class="image-preview image-app-preview">
 			<div class="image-preview-wrapper" v-show="imageUrl.length>1">
-				<div class='app-fake-conver'>&nbsp&nbsp全球 付费节目单 最热 经济</div>
+				<div class='app-fake-conver'>&nbsp&nbsp</div>
 				<img :src="imageUrl">
 				<div class="image-preview-action">
 					<i @click="rmImage" class="el-icon-delete"></i>
@@ -52,7 +52,7 @@
 	      this.$emit('input', val);
     },
 	    handleImageScucess(file) {
-	      this.emitInput(file.files.file)
+	      this.emitInput(file.content.url)
     },
 	    beforeUpload() {
 	      const _self = this;
