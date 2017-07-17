@@ -1,6 +1,6 @@
 <template>
     <div class="upload-container">
-        <el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="https://httpbin.org/post"
+        <el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="http://192.168.1.43:3000/system/upload"
             :on-success="handleImageScucess">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -30,6 +30,7 @@
     }
   },
 	  data() {
+          console.log("data()");
 	    return {
 	      tempUrl: '',
 	      dataObj: { token: '', key: '' }
@@ -46,14 +47,17 @@
 	      this.emitInput(this.tempUrl)
     },
 	    beforeUpload() {
-	      const _self = this;
+          const _self = this;
+          console.log("beforeUpload 1 ");
 	      return new Promise((resolve, reject) => {
 	        getToken().then(response => {
 	          const key = response.data.qiniu_key;
 	          const token = response.data.qiniu_token;
 	          _self._data.dataObj.token = token;
 	          _self._data.dataObj.key = key;
-	          this.tempUrl = response.data.qiniu_url;
+              this.tempUrl = response.data.qiniu_url;
+              
+              console.log("beforeUpload this.tempUrl:"+this.tempUrl);
 	          resolve(true);
         }).catch(err => {
 	          console.log(err);
