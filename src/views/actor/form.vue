@@ -20,28 +20,21 @@
       <div class="createPost-main-container">
         <el-row>
           <el-col :span="21">
-            <el-form-item style="margin-bottom: 40px;" prop="title">
-              <MDinput name="name" v-model="postForm.title" required :maxlength="100">
-                标题
-              </MDinput>
-              <span v-show="postForm.title.length>=26" class='title-prompt'>app可能会显示不全</span>
-            </el-form-item>
+            
 
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="45px" label="类型:" class="postInfo-container-item">
-                    <multiselect v-model="postForm.author" :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
-                      <span slot='noResult'>无结果</span>
-                    </multiselect>
+                  <el-form-item label-width="50px" label="类型:" class="postInfo-container-item">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.style">
+                      </el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
                   
                     <el-form-item label-width="50px" label="名称:" class="postInfo-container-item">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.source_name">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.name">
                       </el-input>
                     </el-form-item>
                   
@@ -49,7 +42,7 @@
 
                 <el-col :span="8">
                   <el-form-item label-width="45px" label="性别:" class="postInfo-container-item">
-                    <el-select class="filter-item" placeholder="请选择" v-model="postForm.sex">
+                    <el-select class="filter-item" placeholder="请选择" v-model="postForm.gender">
                       <el-option v-for="item in  sexOptions" :key="item" :label="item" :value="item">
                       </el-option>
                     </el-select>
@@ -61,29 +54,25 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="45px" label="身高:" class="postInfo-container-item">
-                    <multiselect v-model="postForm.author" :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
-                      <span slot='noResult'>无结果</span>
-                    </multiselect>
+                  <el-form-item label-width="50px" label="身高:" class="postInfo-container-item">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.height">
+                      </el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
                   
                     <el-form-item label-width="50px" label="年龄:" class="postInfo-container-item">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.source_name">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.age">
                       </el-input>
-                    </el-form-item>
+                  </el-form-item>
                   
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="45px" label="体重:" class="postInfo-container-item">
-                    <el-select class="filter-item" placeholder="请选择" v-model="postForm.sex">
-                      <el-option v-for="item in  sexOptions" :key="item" :label="item" :value="item">
-                      </el-option>
-                    </el-select>
+                  <el-form-item label-width="50px" label="体重:" class="postInfo-container-item">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.weight">
+                      </el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -92,18 +81,16 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="45px" label="胸围:" class="postInfo-container-item">
-                    <multiselect v-model="postForm.author" :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
-                      <span slot='noResult'>无结果</span>
-                    </multiselect>
+                  <el-form-item label-width="50px" label="胸围:" class="postInfo-container-item">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.bust">
+                      </el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
                   
                     <el-form-item label-width="50px" label="职业:" class="postInfo-container-item">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.source_name">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.job">
                       </el-input>
                     </el-form-item>
                   
@@ -116,9 +103,9 @@
         </el-row>
 
         <el-form-item style="margin-bottom: 40px;" label-width="45px" label="性格:">
-          <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="postForm.content_short">
+          <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="postForm.nature">
           </el-input>
-          <span class="word-counter" v-show="contentShortLength">{{contentShortLength}}字</span>
+          <span class="word-counter" v-show="natureLength">{{natureLength}}字</span>
         </el-form-item>
 
 
@@ -172,26 +159,22 @@
       };
       return {
         postForm: {
-          title: '', // 文章题目
-          content: '', // 文章内容
-          content_short: '', // 文章摘要
-          source_uri: '', // 文章外链
+          style: '', // 文章题目
+          name: '', // 文章内容
+          gender: '',
+          weight: '',
+          height: '',
+          bust: '',
+          age: '',
+          job: '',
+          nature: '',
           image_uri: '', // 文章图片
-          source_name: '', // 文章外部作者
-          display_time: undefined, // 前台展示时间
-          id: undefined,
-          sex: '',
-          platforms: ['a-platform']
+          id: undefined
         },
         fetchSuccess: true,
         loading: false,
         userLIstOptions: [],
-        platformsOptions: [
-            { key: 'a-platform', name: 'a-platform' },
-            { key: 'b-platform', name: 'b-platform' },
-            { key: 'c-platform', name: 'c-platform' }
-        ],
-        sexOptions: ['男', '女1'],
+        sexOptions: ['男', '女'],
         rules: {
           image_uri: [{ validator: validateRequire }],
           title: [{ validator: validateRequire }],
@@ -201,8 +184,8 @@
       }
     },
     computed: {
-      contentShortLength() {
-        return this.postForm.content_short.length
+      natureLength() {
+        return this.postForm.nature.length
       },
       isEdit() {
         return this.$route.meta.isEdit // 根据meta判断
@@ -224,8 +207,17 @@
         });
       },
       submitForm() {
-        this.postForm.display_time = parseInt(this.display_time / 1000);
+        //this.postForm.display_time = parseInt(this.display_time / 1000);
         console.log(this.postForm)
+        userSearch('query').then(response => {
+          if (!response.data.items) return;
+          console.log(response)
+          this.userLIstOptions = response.data.items.map(v => ({
+            key: v.name
+          }));
+        });
+
+        /*
         this.$refs.postForm.validate(valid => {
           if (valid) {
             this.loading = true;
@@ -242,6 +234,7 @@
             return false;
           }
         });
+        */
       },
       draftForm() {
         if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {

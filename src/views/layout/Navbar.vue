@@ -16,7 +16,7 @@
 						首页
 					</el-dropdown-item>
 				</router-link>
-				<a target='_blank' href="https://github.com/PanJiaChen/vue-element-admin/">
+				<a target='_blank' href="http://192.168.1.43/feeling/feeling_admin/">
 					<el-dropdown-item>
 						项目地址
 					</el-dropdown-item>
