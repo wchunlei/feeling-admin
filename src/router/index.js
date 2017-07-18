@@ -70,6 +70,15 @@ const actorTable = _import('actor/table');
 const storyForm = _import('story/form');
 const storyTable = _import('story/table');
 
+const storyVideo = _import('story/video');
+const storyVideo_interactive = _import('story/video_interactive');
+const storyTel = _import('story/tel');
+const storyTalk = _import('story/talk');
+const storyRadio = _import('story/radio');
+const storyPicture = _import('story/picture');
+const storyGame = _import('story/game');
+const storyTv = _import('story/tv');
+
 /* app 渠道管理 */
 const appForm = _import('app/form');
 const appTable = _import('app/table');
@@ -118,17 +127,7 @@ export default new Router({
 });
 
 export const asyncRouterMap = [
-  {
-    path: '/app',
-    component: Layout,
-    redirect: '/app/index',
-    name: '渠道管理',
-    icon: 'zujian',
-    children: [
-      { path: 'app/form/create', component: appForm, name: '新增渠道' },
-      { path: 'table', component: appTable, name: '渠道列表' }
-    ]
-  },
+  
   {
     path: '/actor',
     component: Layout,
@@ -147,7 +146,14 @@ export const asyncRouterMap = [
     name: '剧情管理',
     icon: 'zujian',
     children: [
-      { path: 'story/form/create', component: storyForm, name: '新增剧情' },
+      { path: 'story/form/video', component: storyVideo, name: '普通视频' },
+      { path: 'story/form/video_interactive', component: storyVideo_interactive, name: '交互视频' },
+      { path: 'story/form/tel', component: storyTel, name: '电话' },
+      { path: 'story/form/talk', component: storyTalk, name: '文字聊天' },
+      { path: 'story/form/radio', component: storyRadio, name: '语音聊天' },
+      { path: 'story/form/picture', component: storyPicture, name: '图片聊天' },
+      { path: 'story/form/game', component: storyGame, name: '小游戏' },
+      { path: 'story/form/tv', component: storyTv, name: '小视频' },
       { path: 'table', component: storyTable, name: '剧情列表' }
     ]
   },
@@ -160,6 +166,17 @@ export const asyncRouterMap = [
     children: [
       { path: 'index', component: eventStory, name: '剧情事件' },
       { path: 'tinymce', component: eventApp, name: '渠道事件' }
+    ]
+  },
+  {
+    path: '/app',
+    component: Layout,
+    redirect: '/app/index',
+    name: '渠道管理',
+    icon: 'zujian',
+    children: [
+      { path: 'app/form/create', component: appForm, name: '新增渠道' },
+      { path: 'table', component: appTable, name: '渠道列表' }
     ]
   },
   {

@@ -1,21 +1,19 @@
 import fetch from 'utils/fetch';
 
-export function loginByEmail(email, password) {
-  const data = {
-    email,
-    password
-  };
+export function actorUpdate(actorinfo) {
+  const data = actorinfo;
   return fetch({
-    url: '?act=login',
+    url: '?act=actorupdate',
     method: 'post',
     data
   });
 }
 
-export function logout() {
+export function actorList(query) {
   return fetch({
-    url: '/login/logout',
-    method: 'post'
+    url: '?act=actorlist',
+    method: 'get',
+    params: query
   });
 }
 

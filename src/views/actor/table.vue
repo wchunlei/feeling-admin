@@ -150,7 +150,7 @@
 </template>
 
 <script>
-  import { fetchList, fetchPv } from 'api/article_table';
+  import { actorList, fetchPv } from 'api/actor';
   import { parseTime } from 'utils';
 
   const calendarTypeOptions = [
@@ -225,7 +225,7 @@
     methods: {
       getList() {
         this.listLoading = true;
-        fetchList(this.listQuery).then(response => {
+        actorList(this.listQuery).then(response => {
           this.list = response.data.items;
           this.total = response.data.total;
           this.listLoading = false;

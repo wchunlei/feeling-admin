@@ -125,7 +125,7 @@
   import MDinput from 'components/MDinput';
   import { validateURL } from 'utils/validate';
   import { getArticle } from 'api/article';
-  import { userSearch } from 'api/remoteSearch';
+  import { actorUpdate } from 'api/actor';
 
   export default {
     name: 'articleDetail',
@@ -169,7 +169,7 @@
           job: '',
           nature: '',
           image_uri: '', // 文章图片
-          id: undefined
+          id: ''
         },
         fetchSuccess: true,
         loading: false,
@@ -209,7 +209,9 @@
       submitForm() {
         //this.postForm.display_time = parseInt(this.display_time / 1000);
         console.log(this.postForm)
-        userSearch('query').then(response => {
+        var actorinfo;
+        actorinfo = this.postForm;
+        actorUpdate(actorinfo).then(response => {
           if (!response.data.items) return;
           console.log(response)
           this.userLIstOptions = response.data.items.map(v => ({
