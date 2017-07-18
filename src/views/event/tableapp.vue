@@ -126,7 +126,7 @@
 </template>
 
 <script>
-  import { storyList, fetchPv } from 'api/story';
+  import { fetchList, fetchPv } from 'api/article_table';
   import { parseTime } from 'utils';
 
   const calendarTypeOptions = [
@@ -201,7 +201,7 @@
     methods: {
       getList() {
         this.listLoading = true;
-        storyList(this.listQuery).then(response => {
+        fetchList(this.listQuery).then(response => {
           this.list = response.data.items;
           this.total = response.data.total;
           this.listLoading = false;
