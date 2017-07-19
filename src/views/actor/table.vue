@@ -4,18 +4,8 @@
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="listQuery.title">
       </el-input>
 
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" placeholder="类型">
-        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-
       <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" placeholder="性别">
-        <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key">
-        </el-option>
-      </el-select>
-
-      <el-select @change='handleFilter' style="width: 120px" class="filter-item" v-model="listQuery.sort" placeholder="排序">
-        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key">
+        <el-option v-for="item in  sexOptions" :key="item.label" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
 
@@ -35,20 +25,14 @@
 
       <el-table-column width="180px" align="center" label="姓名">
         <template scope="scope">
-          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="300px" label="类型">
+      <el-table-column width="80px" align="center" label="性别">
         <template scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
-          <el-tag>{{scope.row.type | typeFilter}}</el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="110px" align="center" label="性别">
-        <template scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span v-if="scope.row.gender==1">男</span>
+          <span v-if="scope.row.gender==2">女</span>
         </template>
       </el-table-column>
 
@@ -58,25 +42,32 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="80px" label="职业">
+      <el-table-column width="200px" label="职业">
         <template scope="scope">
-          <icon-svg v-for="n in +scope.row.importance" icon-class="wujiaoxing" class="meta-item__icon" :key="n"></icon-svg>
+          <span>{{scope.row.job}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="性格" width="95">
+      <el-table-column align="center" label="性格" width="100px">
         <template scope="scope">
-          <span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>
+          <span>{{scope.row.nature}}</span>
+          <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" label="状态" width="90">
+      <el-table-column class-name="status-col" label="类型" width="90px">
         <template scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+          <span>{{scope.row.style}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" width="150">
+      <el-table-column min-width="180px" label="修改时间">
+        <template scope="scope">
+          <span>{{scope.row.modify_time}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="操作" width="250px">
         <template scope="scope">
           <el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
           </el-button>
@@ -97,36 +88,43 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form class="small-space" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
+        
+        <el-form-item label="姓名">
+          <el-input v-model="temp.name"></el-input>
+        </el-form-item>
         <el-form-item label="类型">
-          <el-select class="filter-item" v-model="temp.type" placeholder="请选择">
-            <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key">
+          <el-input v-model="temp.style"></el-input>
+        </el-form-item>
+
+        <el-form-item label="性别">
+          <el-select class="filter-item" v-model="temp.gender" placeholder="请选择">
+            <el-option v-for="item in  sexOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="状态">
-          <el-select class="filter-item" v-model="temp.status" placeholder="请选择">
-            <el-option v-for="item in  statusOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
+        <el-form-item label="身高">
+          <el-input v-model="temp.height"></el-input>
+        </el-form-item>
+        <el-form-item label="体重">
+          <el-input v-model="temp.weight"></el-input>
+        </el-form-item>
+        <el-form-item label="年龄">
+          <el-input v-model="temp.age"></el-input>
         </el-form-item>
 
-        <el-form-item label="时间">
-          <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="选择日期时间">
-          </el-date-picker>
+        <el-form-item label="胸围">
+          <el-input v-model="temp.bust"></el-input>
+        </el-form-item>
+        <el-form-item label="职业">
+          <el-input v-model="temp.job"></el-input>
+        </el-form-item>
+        <el-form-item label="性格">
+          <el-input v-model="temp.nature"></el-input>
         </el-form-item>
 
-        <el-form-item label="标题">
-          <el-input v-model="temp.title"></el-input>
-        </el-form-item>
-
-        <el-form-item label="重要性">
-          <el-rate style="margin-top:8px;" v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
-        </el-form-item>
-
-        <el-form-item label="点评">
-          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="temp.remark">
-          </el-input>
+        <el-form-item label="头像">
+          <Upload v-model="temp.headurl"></Upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -152,6 +150,8 @@
 <script>
   import { actorList, fetchPv } from 'api/actor';
   import { parseTime } from 'utils';
+  import Upload from 'components/Upload/singleImage3';
+  import { actorUpdate } from 'api/actor';
 
   const calendarTypeOptions = [
       { key: 'CN', display_name: '中国' },
@@ -167,6 +167,7 @@
   }, {});
 
   export default {
+    components: { Upload },
     name: 'table_demo',
     data() {
       return {
@@ -194,6 +195,13 @@
         calendarTypeOptions,
         sortOptions: [{ label: '按ID升序列', key: '+id' }, { label: '按ID降序', key: '-id' }],
         statusOptions: ['published', 'draft', 'deleted'],
+        sexOptions: [{
+          value: '1',
+          label: '男'
+        }, {
+          value: '2',
+          label: '女'
+        }],
         dialogFormVisible: false,
         dialogStatus: '',
         textMap: {
@@ -226,7 +234,7 @@
       getList() {
         this.listLoading = true;
         actorList(this.listQuery).then(response => {
-          this.list = response.data.items;
+          this.list = response.data.content;
           this.total = response.data.total;
           this.listLoading = false;
         })
@@ -301,6 +309,17 @@
           }
         }
         this.dialogFormVisible = false;
+
+        var actorinfo;
+        actorinfo = this.temp;
+        actorUpdate(actorinfo).then(response => {
+          if (!response.data.items) return;
+          console.log(response)
+          this.userLIstOptions = response.data.items.map(v => ({
+            key: v.name
+          }));
+        });
+
         this.$notify({
           title: '成功',
           message: '更新成功',

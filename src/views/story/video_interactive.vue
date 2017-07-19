@@ -107,13 +107,13 @@
           </el-col>
         </el-row>
 
-        <div style="margin-bottom: 20px;">
+        <div style="margin-bottom: 20px;">开始视频
           <Upload v-model="postForm.video_uri"></Upload>
         </div>
-        <div style="margin-bottom: 20px;">
+        <div style="margin-bottom: 20px;">选择1视频
           <Upload v-model="postForm.video_uri1"></Upload>
         </div>
-        <div style="margin-bottom: 20px;">
+        <div style="margin-bottom: 20px;">选择2视频
           <Upload v-model="postForm.video_uri2"></Upload>
         </div>
       </div>
