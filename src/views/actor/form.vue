@@ -218,18 +218,19 @@
         console.log(this.postForm)
         var actorinfo;
         actorinfo = this.postForm;
-        actorUpdate(actorinfo).then(response => {
-          if (!response.data.items) return;
-          console.log(response)
-          this.userLIstOptions = response.data.items.map(v => ({
-            key: v.name
-          }));
-        });
-
-        
+      
         this.$refs.postForm.validate(valid => {
           if (valid) {
             this.loading = true;
+
+            actorUpdate(actorinfo).then(response => {
+              if (!response.data.items) return;
+              console.log(response)
+              this.userLIstOptions = response.data.items.map(v => ({
+                key: v.name
+              }));
+            });
+
             this.$notify({
               title: '成功',
               message: '发布成功',
