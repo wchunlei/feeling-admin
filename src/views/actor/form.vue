@@ -25,7 +25,7 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="50px" label="类型:" class="postInfo-container-item">
+                  <el-form-item label-width="50px" label="类型:" class="postInfo-container-item" prop="style">
                       <el-input placeholder="" style='min-width:150px;' v-model="postForm.style">
                       </el-input>
                   </el-form-item>
@@ -33,7 +33,7 @@
 
                 <el-col :span="8">
                   
-                    <el-form-item label-width="50px" label="名称:" class="postInfo-container-item">
+                    <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name">
                       <el-input placeholder="" style='min-width:150px;' v-model="postForm.name">
                       </el-input>
                     </el-form-item>
@@ -41,9 +41,9 @@
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="45px" label="性别:" class="postInfo-container-item">
+                  <el-form-item label-width="45px" label="性别:" class="postInfo-container-item" prop="gender">
                     <el-select class="filter-item" placeholder="请选择" v-model="postForm.gender">
-                      <el-option v-for="item in  sexOptions" :key="item" :label="item" :value="item">
+                      <el-option v-for="item in  sexOptions" :key="item.label" :label="item.label" :value="item.value">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -111,7 +111,7 @@
 
 
         <div style="margin-bottom: 20px;">
-          <Upload v-model="postForm.image_uri"></Upload>
+          <Upload v-model="postForm.headurl"></Upload>
         </div>
       </div>
     </el-form>
@@ -168,18 +168,25 @@
           age: '',
           job: '',
           nature: '',
-          image_uri: '', // 文章图片
-          id: ''
+          headurl: '', // 文章图片
+          id: '',
+          status: 'draft'
         },
         fetchSuccess: true,
         loading: false,
         userLIstOptions: [],
-        sexOptions: ['男', '女'],
+        sexOptions: [{
+          value: '1',
+          label: '男'
+        }, {
+          value: '2',
+          label: '女'
+        }],
         rules: {
-          image_uri: [{ validator: validateRequire }],
-          title: [{ validator: validateRequire }],
-          content: [{ validator: validateRequire }],
-          source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
+          headurl: [{ validator: validateRequire }],
+          style: [{ validator: validateRequire }],
+          name: [{ validator: validateRequire }],
+          headurl: [{ validator: validateSourceUri, trigger: 'blur' }]
         }
       }
     },
@@ -219,13 +226,13 @@
           }));
         });
 
-        /*
+        
         this.$refs.postForm.validate(valid => {
           if (valid) {
             this.loading = true;
             this.$notify({
               title: '成功',
-              message: '发布文章成功',
+              message: '发布成功',
               type: 'success',
               duration: 2000
             });
@@ -236,7 +243,6 @@
             return false;
           }
         });
-        */
       },
       draftForm() {
         if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {

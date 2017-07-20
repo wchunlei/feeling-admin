@@ -21,6 +21,7 @@
 
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
+      
     </div>
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
@@ -28,6 +29,18 @@
       <el-table-column align="center" label="序号" width="65">
         <template scope="scope">
           <span>{{scope.row.id}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="天" width="65">
+        <template scope="scope">
+          <span>{{scope.row.day}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="步" width="65">
+        <template scope="scope">
+          <span>{{scope.row.step}}</span>
         </template>
       </el-table-column>
 
@@ -114,7 +127,7 @@
 </template>
 
 <script>
-  import { storyList, fetchPv } from 'api/story';
+  import { storyListall, fetchPv } from 'api/story';
   import { parseTime } from 'utils';
   import { storyUpdate } from 'api/story';
 
@@ -197,7 +210,7 @@
     methods: {
       getList() {
         this.listLoading = true;
-        storyList(this.listQuery).then(response => {
+        storyListall(this.listQuery).then(response => {
           this.list = response.data.content;
           this.total = response.data.total;
           this.listLoading = false;

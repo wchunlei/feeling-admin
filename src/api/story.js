@@ -34,6 +34,13 @@ export function storyList(query) {
   });
 }
 
+export function storyListall(query) {
+  return fetch({
+    url: '?act=storylistall',
+    method: 'get',
+    params: query
+  });
+}
 export function getInfo(token) {
   const data = {
     token

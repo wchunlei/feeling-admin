@@ -69,6 +69,7 @@ const actorTable = _import('actor/table');
 /* story 剧情管理 */
 const storyForm = _import('story/form');
 const storyTable = _import('story/table');
+const storyTableall = _import('story/tableall');
 
 const storyVideo = _import('story/video');
 const storyVideo_interactive = _import('story/video_interactive');
@@ -154,7 +155,8 @@ export const asyncRouterMap = [
       { path: 'story/form/picture', component: storyPicture, name: '图片聊天' },
       { path: 'story/form/game', component: storyGame, name: '小游戏' },
       { path: 'story/form/tv', component: storyTv, name: '小视频' },
-      { path: 'table', component: storyTable, name: '剧情列表' }
+      { path: 'table', component: storyTable, name: '剧情列表' },
+      { path: 'tableall', component: storyTableall, name: '剧情列表详细' }
     ]
   },
   {

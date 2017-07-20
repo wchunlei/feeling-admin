@@ -1,7 +1,7 @@
 <template>
 	<div class="upload-container">
 		<el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="http://192.168.1.43:3000/system/vod"
-		  :on-success="handleImageScucess">
+		  :on-success="handleImageScucess" >
 			<i class="el-icon-upload"></i>
 			<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 		</el-upload>

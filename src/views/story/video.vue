@@ -25,8 +25,8 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="45px" label="主角:" class="postInfo-container-item">
-                    <multiselect v-model="postForm.actor" :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                  <el-form-item label-width="45px" label="主角:" class="postInfo-container-item" prop="actor">
+                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                       deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
                       <span slot='noResult'>无结果</span>
                     </multiselect>
@@ -43,8 +43,8 @@
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="50px" label="剧情名称:" class="postInfo-container-item">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.title">
+                  <el-form-item label-width="50px" label="剧情名称:" class="postInfo-container-item" prop="title">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.title" required>
                       </el-input>
                     </el-form-item>
                 </el-col>
@@ -55,7 +55,7 @@
               <el-row>
                 <el-col :span="8">
                   
-                    <el-form-item label-width="50px" label="天:" class="postInfo-container-item">
+                    <el-form-item label-width="50px" label="天:" class="postInfo-container-item" prop="day">
                       <el-input placeholder="" style='min-width:150px;' v-model="postForm.day">
                       </el-input>
                     </el-form-item>
@@ -63,7 +63,7 @@
                 </el-col>
                 <el-col :span="8">
                   
-                    <el-form-item label-width="50px" label="步:" class="postInfo-container-item">
+                    <el-form-item label-width="50px" label="步:" class="postInfo-container-item" prop="step">
                       <el-input placeholder="" style='min-width:150px;' v-model="postForm.step">
                       </el-input>
                     </el-form-item>
@@ -77,7 +77,7 @@
         </el-row>
 
         <div style="margin-bottom: 20px;">
-          <Upload v-model="postForm.video_uri"></Upload>
+          <Upload v-model="postForm.video_uri" prop="step"></Upload>
         </div>
       </div>
     </el-form>
@@ -139,8 +139,11 @@
         userLIstOptions: [],
         typeOptions: ['主线', '新手'],
         rules: {
+          actor: [{ validator: validateRequire }],
+          title: [{ validator: validateRequire }],
+          step: [{ validator: validateRequire }],
           video_uri: [{ validator: validateRequire }],
-          title: [{ validator: validateRequire }]
+          day: [{ validator: validateRequire }]
         }
       }
     },
@@ -169,22 +172,23 @@
       },
       submitForm() {
         console.log(this.postForm)
-        var actorinfo;
-        actorinfo = this.postForm;
-        videoUpdate(actorinfo).then(response => {
-          if (!response.data.items) return;
-          console.log(response)
-          this.userLIstOptions = response.data.items.map(v => ({
-            key: v.name
-          }));
-        });
-
         this.$refs.postForm.validate(valid => {
           if (valid) {
+            var actorinfo;
+            actorinfo = this.postForm;
+            videoUpdate(actorinfo).then(response => {
+              if (!response.data.content) return;
+              console.log(response)
+              this.userLIstOptions = response.data.content.map(v => ({
+                key: v.name,
+                value: v.id
+              }));
+            });
+
             this.loading = true;
             this.$notify({
               title: '成功',
-              message: '发布文章成功',
+              message: '发布视频成功',
               type: 'success',
               duration: 2000
             });
@@ -213,11 +217,14 @@
         this.postForm.status = 'draft';
       },
       getRemoteUserList(query) {
+        console.log("getRemoteUserList")
         userSearch(query).then(response => {
-          if (!response.data.items) return;
+          console.log("getRemoteUserList")
+          if (!response.data.content) return;
           console.log(response)
-          this.userLIstOptions = response.data.items.map(v => ({
-            key: v.title
+          this.userLIstOptions = response.data.content.map(v => ({
+            key: v.name,
+            value: v.id
           }));
         })
       }
