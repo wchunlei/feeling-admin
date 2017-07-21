@@ -36,7 +36,7 @@
                 <el-col :span="8">
                   <el-form-item label-width="45px" label="类型:" class="postInfo-container-item">
                     <el-select class="filter-item" placeholder="请选择" v-model="postForm.type">
-                      <el-option v-for="item in  typeOptions" :key="item" :label="item" :value="item">
+                      <el-option v-for="item in  typeOptions" :key="item.label" :label="item.label" :value="item.value">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -137,7 +137,13 @@
         fetchSuccess: true,
         loading: false,
         userLIstOptions: [],
-        typeOptions: ['主线', '新手'],
+        typeOptions: [{
+          value: '2',
+          label: '主线'
+        }, {
+          value: '1',
+          label: '新手'
+        }],
         rules: {
           actor: [{ validator: validateRequire }],
           title: [{ validator: validateRequire }],

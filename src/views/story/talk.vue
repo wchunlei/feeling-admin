@@ -25,8 +25,8 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="80px" label="主角:" class="postInfo-container-item">
-                    <multiselect v-model="postForm.actor" :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                  <el-form-item label-width="45px" label="主角:" class="postInfo-container-item" prop="actor">
+                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                       deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
                       <span slot='noResult'>无结果</span>
                     </multiselect>
@@ -34,9 +34,9 @@
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="80px" label="类型:" class="postInfo-container-item">
+                  <el-form-item label-width="45px" label="类型:" class="postInfo-container-item">
                     <el-select class="filter-item" placeholder="请选择" v-model="postForm.type">
-                      <el-option v-for="item in  typeOptions" :key="item" :label="item" :value="item">
+                      <el-option v-for="item in  typeOptions" :key="item.label" :label="item.label" :value="item.value">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -73,6 +73,19 @@
               </el-row>
             </div>
 
+            <div class="postInfo-container">
+              <el-row>
+                <el-col :span="8">
+                  
+                    <el-form-item label-width="80px" label="文字内容:" class="postInfo-container-item">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.msg">
+                      </el-input>
+                    </el-form-item>
+                  
+                </el-col>
+
+              </el-row>
+            </div>
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
@@ -155,7 +168,7 @@
   import { validateURL } from 'utils/validate';
   import { getArticle } from 'api/article';
   import { userSearch } from 'api/story';
-  import { videoUpdate } from 'api/story';
+  import { talkUpdate } from 'api/story';
 
   export default {
     name: 'articleDetail',
@@ -190,11 +203,11 @@
       return {
         postForm: {
           title: '', // 文章题目
-          video_uri: '', // 文章图片
           actor: '', // 文章外部作者
           id: undefined,
           type: '',
           step: '',
+          msg: '',
           replay1: '',
           replay2: '',
           replay3: '',
@@ -205,9 +218,15 @@
         fetchSuccess: true,
         loading: false,
         userLIstOptions: [],
-        typeOptions: ['主线', '新手'],
+        typeOptions: [{
+          value: '2',
+          label: '主线'
+        }, {
+          value: '1',
+          label: '新手'
+        }],
         rules: {
-          video_uri: [{ validator: validateRequire }],
+          actor: [{ validator: validateRequire }],
           title: [{ validator: validateRequire }]
         }
       }
@@ -239,7 +258,7 @@
         console.log(this.postForm)
         var actorinfo;
         actorinfo = this.postForm;
-        videoUpdate(actorinfo).then(response => {
+        talkUpdate(actorinfo).then(response => {
           if (!response.data.items) return;
           console.log(response)
           this.userLIstOptions = response.data.items.map(v => ({
@@ -281,11 +300,14 @@
         this.postForm.status = 'draft';
       },
       getRemoteUserList(query) {
+        console.log("getRemoteUserList")
         userSearch(query).then(response => {
-          if (!response.data.items) return;
+          console.log("getRemoteUserList")
+          if (!response.data.content) return;
           console.log(response)
-          this.userLIstOptions = response.data.items.map(v => ({
-            key: v.title
+          this.userLIstOptions = response.data.content.map(v => ({
+            key: v.name,
+            value: v.id
           }));
         })
       }

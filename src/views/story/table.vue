@@ -49,6 +49,7 @@
           <span v-if="scope.row.plottype==2">主线剧情</span>
         </template>
       </el-table-column>
+      
 
       <el-table-column class-name="status-col" label="状态" width="90">
         <template scope="scope">
@@ -117,6 +118,7 @@
   import { storyList, fetchPv } from 'api/story';
   import { parseTime } from 'utils';
   import { storyUpdate } from 'api/story';
+  import { storyStatus } from 'api/story';
 
   const calendarTypeOptions = [
       { key: 'CN', display_name: '中国' },

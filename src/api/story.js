@@ -17,10 +17,81 @@ export function videoUpdate(storyinfo) {
   });
 }
 
+export function talkUpdate(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=talkupdate',
+    method: 'post',
+    data
+  });
+}
+
+export function gameUpdate(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=gameupdate',
+    method: 'post',
+    data
+  });
+}
+
+export function tvUpdate(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=tvupdate',
+    method: 'post',
+    data
+  });
+}
+
+export function pictureUpdate(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=pictureupdate',
+    method: 'post',
+    data
+  });
+}
+
+export function radioUpdate(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=radioupdate',
+    method: 'post',
+    data
+  });
+}
+
+export function videoInterUpdate(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=videointerupdate',
+    method: 'post',
+    data
+  });
+}
+
+export function telUpdate(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=telupdate',
+    method: 'post',
+    data
+  });
+}
 export function storyUpdate(storyinfo) {
   const data = storyinfo;
   return fetch({
     url: '?act=storyupdate',
+    method: 'post',
+    data
+  });
+}
+
+export function storyStatus(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=storystatus',
     method: 'post',
     data
   });

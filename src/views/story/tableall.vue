@@ -56,10 +56,23 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="300px" label="类型">
+      <el-table-column min-width="150px" label="剧情类型">
         <template scope="scope">
           <span v-if="scope.row.plottype==1">新用户剧情</span>
           <span v-if="scope.row.plottype==2">主线剧情</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="150px" label="消息类型">
+        <template scope="scope">
+          <span v-if="scope.row.msgtype==0">普通视频</span>
+          <span v-if="scope.row.msgtype==1">交互视频</span>
+          <span v-if="scope.row.msgtype==2">电话</span>
+          <span v-if="scope.row.msgtype==3">文字聊天</span>
+          <span v-if="scope.row.msgtype==4">语音聊天</span>
+          <span v-if="scope.row.msgtype==5">图片聊天</span>
+          <span v-if="scope.row.msgtype==6">小游戏</span>
+          <span v-if="scope.row.msgtype==7">小视频</span>
         </template>
       </el-table-column>
 
@@ -105,11 +118,42 @@
           <el-input v-model="temp.title"></el-input>
         </el-form-item>
 
+        <el-form-item label="msg">
+          <el-input v-model="temp.msg"></el-input>
+        </el-form-item>
+
+        <el-form-item label="havenxt">
+          <el-input v-model="temp.havenxt"></el-input>
+        </el-form-item>
+
+        <el-form-item label="nxtmsg">
+          <el-input v-model="temp.nxtmsg"></el-input>
+        </el-form-item>
+
+        <el-form-item label="ivmsg">
+          <el-input v-model="temp.ivmsg"></el-input>
+        </el-form-item>
+
+        <el-form-item label="ivselect1">
+          <el-input v-model="temp.ivselect1"></el-input>
+        </el-form-item>
+
+        <el-form-item label="ivurl1">
+          <el-input v-model="temp.ivurl1"></el-input>
+        </el-form-item>
+
+        <el-form-item label="ivselect2">
+          <el-input v-model="temp.ivselect2"></el-input>
+        </el-form-item>
+
+        <el-form-item label="ivurl2">
+          <el-input v-model="temp.ivurl2"></el-input>
+        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="create">确 定</el-button>
-        <el-button v-else type="primary" @click="update">确 定</el-button>
+        <el-button @click="dialogFormVisible = false">关 闭</el-button>
+        
       </div>
     </el-dialog>
 
@@ -130,6 +174,7 @@
   import { storyListall, fetchPv } from 'api/story';
   import { parseTime } from 'utils';
   import { storyUpdate } from 'api/story';
+  import { storyStatus } from 'api/story';
 
   const calendarTypeOptions = [
       { key: 'CN', display_name: '中国' },
@@ -160,7 +205,7 @@
           sort: '+id'
         },
         temp: {
-          id: undefined,
+          id: '',
           name: '',
           title: '',
           plottype: '',
@@ -237,11 +282,21 @@
         this.listQuery.end = parseInt((+time[1] + 3600 * 1000 * 24) / 1000);
       },
       handleModifyStatus(row, status) {
+        var actorinfo;
+        actorinfo = row;
+        storyStatus(actorinfo).then(response => {
+          if (!response.data.items) return;
+          console.log(response)
+        });
+
         this.$message({
           message: '操作成功',
           type: 'success'
         });
         row.status = status;
+
+        const index = this.list.indexOf(row);
+        this.list.splice(index, 1);
       },
       handleCreate() {
         this.resetTemp();
