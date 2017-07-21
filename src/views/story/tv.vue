@@ -246,19 +246,20 @@
         });
       },
       submitForm() {
-        console.log(this.postForm)
-        var actorinfo;
-        actorinfo = this.postForm;
-        tvUpdate(actorinfo).then(response => {
-          if (!response.data.items) return;
-          console.log(response)
-          this.userLIstOptions = response.data.items.map(v => ({
-            key: v.name
-          }));
-        });
 
         this.$refs.postForm.validate(valid => {
           if (valid) {
+            console.log(this.postForm)
+            var actorinfo;
+            actorinfo = this.postForm;
+            tvUpdate(actorinfo).then(response => {
+              if (!response.data.items) return;
+              console.log(response)
+              this.userLIstOptions = response.data.items.map(v => ({
+                key: v.name
+              }));
+            });
+
             this.loading = true;
             this.$notify({
               title: '成功',
