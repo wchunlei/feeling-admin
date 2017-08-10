@@ -88,6 +88,14 @@ const appTable = _import('app/table');
 const eventStory= _import('event/tablestory');
 const eventApp = _import('event/tableapp');
 
+/* diary 日记管理 */
+const diaryForm = _import('diary/form');
+const diaryTable = _import('diary/table');
+
+/* clothes 服装管理 */
+const clothesForm = _import('clothes/form');
+const clothesTable = _import('clothes/table');
+
 Vue.use(Router);
 
  /**
@@ -168,6 +176,28 @@ export const asyncRouterMap = [
     children: [
       { path: 'index', component: eventStory, name: '剧情事件' },
       { path: 'tinymce', component: eventApp, name: '渠道事件' }
+    ]
+  },
+  {
+    path: '/diary',
+    component: Layout,
+    redirect: '/diary/index',
+    name: '日记管理',
+    icon: 'zujian',
+    children: [
+      { path: 'diary/form/create', component: diaryForm, name: '新增日记' },
+      { path: 'table', component: diaryTable, name: '日记列表' }
+    ]
+  },
+  {
+    path: '/clothes',
+    component: Layout,
+    redirect: '/clothes/index',
+    name: '服装管理',
+    icon: 'zujian',
+    children: [
+      { path: 'clothes/form/create', component: clothesForm, name: '服装管理' },
+      { path: 'table', component: clothesTable, name: '服装编辑' }
     ]
   },
   {

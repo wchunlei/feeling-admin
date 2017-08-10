@@ -218,7 +218,6 @@
         console.log(this.postForm)
         var actorinfo;
         actorinfo = this.postForm;
-      
         this.$refs.postForm.validate(valid => {
           if (valid) {
             this.loading = true;
@@ -229,6 +228,7 @@
               this.userLIstOptions = response.data.items.map(v => ({
                 key: v.name
               }));
+
             });
 
             this.$notify({
