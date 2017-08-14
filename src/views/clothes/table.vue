@@ -36,9 +36,9 @@
                 </el-form-item>
             </div>
             <div style="margin:20px 0px;">
-                <el-form-item label="温度:" style="margin-bottom: 40px;" label-width="90px" prop="minTemperature">
-                    <el-input v-model="postForm.minTemperature" size="small" placeholder="最低温度" autofocus style="width:75px;"></el-input> ---
-                    <el-input v-model="postForm.maxTemperature" size="small" placeholder="最高温度" autofocus style="width:75px;"></el-input>
+                <el-form-item label="服装温度:" style="margin-bottom: 40px;" label-width="90px" prop="minTemperature">
+                    <el-input v-model="postForm.minTemperature" size="small" placeholder="最低温度" style="width:75px;"></el-input> ---
+                    <el-input v-model="postForm.maxTemperature" size="small" placeholder="最高温度" style="width:75px;"></el-input>
                 </el-form-item>
                 <el-form-item label="服装天气:" style="margin-bottom: 40px;" label-width="90px" prop="chothWeather">
                     <el-select v-model="postForm.chothWeather" placeholder="请选择">
@@ -65,7 +65,6 @@
                 </el-form-item>
             </div>
         </el-form>
-        <el-button type="primary" class="reset" @click='aa'>_重置_</el-button>
     </div>
 </template>
 
@@ -92,6 +91,18 @@
         components: { Upload },
         name: 'table_demo',
         data() {
+            const onlyNum = (rule, value, callback) => {
+                let reg=/^[1-9]\d*$/ig;
+                if (value&&!reg.test(value)) {
+                    this.postForm.price=this.postForm.price.replace(this.postForm.price,'');
+                    this.$message({
+                        message: rule.field + '价格只能为数字',
+                        type: 'error'
+                    });
+                } else {
+                    callback();
+                }
+            };
             const validateRequire = (rule, value, callback) => {
                 if (value === '') {
                     this.$message({
@@ -161,7 +172,8 @@
                     status: 'draft'
                 },
                 rules: {
-                    clothName: [{ validator: validateRequire }]
+                    clothName: [{ validator: validateRequire }],
+                    price: [{ validator: onlyNum }]
                 }
             }
         },
@@ -195,28 +207,7 @@
                         return false;
                     }
                 });
-            },
-            rangeTime(start,end){
-                var arr=[];
-                var temp1 = start.split("-");
-                var temp2 = end.split("-");
-                var date1 = new Date(start);
-                var date2 = new Date(end);
-                while((date2.getTime()-date1.getTime())>=0){
-                    var year = date1.getFullYear();
-                    var monthTemp=date1.getMonth()+1;
-                    alert(monthTemp)
-                    var month = monthTemp.toString().length==1?"0"+monthTemp.toString():monthTemp.toString();
-                    var day = date1.getDate().toString().length==1?"0"+date1.getDate():date1.getDate();
-                    var temp=year+month+day;
-                    arr.push(temp)
-                    date1.setDate(date1.getDate()+1);
-                }
-                return arr.join(',');
-            },
-            aa(){
-                alert(this.rangeTime("2017-10-30","2017-11-02"));
-            },
+            }
         },
     }
 </script>

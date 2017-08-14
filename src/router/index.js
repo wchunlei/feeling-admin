@@ -96,6 +96,11 @@ const diaryTable = _import('diary/table');
 const clothesForm = _import('clothes/form');
 const clothesTable = _import('clothes/table');
 
+/* PUSH事件管理 */
+const bubble = _import('push_event/bubble');
+const channel = _import('push_event/channel');
+const story = _import('push_event/story');
+
 Vue.use(Router);
 
  /**
@@ -185,7 +190,7 @@ export const asyncRouterMap = [
     name: '日记管理',
     icon: 'zujian',
     children: [
-      { path: 'diary/form/create', component: diaryForm, name: '新增日记' },
+      { path: 'diary/form', component: diaryForm, name: '新增日记' },
       { path: 'table', component: diaryTable, name: '日记列表' }
     ]
   },
@@ -198,6 +203,18 @@ export const asyncRouterMap = [
     children: [
       { path: 'clothes/form/create', component: clothesForm, name: '服装管理' },
       { path: 'table', component: clothesTable, name: '服装编辑' }
+    ]
+  },
+  {
+    path: '/push_event',
+    component: Layout,
+    redirect: '/push_event/index',
+    name: 'PUSH事件管理',
+    icon: 'zujian',
+    children: [
+      { path: 'push_event/story/create', component: story, name: '剧情事件' },
+      { path: 'channel', component: channel, name: '渠道事件' },
+      { path: 'bubble', component: bubble, name: '冒泡事件' },
     ]
   },
   {

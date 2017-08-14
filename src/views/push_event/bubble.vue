@@ -1,0 +1,140 @@
+<template>
+    <div class="createPost-container">
+        <div class="cloth_center">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+                <el-form-item label="事件ID:">
+                    <span>123</span>
+                </el-form-item>
+                <el-form-item label="事件名称:" prop="name">
+                    <el-input v-model="ruleForm.name" style="width: 300px;"></el-input>
+                    <el-button type="primary" size="large" style="margin-left:100px">删除</el-button>
+                </el-form-item>
+                <el-form-item label="事件类型" prop="eventType">
+                    <el-select v-model="ruleForm.eventType" placeholder="事件类型">
+                        <el-option label="文字" value="word"></el-option>
+                        <el-option label="视频" value="video"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="时间触发条件:">
+                    <el-date-picker
+                            v-model="ruleForm.setTime"
+                            type="datetime"
+                            placeholder="选择日期时间">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="温度触发条件:" prop="template">
+                    <el-input v-model="ruleForm.template" placeholder="最低温度--最高温度" style="width: 190px;"></el-input>
+                </el-form-item>
+                <el-form-item label="天气触发条件:" prop="weather">
+                    <el-select v-model="ruleForm.weather" placeholder="天气触发条件">
+                        <el-option label="晴天" value="sun"></el-option>
+                        <el-option label="下雨" value="rain"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="条件组合:" prop="combination">
+                    <el-select v-model="ruleForm.combination" placeholder="条件组合">
+                        <el-option label="全部满足" value="fill"></el-option>
+                        <el-option label="任一满足" value="either"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('ruleForm')">新增事件</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </div>
+</template>
+
+<script>
+    import Tinymce from 'components/Tinymce'
+    import Upload from 'components/Upload/singleImage3'
+    import MDinput from 'components/MDinput';
+    import { validateURL } from 'utils/validate';
+    import { getArticle } from 'api/article';
+    import { actorUpdate } from 'api/actor';
+
+    export default {
+        name: 'channel',
+        components: { Tinymce, MDinput, Upload },
+        data() {
+            return {
+                ruleForm: {
+                    name: '',
+                    region: '',
+                    eventType: '',
+                    setTime: '',
+                    template: '',
+                    weather: '',
+                    combination: ''
+                },
+                rules: {
+                    name: [
+                        { required: true, message: '请输入事件名称', trigger: 'blur' },
+                        { message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                    ],
+                    region: [
+                        { required: true, message: '请选择渠道', trigger: 'change' }
+                    ]
+                }
+            }
+        },
+        methods : {
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                return false;
+            }
+            });
+            }
+        }
+    }
+</script>
+<style rel="stylesheet/scss" lang="scss" scoped>
+    @import "src/styles/mixin.scss";
+    .title-prompt{
+        position: absolute;
+        right: 0px;
+        font-size: 12px;
+        top:10px;
+        color:#ff4949;
+    }
+    .createPost-container {
+        position: relative;
+    .createPost-main-container {
+        padding: 40px 45px 20px 50px;
+    .postInfo-container {
+        position: relative;
+    @include clearfix;
+        margin-bottom: 10px;
+    .postInfo-container-item {
+        float: left;
+    }
+    }
+    .editor-container {
+        min-height: 500px;
+        margin: 0 0 30px;
+    .editor-upload-btn-container {
+        text-align: right;
+        margin-right: 10px;
+    .editor-upload-btn {
+        display: inline-block;
+    }
+    }
+    }
+    }
+    .word-counter {
+        width: 40px;
+        position: absolute;
+        right: -10px;
+        top: 0px;
+    }
+    }
+    .clothStyle{
+        margin-left:15px;
+        display:inline-block;
+    }
+</style>
+

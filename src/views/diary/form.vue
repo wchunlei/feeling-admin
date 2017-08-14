@@ -18,35 +18,72 @@
             </Sticky>
 
             <div class="createPost-main-container">
-                <el-row>
-                    <el-col :span="12">
+                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="第1条" prop="id">
 
-                        <el-form-item style="margin-bottom: 40px;" label-width="90px" label="主角姓名:" prop="name">
-                            <el-input :rows="1" v-model="postForm.name">
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
+                </el-form-item>
+                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="姓名:" prop="actorid">
+                    <el-input v-model="postForm.actorid" style="width:100px">
+                    </el-input>
+                </el-form-item>
+                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="日记标题:" prop="title">
+                    <el-input type="textarea" :rows="3" v-model="postForm.title" maxlength="140">
+                    </el-input>
+                    <span><span style="color:red">*</span>日记标题，最多140字</span>
+                </el-form-item>
 
-                    <el-col :span="12">
-                        <el-form-item style="margin-bottom: 40px;" label-width="90px" label="日记标题:" prop="title">
-                            <el-input type="textarea" :rows="1" placeholder="请输入日记标题" v-model="postForm.title">
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
+                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="title">
+                    <template>
+                        <span @click="showPicture"><el-radio class="radio" v-model="radio" label="0">图片</el-radio></span>
+                        <span @click="showVideo"><el-radio class="radio" v-model="radio" label="1">视频</el-radio></span>
+                    </template>
+                </el-form-item>
 
-                        <el-form-item style="margin-bottom: 40px;" label-width="90px" label="日记内容:" prop="textarea">
-                            <el-input type="textarea" :rows="5" placeholder="请输入日记内容" v-model="postForm.textarea">
-                            </el-input>
-                        </el-form-item>
+                <el-form-item style="margin-bottom: 20px;" label-width="45px" label="">
+                    <span class="word-counter" v-show="natureLength">{{natureLength}}字</span>
+                </el-form-item>
 
-                        <el-form-item style="margin-bottom: 40px;" label-width="45px" label="">
-                            <span class="word-counter" v-show="natureLength">{{natureLength}}字</span>
-                        </el-form-item>
-
-                <div style="margin-bottom: 20px;">
-                    <Upload v-model="postForm.headurl"></Upload>
+                <div v-show="showPic" style="margin-bottom: 20px;">
+                    <el-form-item label-width="90px" label="图片:" prop="pic">最多9张图片</el-form-item>
+                    <Uploadimg v-model="postForm.pic1"></Uploadimg>
                 </div>
+                <div v-show="showPic" style="margin-bottom: 20px;">
+                    <Uploadimg v-model="postForm.pic2"></Uploadimg>
+                </div>
+                <div v-show="showPic" style="margin-bottom: 20px;">
+                    <Uploadimg v-model="postForm.pic3"></Uploadimg>
+                </div>
+                <div v-show="showPic" style="margin-bottom: 20px;">
+                    <Uploadimg v-model="postForm.pic4"></Uploadimg>
+                </div>
+                <div v-show="showPic" style="margin-bottom: 20px;">
+                    <Uploadimg v-model="postForm.pic5"></Uploadimg>
+                </div>
+                <div v-show="showPic" style="margin-bottom: 20px;">
+                    <Uploadimg v-model="postForm.pic6"></Uploadimg>
+                </div>
+                <div v-show="showPic" style="margin-bottom: 20px;">
+                    <Uploadimg v-model="postForm.pic7"></Uploadimg>
+                </div>
+                <div v-show="showPic" style="margin-bottom: 20px;">
+                    <Uploadimg v-model="postForm.pic8"></Uploadimg>
+                </div>
+                <div v-show="showPic" style="margin-bottom: 20px;">
+                    <Uploadimg v-model="postForm.pic9"></Uploadimg>
+                </div>
+
+                <div v-show="showVid" style="margin-bottom: 20px;">
+                    <el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>
+                    <Uploadvideo v-model="postForm.video"></Uploadvideo>
+                </div>
+
+                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="发布时间:" prop="textarea">
+                    <el-date-picker
+                        v-model="postForm.dt"
+                        type="datetime"
+                        placeholder="选择日期时间">
+                    </el-date-picker>
+                </el-form-item>
+
             </div>
         </el-form>
 
@@ -55,7 +92,8 @@
 
 <script>
     import Tinymce from 'components/Tinymce'
-    import Upload from 'components/Upload/singleImage3'
+    import Uploadvideo from 'components/Upload/video'
+    import Uploadimg from 'components/Upload/singleImage3'
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
     import { getArticle } from 'api/article';
@@ -63,7 +101,7 @@
 
     export default {
         name: 'articleDetail',
-        components: { Tinymce, MDinput, Upload },
+        components: { Tinymce, MDinput, Uploadvideo, Uploadimg },
         data() {
             const validateRequire = (rule, value, callback) => {
                 if (value === '') {
@@ -93,12 +131,22 @@
             };
             return {
                 postForm: {
-                    name:'',
-                    title:'',
-                    textarea:'',
-                    nature: '',
-                    headurl: '', // 文章图片
                     id: '',
+                    actorid:'',
+                    time:'',
+                    type: '',
+                    nature: '',
+                    video: '', // 视频
+                    pic1: '', // 图片
+                    pic2: '', // 图片
+                    pic3: '', // 图片
+                    pic4: '', // 图片
+                    pic5: '', // 图片
+                    pic6: '', // 图片
+                    pic7: '', // 图片
+                    pic8: '', // 图片
+                    pic9: '', // 图片
+                    dt: '',
                     status: 'draft'
                 },
                 fetchSuccess: true,
@@ -106,10 +154,13 @@
                 userLIstOptions: [],
                 rules: {
                     title: [{ validator: validateRequire }],
-                    textarea: [{ validator: validateRequire }],
                     name: [{ validator: validateRequire }],
                     headurl: [{ validator: validateSourceUri, trigger: 'blur' }]
-                }
+                },
+                radio: '0',
+                selectTime: new Date(2017, 8, 14, 12, 10),
+                showPic: true,
+                showVid: false
             }
         },
         computed: {
@@ -191,6 +242,22 @@
                             key: v.name
                         }));
             })
+            },
+            showVideo () {
+                if(!this.showVid){
+                    this.showVid=true;
+                    this.showPic=false;
+                } else {
+                    this.showPic=false;
+                }
+            },
+            showPicture () {
+                if(!this.showPic){
+                    this.showPic=true;
+                    this.showVid=false;
+                } else {
+                    this.showVid=false;
+                }
             }
         }
     }

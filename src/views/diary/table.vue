@@ -13,6 +13,9 @@
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
             <el-table-column align="center" label="序号" width="65" type="index">
+                <template scope="scope">
+                    <router-link :to="diary/form">{{scope.row.id}}</router-link>
+                </template>
             </el-table-column>
 
             <el-table-column width="180px" align="center" label="姓名">
