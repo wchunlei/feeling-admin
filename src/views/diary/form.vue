@@ -112,7 +112,6 @@
         data() {
             const validateRequire = (rule, value, callback) => {
                 if (value === '') {
-                    alert()
                     this.$message({
                         message: rule.field + '为必传项',
                         type: 'error'
@@ -155,7 +154,7 @@
                     pic7: '', // 图片
                     pic8: '', // 图片
                     pic9: '', // 图片
-                    dt: '',
+                    dt: new Date(),
                     status: 'draft'
                 },
                 fetchSuccess: true,
@@ -173,11 +172,11 @@
                     ]
                 },*/
                 rules: {
-                    actor: [{ validator: validateRequire }],
+                    actor: [{ validator: validateRequire, trigger: 'change' }],
                     title: [{ validator: validateRequire }],
-                    pic1: [{ validator: validateSourceUri, trigger: 'blur' }],
-                    video: [{ validator: validateSourceUri, trigger: 'blur' }],
-                    dt: [{ validator: validateRequire }]
+                    //pic1: [{ validator: validateRequire, trigger: 'blur' }],
+                    //video: [{ validator: validateRequire, trigger: 'blur' }],
+                    //dt: [{ validator: validateRequire, trigger: 'blur' }]
                 },
                 radio: '0',
                 selectTime: new Date(2017, 8, 14, 12, 10),
@@ -192,12 +191,13 @@
             }
         },
         created() {
-            let listQuery={};
-            listQuery.id = this.$route.params.num;
+            if(this.$route.params.num && this.$route.params.num != ':num'){
+                let listQuery={};
+                listQuery.id = this.$route.params.num;
+                this.fetchData(listQuery);
+            }
 
-            this.fetchData(listQuery);
-/*
-            id = $route.params.num;
+            /*id = $route.params.num;
             if(id == "num:"){
                 id = "";
             }*/
@@ -229,64 +229,59 @@
                 });
             },
             submitForm() {
-                //var diaryinfo;
-                let date=this.postForm.dt;
-                let year=date.getFullYear(),
-                        month=date.getMonth()+ 1,
-                        day=date.getDate(),
-                        hour=date.getHours(),
-                        minutes=date.getMinutes(),
-                        seconds=date.getSeconds();
-                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-                let diaryinfo={
-                    //actorid: parseInt(this.postForm.actorid),
-                    actorid: parseInt(this.postForm.actor.value),
-                    title: this.postForm.title,
-                    type: parseInt(this.radio),
-                    pic1: this.postForm.pic1,
-                    pic2: this.postForm.pic2,
-                    pic3: this.postForm.pic3,
-                    pic4: this.postForm.pic4,
-                    pic5: this.postForm.pic5,
-                    pic6: this.postForm.pic6,
-                    pic7: this.postForm.pic7,
-                    pic8: this.postForm.pic8,
-                    pic9: this.postForm.pic9,
-                    video: this.postForm.video,
-                    dt: dateString
-                }
-
-
-                if(this.postForm.id){
-                    diaryinfo.id=this.postForm.id;
-                }
-
-                //diaryinfo = this.postForm;
-                this.loading = true;
-
-                diaryUpdate(diaryinfo).then(response => {
-                    if (!response.data.items) return;
-                console.log(response)
-                this.userLIstOptions = response.data.items.map(v => ({
-                            key: v.name
-                        }));
-                    });
-                this.$notify({
-                    title: '成功',
-                    message: '发布成功',
-                    type: 'success',
-                    duration: 2000
-                });
-                    this.postForm.status = 'published';
-                this.loading = false;
-                /*this.$refs.postForm.validate(valid => {
+                this.$refs.postForm.validate(valid => {
                     if (valid) {
-
+                    //var diaryinfo;
+                    let date=this.postForm.dt;
+                    let year=date.getFullYear(),
+                            month=date.getMonth()+ 1,
+                            day=date.getDate(),
+                            hour=date.getHours(),
+                            minutes=date.getMinutes(),
+                            seconds=date.getSeconds();
+                    let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                    let diaryinfo={
+                        //actorid: parseInt(this.postForm.actorid),
+                        actorid: parseInt(this.postForm.actor.value),
+                        title: this.postForm.title,
+                        type: parseInt(this.radio),
+                        pic1: this.postForm.pic1,
+                        pic2: this.postForm.pic2,
+                        pic3: this.postForm.pic3,
+                        pic4: this.postForm.pic4,
+                        pic5: this.postForm.pic5,
+                        pic6: this.postForm.pic6,
+                        pic7: this.postForm.pic7,
+                        pic8: this.postForm.pic8,
+                        pic9: this.postForm.pic9,
+                        video: this.postForm.video,
+                        dt: dateString
+                    }
+                    if(this.$route.params.num && this.$route.params.num != ':num'){
+                        diaryinfo.id=this.postForm.id;
+                    }
+                    //diaryinfo = this.postForm;
+                    this.loading = true;
+                    diaryUpdate(diaryinfo).then(response => {
+                        if (!response.data.items) return;
+                    console.log(response)
+                    this.userLIstOptions = response.data.items.map(v => ({
+                                key: v.name
+                            }));
+                });
+                    this.$notify({
+                        title: '成功',
+                        message: '发布成功',
+                        type: 'success',
+                        duration: 2000
+                    });
+                    this.postForm.status = 'published';
+                    this.loading = false;
                     } else {
                         console.log('error submit!!');
                         return false;
-                }
-                });*/
+                    }
+                });
                 /*let _this=this;
                 let date=this.postForm.dt;
                 let year=date.getFullYear(),

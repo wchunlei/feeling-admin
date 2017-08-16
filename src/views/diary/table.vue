@@ -5,7 +5,7 @@
             </el-input>
 
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-            <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
+            <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
             <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
             <el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>
         </div>
@@ -58,7 +58,7 @@
             </el-pagination>
         </div>
 
-        <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+        <!--<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
             <el-form class="small-space" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
 
                 <el-form-item label="姓名">
@@ -80,7 +80,7 @@
                 <el-button v-if="dialogStatus=='create'" type="primary" @click="create">确 定</el-button>
                 <el-button v-else type="primary" @click="update">确 定</el-button>
             </div>
-        </el-dialog>
+        </el-dialog>-->
 
         <el-dialog title="阅读数统计" :visible.sync="dialogPvVisible" size="small">
             <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
