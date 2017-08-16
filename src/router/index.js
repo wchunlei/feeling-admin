@@ -190,7 +190,7 @@ export const asyncRouterMap = [
     name: '日记管理',
     icon: 'zujian',
     children: [
-      { path: 'diary/form', component: diaryForm, name: '新增日记' },
+      { path: 'form/:num', component: diaryForm, name: '新增日记' },
       { path: 'table', component: diaryTable, name: '日记列表' }
     ]
   },

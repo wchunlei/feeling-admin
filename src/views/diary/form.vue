@@ -18,20 +18,26 @@
             </Sticky>
 
             <div class="createPost-main-container">
-                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="第1条" prop="id">
-
-                </el-form-item>
-                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="姓名:" prop="actorid">
+                <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="id:" prop="id">
+                    <el-input v-model="postForm.id" style="width:50px" ></el-input>
+                </el-form-item>-->
+                <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="姓名:" prop="actorid">
                     <el-input v-model="postForm.actorid" style="width:100px">
                     </el-input>
+                </el-form-item>-->
+                <el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor">
+                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                                 deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;margin-bottom: 40px;">
+                        <span slot='noResult'>无结果</span>
+                    </multiselect>
                 </el-form-item>
                 <el-form-item style="margin-bottom: 40px;" label-width="90px" label="日记标题:" prop="title">
-                    <el-input type="textarea" :rows="3" v-model="postForm.title" maxlength="140">
+                    <el-input type="textarea" :rows="3" v-model="postForm.title" maxlength= 140>
                     </el-input>
                     <span><span style="color:red">*</span>日记标题，最多140字</span>
                 </el-form-item>
 
-                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="title">
+                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type">
                     <template>
                         <span @click="showPicture"><el-radio class="radio" v-model="radio" label="0">图片</el-radio></span>
                         <span @click="showVideo"><el-radio class="radio" v-model="radio" label="1">视频</el-radio></span>
@@ -43,7 +49,7 @@
                 </el-form-item>
 
                 <div v-show="showPic" style="margin-bottom: 20px;">
-                    <el-form-item label-width="90px" label="图片:" prop="pic">最多9张图片</el-form-item>
+                    <el-form-item label-width="90px" label="图片:" prop="pic1">最多9张图片</el-form-item>
                     <Uploadimg v-model="postForm.pic1"></Uploadimg>
                 </div>
                 <div v-show="showPic" style="margin-bottom: 20px;">
@@ -96,8 +102,9 @@
     import Uploadimg from 'components/Upload/singleImage3'
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
-    import { getArticle } from 'api/article';
-    import { actorUpdate } from 'api/actor';
+    import { getDiary } from 'api/diary';
+    import { diaryUpdate } from 'api/diary';
+    import { userSearch } from 'api/story';
 
     export default {
         name: 'articleDetail',
@@ -105,6 +112,7 @@
         data() {
             const validateRequire = (rule, value, callback) => {
                 if (value === '') {
+                    alert()
                     this.$message({
                         message: rule.field + '为必传项',
                         type: 'error'
@@ -131,11 +139,12 @@
             };
             return {
                 postForm: {
-                    id: '',
+                    //id: this.$route.params.num,
+                    id: this.$route.params.num,
                     actorid:'',
-                    time:'',
+                    actor: '',
+                    title:'',
                     type: '',
-                    nature: '',
                     video: '', // 视频
                     pic1: '', // 图片
                     pic2: '', // 图片
@@ -152,10 +161,23 @@
                 fetchSuccess: true,
                 loading: false,
                 userLIstOptions: [],
+                /*rules: {
+                    actor: [
+                        { required: true, message: '请输入姓名', trigger: 'change' }
+                    ],
+                    title: [
+                        { required: true, message: '请输入日记标题', trigger: 'blur' }
+                    ],
+                    pic: [
+                        { required: true, message: '请上传一只图片', trigger: 'blur' }
+                    ]
+                },*/
                 rules: {
+                    actor: [{ validator: validateRequire }],
                     title: [{ validator: validateRequire }],
-                    name: [{ validator: validateRequire }],
-                    headurl: [{ validator: validateSourceUri, trigger: 'blur' }]
+                    pic1: [{ validator: validateSourceUri, trigger: 'blur' }],
+                    video: [{ validator: validateSourceUri, trigger: 'blur' }],
+                    dt: [{ validator: validateRequire }]
                 },
                 radio: '0',
                 selectTime: new Date(2017, 8, 14, 12, 10),
@@ -164,62 +186,157 @@
             }
         },
         computed: {
-            natureLength() {
-                return this.postForm.nature.length
-            },
             isEdit() {
                 return this.$route.meta.isEdit // 根据meta判断
                 // return this.$route.path.indexOf('edit') !== -1 // 根据路由判断
             }
         },
         created() {
-            if (this.isEdit) {
-                this.fetchData();
-            }
+            let listQuery={};
+            listQuery.id = this.$route.params.num;
+
+            this.fetchData(listQuery);
+/*
+            id = $route.params.num;
+            if(id == "num:"){
+                id = "";
+            }*/
+
+             //this.postForm.actor={key:"1", value:this.$route.params.num};
+            //this.postForm.actor.key=this.$route.params.num;
         },
         methods: {
-            fetchData() {
-                getArticle().then(response => {
-                    this.postForm = response.data;
+            fetchData(listQuery) {
+                getDiary(listQuery).then(response => {
+                    //this.postForm.actor.value = response.data.content.actorid;
+                    this.postForm.actor = { key:response.data.content.name, value:response.data.content.actorid };
+                    this.postForm.title = response.data.content.title;
+                    this.postForm.type = response.data.content.type;
+                    this.postForm.pic1 = response.data.content.pic1;
+                    this.postForm.pic2 = response.data.content.pic2;
+                    this.postForm.pic3 = response.data.content.pic3;
+                    this.postForm.pic4 = response.data.content.pic4;
+                    this.postForm.pic5 = response.data.content.pic5;
+                    this.postForm.pic6 = response.data.content.pic6;
+                    this.postForm.pic7 = response.data.content.pic7;
+                    this.postForm.pic8 = response.data.content.pic8;
+                    this.postForm.pic9 = response.data.content.pic9;
+                    this.postForm.id = response.data.content.id;
+                    this.postForm.video = response.data.content.video;
             }).catch(err => {
                     this.fetchSuccess = false;
-                console.log(err);
-            });
+                    console.log(err);
+                });
             },
             submitForm() {
-                //this.postForm.display_time = parseInt(this.display_time / 1000);
-                console.log(this.postForm)
-                var actorinfo;
-                actorinfo = this.postForm;
-                this.$refs.postForm.validate(valid => {
-                    if (valid) {
-                        this.loading = true;
+                //var diaryinfo;
+                let date=this.postForm.dt;
+                let year=date.getFullYear(),
+                        month=date.getMonth()+ 1,
+                        day=date.getDate(),
+                        hour=date.getHours(),
+                        minutes=date.getMinutes(),
+                        seconds=date.getSeconds();
+                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                let diaryinfo={
+                    //actorid: parseInt(this.postForm.actorid),
+                    actorid: parseInt(this.postForm.actor.value),
+                    title: this.postForm.title,
+                    type: parseInt(this.radio),
+                    pic1: this.postForm.pic1,
+                    pic2: this.postForm.pic2,
+                    pic3: this.postForm.pic3,
+                    pic4: this.postForm.pic4,
+                    pic5: this.postForm.pic5,
+                    pic6: this.postForm.pic6,
+                    pic7: this.postForm.pic7,
+                    pic8: this.postForm.pic8,
+                    pic9: this.postForm.pic9,
+                    video: this.postForm.video,
+                    dt: dateString
+                }
 
-                        actorUpdate(actorinfo).then(response => {
-                            if (!response.data.items) return;
-                        console.log(response)
-                        this.userLIstOptions = response.data.items.map(v => ({
-                                    key: v.name
-                                }));
 
+                if(this.postForm.id){
+                    diaryinfo.id=this.postForm.id;
+                }
+
+                //diaryinfo = this.postForm;
+                this.loading = true;
+
+                diaryUpdate(diaryinfo).then(response => {
+                    if (!response.data.items) return;
+                console.log(response)
+                this.userLIstOptions = response.data.items.map(v => ({
+                            key: v.name
+                        }));
                     });
+                this.$notify({
+                    title: '成功',
+                    message: '发布成功',
+                    type: 'success',
+                    duration: 2000
+                });
+                    this.postForm.status = 'published';
+                this.loading = false;
+                /*this.$refs.postForm.validate(valid => {
+                    if (valid) {
 
-                        this.$notify({
-                            title: '成功',
-                            message: '发布成功',
-                            type: 'success',
-                            duration: 2000
-                        });
-                        this.postForm.status = 'published';
-                        this.loading = false;
                     } else {
                         console.log('error submit!!');
-                return false;
+                        return false;
                 }
-            });
+                });*/
+                /*let _this=this;
+                let date=this.postForm.dt;
+                let year=date.getFullYear(),
+                    month=date.getMonth()+ 1,
+                    day=date.getDate(),
+                    hour=date.getHours(),
+                    minutes=date.getMinutes(),
+                    seconds=date.getSeconds();
+                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                alert(this.postForm.id)
+                if(!this.postForm.id){
+                    $.ajax({
+                        "url":"http://192.168.1.43:40000/?act=momentsupdate",
+                        "cache": false,
+                        "async": true,
+                        "type": "post",
+                        "dataType": "json",
+                        "contentType": "application/json; charset=utf-8",
+                        'data': '{"actorid":'+ parseInt(this.postForm.actorid) +', "title":"' +this.postForm.title+ '", "type":'+ parseInt(this.radio)+', "pic1":"'+ this.postForm.pic1+ '", "pic2":"'+ this.postForm.pic2+ '","pic3":"'+ this.postForm.pic3+ '","pic4":"'+ this.postForm.pic4+ '","pic5":"'+ this.postForm.pic5+ '","pic6":"'+ this.postForm.pic6+ '","pic7":"'+ this.postForm.pic7+ '","pic8":"'+ this.postForm.pic8+ '","pic9":"'+ this.postForm.pic9+ '","video":"'+ this.postForm.video+ '","dt":"'+ dateString+ '"}',
+                        success:function(data){
+                            if(data.code==200){
+                                _this.succ();
+                            }
+                        },
+                        error:function () {
+                            console.log('_请求失败_')
+                        }
+                    })
+                } else {
+                    $.ajax({
+                        "url":"http://192.168.1.43:40000/?act=momentsupdate",
+                        "cache": false,
+                        "async": true,
+                        "type": "post",
+                        "dataType": "json",
+                        "contentType": "application/json; charset=utf-8",
+                        'data': '{"id":'+this.postForm.id+', "actorid":'+ parseInt(this.postForm.actorid) +', "title":"' +this.postForm.title+ '", "type":'+ parseInt(this.radio)+', "pic1":"'+ this.postForm.pic1+ '", "pic2":"'+ this.postForm.pic2+ '","pic3":"'+ this.postForm.pic3+ '","pic4":"'+ this.postForm.pic4+ '","pic5":"'+ this.postForm.pic5+ '","pic6":"'+ this.postForm.pic6+ '","pic7":"'+ this.postForm.pic7+ '","pic8":"'+ this.postForm.pic8+ '","pic9":"'+ this.postForm.pic9+ '","video":"'+ this.postForm.video+ '","dt":"'+ dateString+ '"}',
+                        success:function(data){
+                            if(data.code==200){
+                                _this.succ();
+                            }
+                        },
+                        error:function () {
+                            console.log('_请求失败_')
+                        }
+                    })
+                }*/
             },
             draftForm() {
-                if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
+                if (this.postForm.actorid.length === 0 || this.postForm.title.length === 0) {
                     this.$message({
                         message: '请填写必要的标题和内容',
                         type: 'warning'
@@ -233,15 +350,6 @@
                     duration: 1000
                 });
                 this.postForm.status = 'draft';
-            },
-            getRemoteUserList(query) {
-                userSearch(query).then(response => {
-                    if (!response.data.items) return;
-                console.log(response)
-                this.userLIstOptions = response.data.items.map(v => ({
-                            key: v.name
-                        }));
-            })
             },
             showVideo () {
                 if(!this.showVid){
@@ -258,6 +366,26 @@
                 } else {
                     this.showVid=false;
                 }
+            },
+            succ () {
+                this.$notify({
+                    title: '成功',
+                    message: '新增日记成功',
+                    type: 'success'
+                });
+            },
+            getRemoteUserList(query) {
+                console.log("getRemoteUserList")
+                userSearch(query).then(response => {
+                    console.log("getRemoteUserList")
+                if (!response.data.content) return;
+                console.log(response)
+                this.userLIstOptions = response.data.content.map(v => ({
+                            key: v.name,
+                            value: v.id
+                        }));
+                })
+
             }
         }
     }

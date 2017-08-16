@@ -1,7 +1,7 @@
 <template>
     <div id="main-content" class="app-container calendar-list-container" style="height:840px">
         <div id="operate_wrapper" class="filter-container">
-            <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="listQuery.title">
+            <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="listQuery.name">
             </el-input>
 
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
@@ -12,15 +12,18 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="65" type="index">
+            <el-table-column align="center" label="序号" width="65" prop="id">
                 <template scope="scope">
-                    <router-link :to="diary/form">{{scope.row.id}}</router-link>
+                    <!--<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>-->
+                    <!--<router-link to="/diary/form">{{scope.row.id}}</router-link>-->
+                    <span><router-link :to="{ path: '/diary/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
                 </template>
             </el-table-column>
 
-            <el-table-column width="180px" align="center" label="姓名">
+            <el-table-column width="180px" align="center" label="姓名" prop="name">
                 <template scope="scope">
-                    <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
+                    <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>-->
+                    <span>{{scope.row.name}}</span>
                 </template>
             </el-table-column>
 
@@ -30,8 +33,8 @@
             <el-table-column width="400px" label="标题" prop="title">
             </el-table-column>
 
-            <el-table-column width="400px" label="内容" prop="textarea">
-            </el-table-column>
+            <!--<el-table-column width="400px" label="内容" prop="textarea">
+            </el-table-column>-->
 
             <el-table-column min-width="180px" label="修改时间" prop="modify_time">
             </el-table-column>
@@ -93,7 +96,7 @@
 </template>
 
 <script>
-    import { actorList, fetchPv } from 'api/actor';
+    import { diaryList } from 'api/diary';
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';
     import { actorUpdate } from 'api/actor';
@@ -133,9 +136,9 @@
                     page: 1,
                     limit: 20,
                     importance: undefined,
-                    title: undefined,
+                    name: undefined,
                     type: undefined,
-                    sort: '+id'
+                    //sort: '+id'
                 },
                 temp: {
                     id: undefined,
@@ -182,7 +185,7 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                actorList(this.listQuery).then(response => {
+                diaryList(this.listQuery).then(response => {
                     this.list = response.data.content;
                 this.total = response.data.total;
                 this.listLoading = false;
@@ -192,11 +195,11 @@
                 this.getList();
             },
             handleSizeChange(val) {
-                this.listQuery.limit = val;
+                this.listQuery.limit = parseInt(val);
                 this.getList();
             },
             handleCurrentChange(val) {
-                this.listQuery.page = val;
+                this.listQuery.page = parseInt(val);
                 this.getList();
             },
             timeFilter(time) {
@@ -288,10 +291,6 @@
                 };
             },
             handleFetchPv(pv) {
-                fetchPv(pv).then(response => {
-                    this.pvData = response.data.pvData;
-                this.dialogPvVisible = true;
-            })
             },
             handleDownload() {
                 require.ensure([], () => {
