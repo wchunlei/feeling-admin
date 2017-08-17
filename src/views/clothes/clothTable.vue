@@ -12,11 +12,11 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="65" prop="id">
+            <el-table-column align="center" label="序号" width="65" prop="id" fixed>
                 <template scope="scope">
                     <!--<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>-->
                     <!--<router-link to="/diary/form">{{scope.row.id}}</router-link>-->
-                    <span><router-link :to="{ path: '/diary/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
+                    <span><router-link :to="{ path: '/clothes/addcloth/' + scope.row.id }">{{scope.row.id}}</router-link></span>
                 </template>
             </el-table-column>
 
@@ -30,7 +30,22 @@
             <el-table-column width="110px" v-if='showAuditor' align="center" label="审核人" prop="auditor">
             </el-table-column>
 
-            <el-table-column width="400px" label="标题" prop="title">
+            <el-table-column width="220px" label="服装名称" prop="clothName">
+            </el-table-column>
+
+            <el-table-column width="220px" label="最低温度" prop="minTemperature">
+            </el-table-column>
+
+            <el-table-column width="220px" label="最高温度" prop="maxTemperature">
+            </el-table-column>
+
+            <el-table-column width="220px" label="服装天气" prop="chothWeather">
+            </el-table-column>
+
+            <el-table-column width="220px" label="服装条件" prop="chothCondition">
+            </el-table-column>
+
+            <el-table-column width="220px" label="服装价格" prop="price">
             </el-table-column>
 
             <!--<el-table-column width="400px" label="内容" prop="textarea">
@@ -39,7 +54,7 @@
             <el-table-column min-width="180px" label="修改时间" prop="modify_time">
             </el-table-column>
 
-            <el-table-column align="center" label="操作" width="250px">
+            <el-table-column align="center" label="操作" width="250px" fixed="right">
                 <template scope="scope">
                     <el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
                     </el-button>
@@ -100,7 +115,8 @@
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';
     import { actorUpdate } from 'api/actor';
-    import  common  from 'static/Common'
+    import  common  from 'static/Common';
+    import Mock from 'mockjs';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -123,13 +139,13 @@
             var _this=this;
             setTimeout(() => {
                 this.adjustPage();
-            },100);
+        },100);
         },
         components: { Upload },
         name: 'table_demo',
         data() {
             return {
-                list: null,
+                list: [],
                 total: null,
                 listLoading: true,
                 listQuery: {
@@ -183,12 +199,104 @@
             }
         },
         methods: {
-            getList() {
+            /*getList() {
                 this.listLoading = true;
-                diaryList(this.listQuery).then(response => {
+                diaryList (this.listQuery).then(response => {
+                    alert(response.data.content[0].name)
                     this.list = response.data.content;
                 this.listLoading = false;
-            })
+                })
+            },*/
+            getList () {
+                this.listLoading = true;
+                const List = [];
+                const count = 20;
+                Mock.mock('http://test.com', {
+                    "lists|5-15": [{
+                        "id|1-100": 100,
+                        name: '@name',
+                        clothName: '@name',
+                        "minTemperature|1-100": 100,
+                        "maxTemperature|1-100": 100,
+                        "chothWeather": "@name",
+                        "chothCondition": "@color",
+                        "price": "@url()",
+                        modify_time: '@date("yyyy-MM-dd")'
+                    }]
+                });
+                let _this=this;
+                $.ajax({
+                    url: "http://test.com",    //请求的url地址
+                    dataType: "json",   //返回格式为json
+                    async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+                    data: {},    //参数值
+                    type: "GET",   //请求方式
+                    success: function (req) {
+                        //请求成功时处理
+                        console.log(typeof req)
+                        console.table(req)
+                        _this.list=req.lists;
+                        //_this.list=JSON.stringify(req,null);
+                    }
+                })
+                /*this.list=[
+                    {
+                        id: 1,
+                        name: 'hehe',
+                        clothName: 'clo',
+                        minTemperature: 10,
+                        maxTemperature: 15,
+                        chothWeather: 'sun',
+                        price: 200,
+                        chothCondition: 'none',
+                        modify_time: '2017-05-01 10:12:14'
+                    },
+                    {
+                        id: 2,
+                        name: 'hehe',
+                        clothName: 'clo',
+                        minTemperature: 10,
+                        maxTemperature: 15,
+                        chothWeather: 'sun',
+                        price: 200,
+                        chothCondition: 'none',
+                        modify_time: '2017-05-01 10:12:14'
+                    },
+                    {
+                        id: 3,
+                        name: 'hehe',
+                        clothName: 'clo',
+                        minTemperature: 10,
+                        maxTemperature: 15,
+                        chothWeather: 'sun',
+                        price: 200,
+                        chothCondition: 'none',
+                        modify_time: '2017-05-01 10:12:14'
+                    },
+                    {
+                        id: 4,
+                        name: 'hehe',
+                        clothName: 'clo',
+                        minTemperature: 10,
+                        maxTemperature: 15,
+                        chothWeather: 'sun',
+                        price: 200,
+                        chothCondition: 'none',
+                        modify_time: '2017-05-01 10:12:14'
+                    },
+                    {
+                        id: 5,
+                        name: 'hehe',
+                        clothName: 'clo',
+                        minTemperature: 10,
+                        maxTemperature: 15,
+                        chothWeather: 'sun',
+                        price: 200,
+                        chothCondition: 'none',
+                        modify_time: '2017-05-01 10:12:14'
+                    }
+                ]*/
+                this.listLoading = false;
             },
             handleFilter() {
                 this.getList();

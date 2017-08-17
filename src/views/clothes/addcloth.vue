@@ -17,21 +17,29 @@
 
             </Sticky>
             <div style="margin:20px 0px;">
+                <el-form-item label="主角:" label-width="90px" prop="actor">
+                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                                 deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                        <span slot='noResult'>无结果</span>
+                    </multiselect>
+                </el-form-item>
+            </div>
+            <div style="margin:20px 0px;">
                 <el-form-item label="服装名称:" label-width="90px" prop="clothName">
                     <el-input v-model="postForm.clothName" size="small" placeholder="请输入服装名称" autofocus style="width:200px;"></el-input>
                 </el-form-item>
             </div>
             <div>
-                <el-form-item label="服装图片:" style="margin-bottom: 40px;" label-width="90px" prop="upload">
+                <el-form-item label="服装图片:" style="margin-bottom: 40px;" label-width="90px" prop="pic">
                     <div style="margin-bottom: 20px;">
-                        <Upload v-model="picture.upload"></Upload>
+                        <Upload v-model="postForm.pic"></Upload>
                     </div>
                 </el-form-item>
             </div>
             <div>
-                <el-form-item label="服装视频:" style="margin-bottom: 40px;" label-width="90px" prop="upload">
+                <el-form-item label="服装视频:" style="margin-bottom: 40px;" label-width="90px" prop="vid">
                     <div style="margin-bottom: 20px;">
-                        <Upload v-model="video.upload"></Upload>
+                        <Upload v-model="postForm.vid"></Upload>
                     </div>
                 </el-form-item>
             </div>
@@ -73,6 +81,8 @@
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';
     import { actorUpdate } from 'api/actor';
+    import { userSearch } from 'api/story';
+    import { clothUpdate } from 'api/cloth';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -130,39 +140,36 @@
                 }
             };
             return {
-                picture : {
-                    upload : '',
-                },
-                video : {
-                    upload : '',
-                },
                 weatherOptions: [{
-                    value: '选项1',
+                    value: 'sun',
                     label: '晴天'
                 }, {
-                    value: '选项2',
+                    value: 'rain',
                     label: '下雨'
                 }, {
-                    value: '选项3',
+                    value: 'cloudy',
                     label: '阴天'
                 }, ],
                 chothWeather: '',
                 conditionOptions: [{
-                    value: 1,
-                    label: '全部满足'
+                    value: 0,
+                    label: '无'
                 }, {
-                    value: 2,
+                    value: 1,
                     label: '任一'
                 }, {
-                    value: 3,
-                    label: '无'
+                    value: 2,
+                    label: '全部'
                 }],
                 chothCondition: '',
                 fetchSuccess: true,
                 loading: false,
                 userLIstOptions: [],
                 postForm: {
+                    actor: '',
                     clothName:'',
+                    pic: '',
+                    vid: '',
                     minTemperature:'',
                     maxTemperature: '',
                     chothWeather: '',
@@ -181,18 +188,28 @@
             submitForm() {
                 //this.postForm.display_time = parseInt(this.display_time / 1000);
                 console.log(this.postForm)
-                var actorinfo;
-                actorinfo = this.postForm;
+                let clothinfo = {
+                    actorid: parseInt(this.postForm.actor.value),
+                    typeid: 1,
+                    dressname: this.postForm.clothName,
+                    dresspic: this.postForm.pic,
+                    dressvideo: this.postForm.vid,
+                    mintemp: parseInt(this.postForm.minTemperature),
+                    maxtemp: parseInt(this.postForm.maxTemperature),
+                    weather: this.postForm.chothWeather,
+                    price: parseInt(this.postForm.price),
+                    condition: parseInt(this.postForm.chothCondition)
+                };
+                //actorinfo = this.postForm;
                 this.$refs.postForm.validate(valid => {
                     if (valid) {
                         this.loading = true;
-                        actorUpdate(actorinfo).then(response => {
+                        clothUpdate (clothinfo).then(response => {
                             if (!response.data.items) return;
                         console.log(response)
                         this.userLIstOptions = response.data.items.map(v => ({
                                     key: v.name
                                 }));
-
                     });
                         this.$notify({
                             title: '成功',
@@ -207,6 +224,18 @@
                         return false;
                     }
                 });
+            },
+            getRemoteUserList(query) {
+                console.log("getRemoteUserList")
+                userSearch(query).then(response => {
+                    console.log("getRemoteUserList")
+                if (!response.data.content) return;
+                console.log(response)
+                this.userLIstOptions = response.data.content.map(v => ({
+                            key: v.name,
+                            value: v.id
+                        }));
+                })
             }
         },
     }

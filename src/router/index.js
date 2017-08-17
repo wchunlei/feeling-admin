@@ -93,8 +93,9 @@ const diaryForm = _import('diary/form');
 const diaryTable = _import('diary/table');
 
 /* clothes 服装管理 */
-const clothesForm = _import('clothes/form');
-const clothesTable = _import('clothes/table');
+const classForm = _import('clothes/classform');
+const addClothes = _import('clothes/addcloth');
+const clothesTable = _import('clothes/clothTable');
 
 /* PUSH事件管理 */
 const bubble = _import('push_event/bubble');
@@ -201,8 +202,9 @@ export const asyncRouterMap = [
     name: '服装管理',
     icon: 'zujian',
     children: [
-      { path: 'clothes/form/create', component: clothesForm, name: '服装管理' },
-      { path: 'table', component: clothesTable, name: '服装编辑' }
+      { path: 'classform', component: classForm, name: '分类管理' },
+      { path: 'addcloth/:num', component: addClothes, name: '新增服装' },
+      { path: 'clothTable', component: clothesTable, name: '服装列表' }
     ]
   },
   {
