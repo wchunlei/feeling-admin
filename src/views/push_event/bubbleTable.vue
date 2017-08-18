@@ -1,18 +1,18 @@
 <template>
     <div id="main-content" class="app-container calendar-list-container" style="height:840px">
-        <div id="operate_wrapper" class="filter-container">
+        <!--<div id="operate_wrapper" class="filter-container">
             <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="listQuery.name">
             </el-input>
 
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-            <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
+            &lt;!&ndash;<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>&ndash;&gt;
             <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
             <el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>
-        </div>
+        </div>-->
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="65" prop="id">
+            <el-table-column align="center" label="序号" width="65" prop="id" fixed>
                 <template scope="scope">
                     <!--<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>-->
                     <!--<router-link to="/diary/form">{{scope.row.id}}</router-link>-->
@@ -20,31 +20,43 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="180px" align="center" label="姓名" prop="name">
+            <el-table-column width="180px" align="center" label="事件编号" prop="eventid">
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>-->
-                    <span>{{scope.row.name}}</span>
+                    <span>{{scope.row.eventid}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column width="110px" v-if='showAuditor' align="center" label="审核人" prop="auditor">
-            </el-table-column>
-
-            <el-table-column width="400px" label="标题" prop="title">
-            </el-table-column>
-
-            <!--<el-table-column width="400px" label="内容" prop="textarea">
+            <!--<el-table-column width="110px" v-if='showAuditor' align="center" label="审核人" prop="auditor">
             </el-table-column>-->
 
-            <el-table-column min-width="180px" label="修改时间" prop="modify_time">
+            <el-table-column width="400px" label="事件标题" prop="eventtitle">
+            </el-table-column>
+
+            <el-table-column width="150px" label="事件类型" prop="eventtype">
+            </el-table-column>
+
+            <el-table-column min-width="180px" label="触发时间" prop="eventtime">
+            </el-table-column>
+
+            <el-table-column min-width="180px" label="最高温度" prop="maxtemp">
+            </el-table-column>
+
+            <el-table-column min-width="180px" label="最低温度" prop="mintemp">
+            </el-table-column>
+
+            <el-table-column min-width="180px" label="天气" prop="weather">
+            </el-table-column>
+
+            <el-table-column min-width="180px" label="满足条件" prop="condition">
             </el-table-column>
 
             <el-table-column align="center" label="操作" width="250px">
                 <template scope="scope">
-                    <el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
+                    <!--<el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
                     </el-button>
                     <el-button v-if="scope.row.status!='draft'" size="small" @click="handleModifyStatus(scope.row,'draft')">草稿
-                    </el-button>
+                    </el-button>-->
                     <el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
                     </el-button>
                 </template>
@@ -100,7 +112,8 @@
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';
     import { actorUpdate } from 'api/actor';
-    import  common  from 'static/Common'
+    import  common  from 'static/Common';
+    import { bubbleList } from 'api/pushEvent';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -185,14 +198,14 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                diaryList(this.listQuery).then(response => {
+                bubbleList(this.listQuery).then(response => {
                     this.list = response.data.content;
-                this.listLoading = false;
-            })
+                    this.listLoading = false;
+                })
             },
-            handleFilter() {
+            /*handleFilter() {
                 this.getList();
-            },
+            },*/
             handleSizeChange(val) {
                 this.listQuery.limit = parseInt(val);
                 this.getList();

@@ -11,8 +11,8 @@
                 </el-form-item>
                 <el-form-item label-width="90px" label="服装分类:" class="postInfo-container-item" prop="clothclass">
                     <el-button type="primary" size="" @click="addTab(editableTabsValue2)" style="margin-bottom: 40px">新增分类</el-button>
-                    <el-tabs v-model="activeName" type="card" @tab-remove="removeTab">
-                        <el-tab-pane label="春装" name="all">
+                    <el-tabs v-model="activeName" type="card" @tab-remove="removeTab" @tab-click="getTypeid">
+                        <!--<el-tab-pane label="春装" name="all">
                             <span style="margin:20px 20px 0 0;float:left;">分类ICON:</span>
                             <img src="../../../gifs/spring.jpg" class="image" style="margin:20px 0;">
                         </el-tab-pane>
@@ -27,8 +27,8 @@
                         <el-tab-pane label="冬装" name="fourth">
                             <span style="margin:20px 20px 0 0;float:left;">分类ICON:</span>
                             <img src="../../../gifs/winter.jpg" class="image" style="margin:20px 0;">
-                        </el-tab-pane>
-                        <el-tab-pane v-for="(item, index) in list" closable :key="item.typename" :label="item.typename" :name="item.typename">
+                        </el-tab-pane>-->
+                        <el-tab-pane v-for="(item, index) in list" closable :key="item.typeid" :label="item.typename" :name="item.typeid">
                             {{item.typeicon}}
                         </el-tab-pane>
                     </el-tabs>
@@ -49,9 +49,8 @@
                         <el-button type="primary" @click="classifyDialog">确 定</el-button>
                     </div>
                 </el-dialog>
-                <!--<div>
-                    <span style="margin:10px 30px;display:inline-block">服装名称:</span>
-                    <el-select v-model="clothesValue" placeholder="请选择">
+                <el-form-item label="分类名称:" :label-width="formLabelWidth">
+                    <el-select v-model="postForm.clothesValue" placeholder="请选择">
                         <el-option
                                 v-for="item in clothesOptions"
                                 :key="item.value"
@@ -59,25 +58,46 @@
                                 :value="item.value">
                         </el-option>
                     </el-select>
-                </div>
-                <div>
-                    <span style="margin:20px 30px;display:inline-block;float:left;">服装图片:</span>
+                </el-form-item>
+                <el-form-item label="服装图片:" :label-width="formLabelWidth">
                     <div style="margin-bottom: 20px;">
-                        <Upload v-model="picture.upload"></Upload>
+                        <Upload v-model="postForm.picture"></Upload>
                     </div>
-                </div>
-                <div>
-                    <span style="margin:20px 30px;display:inline-block;float:left;">服装视频:</span>
+                </el-form-item>
+                <el-form-item label="服装视频:" :label-width="formLabelWidth">
                     <div style="margin-bottom: 20px;">
-                        <Upload v-model="video.upload"></Upload>
+                        <Upload v-model="postForm.video"></Upload>
                     </div>
+                </el-form-item>
+                <div style="margin:20px 0px;">
+                    <el-form-item label="服装温度:" style="margin-bottom: 40px;" label-width="90px" prop="minTemperature">
+                        <el-input v-model="postForm.minTemperature" size="small" placeholder="最低温度" style="width:75px;"></el-input> ---
+                        <el-input v-model="postForm.maxTemperature" size="small" placeholder="最高温度" style="width:75px;"></el-input>
+                    </el-form-item>
+                    <el-form-item label="服装天气:" style="margin-bottom: 40px;" label-width="90px" prop="chothWeather">
+                        <el-select v-model="postForm.chothWeather" placeholder="请选择">
+                            <el-option
+                                    v-for="item in weatherOptions"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="服装条件:" style="margin-bottom: 40px;" label-width="90px" prop="chothCondition">
+                        <el-select v-model="postForm.chothCondition" placeholder="请选择">
+                            <el-option
+                                    v-for="item in conditionOptions"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="服装价格:" style="margin-bottom: 40px;" label-width="90px" prop="price">
+                        <el-input v-model="postForm.price" size="small" placeholder="请输入服装价格" style="width:200px;"></el-input>
+                    </el-form-item>
                 </div>
-                <div style="margin:20px 30px;">
-                    <p>服装温度:<span class="clothStyle">10-20</span></p>
-                    <p>服装天气:<span class="clothStyle">晴天</span></p>
-                    <p>服装条件:<span class="clothStyle">全部满足</span></p>
-                    <p>服装价格:<span class="clothStyle">10000</span></p>
-                </div>-->
             </el-form>
         </div>
     </div>
@@ -91,6 +111,7 @@
     import { userSearch } from 'api/story';
     import { clothclassUpdate } from 'api/cloth';
     import { clothclassList } from 'api/cloth';
+    import { clothActorList } from 'api/cloth';
 
     export default {
         name: 'clothes',
@@ -98,7 +119,15 @@
         data() {
             return {
                 postForm: {
-                    actor: ''
+                    actor: '',
+                    clothesValue: '',
+                    minTemperature:'',
+                    maxTemperature: '',
+                    chothWeather: '',
+                    chothCondition: '',
+                    picture: '',
+                    video: '',
+                    price: '',
                 },
                 actorOptions: [{
                     value: '选项1',
@@ -128,13 +157,7 @@
                     desc: ''
                 },
                 formLabelWidth: '120px',
-                activeName:'all',
-                picture : {
-                    upload : '',
-                },
-                video : {
-                    upload : '',
-                },
+                activeName:'',
                 typeIcon : {
                     upload : '',
                 },
@@ -147,13 +170,41 @@
              }
         },
         methods : {
+            getTypeid (targetName) {
+                //alert(targetName.name)
+                this.listLoading = true;
+                this.listLoading = false;
+                let listallQuery={};
+                listallQuery.actorid = parseInt(this.postForm.actor.value);
+                listallQuery.typeid = targetName.name;
+                clothActorList(listallQuery).then(response => {
+                    if(response.data.content[0]){
+                        this.postForm.clothesValue = response.data.content[0].dressname;
+                        this.postForm.picture = response.data.content[0].dresspic;
+                        this.postForm.video = response.data.content[0].dressvideo;
+                        this.postForm.chothWeather = response.data.content[0].weather;
+                        this.postForm.minTemperature = response.data.content[0].mintemp;
+                        this.postForm.maxTemperature = response.data.content[0].maxtemp;
+                        this.postForm.chothCondition = response.data.content[0].condition;
+                        this.postForm.price = response.data.content[0].price;
+                    } else {
+                        this.postForm.clothesValue = '';
+                        this.postForm.picture = '';
+                        this.postForm.video = '';
+                        this.postForm.chothWeather = '';
+                        this.postForm.minTemperature = '';
+                        this.postForm.maxTemperature = '';
+                        this.postForm.chothCondition = '';
+                        this.postForm.price = '';
+                    }
+                })
+            },
             getList() {
                 this.listLoading = true;
                 let listQuery={};
                 listQuery.actorid = parseInt(this.postForm.actor.value);
                 clothclassList(listQuery).then(response => {
-                 this.list = response.data.content;
-                 this.listLoading = false;
+                    this.list = response.data.content;
                  })
              },
             addTab(targetName) {
@@ -175,13 +226,14 @@
                     let tabs = this.list;
                 let activeName = this.activeName;
                 if (activeName === targetName) {
+                    alert()
                     tabs.forEach((tab, index) => {
                         if (tab.typename === targetName) {
                         let nextTab = tabs[index + 1] || tabs[index - 1];
                         if (nextTab) {
                             activeName = nextTab.typename;
                         }else{
-                            activeName='all';
+                            activeName='al';
                         }
                         if(this.list.indexOf(tab)>-1){
                             this.editableTabs1=[];
@@ -197,7 +249,7 @@
                     this.$message({
                     type: 'success',
                     message: '删除成功!'
-                });
+                    });
                 }).catch(() => {
                         this.$message({
                         type: 'info',
@@ -227,6 +279,7 @@
                 this.activeName = activeName;
                 this.list = tabs.filter(tab => tab.typename !== targetName);*/
             },
+
             classifyDialog () {
                 this.dialogFormVisible = false;
                 let newTabName = ++this.tabIndex + '';
@@ -240,11 +293,11 @@
                         this.loading = true;
                         clothclassUpdate (clothinfo).then(response => {
                             if (!response.data.items) return;
-                        console.log(response)
+                        console.log(response);
                         this.userLIstOptions = response.data.items.map(v => ({
                                     key: v.name
                                 }));
-                    });
+                        });
                         this.$notify({
                             title: '成功',
                             message: '发布成功',
@@ -255,9 +308,9 @@
                         this.loading = false;
                     } else {
                         console.log('error submit!!');
-                return false;
-            }
-            });
+                        return false;
+                    }
+                });
                 if(JSON.stringify(this.list).indexOf(this.classify.name)==-1){
                     if(this.classify.name){
                         this.list.push({
@@ -267,6 +320,7 @@
                         });
                         this.editableTabsValue2 = newTabName;
                         this.classify.name=null;
+                        this.getList();
                     }
                 } else {
                     console.log("类型不能为空或类型已存在");
@@ -291,7 +345,6 @@
                 })
             },
             selectUser () {
-                //alert(this.postForm.actor.value);
                 this.getList();
             }
         }

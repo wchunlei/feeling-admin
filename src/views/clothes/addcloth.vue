@@ -25,6 +25,11 @@
                 </el-form-item>
             </div>
             <div style="margin:20px 0px;">
+                <el-form-item label="分类id:" label-width="90px" prop="clothType">
+                    <el-input v-model="postForm.clothTypeid" size="small" placeholder="请输入服装名称" autofocus style="width:200px;"></el-input>
+                </el-form-item>
+            </div>
+            <div style="margin:20px 0px;">
                 <el-form-item label="服装名称:" label-width="90px" prop="clothName">
                     <el-input v-model="postForm.clothName" size="small" placeholder="请输入服装名称" autofocus style="width:200px;"></el-input>
                 </el-form-item>
@@ -167,7 +172,8 @@
                 userLIstOptions: [],
                 postForm: {
                     actor: '',
-                    clothName:'',
+                    clothName: '',
+                    clothTypeid: '',
                     pic: '',
                     vid: '',
                     minTemperature:'',
@@ -190,7 +196,7 @@
                 console.log(this.postForm)
                 let clothinfo = {
                     actorid: parseInt(this.postForm.actor.value),
-                    typeid: 1,
+                    typeid: parseInt(this.postForm.clothTypeid),
                     dressname: this.postForm.clothName,
                     dresspic: this.postForm.pic,
                     dressvideo: this.postForm.vid,

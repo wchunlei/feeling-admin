@@ -111,7 +111,7 @@
 </template>
 
 <script>
-    import { diaryList } from 'api/diary';
+    import { clothList } from 'api/cloth';
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';
     import { actorUpdate } from 'api/actor';
@@ -199,18 +199,18 @@
             }
         },
         methods: {
-            /*getList() {
+            getList() {
                 this.listLoading = true;
-                diaryList (this.listQuery).then(response => {
-                    alert(response.data.content[0].name)
+                clothList (this.listQuery).then(response => {
+                    //alert(response.data.content[0].name)
                     this.list = response.data.content;
                 this.listLoading = false;
                 })
-            },*/
-            getList () {
+            },
+            /*getList () {
                 this.listLoading = true;
                 const List = [];
-                const count = 20;
+                /!*const count = 20;
                 Mock.mock('http://test.com', {
                     "lists|5-15": [{
                         "id|1-100": 100,
@@ -238,8 +238,8 @@
                         _this.list=req.lists;
                         //_this.list=JSON.stringify(req,null);
                     }
-                })
-                /*this.list=[
+                })*!/
+                /!*this.list=[
                     {
                         id: 1,
                         name: 'hehe',
@@ -295,9 +295,9 @@
                         chothCondition: 'none',
                         modify_time: '2017-05-01 10:12:14'
                     }
-                ]*/
+                ]*!/
                 this.listLoading = false;
-            },
+            },*/
             handleFilter() {
                 this.getList();
             },

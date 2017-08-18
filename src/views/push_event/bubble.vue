@@ -3,7 +3,7 @@
         <div class="cloth_center">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
                 <el-form-item label="事件ID:">
-                    <span>123</span>
+                    <el-input v-model="ruleForm.id" style="width: 100px;"></el-input>
                 </el-form-item>
                 <el-form-item label="事件名称:" prop="name">
                     <el-input v-model="ruleForm.name" style="width: 300px;"></el-input>
@@ -11,22 +11,22 @@
                 </el-form-item>
                 <el-form-item label="事件类型" prop="eventType">
                     <el-select v-model="ruleForm.eventType" placeholder="事件类型">
-                        <el-option label="文字" value="word"></el-option>
-                        <el-option label="视频" value="video"></el-option>
+                        <el-option label="文字" value="1"></el-option>
+                        <el-option label="视频" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="时间触发条件:">
                     <el-date-picker
-                            v-model="ruleForm.setTime"
+                            v-model="ruleForm.dt"
                             type="datetime"
                             placeholder="选择日期时间">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="最低温度条件:" prop="minTemplate">
-                    <el-input v-model="ruleForm.template" placeholder="最低温度" style="width: 190px;"></el-input>
+                    <el-input v-model="ruleForm.mintemplate" placeholder="最低温度" style="width: 190px;"></el-input>
                 </el-form-item>
                 <el-form-item label="最高温度条件:" prop="maxTemplate">
-                    <el-input v-model="ruleForm.template" placeholder="最高温度" style="width: 190px;"></el-input>
+                    <el-input v-model="ruleForm.maxtemplate" placeholder="最高温度" style="width: 190px;"></el-input>
                 </el-form-item>
                 <el-form-item label="天气触发条件:" prop="weather">
                     <el-select v-model="ruleForm.weather" placeholder="天气触发条件">
@@ -36,8 +36,9 @@
                 </el-form-item>
                 <el-form-item label="条件组合:" prop="combination">
                     <el-select v-model="ruleForm.combination" placeholder="条件组合">
-                        <el-option label="全部满足" value="fill"></el-option>
-                        <el-option label="任一满足" value="either"></el-option>
+                        <el-option label="无" value="0"></el-option>
+                        <el-option label="任一满足" value="1"></el-option>
+                        <el-option label="全部满足" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -55,6 +56,7 @@
     import { validateURL } from 'utils/validate';
     import { getArticle } from 'api/article';
     import { actorUpdate } from 'api/actor';
+    import { bubbleUpdate } from 'api/pushEvent';
 
     export default {
         name: 'channel',
@@ -62,11 +64,12 @@
         data() {
             return {
                 ruleForm: {
+                    id: '',
                     name: '',
-                    region: '',
                     eventType: '',
-                    setTime: '',
-                    template: '',
+                    dt: new Date(),
+                    mintemplate: '',
+                    maxtemplate: '',
                     weather: '',
                     combination: ''
                 },
@@ -74,9 +77,6 @@
                     name: [
                         { required: true, message: '请输入事件名称', trigger: 'blur' },
                         { message: '长度在 3 到 5 个字符', trigger: 'blur' }
-                    ],
-                    region: [
-                        { required: true, message: '请选择渠道', trigger: 'change' }
                     ]
                 }
             }
@@ -85,12 +85,35 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        let date=this.ruleForm.dt;
+                        let year=date.getFullYear(),
+                                month=date.getMonth()+ 1,
+                                day=date.getDate(),
+                                hour=date.getHours(),
+                                minutes=date.getMinutes(),
+                                seconds=date.getSeconds();
+                        let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                        let bubbleinfo = {
+                            eventid: parseInt(this.ruleForm.id),
+                            eventtitle: this.ruleForm.name,
+                            eventtype: parseInt(this.ruleForm.eventType),
+                            eventtime: dateString,
+                            mintemp: parseInt(this.ruleForm.mintemplate),
+                            maxtemp: parseInt(this.ruleForm.maxtemplate),
+                            weather: this.ruleForm.weather,
+                            condition: parseInt(this.ruleForm.combination)
+                        };
+                        this.loading = true;
+                        bubbleUpdate (bubbleinfo).then(response => {
+                            if (!response.data.items) return;
+                        console.log(response);
+                        });
+                        this.loading = false;
                     } else {
                         console.log('error submit!!');
-                return false;
-            }
-            });
+                        return false;
+                    }
+                });
             }
         }
     }

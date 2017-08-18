@@ -19,7 +19,7 @@
                         :page-sizes="[1, 2, 3, 4]"
                         :page-size="2"
                         layout="total, sizes, prev, pager, next, jumper"
-                        :total="10"
+                        :total="total"
                         style="margin-bottom:20px;">
                     </el-pagination>
                 </div>
@@ -106,7 +106,7 @@
                     <el-tab-pane v-for="(item, index) in editableTabs2" closable :key="item.name" :label="item.title" :name="item.name">
                         {{item.content}}
                         <el-button type="primary" size="large" @click="dialogFormVisible=true" style="margin:10px 0 10px 40px">新增</el-button>
-                        <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+                        <el-table :key='tableKeys' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
                             <el-table-column align="center" label="事件id" width="80" prop="id">
                                 <template scope="scope">
@@ -144,6 +144,9 @@
             </div>
             <el-dialog title="新增剧情事件" :visible.sync="dialogFormVisible">
                 <el-form ref="form" :model="form" label-width="100px" style="margin-top:20px;padding-top:20px;">
+                    <el-form-item label="第几天:" prop="day">
+                        <el-input v-model="form.day" size="small" style="width: 100px;"></el-input>
+                    </el-form-item>
                     <el-form-item label="剧情ID:" prop="storyid">
                         <el-input v-model="form.storyid" size="small" style="width: 100px;"></el-input>
                     </el-form-item>
@@ -176,8 +179,7 @@
     import Upload from 'components/Upload/singleImage3'
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
-    import { getArticle } from 'api/article';
-    import { actorUpdate } from 'api/actor';
+    import { storyUpdate } from 'api/pushEvent';
 
     export default {
         name: 'clothes',
@@ -226,17 +228,20 @@
                     upload : '',
                 },
                 form: {
+                    day: '',
                     storyid: '',
                     title: '',
                     dt: new Date()
                 },
                 checkList: [],
-                list: [{
+                list: [/*{
                     id: 1,
                     storyid: '11',
                     title: 'ss',
                     modify_time: '2017-01-03 10:10:10'
-                }]
+                }*/],
+                total: null,
+                list1: []
             }
         },
         created () {
@@ -261,7 +266,7 @@
                 } else {
                     this.dialogClass=false;
                 }
-                alert(this.editableTabs2.length);
+                //alert(this.editableTabs2[0].name)
             },
             addTab(targetName) {
                 this.dialogClass=true;
@@ -295,7 +300,6 @@
                     }
                 });
                 }
-
                 this.activeName = activeName;
                 this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
             },
@@ -315,6 +319,18 @@
                     title: this.form.title,
                     modify_time: dateString
                 })
+                let storyinfo = {
+                    id: parseInt(this.form.storyid),
+                    title: this.form.title,
+                    dt: dateString,
+                    day:parseInt(this.form.day)
+                };
+                this.loading = true;
+                storyUpdate (storyinfo).then(response => {
+                    if (!response.data.items) return;
+                    console.log(response);
+                });
+                this.loading = false;
                 /*let newTabName = ++this.tabIndex + '';
                 if(JSON.stringify(this.editableTabs2).indexOf(this.classify.name)==-1){
                     if(this.classify.name){
