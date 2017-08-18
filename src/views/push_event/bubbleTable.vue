@@ -54,7 +54,7 @@
 
         <div v-show="!listLoading" id="pagination" class="pagination-container">
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
-                           :page-sizes="[10,20,30,40]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+                           :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>
 
@@ -123,7 +123,7 @@
             var _this=this;
             setTimeout(() => {
                 this.adjustPage();
-            },100);
+        },100);
         },
         components: { Upload },
         name: 'table_demo',

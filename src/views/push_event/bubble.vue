@@ -22,8 +22,11 @@
                             placeholder="选择日期时间">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item label="温度触发条件:" prop="template">
-                    <el-input v-model="ruleForm.template" placeholder="最低温度--最高温度" style="width: 190px;"></el-input>
+                <el-form-item label="最低温度条件:" prop="minTemplate">
+                    <el-input v-model="ruleForm.template" placeholder="最低温度" style="width: 190px;"></el-input>
+                </el-form-item>
+                <el-form-item label="最高温度条件:" prop="maxTemplate">
+                    <el-input v-model="ruleForm.template" placeholder="最高温度" style="width: 190px;"></el-input>
                 </el-form-item>
                 <el-form-item label="天气触发条件:" prop="weather">
                     <el-select v-model="ruleForm.weather" placeholder="天气触发条件">

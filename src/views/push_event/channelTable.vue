@@ -20,7 +20,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="180px" align="center" label="姓名" prop="name">
+            <el-table-column width="180px" align="center" label="渠道" prop="name">
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>-->
                     <span>{{scope.row.name}}</span>
@@ -36,7 +36,7 @@
             <!--<el-table-column width="400px" label="内容" prop="textarea">
             </el-table-column>-->
 
-            <el-table-column min-width="180px" label="修改时间" prop="modify_time">
+            <el-table-column min-width="180px" label="触发时间" prop="modify_time">
             </el-table-column>
 
             <el-table-column align="center" label="操作" width="250px">
@@ -54,7 +54,7 @@
 
         <div v-show="!listLoading" id="pagination" class="pagination-container">
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
-                           :page-sizes="[10,20,30,40]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+                           :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>
 
@@ -123,7 +123,7 @@
             var _this=this;
             setTimeout(() => {
                 this.adjustPage();
-            },100);
+        },100);
         },
         components: { Upload },
         name: 'table_demo',

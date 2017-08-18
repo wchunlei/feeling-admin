@@ -99,7 +99,9 @@ const clothesTable = _import('clothes/clothTable');
 
 /* PUSH事件管理 */
 const bubble = _import('push_event/bubble');
+const bubbleTable = _import('push_event/bubbleTable');
 const channel = _import('push_event/channel');
+const channelTable = _import('push_event/channelTable');
 const story = _import('push_event/story');
 
 Vue.use(Router);
@@ -216,7 +218,9 @@ export const asyncRouterMap = [
     children: [
       { path: 'push_event/story/create', component: story, name: '剧情事件' },
       { path: 'channel', component: channel, name: '渠道事件' },
+      { path: 'channelTable', component: channelTable, name: '渠道事件列表' },
       { path: 'bubble', component: bubble, name: '冒泡事件' },
+      { path: 'bubbleTable', component: bubbleTable, name: '冒泡事件列表' },
     ]
   },
   {
