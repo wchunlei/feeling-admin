@@ -20,31 +20,31 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="180px" align="center" label="渠道" prop="name">
+            <el-table-column width="400px" align="center" label="标题" prop="title">
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>-->
-                    <span>{{scope.row.name}}</span>
+                    <span>{{scope.row.title}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column width="110px" v-if='showAuditor' align="center" label="审核人" prop="auditor">
+            <el-table-column width="110px" v-if='showAuditor' align="center" label="触发时间" prop="auditor">
             </el-table-column>
 
-            <el-table-column width="400px" label="标题" prop="title">
+            <el-table-column width="400px" label="渠道" prop="app">
             </el-table-column>
 
-            <!--<el-table-column width="400px" label="内容" prop="textarea">
-            </el-table-column>-->
+            <el-table-column width="150px" label="类型" prop="type">
+            </el-table-column>
 
-            <el-table-column min-width="180px" label="触发时间" prop="modify_time">
+            <el-table-column min-width="180px" label="修改时间" prop="modify_time">
             </el-table-column>
 
             <el-table-column align="center" label="操作" width="250px">
                 <template scope="scope">
-                    <el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
+                    <!--<el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
                     </el-button>
                     <el-button v-if="scope.row.status!='draft'" size="small" @click="handleModifyStatus(scope.row,'draft')">草稿
-                    </el-button>
+                    </el-button>-->
                     <el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
                     </el-button>
                 </template>
@@ -99,8 +99,9 @@
     import { diaryList } from 'api/diary';
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';
-    import { actorUpdate } from 'api/actor';
-    import  common  from 'static/Common'
+    import { channelList } from 'api/pushEvent';
+    import  common  from 'static/Common';
+    import { channelDelete } from 'api/pushEvent';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -185,7 +186,7 @@
         methods: {
             getList() {
                 this.listLoading = true;
-                diaryList(this.listQuery).then(response => {
+                channelList().then(response => {
                     this.list = response.data.content;
                 this.listLoading = false;
             })
@@ -211,6 +212,18 @@
                 this.listQuery.end = parseInt((+time[1] + 3600 * 1000 * 24) / 1000);
             },
             handleModifyStatus(row, status) {
+                this.listLoading = true;
+                let deleteitem={
+                    id: parseInt(row.id)
+                };
+                this.listLoading = true;
+                channelDelete(deleteitem).then(response => {
+                    //this.list = response.data.content;
+                    if(response.data.code==200){
+                        this.getList();
+                    }
+                    this.listLoading = false;
+                });
                 this.$message({
                     message: '操作成功',
                     type: 'success'

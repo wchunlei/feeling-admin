@@ -6,7 +6,7 @@
                 <template v-if="fetchSuccess">
 
 
-                    <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm()">发布
+                    <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm('postForm')">发布
                     </el-button>
                     <el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>
 
@@ -228,7 +228,7 @@
                     console.log(err);
                 });
             },
-            submitForm() {
+            submitForm(formName) {
                 this.$refs.postForm.validate(valid => {
                     if (valid) {
                     //var diaryinfo;
@@ -263,18 +263,25 @@
                     //diaryinfo = this.postForm;
                     this.loading = true;
                     diaryUpdate(diaryinfo).then(response => {
+                        if(response.data.code==200){
+                            this.$message({
+                                message: '新增成功',
+                                type: 'success'
+                            });
+                            this.$refs[formName].resetFields();
+                        }
                         if (!response.data.items) return;
                     console.log(response)
                     this.userLIstOptions = response.data.items.map(v => ({
                                 key: v.name
                             }));
                 });
-                    this.$notify({
+                    /*this.$notify({
                         title: '成功',
                         message: '发布成功',
                         type: 'success',
                         duration: 2000
-                    });
+                    });*/
                     this.postForm.status = 'published';
                     this.loading = false;
                     } else {

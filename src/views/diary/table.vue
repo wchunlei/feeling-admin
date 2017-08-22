@@ -41,10 +41,10 @@
 
             <el-table-column align="center" label="操作" width="250px">
                 <template scope="scope">
-                    <el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
+                    <!--<el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
                     </el-button>
                     <el-button v-if="scope.row.status!='draft'" size="small" @click="handleModifyStatus(scope.row,'draft')">草稿
-                    </el-button>
+                    </el-button>-->
                     <el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
                     </el-button>
                 </template>
@@ -97,6 +97,7 @@
 
 <script>
     import { diaryList } from 'api/diary';
+    import { diarydelete } from 'api/diary';
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';
     import { actorUpdate } from 'api/actor';
@@ -211,6 +212,18 @@
                 this.listQuery.end = parseInt((+time[1] + 3600 * 1000 * 24) / 1000);
             },
             handleModifyStatus(row, status) {
+                this.listLoading = true;
+                let deleteitem={
+                    id: parseInt(row.id)
+                };
+                this.listLoading = true;
+                diarydelete(deleteitem).then(response => {
+                    //this.list = response.data.content;
+                    if(response.data.code==200){
+                        this.getList();
+                    }
+                    this.listLoading = false;
+            });
                 this.$message({
                     message: '操作成功',
                     type: 'success'

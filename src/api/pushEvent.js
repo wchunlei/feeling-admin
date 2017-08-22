@@ -17,6 +17,15 @@ export function bubbleList(query) {
     });
 }
 
+export function bubbleDelete(bubbleinfo) {
+    const data = bubbleinfo;
+    return fetch({
+        url: '?act=delweatherevent',
+        method: 'post',
+        data
+    });
+}
+
 export function storyUpdate(storyinfo) {
     const data = storyinfo;
     return fetch({
@@ -25,36 +34,54 @@ export function storyUpdate(storyinfo) {
         data
     });
 }
-/*
-export function clothclassUpdate(clothinfo) {
-    const data = clothinfo;
+
+export function storyList(query) {
     return fetch({
-        url: '?act=desstypeupdate',
+        url: '?act=storyeventinfo',
+        method: 'get',
+        params: query
+    });
+}
+
+export function storypageList(query) {
+    return fetch({
+        url: '?act=storyeventpage',
+        method: 'get',
+        params: query
+    });
+}
+
+export function storyDelete(storyinfo) {
+    const data = storyinfo;
+    return fetch({
+        url: '?act=delstoryevent',
         method: 'post',
         data
     });
 }
- *
-export function clothclassList(query) {
+
+export function channelUpdate(channelinfo) {
+    const data = channelinfo;
     return fetch({
-        url: '?act=dresstypelist',
-        method: 'get',
-        params: query
+        url: '?act=addevent',
+        method: 'post',
+        data
     });
 }
 
-export function clothActorList(query) {
+export function channelList() {
     return fetch({
-        url: '?act=dresslist',
+        url: '?act=eventlist',
         method: 'get',
-        params: query
+        params: '',
     });
 }
 
-export function clothList(query) {
+export function channelDelete(channelinfo) {
+    const data = channelinfo;
     return fetch({
-        url: '?act=dresslistall',
-        method: 'get',
-        params: query
+        url: '?act=delevent',
+        method: 'post',
+        data
     });
-}*/
+}

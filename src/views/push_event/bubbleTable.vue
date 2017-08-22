@@ -12,17 +12,17 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="65" prop="id" fixed>
-                <template scope="scope">
-                    <!--<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>-->
-                    <!--<router-link to="/diary/form">{{scope.row.id}}</router-link>-->
-                    <span><router-link :to="{ path: '/diary/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
-                </template>
+            <el-table-column align="center" label="序号" width="65" prop="id" fixed type="index">
+                <!--<template scope="scope">
+                    &lt;!&ndash;<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>&ndash;&gt;
+                    &lt;!&ndash;<router-link to="/diary/form">{{scope.row.id}}</router-link>&ndash;&gt;
+                    &lt;!&ndash;<span><router-link :to="{ path: '/diary/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>&ndash;&gt;
+                </template>-->
             </el-table-column>
 
             <el-table-column width="180px" align="center" label="事件编号" prop="eventid">
                 <template scope="scope">
-                    <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>-->
+                    <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
                     <span>{{scope.row.eventid}}</span>
                 </template>
             </el-table-column>
@@ -51,7 +51,7 @@
             <el-table-column min-width="180px" label="满足条件" prop="condition">
             </el-table-column>
 
-            <el-table-column align="center" label="操作" width="250px">
+            <el-table-column align="center" label="操作" width="250px" fixed="right">
                 <template scope="scope">
                     <!--<el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
                     </el-button>
@@ -114,6 +114,7 @@
     import { actorUpdate } from 'api/actor';
     import  common  from 'static/Common';
     import { bubbleList } from 'api/pushEvent';
+    import { bubbleDelete } from 'api/pushEvent';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -203,9 +204,6 @@
                     this.listLoading = false;
                 })
             },
-            /*handleFilter() {
-                this.getList();
-            },*/
             handleSizeChange(val) {
                 this.listQuery.limit = parseInt(val);
                 this.getList();
@@ -224,6 +222,18 @@
                 this.listQuery.end = parseInt((+time[1] + 3600 * 1000 * 24) / 1000);
             },
             handleModifyStatus(row, status) {
+                this.listLoading = true;
+                let deleteitem={
+                    id: parseInt(row.eventid)
+                };
+                this.listLoading = true;
+                bubbleDelete(deleteitem).then(response => {
+                    //this.list = response.data.content;
+                    if(response.data.code==200){
+                        this.getList();
+                    }
+                    this.listLoading = false;
+                });
                 this.$message({
                     message: '操作成功',
                     type: 'success'

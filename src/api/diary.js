@@ -24,3 +24,12 @@ export function getDiary(query) {
         params: query
     });
 }
+
+export function diarydelete(diaryinfo) {
+    const data = diaryinfo;
+    return fetch({
+        url: '?act=delmoments',
+        method: 'post',
+        data
+    });
+}

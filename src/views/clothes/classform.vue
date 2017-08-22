@@ -112,6 +112,7 @@
     import { clothclassUpdate } from 'api/cloth';
     import { clothclassList } from 'api/cloth';
     import { clothActorList } from 'api/cloth';
+    import { clothclassdelete } from 'api/cloth';
 
     export default {
         name: 'clothes',
@@ -223,34 +224,48 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    let tabs = this.list;
-                let activeName = this.activeName;
-                if (activeName === targetName) {
-                    alert()
-                    tabs.forEach((tab, index) => {
-                        if (tab.typename === targetName) {
-                        let nextTab = tabs[index + 1] || tabs[index - 1];
-                        if (nextTab) {
-                            activeName = nextTab.typename;
-                        }else{
-                            activeName='al';
-                        }
-                        if(this.list.indexOf(tab)>-1){
-                            this.editableTabs1=[];
-                        }
-                        if(this.list.indexOf(tab)>-1){
-                            this.list=[];
-                        }
-                    }
-                });
-                }
-                this.activeName = activeName;
-                this.list = tabs.filter(tab => tab.typename !== targetName);
-                    this.$message({
-                    type: 'success',
-                    message: '删除成功!'
+                    this.listLoading = true;
+                    let deleteitem={
+                        id: parseInt(targetName)
+                    };
+                    this.listLoading = true;
+                    clothclassdelete(deleteitem).then(response => {
+                        //this.list = response.data.content;
+                        this.listLoading = false;
                     });
-                }).catch(() => {
+                    this.$message({
+                        message: '操作成功',
+                        type: 'success'
+                    });
+                    row.status = status;
+                    let tabs = this.list;
+                    let activeName = this.activeName;
+                    if (activeName === targetName) {
+                        alert()
+                        tabs.forEach((tab, index) => {
+                            if (tab.typename === targetName) {
+                            let nextTab = tabs[index + 1] || tabs[index - 1];
+                            if (nextTab) {
+                                activeName = nextTab.typename;
+                            }else{
+                                activeName='al';
+                            }
+                            if(this.list.indexOf(tab)>-1){
+                                this.editableTabs1=[];
+                            }
+                            if(this.list.indexOf(tab)>-1){
+                                this.list=[];
+                            }
+                        }
+                    });
+                    }
+                    this.activeName = activeName;
+                    this.list = tabs.filter(tab => tab.typename !== targetName);
+                        this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                        });
+                    }).catch(() => {
                         this.$message({
                         type: 'info',
                         message: '已取消删除'

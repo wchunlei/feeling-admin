@@ -112,6 +112,7 @@
 
 <script>
     import { clothList } from 'api/cloth';
+    import { clothdelete } from 'api/cloth';
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';
     import { actorUpdate } from 'api/actor';
@@ -202,102 +203,10 @@
             getList() {
                 this.listLoading = true;
                 clothList (this.listQuery).then(response => {
-                    //alert(response.data.content[0].name)
                     this.list = response.data.content;
                 this.listLoading = false;
                 })
             },
-            /*getList () {
-                this.listLoading = true;
-                const List = [];
-                /!*const count = 20;
-                Mock.mock('http://test.com', {
-                    "lists|5-15": [{
-                        "id|1-100": 100,
-                        name: '@name',
-                        clothName: '@name',
-                        "minTemperature|1-100": 100,
-                        "maxTemperature|1-100": 100,
-                        "chothWeather": "@name",
-                        "chothCondition": "@color",
-                        "price": "@url()",
-                        modify_time: '@date("yyyy-MM-dd")'
-                    }]
-                });
-                let _this=this;
-                $.ajax({
-                    url: "http://test.com",    //请求的url地址
-                    dataType: "json",   //返回格式为json
-                    async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-                    data: {},    //参数值
-                    type: "GET",   //请求方式
-                    success: function (req) {
-                        //请求成功时处理
-                        console.log(typeof req)
-                        console.table(req)
-                        _this.list=req.lists;
-                        //_this.list=JSON.stringify(req,null);
-                    }
-                })*!/
-                /!*this.list=[
-                    {
-                        id: 1,
-                        name: 'hehe',
-                        clothName: 'clo',
-                        minTemperature: 10,
-                        maxTemperature: 15,
-                        chothWeather: 'sun',
-                        price: 200,
-                        chothCondition: 'none',
-                        modify_time: '2017-05-01 10:12:14'
-                    },
-                    {
-                        id: 2,
-                        name: 'hehe',
-                        clothName: 'clo',
-                        minTemperature: 10,
-                        maxTemperature: 15,
-                        chothWeather: 'sun',
-                        price: 200,
-                        chothCondition: 'none',
-                        modify_time: '2017-05-01 10:12:14'
-                    },
-                    {
-                        id: 3,
-                        name: 'hehe',
-                        clothName: 'clo',
-                        minTemperature: 10,
-                        maxTemperature: 15,
-                        chothWeather: 'sun',
-                        price: 200,
-                        chothCondition: 'none',
-                        modify_time: '2017-05-01 10:12:14'
-                    },
-                    {
-                        id: 4,
-                        name: 'hehe',
-                        clothName: 'clo',
-                        minTemperature: 10,
-                        maxTemperature: 15,
-                        chothWeather: 'sun',
-                        price: 200,
-                        chothCondition: 'none',
-                        modify_time: '2017-05-01 10:12:14'
-                    },
-                    {
-                        id: 5,
-                        name: 'hehe',
-                        clothName: 'clo',
-                        minTemperature: 10,
-                        maxTemperature: 15,
-                        chothWeather: 'sun',
-                        price: 200,
-                        chothCondition: 'none',
-                        modify_time: '2017-05-01 10:12:14'
-                    }
-                ]*!/
-                this.listLoading = false;
-            },*/
             handleFilter() {
                 this.getList();
             },
@@ -319,6 +228,18 @@
                 this.listQuery.end = parseInt((+time[1] + 3600 * 1000 * 24) / 1000);
             },
             handleModifyStatus(row, status) {
+                this.listLoading = true;
+                let deleteitem={
+                    id: parseInt(row.id)
+                };
+                this.listLoading = true;
+                clothdelete(deleteitem).then(response => {
+                    //this.list = response.data.content;
+                if(response.data.code==200){
+                    this.getList();
+                }
+                this.listLoading = false;
+            });
                 this.$message({
                     message: '操作成功',
                     type: 'success'

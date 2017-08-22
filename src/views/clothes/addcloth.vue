@@ -6,7 +6,7 @@
                 <template v-if="fetchSuccess">
 
 
-                    <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm()">发布
+                    <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm('postForm')">发布
                     </el-button>
                     <el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>
 
@@ -25,7 +25,7 @@
                 </el-form-item>
             </div>
             <div style="margin:20px 0px;">
-                <el-form-item label="分类id:" label-width="90px" prop="clothType">
+                <el-form-item label="分类id:" label-width="90px" prop="clothTypeid">
                     <el-input v-model="postForm.clothTypeid" size="small" placeholder="请输入服装名称" autofocus style="width:200px;"></el-input>
                 </el-form-item>
             </div>
@@ -49,8 +49,10 @@
                 </el-form-item>
             </div>
             <div style="margin:20px 0px;">
-                <el-form-item label="服装温度:" style="margin-bottom: 40px;" label-width="90px" prop="minTemperature">
-                    <el-input v-model="postForm.minTemperature" size="small" placeholder="最低温度" style="width:75px;"></el-input> ---
+                <el-form-item label="最低温度:" style="margin-bottom: 40px;" label-width="90px" prop="minTemperature">
+                    <el-input v-model="postForm.minTemperature" size="small" placeholder="最低温度" style="width:75px;"></el-input>
+                </el-form-item>
+                <el-form-item label="最高温度:" style="margin-bottom: 40px;" label-width="90px" prop="maxTemperature">
                     <el-input v-model="postForm.maxTemperature" size="small" placeholder="最高温度" style="width:75px;"></el-input>
                 </el-form-item>
                 <el-form-item label="服装天气:" style="margin-bottom: 40px;" label-width="90px" prop="chothWeather">
@@ -88,6 +90,7 @@
     import { actorUpdate } from 'api/actor';
     import { userSearch } from 'api/story';
     import { clothUpdate } from 'api/cloth';
+    import { getcloth } from 'api/cloth';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -190,8 +193,33 @@
                 }
             }
         },
+        created() {
+            if(this.$route.params.num && this.$route.params.num != ':num'){
+                let listQuery={};
+                listQuery.dressid = parseInt(this.$route.params.num);
+                this.fetchData(listQuery);
+            }
+        },
         methods : {
-            submitForm() {
+            fetchData(listQuery) {
+                getcloth(listQuery).then(response => {
+                    //this.postForm.actor.value = response.data.content.actorid;
+                    this.postForm.actor = { key:response.data.content.name, value:response.data.content.actorid };
+                    this.postForm.clothTypeid = response.data.content.dressid;
+                    this.postForm.clothName = response.data.content.dressname;
+                    this.postForm.pic = response.data.content.dresspic;
+                    this.postForm.vid = response.data.content.dressvideo;
+                    this.postForm.minTemperature = response.data.content.mintemp;
+                    this.postForm.maxTemperature = response.data.content.maxtemp;
+                    this.postForm.chothWeather = response.data.content.weather;
+                    this.postForm.chothCondition = response.data.content.condition;
+                    this.postForm.price = response.data.content.price;
+                }).catch(err => {
+                        this.fetchSuccess = false;
+                    console.log(err);
+                });
+            },
+            submitForm(formName) {
                 //this.postForm.display_time = parseInt(this.display_time / 1000);
                 console.log(this.postForm)
                 let clothinfo = {
@@ -211,18 +239,25 @@
                     if (valid) {
                         this.loading = true;
                         clothUpdate (clothinfo).then(response => {
+                            if(response.data.code==200){
+                                this.$message({
+                                    message: '新增成功',
+                                    type: 'success'
+                                });
+                                this.$refs[formName].resetFields();
+                            }
                             if (!response.data.items) return;
                         console.log(response)
                         this.userLIstOptions = response.data.items.map(v => ({
                                     key: v.name
                                 }));
                     });
-                        this.$notify({
+                        /*this.$notify({
                             title: '成功',
                             message: '发布成功',
                             type: 'success',
                             duration: 2000
-                        });
+                        });*/
                         this.postForm.status = 'published';
                         this.loading = false;
                     } else {

@@ -2,12 +2,12 @@
     <div class="createPost-container">
         <div class="cloth_center">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-                <el-form-item label="事件ID:">
+                <el-form-item label="事件ID:" prop="id">
                     <el-input v-model="ruleForm.id" style="width: 100px;"></el-input>
                 </el-form-item>
                 <el-form-item label="事件名称:" prop="name">
                     <el-input v-model="ruleForm.name" style="width: 300px;"></el-input>
-                    <el-button type="primary" size="large" style="margin-left:100px">删除</el-button>
+                    <!--<el-button type="primary" size="large" style="margin-left:100px">删除</el-button>-->
                 </el-form-item>
                 <el-form-item label="事件类型" prop="eventType">
                     <el-select v-model="ruleForm.eventType" placeholder="事件类型">
@@ -15,17 +15,17 @@
                         <el-option label="视频" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="时间触发条件:">
+                <el-form-item label="时间触发条件:" prop="dt">
                     <el-date-picker
                             v-model="ruleForm.dt"
                             type="datetime"
                             placeholder="选择日期时间">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item label="最低温度条件:" prop="minTemplate">
+                <el-form-item label="最低温度条件:" prop="mintemplate">
                     <el-input v-model="ruleForm.mintemplate" placeholder="最低温度" style="width: 190px;"></el-input>
                 </el-form-item>
-                <el-form-item label="最高温度条件:" prop="maxTemplate">
+                <el-form-item label="最高温度条件:" prop="maxtemplate">
                     <el-input v-model="ruleForm.maxtemplate" placeholder="最高温度" style="width: 190px;"></el-input>
                 </el-form-item>
                 <el-form-item label="天气触发条件:" prop="weather">
@@ -105,6 +105,13 @@
                         };
                         this.loading = true;
                         bubbleUpdate (bubbleinfo).then(response => {
+                            if(response.data.code==200){
+                                this.$message({
+                                    message: '新增成功',
+                                    type: 'success'
+                                });
+                                this.$refs[formName].resetFields();
+                            }
                             if (!response.data.items) return;
                         console.log(response);
                         });
