@@ -46,7 +46,28 @@
                     </el-tab-pane>
                 </el-tabs>
             </div>
-            <el-form ref="form" :model="storyForm" label-width="100px" style="margin-top:20px;padding-top:20px;">
+            <el-form ref="storyForm" :model="storyForm" label-width="100px" style="margin-top:20px;padding-top:20px;">
+                <el-form-item label="对象:" prop="actor" style="width:280px">
+                    <multiselect v-model="storyForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                                 deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
+                        <span slot='noResult'>无结果</span>
+                    </multiselect>
+                </el-form-item>
+                <el-form-item label="剧情类型:">
+                    <el-select v-model="storyForm.type" placeholder="请选择">
+                        <el-option label="新手" value="1"></el-option>
+                        <el-option label="主线" value="2"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                    <el-input v-model="storyForm.title"></el-input>
+                </el-form-item>
+                <el-form-item label="天:" prop="day" style="width:280px">
+                    <el-input v-model="storyForm.day"></el-input>
+                </el-form-item>
+                <el-form-item label="步:" prop="step" style="width:280px">
+                    <el-input v-model="storyForm.step"></el-input>
+                </el-form-item>
                 <el-form-item label="第一步:"></el-form-item>
                 <el-form-item label="普通视频:" prop="video">
                     <div style="margin-bottom: 20px;">
@@ -141,6 +162,7 @@
     import Upload from 'components/Upload/singleImage3'
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
+    import { userSearch } from 'api/story';
     import { storyUpdate } from 'api/pushEvent';
 
     export default {
@@ -149,6 +171,7 @@
         components: { Tinymce, MDinput, Upload },
         data() {
             return {
+                userLIstOptions: [],
                 storyForm: {
                     video:'',
                     eachvideo: '',
@@ -324,7 +347,18 @@
                  this.classify.name=null;
                  }*/
             },
-
+            getRemoteUserList(query) {
+                console.log("getRemoteUserList")
+                userSearch(query).then(response => {
+                    console.log("getRemoteUserList")
+                if (!response.data.content) return;
+                console.log(response)
+                this.userLIstOptions = response.data.content.map(v => ({
+                            key: v.name,
+                            value: v.id
+                        }));
+                })
+            }
         }
     }
 </script>
