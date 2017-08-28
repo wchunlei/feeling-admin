@@ -1,15 +1,6 @@
 <template>
     <div class="createPost-container">
         <div class="cloth_center">
-            <span style="margin:10px 30px;display:inline-block">选择剧情:</span>
-            <el-select v-model="actorValue" placeholder="请选择">
-                <el-option
-                        v-for="item in actorOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
             <div style="margin:30px">
                 <div class="block">
                     <el-pagination
@@ -24,8 +15,8 @@
                     </el-pagination>
                 </div>
                 <el-button type="primary" size="large" @click="addTab(editableTabsValue2)" style="margin:10px 0">新增天数</el-button>
-                <el-tabs v-model="activeName" type="card" @tab-remove="removeTab">
-                    <el-tab-pane label="第一天" name="all">
+                <el-tabs v-model="activeName" type="card" @tab-remove="removeTab" @tab-click="selectDay">
+                    <!--<el-tab-pane label="第一天" name="all">
                         <el-button type="primary" size="large" @click="dialogFormVisible=true" style="margin:10px 0">新增事件</el-button>
                     </el-tab-pane>
                     <el-tab-pane label="第二天" name="second">
@@ -39,7 +30,7 @@
                     <el-tab-pane label="第四天" name="fourth">
                         <span style="margin:20px 20px 0 0;float:left;">分类ICON:</span>
                         <img src="../../../gifs/winter.jpg" class="image" style="margin:20px 0;">
-                    </el-tab-pane>
+                    </el-tab-pane>-->
                     <el-tab-pane v-for="(item, index) in editableTabs2" closable :key="item.name" :label="item.title" :name="item.name">
                         {{item.content}}
                         </el-table>
@@ -47,6 +38,19 @@
                 </el-tabs>
             </div>
             <el-form ref="storyForm" :model="storyForm" label-width="100px" style="margin-top:20px;padding-top:20px;">
+                <el-form-item label="场景类型:" prop="select">
+                    <el-select v-model="storyForm.select" placeholder="请选择活动区域" @change="selectScenes">
+                        <el-option label="请选择" value="9"></el-option>
+                        <el-option label="普通视频" value="1"></el-option>
+                        <el-option label="交互视频" value="2"></el-option>
+                        <el-option label="电话" value="3"></el-option>
+                        <el-option label="文字聊天" value="4"></el-option>
+                        <el-option label="语音聊天" value="5"></el-option>
+                        <el-option label="图片聊天" value="6"></el-option>
+                        <el-option label="小游戏" value="7"></el-option>
+                        <el-option label="小视频" value="8"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="对象:" prop="actor" style="width:280px">
                     <multiselect v-model="storyForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
@@ -54,98 +58,205 @@
                     </multiselect>
                 </el-form-item>
                 <el-form-item label="剧情类型:">
-                    <el-select v-model="storyForm.type" placeholder="请选择">
+                    <el-select v-model="storyForm.type" placeholder="请选择" @change="selectType">
                         <el-option label="新手" value="1"></el-option>
                         <el-option label="主线" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                <!--<el-form-item label="剧情标题:" prop="title" style="width:280px">
                     <el-input v-model="storyForm.title"></el-input>
-                </el-form-item>
-                <el-form-item label="天:" prop="day" style="width:280px">
+                </el-form-item>-->
+                <!--<el-form-item label="天:" prop="day" style="width:280px">
                     <el-input v-model="storyForm.day"></el-input>
                 </el-form-item>
                 <el-form-item label="步:" prop="step" style="width:280px">
                     <el-input v-model="storyForm.step"></el-input>
-                </el-form-item>
-                <el-form-item label="第一步:"></el-form-item>
-                <el-form-item label="普通视频:" prop="video">
-                    <div style="margin-bottom: 20px;">
-                        <Upload v-model="storyForm.video"></Upload>
-                    </div>
-                </el-form-item>
-                <el-form-item label="第二步:"></el-form-item>
-                <el-form-item label="交互视频:" prop="eachvideo">
-                    <div style="margin-bottom: 20px;">
-                        <Upload v-model="storyForm.video"></Upload>
-                    </div>
-                </el-form-item>
-                <el-row>
-                    <el-col :span="8">
-                        <el-form-item label-width="80px" label="交互文字:" style="float:left" prop="question">
-                            <el-input placeholder="" style='min-width:150px;' v-model="storyForm.question">
-                            </el-input>
+                </el-form-item>-->
+                <template v-if="nVideo">
+                    <el-form ref="normalVideo" :model="normalVideo" label-width="100px">
+                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                            <el-input v-model="normalVideo.title"></el-input>
                         </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label-width="80px" label="回答1:" style="float:left" prop="answer1">
-                            <el-input placeholder="" style='min-width:150px;' v-model="storyForm.answer1">
-                            </el-input>
+                        <el-form-item label="普通视频:" prop="video">
+                            <div style="margin-bottom: 20px;">
+                                <Upload v-model="normalVideo.video"></Upload>
+                            </div>
                         </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label-width="80px" label="回答2:" style="float:left" prop="answer2">
-                            <el-input placeholder="" style='min-width:150px;' v-model="storyForm.answer2">
-                            </el-input>
+                    </el-form>
+                </template>
+                <template v-if="eVideo">
+                    <el-form ref="eachVideo" :model="eachVideo" label-width="100px">
+                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                            <el-input v-model="eachVideo.title"></el-input>
                         </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-form-item label="第三步:"></el-form-item>
-                <el-form-item label="电话:"></el-form-item>
-                <el-row>
-                    <el-col :span="8">
-                        <el-form-item label-width="80px" label="交互文字:" style="float:left" prop="phone">
-                            <el-input placeholder="" style='min-width:150px;' v-model="storyForm.phone">
-                            </el-input>
+                        <el-form-item label="开始视频:" prop="startVideo">
+                            <div style="margin-bottom: 20px;">
+                                <Upload v-model="eachVideo.startVideo"></Upload>
+                            </div>
                         </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label-width="80px" label="接听:" style="float:left" prop="allow">
-                            <el-input placeholder="" style='min-width:150px;' v-model="storyForm.allow">
-                            </el-input>
+                        <el-form-item label="选择一视频:" prop="selectVideo1">
+                            <div style="margin-bottom: 20px;">
+                                <Upload v-model="eachVideo.selectVideo1"></Upload>
+                            </div>
                         </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label-width="80px" label="取消:" style="float:left" prop="deny">
-                            <el-input placeholder="" style='min-width:150px;' v-model="storyForm.deny">
-                            </el-input>
+                        <el-form-item label="选择二视频:" prop="selectVideo2">
+                            <div style="margin-bottom: 20px;">
+                                <Upload v-model="eachVideo.selectVideo2"></Upload>
+                            </div>
                         </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-form-item label="第四步:"></el-form-item>
-                <el-form-item label="文字聊天:"></el-form-item>
+                        <el-form-item label="交互文字:" prop="eachWord" style="width:280px">
+                            <el-input v-model="eachVideo.eachWord"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回答一:" prop="answer1" style="width:280px">
+                            <el-input v-model="eachVideo.answer1"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回答二:" prop="answer2" style="width:280px">
+                            <el-input v-model="eachVideo.answer2"></el-input>
+                        </el-form-item>
+                    </el-form>
+                </template>
+                <template v-if="wTalk">
+                    <el-form ref="wordTalk" :model="wordTalk" label-width="100px">
+                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                            <el-input v-model="wordTalk.title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="文字内容:" prop="wordContent" style="width:280px">
+                            <el-input v-model="wordTalk.wordContent"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复一:" prop="answer1" style="width:280px">
+                            <el-input v-model="wordTalk.answer1"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复二:" prop="answer2" style="width:280px">
+                            <el-input v-model="wordTalk.answer2"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复三:" prop="answer3" style="width:280px">
+                            <el-input v-model="wordTalk.answer3"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复四:" prop="answer4" style="width:280px">
+                            <el-input v-model="wordTalk.answer4"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复五:" prop="answer5" style="width:280px">
+                            <el-input v-model="wordTalk.answer5"></el-input>
+                        </el-form-item>
+                    </el-form>
+                </template>
+                <template v-if="pTalk">
+                    <el-form ref="picTalk" :model="picTalk" label-width="100px">
+                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                            <el-input v-model="picTalk.title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="图片聊天:" prop="pic">
+                            <div style="margin-bottom: 20px;">
+                                <Upload v-model="picTalk.pic"></Upload>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="回复一:" prop="answer1" style="width:280px">
+                            <el-input v-model="picTalk.answer1"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复二:" prop="answer2" style="width:280px">
+                            <el-input v-model="picTalk.answer2"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复三:" prop="answer3" style="width:280px">
+                            <el-input v-model="picTalk.answer3"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复四:" prop="answer4" style="width:280px">
+                            <el-input v-model="picTalk.answer4"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复五:" prop="answer5" style="width:280px">
+                            <el-input v-model="picTalk.answer5"></el-input>
+                        </el-form-item>
+                    </el-form>
+                </template>
+                <template v-if="sTalk">
+                    <el-form ref="soundTalk" :model="soundTalk" label-width="100px">
+                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                            <el-input v-model="soundTalk.title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="语言聊天:" prop="sound">
+                            <div style="margin-bottom: 20px;">
+                                <Upload v-model="soundTalk.sound"></Upload>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="回复一:" prop="answer1" style="width:280px">
+                            <el-input v-model="soundTalk.answer1"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复二:" prop="answer2" style="width:280px">
+                            <el-input v-model="soundTalk.answer2"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复三:" prop="answer3" style="width:280px">
+                            <el-input v-model="soundTalk.answer3"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复四:" prop="answer4" style="width:280px">
+                            <el-input v-model="soundTalk.answer4"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复五:" prop="answer5" style="width:280px">
+                            <el-input v-model="soundTalk.answer5"></el-input>
+                        </el-form-item>
+                    </el-form>
+                </template>
+                <template v-if="tel">
+                    <el-form ref="phone" :model="phone" label-width="100px">
+                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                            <el-input v-model="phone.title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="电话:" prop="speak">
+                            <div style="margin-bottom: 20px;">
+                                <Upload v-model="phone.speak"></Upload>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="交互文字:" prop="eachWord" style="width:280px">
+                            <el-input v-model="phone.eachWord"></el-input>
+                        </el-form-item>
+                        <el-form-item label="接听:" prop="answer" style="width:280px">
+                            <el-input v-model="phone.answer"></el-input>
+                        </el-form-item>
+                        <el-form-item label="取消:" prop="cancel" style="width:280px">
+                            <el-input v-model="phone.cancel"></el-input>
+                        </el-form-item>
+                    </el-form>
+                </template>
+                <template v-if="game">
+                    <el-form ref="games" :model="games" label-width="100px">
+                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                            <el-input v-model="games.title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="游戏类型:">
+                            <el-select v-model="games.region" placeholder="请选择">
+                                <el-option label="猜拳" value="1"></el-option>
+                                <el-option label="玩骰子" value="2"></el-option>
+                                <el-option label="猜硬币" value="3"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-form>
+                </template>
+                <template v-if="sVideo">
+                    <el-form ref="smallVideo" :model="smallVideo" label-width="100px">
+                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                            <el-input v-model="smallVideo.title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="小视频:" prop="video">
+                            <div style="margin-bottom: 20px;">
+                                <Upload v-model="smallVideo.video"></Upload>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="回复一:" prop="answer1" style="width:280px">
+                            <el-input v-model="smallVideo.answer1"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复二:" prop="answer2" style="width:280px">
+                            <el-input v-model="smallVideo.answer2"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复三:" prop="answer3" style="width:280px">
+                            <el-input v-model="smallVideo.answer3"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复四:" prop="answer4" style="width:280px">
+                            <el-input v-model="smallVideo.answer4"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复五:" prop="answer5" style="width:280px">
+                            <el-input v-model="smallVideo.answer5"></el-input>
+                        </el-form-item>
+                    </el-form>
+                </template>
             </el-form>
-            <el-dialog title="新增剧情事件" :visible.sync="dialogFormVisible">
-                <el-form ref="form" :model="form" label-width="100px" style="margin-top:20px;padding-top:20px;">
-                    <el-form-item label="第几天:" prop="day">
-                        <el-input v-model="form.day" size="small" style="width: 100px;"></el-input>
-                    </el-form-item>
-                    <el-form-item label="剧情ID:" prop="storyid">
-                        <el-input v-model="form.storyid" size="small" style="width: 100px;"></el-input>
-                    </el-form-item>
-                    <el-form-item label="事件标题:" prop="title">
-                        <el-input v-model="form.title" size="small" style="width: 300px;"></el-input>
-                    </el-form-item>
-                    <el-form-item label="触发时间:">
-                        <el-date-picker v-model="form.dt" type="datetime" placeholder="选择日期时间">
-                        </el-date-picker>
-                    </el-form-item>
-                </el-form>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="addStory">确 定</el-button>
-                </div>
-            </el-dialog>
             <el-dialog title="新增" :visible.sync="dialogClass" size="tiny">
                 <el-input v-model="addEvent" size="small" placeholder="请输入事件名称" autofocus style="width:200px;"></el-input>
                 <span slot="footer" class="dialog-footer">
@@ -164,6 +275,8 @@
     import { validateURL } from 'utils/validate';
     import { userSearch } from 'api/story';
     import { storyUpdate } from 'api/pushEvent';
+    import { storyListall } from 'api/story';
+    import { storyPage } from 'api/story';
 
     export default {
         name: 'clothes',
@@ -171,38 +284,95 @@
         components: { Tinymce, MDinput, Upload },
         data() {
             return {
+                listQuery: {},
+                listpageQuery: {
+                    page: 1,
+                    limit: 20
+                },
                 userLIstOptions: [],
+                nVideo: false,
+                eVideo: false,
+                wTalk: false,
+                pTalk: false,
+                sTalk: false,
+                tel: false,
+                game: false,
+                sVideo: false,
                 storyForm: {
-                    video:'',
-                    eachvideo: '',
-                    question: '',
+                    select: '9',
+                    actor: '',
+                    actorid: 1,
+                    type: '1',
+                    title: '',
+                    day: '',
+                    step: '',
+                },
+                normalVideo: {
+                    title: '',
+                    video: ''
+                },
+                eachVideo: {
+                    title: '',
+                    startVideo: '',
+                    selectVideo1: '',
+                    selectVideo2: '',
+                    eachWord: '',
+                    answer1: '',
+                    answer2: ''
+                },
+                wordTalk: {
+                    title: '',
+                    wordContent: '',
                     answer1: '',
                     answer2: '',
-                    phone: '',
-                    allow: '',
-                    deny: '',
+                    answer3: '',
+                    answer4: '',
+                    answer5: ''
+                },
+                picTalk: {
+                    title: '',
+                    pic: '',
+                    answer1: '',
+                    answer2: '',
+                    answer3: '',
+                    answer4: '',
+                    answer5: ''
+                },
+                soundTalk: {
+                    title: '',
+                    sound: '',
+                    answer1: '',
+                    answer2: '',
+                    answer3: '',
+                    answer4: '',
+                    answer5: ''
+                },
+                phone: {
+                    title: '',
+                    speak: '',
+                    eachWord: '',
+                    answer: '',
+                    cancel: ''
+                },
+                games: {
+                    title: '',
+                    region: ''
+                },
+                smallVideo: {
+                    title: '',
+                    video: '',
+                    answer1: '',
+                    answer2: '',
+                    answer3: '',
+                    answer4: '',
+                    answer5: ''
                 },
                 dialogClass:false,
                 currentPage: 1,
-                actorOptions: [{
-                    value: '选项1',
-                    label: '佳佳'
-                }, {
-                    value: '选项2',
-                    label: '花花'
-                }, ],
-                actorValue: '',
-                clothesOptions: [{
-                    value: '选项1',
-                    label: '连衣裙'
-                }, {
-                    value: '选项2',
-                    label: '长裤'
-                } ],
                 clothesValue: '',
                 editableTabsValue2: '2',
                 editableTabs2: [],
-                tabIndex: 6,
+                tabIndex: 0,
                 dialogFormVisible: false,
                 classify: {
                     name: '',
@@ -213,36 +383,290 @@
                 },
                 formLabelWidth: '120px',
                 activeName:'all',
-                picture : {
-                    upload : '',
-                },
-                video : {
-                    upload : '',
-                },
-                typeIcon : {
-                    upload : '',
-                },
-                form: {
-                    day: '',
-                    storyid: '',
-                    title: '',
-                    dt: new Date()
-                },
-                checkList: [],
-                list: [/*{
-                 id: 1,
-                 storyid: '11',
-                 title: 'ss',
-                 modify_time: '2017-01-03 10:10:10'
-                 }*/],
                 total: null,
-                list1: []
+                list: []
             }
         },
         created () {
             //alert(this.editableTabs2);
+            //alert(this.$route.params.num)
+            if(this.$route.params.num && this.$route.params.num != ':num'){
+                //let listQuery={};
+                this.listQuery.id = this.$route.params.num;
+                //this.listQuery.day = this.storyForm.day;
+                //this.listQuery.plottype = this.storyForm.type;
+                this.listQuery.name = this.storyForm.actor;
+                this.fetchData(this.listQuery);
+            }
+            this.listpageQuery.plottype = this.storyForm.type;
+            this.listpageQuery.actorid = this.storyForm.actorid;
+            this.getList();
         },
         methods : {
+            getList() {
+                //this.listLoading = true;
+                storyPage (this.listpageQuery).then(response => {
+                    for(let i=0;i<response.data.content.data.length;i++){
+                    this.editableTabs2.push({
+                        title: "第"+response.data.content.data[i].day+"天",
+                        name: i+1,
+                        content: ''
+                    });
+                }
+                this.listLoading = false;
+            })
+            },
+            fetchData(listQuery){
+                storyListall (listQuery).then(response => {
+                    //this.postForm.actor.value = response.data.content.actorid;
+                    /*this.storyForm.actor = { key:response.data.content[0].name, value:response.data.content[0].actorid };
+                    this.storyForm.select = response.data.content[0].msgtype;
+                    this.storyForm.type = response.data.content[0].plottype;
+                    this.storyForm.title = response.data.content[0].title;
+                    this.storyForm.day = response.data.content[0].day;
+                    this.storyForm.step = response.data.content[0].step;
+                    this.list = response.data.content;*/
+                    if (response.data.content.length == 0) {
+                        //普通视频初始化
+                        this.normalVideo.title = '';
+                        this.normalVideo.video = '';
+                        //交互视频初始化
+                        this.eachVideo.title = '';
+                        this.eachVideo.startVideo = '';
+                        this.eachVideo.selectVideo1 = '';
+                        this.eachVideo.selectVideo2 = '';
+                        this.eachVideo.eachWord = '';
+                        this.eachVideo.answer1 = '';
+                        this.eachVideo.answer2 = '';
+                        //电话初始化
+                        this.phone.title = '';
+                        this.phone.speak = '';
+                        this.phone.eachWord = '';
+                        this.phone.answer = '';
+                        this.phone.cancel = '';
+                        //文字聊天初始化
+                        this.wordTalk.title = '';
+                        this.wordTalk.wordContent = '';
+                        this.wordTalk.answer1 = '';
+                        this.wordTalk.answer2 = '';
+                        this.wordTalk.answer3 = '';
+                        this.wordTalk.answer4 = '';
+                        this.wordTalk.answer5 = '';
+                        //语音聊天初始化
+                        this.soundTalk.title = '';
+                        this.soundTalk.sound = '';
+                        this.soundTalk.answer1 = '';
+                        this.soundTalk.answer2 = '';
+                        this.soundTalk.answer3 = '';
+                        this.soundTalk.answer4 = '';
+                        this.soundTalk.answer5 = '';
+                        //图片聊天初始化
+                        this.picTalk.title = '';
+                        this.picTalk.pic = '';
+                        this.picTalk.answer1 = '';
+                        this.picTalk.answer2 = '';
+                        this.picTalk.answer3 = '';
+                        this.picTalk.answer4 = '';
+                        this.picTalk.answer5 = '';
+                        //小游戏初始化
+                        this.games.title = '';
+                        this.games.region = '';
+                        //小视频初始化
+                        this.smallVideo.title = '';
+                        this.smallVideo.video = '';
+                        this.smallVideo.answer1 = '';
+                        this.smallVideo.answer2 = '';
+                        this.smallVideo.answer3 = '';
+                        this.smallVideo.answer4 = '';
+                        this.smallVideo.answer5 = '';
+                    }
+                    for(let i=0;i<response.data.content.length;i++){
+
+                        if(response.data.content[i].msgtype == 1){
+                            //this.nVideo = true;
+                            //this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                this.normalVideo.title = response.data.content[i].title;
+                                this.normalVideo.video = response.data.content[i].msg;
+                                /*this.editableTabs2 = [{
+                                    title : "第"+response.data.content[i].day+"天",
+                                    name : response.data.content[i].day
+                                }];*/
+                            }
+                        }
+                        if(response.data.content[i].msgtype == 2){
+                            //this.eVideo = true;
+                            //this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                this.eachVideo.title = response.data.content[i].title;
+                                this.eachVideo.startVideo = response.data.content[i].msg;
+                                this.eachVideo.selectVideo1 = response.data.content[i].ivurl1;
+                                this.eachVideo.selectVideo2 = response.data.content[i].ivurl2;
+                                this.eachVideo.eachWord = response.data.content[i].ivmsg;
+                                this.eachVideo.answer1 = response.data.content[i].ivselect1;
+                                this.eachVideo.answer2 = response.data.content[i].ivselect2;
+                            }
+                        }
+                        if(response.data.content[i].msgtype == 3){
+                            //this.tel = true;
+                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                let msgs = response.data.content[i].nxtmsg.split("||");
+                                this.phone.title = response.data.content[i].title;
+                                this.phone.speak = response.data.content[i].msg;
+                                this.phone.eachWord = msgs[0];
+                                this.phone.answer = msgs[1];
+                                this.phone.cancel = msgs[2];
+                            }
+                        }
+                        if(response.data.content[i].msgtype == 4){
+                            //this.wTalk = true;
+                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                let msgs = response.data.content[i].nxtmsg.split("||");
+                                this.wordTalk.title = response.data.content[i].title;
+                                this.wordTalk.wordContent = response.data.content[i].msg;
+                                this.wordTalk.answer1 = msgs[0];
+                                this.wordTalk.answer2 = msgs[1];
+                                this.wordTalk.answer3 = msgs[2];
+                                this.wordTalk.answer4 = msgs[3];
+                                this.wordTalk.answer5 = msgs[4];
+                            }
+                        }
+                        if(response.data.content[i].msgtype == 5){
+                            //this.sTalk = true;
+                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                let msgs = response.data.content[i].nxtmsg.split("||");
+                                this.soundTalk.title = response.data.content[i].title;
+                                this.soundTalk.sound = response.data.content[i].msg;
+                                this.soundTalk.answer1 = msgs[0];
+                                this.soundTalk.answer2 = msgs[1];
+                                this.soundTalk.answer3 = msgs[2];
+                                this.soundTalk.answer4 = msgs[3];
+                                this.soundTalk.answer5 = msgs[4];
+                            }
+                        }
+                        if(response.data.content[i].msgtype == 6){
+                            //this.pTalk = true;
+                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                let msgs = response.data.content[i].nxtmsg.split("||");
+                                this.picTalk.title = response.data.content[i].title;
+                                this.picTalk.pic = response.data.content[i].msg;
+                                this.picTalk.answer1 = msgs[0];
+                                this.picTalk.answer2 = msgs[1];
+                                this.picTalk.answer3 = msgs[2];
+                                this.picTalk.answer4 = msgs[3];
+                                this.picTalk.answer5 = msgs[4];
+                            }
+                        }
+                        if(response.data.content[i].msgtype == 7){
+                            //this.game = true;
+                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                this.games.title = response.data.content[i].title;
+                                this.games.region = response.data.content[i].msg;
+                            }
+                        }
+                        if(response.data.content[i].msgtype == 8){
+                            //this.sVideo = true;
+                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                let msgs = response.data.content[i].nxtmsg.split("||");
+                                this.smallVideo.title = response.data.content[i].title;
+                                this.smallVideo.video = response.data.content[i].msg;
+                                this.smallVideo.answer1 = msgs[0];
+                                this.smallVideo.answer2 = msgs[1];
+                                this.smallVideo.answer3 = msgs[2];
+                                this.smallVideo.answer4 = msgs[3];
+                                this.smallVideo.answer5 = msgs[4];
+                            }
+                        }
+                    }
+                }).catch(err => {
+                        this.fetchSuccess = false;
+                    console.log(err);
+                });
+            },
+            selectType () {
+                //this.listQuery.day = this.storyForm.day;
+                this.listQuery.plottype = this.storyForm.type;
+                this.listQuery.name = this.storyForm.actor.key;
+                this.fetchData(this.listQuery);
+            },
+            selectDay (obj) {
+                this.listQuery.day = obj.name;
+                this.fetchData(this.listQuery);
+            },
+            selectScenes () {
+                if(this.storyForm.select==1){
+                    this.nVideo = true;
+                    //this.listQuery.day = this.storyForm.day;
+                    this.listQuery.plottype = this.storyForm.type;
+                    this.fetchData(this.listQuery);
+                } else {
+                    this.nVideo = false;
+                }
+                if(this.storyForm.select==2){
+                    this.eVideo = true;
+                    //this.listQuery.day = this.storyForm.day;
+                    this.listQuery.plottype = this.storyForm.type;
+                    this.fetchData(this.listQuery);
+                } else {
+                    this.eVideo = false;
+                }
+                if(this.storyForm.select==4){
+                    this.wTalk = true;
+                    //this.listQuery.day = this.storyForm.day;
+                    this.listQuery.plottype = this.storyForm.type;
+                    this.fetchData(this.listQuery);
+                } else {
+                    this.wTalk = false;
+                }
+                if(this.storyForm.select==6){
+                    this.pTalk = true;
+                    //this.listQuery.day = this.storyForm.day;
+                    this.listQuery.plottype = this.storyForm.type;
+                    this.fetchData(this.listQuery);
+                } else {
+                    this.pTalk = false;
+                }
+                if(this.storyForm.select==5){
+                    this.sTalk = true;
+                    //this.listQuery.day = this.storyForm.day;
+                    this.listQuery.plottype = this.storyForm.type;
+                    this.fetchData(this.listQuery);
+                } else {
+                    this.sTalk = false;
+                }
+                if(this.storyForm.select==3){
+                    this.tel = true;
+                    //this.listQuery.day = this.storyForm.day;
+                    this.listQuery.plottype = this.storyForm.type;
+                    this.fetchData(this.listQuery);
+                } else {
+                    this.tel = false;
+                }
+                if(this.storyForm.select==7){
+                    this.game = true;
+                    //this.listQuery.day = this.storyForm.day;
+                    this.listQuery.plottype = this.storyForm.type;
+                    this.fetchData(this.listQuery);
+                } else {
+                    this.game = false;
+                }
+                if(this.storyForm.select==8){
+                    this.sVideo = true;
+                    //this.listQuery.day = this.storyForm.day;
+                    this.listQuery.plottype = this.storyForm.type;
+                    this.fetchData(this.listQuery);
+                } else {
+                    this.sVideo = false;
+                }
+            },
+            handleSizeChange(val) {
+                this.listpageQuery.limit = parseInt(val);
+                this.getList();
+            },
+            handleCurrentChange(val) {
+                this.listpageQuery.page = parseInt(val);
+                this.getList();
+            },
             addClick () {
                 if(this.addEvent){
                     this.dialogClass=false;
@@ -298,56 +722,7 @@
                 this.activeName = activeName;
                 this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
             },
-            addStory () {
-                this.dialogFormVisible = false;
-                let date=this.form.dt;
-                let year=date.getFullYear(),
-                        month=date.getMonth()+ 1,
-                        day=date.getDate(),
-                        hour=date.getHours(),
-                        minutes=date.getMinutes(),
-                        seconds=date.getSeconds();
-                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-                this.list.push({
-                    id: 2,
-                    storyid: this.form.storyid,
-                    title: this.form.title,
-                    modify_time: dateString
-                })
-                let storyinfo = {
-                    id: parseInt(this.form.storyid),
-                    title: this.form.title,
-                    dt: dateString,
-                    day:parseInt(this.form.day)
-                };
-                this.loading = true;
-                storyUpdate (storyinfo).then(response => {
-                    if (!response.data.items) return;
-                console.log(response);
-            });
-                this.loading = false;
-                /*let newTabName = ++this.tabIndex + '';
-                 if(JSON.stringify(this.editableTabs2).indexOf(this.classify.name)==-1){
-                 if(this.classify.name){
-                 this.editableTabs2.push({
-                 title: this.classify.name,
-                 name: newTabName,
-                 content: this.classify.upload
-                 });
-                 this.editableTabsValue2 = newTabName;
-                 this.classify.name=null;
-                 }
-                 } else {
-                 console.log("类型不能为空或类型已存在");
-                 this.$message({
-                 message: '新增类型不能为空或类型已存在',
-                 type: 'warning',
-                 showClose:true
-                 });
-                 this.classify.name=null;
-                 }*/
-            },
-            getRemoteUserList(query) {
+            getRemoteUserList (query) {
                 console.log("getRemoteUserList")
                 userSearch(query).then(response => {
                     console.log("getRemoteUserList")

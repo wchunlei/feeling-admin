@@ -7,10 +7,10 @@
                         <el-option label="请选择" value="9"></el-option>
                         <el-option label="普通视频" value="1"></el-option>
                         <el-option label="交互视频" value="2"></el-option>
-                        <el-option label="文字聊天" value="3"></el-option>
-                        <el-option label="图片聊天" value="4"></el-option>
+                        <el-option label="电话" value="3"></el-option>
+                        <el-option label="文字聊天" value="4"></el-option>
                         <el-option label="语音聊天" value="5"></el-option>
-                        <el-option label="电话" value="6"></el-option>
+                        <el-option label="图片聊天" value="6"></el-option>
                         <el-option label="小游戏" value="7"></el-option>
                         <el-option label="小视频" value="8"></el-option>
                     </el-select>
@@ -531,12 +531,12 @@
                 } else {
                     this.eVideo = false;
                 }
-                if(this.form.select==3){
+                if(this.form.select==4){
                     this.wTalk = true;
                 } else {
                     this.wTalk = false;
                 }
-                if(this.form.select==4){
+                if(this.form.select==6){
                     this.pTalk = true;
                 } else {
                     this.pTalk = false;
@@ -546,7 +546,7 @@
                 } else {
                     this.sTalk = false;
                 }
-                if(this.form.select==6){
+                if(this.form.select==3){
                     this.tel = true;
                 } else {
                     this.tel = false;

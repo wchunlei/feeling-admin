@@ -112,6 +112,14 @@ export function storyListall(query) {
     params: query
   });
 }
+export function storyPage(query) {
+  return fetch({
+    url: '?act=storypage',
+    method: 'get',
+    params: query
+  });
+}
+
 export function getInfo(token) {
   const data = {
     token
