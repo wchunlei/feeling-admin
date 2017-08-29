@@ -13,7 +13,7 @@
       <el-table-column align="center" label="序号" width="65">
         <template scope="scope">
           <!--<span>{{scope.row.id}}</span>-->
-          <span><router-link :to="{ path: '/story/mainStory/' + scope.row.id }">{{scope.row.id}}</router-link></span>
+          <span><router-link :to="{ path: '/story/mainStory/' + scope.row.id + '/' + scope.row.plottype }">{{scope.row.id}}</router-link></span>
         </template>
       </el-table-column>
 

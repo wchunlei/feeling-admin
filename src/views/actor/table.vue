@@ -19,7 +19,7 @@
 
       <el-table-column align="center" label="序号" width="65">
         <template scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span><span><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span></span>
         </template>
       </el-table-column>
 

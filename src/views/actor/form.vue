@@ -108,11 +108,137 @@
           <span class="word-counter" v-show="natureLength">{{natureLength}}字</span>
         </el-form-item>
 
+        <el-form :model="photosList" :rules="rules" ref="photos">
+          <el-form-item label-width="50px" label="首图:" class="postInfo-container-item" prop="url">
+            <div style="margin-bottom: 20px;">
+              <Upload v-model="photosList.url"></Upload>
+            </div>
+          </el-form-item>
+          <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name" style="width:300px">
+            <el-input placeholder="" style='min-width:150px;' v-model="photosList.name"></el-input>
+          </el-form-item>
 
+          <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
+            <el-input placeholder="" style='width:150px;display:inline-block;' v-model="photosList.amount"></el-input>
+            <span>（0金币不锁）</span>
+          </el-form-item>
+          <el-form-item label-width="50px" label="数量:" class="postInfo-container-item" prop="photoNum" style="width:300px">
+            <el-input placeholder="" style='min-width:150px;' v-model="photos.photoNum"></el-input>
+          </el-form-item>
 
-        <div style="margin-bottom: 20px;">
-          <Upload v-model="postForm.headurl"></Upload>
-        </div>
+        </el-form>
+        <el-form-item label-width="50px" label="">
+          <el-button type="primary" @click="addPhotos">新增写真集</el-button>
+        </el-form-item>
+
+        <template v-for="photo in photos">
+          <div style="display:inline-block">
+            <el-form :model="photos" :rules="rules" ref="photos">
+              <el-form-item label-width="60px" label="写真集:" class="postInfo-container-item" prop="url">
+                <div style="margin-bottom: 0px;" @click="thumbnaillist(photo.id)">
+                  <img :src=photo.url style="width:300px;height:300px" alt="图片不存在"></img>
+                  <!--<Upload  v-model="photos.url" @click="dialogVisible = true"></Upload>-->
+                </div>
+              </el-form-item>
+
+              <el-form-item>
+                <template scope="scope">
+                  <!--<span>{{scope.row.id}}</span>-->
+                </template>
+              </el-form-item>
+
+              <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name" style="width:300px">
+                <el-input placeholder="" style='min-width:150px;' v-model="photo.name"></el-input>
+              </el-form-item>
+
+              <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
+                <el-input placeholder="" style='width:150px;display:inline-block;' v-model="photo.amount"></el-input>
+                <span>（0金币不锁）</span>
+              </el-form-item>
+
+              <el-form-item label-width="50px" label="数量:" class="postInfo-container-item" prop="photoNum" style="width:300px">
+                <el-input placeholder="" style='min-width:150px;' v-model="photos.photoNum"></el-input>
+              </el-form-item>
+
+              <el-form-item label-width="50px" label="">
+                <el-button type="primary" @click="delPhoto(photo.id)">删除写真集</el-button>
+              </el-form-item>
+
+              <el-dialog title="photos" :visible.sync="dialogVisible">
+                <el-form :model="upPhotos" :rules="rules" ref="upPhotos">
+                  <el-form-item label="新增照片:" label-width="90px" prop="photourl">
+                    <div style="margin-bottom: 20px;">
+                      <Upload v-model="upPhotos.photourl"></Upload>
+                    </div>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="picList(photo.id)">确 定</el-button>
+                  </el-form-item>
+                </el-form>
+              </el-dialog>
+
+            </el-form>
+          </div>
+        </template>
+
+        <el-form :model="addmvs" :rules="rules" ref="addmvs">
+          <el-form-item label-width="68px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
+            <div style="margin: 20px 0;">
+              <Upload v-model="addmvs.thumbnail"></Upload>
+            </div>
+          </el-form-item>
+
+          <el-form-item label-width="70px" label="视频url:" class="postInfo-container-item" prop="mvurl" style="width:300px">
+            <el-input placeholder="" style='min-width:150px;' v-model="addmvs.mvurl"></el-input>
+          </el-form-item>
+
+          <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="mvname" style="width:300px">
+            <el-input placeholder="" style='min-width:150px;' v-model="addmvs.mvname"></el-input>
+          </el-form-item>
+
+          <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="mvCoin" style="width:300px">
+            <el-input placeholder="" style='width:150px;display:inline-block;' v-model="addmvs.amount"></el-input>
+            <span>（0金币不锁）</span>
+          </el-form-item>
+          <el-form-item label-width="50px" label="">
+            <el-button type="primary" @click="addMv">新增视频</el-button>
+          </el-form-item>
+        </el-form>
+
+        <template v-for="mv in mvs">
+          <div style="display:inline-block">
+            <el-form :model="mvs" :rules="rules" ref="mvs">
+              <el-form-item label-width="70px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
+                <div style="margin-bottom: 0px;">
+                  <a :href="'http://'+mv.url"><img :src=mv.thumbnail style="width:200px;height:280px" alt="视频不存在"></img></a>
+                  <!--<Upload  v-model="photos.url" @click="dialogVisible = true"></Upload>-->
+                </div>
+              </el-form-item>
+
+              <el-form-item>
+                <template scope="scope">
+                  <!--<span>{{scope.row.id}}</span>-->
+                </template>
+              </el-form-item>
+
+              <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="mvname" style="width:300px">
+                <el-input placeholder="" style='min-width:150px;' v-model="mv.mvname"></el-input>
+              </el-form-item>
+
+              <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
+                <el-input placeholder="" style='width:150px;display:inline-block;' v-model="mv.amount"></el-input>
+                <span>（0金币不锁）</span>
+              </el-form-item>
+
+              <el-form-item label-width="50px" label="">
+                <el-button type="primary" @click="delMv(mv.id)">删除视频</el-button>
+              </el-form-item>
+
+            </el-form>
+          </div>
+        </template>
+
       </div>
     </el-form>
 
@@ -120,12 +246,19 @@
 </template>
 
 <script>
-  import Tinymce from 'components/Tinymce'
-  import Upload from 'components/Upload/singleImage3'
+  import Tinymce from 'components/Tinymce';
+  import Upload from 'components/Upload/singleImage3';
   import MDinput from 'components/MDinput';
   import { validateURL } from 'utils/validate';
   import { getArticle } from 'api/article';
   import { actorUpdate } from 'api/actor';
+  import { actorListAll } from 'api/actor';
+  import { addPhotos } from 'api/actor';
+  import { delPhotos } from 'api/actor';
+  import { addPhoto } from 'api/actor';
+  import { thumbnaillist } from 'api/actor';
+  import { addMvs } from 'api/actor';
+  import { delMv } from 'api/actor';
 
   export default {
     name: 'articleDetail',
@@ -158,6 +291,10 @@
         }
       };
       return {
+        listQuery: {},
+        photoData: {},
+        mvData: {},
+        photoid: '',
         postForm: {
           style: '', // 文章题目
           name: '', // 文章内容
@@ -170,8 +307,31 @@
           nature: '',
           headurl: '', // 文章图片
           id: '',
-          status: 'draft'
+          status: 'draft',
         },
+        photos: {
+          url: '',
+          amount: '',
+          name: '',
+          photoNum: ''
+        },
+        photosList: {
+          url: '',
+          amount: '',
+          name: '',
+          photoNum: ''
+        },
+        upPhotos: {
+          photourl: ''
+        },
+        addmvs: {
+          thumbnail: '',
+          url: '',
+          mvurl: '',
+          mvname: '',
+          amount: ''
+        },
+        dialogVisible: false,
         fetchSuccess: true,
         loading: false,
         userLIstOptions: [],
@@ -183,14 +343,14 @@
           label: '女'
         }],
         rules: {
-          headurl: [{ validator: validateRequire }],
-          style: [{ validator: validateRequire }],
-          name: [{ validator: validateRequire }],
-          headurl: [{ validator: validateSourceUri, trigger: 'blur' }]
+          //headurl: [{ validator: validateRequire }],
+          //style: [{ validator: validateRequire }],
+          //name: [{ validator: validateRequire }],
+          //headurl: [{ validator: validateSourceUri, trigger: 'blur' }]
         }
       }
     },
-    computed: {
+    /*computed: {
       natureLength() {
         return this.postForm.nature.length
       },
@@ -198,13 +358,35 @@
         return this.$route.meta.isEdit // 根据meta判断
           // return this.$route.path.indexOf('edit') !== -1 // 根据路由判断
       }
-    },
+    },*/
     created() {
+      if(this.$route.params && this.$route.params.actor != ':actor') {
+        this.listQuery.actorid = parseInt(this.$route.params.actor);
+        this.getDetail(this.listQuery);
+        this.photoData.id = parseInt(this.$route.params.actor);
+        this.mvData.id = parseInt(this.$route.params.actor);
+      }
       if (this.isEdit) {
         this.fetchData();
       }
     },
     methods: {
+      getDetail () {
+        actorListAll (this.listQuery).then(response => {
+            this.postForm = response.data.content;
+            this.photos = response.data.content.photo;
+            this.mvs = response.data.content.mv;
+            /*for(let i=0;i<response.data.content.photo.length;i++){
+              this.photos.amount =this.photos[i].amount;
+              this.photos.url = this.photos[i].url;
+            }*/
+            //this.photos.amount =this.photos[0].amount;
+            //this.photos.url = this.photos[0].url;
+        }).catch(err => {
+            this.fetchSuccess = false;
+          console.log(err);
+        });
+      },
       fetchData() {
         getArticle().then(response => {
           this.postForm = response.data;
@@ -260,6 +442,86 @@
           duration: 1000
         });
         this.postForm.status = 'draft';
+      },
+      addPhotos () {
+        //this.photoData.name = this.postForm.photo;
+        this.photoData.amount = parseInt(this.photosList.amount);
+        this.photoData.url = this.photosList.url;
+        this.photoData.name = this.photosList.name;
+        addPhotos (this.photoData).then(response => {
+            //this.postForm = response.data;
+            this.photoid = response.data.photoid;
+        }).catch(err => {
+            this.fetchSuccess = false;
+          console.log(err);
+        });
+      },
+      delPhoto (id) {
+        let photoid={
+          id: id
+        };
+        delPhotos (photoid).then(response => {
+          //this.postForm = response.data;
+          console.log()
+        }).catch(err => {
+            this.fetchSuccess = false;
+          console.log(err);
+        });
+      },
+      addMv () {
+        let mvlist = {
+          id: parseInt(this.$route.params.actor),
+          mvname: this.addmvs.mvname,
+          mvurl: this.addmvs.mvurl,
+          mvpicture: this.addmvs.thumbnail,
+          amount: parseInt(this.addmvs.amount)
+        };
+        addMvs (mvlist).then(response => {
+            //this.postForm = response.data;
+          }).catch(err => {
+            this.fetchSuccess = false;
+          console.log(err);
+        });
+      },
+      delMv (id) {
+        let mvid={
+          id: id
+        };
+        delMv (mvid).then(response => {
+          //this.postForm = response.data;
+          console.log()
+        }).catch(err => {
+          this.fetchSuccess = false;
+        console.log(err);
+      });
+      },
+      thumbnaillist (id) {
+        this.dialogVisible = true;
+        let list = {
+          id: parseInt(this.$route.params.actor),
+          photoid: id
+        };
+        thumbnaillist (list).then(response => {
+          console.log()
+        }).catch(err => {
+            this.fetchSuccess = false;
+          console.log(err);
+        });
+      },
+      picList (id) {
+        let photoList={
+          id: parseInt(this.$route.params.actor),
+          photoid: id,
+          photourl: this.upPhotos.photourl
+        };
+        //photoList.photourl = this.upPhotos.photourl;
+        addPhoto (photoList).then(response => {
+            console.log()
+        }).catch(err => {
+            this.fetchSuccess = false;
+          console.log(err);
+        });
+        this.dialogVisible = false;
       },
       getRemoteUserList(query) {
         userSearch(query).then(response => {

@@ -154,7 +154,7 @@ export const asyncRouterMap = [
     name: '主角管理',
     icon: 'zujian',
     children: [
-      { path: 'actor/form/create', component: actorForm, name: '新增主角' },
+      { path: 'form/:actor', component: actorForm, name: '新增主角' },
       { path: 'table', component: actorTable, name: '主角列表' }
     ]
   },
@@ -173,7 +173,7 @@ export const asyncRouterMap = [
       { path: 'story/form/picture', component: storyPicture, name: '图片聊天' },
       { path: 'story/form/game', component: storyGame, name: '小游戏' },
       { path: 'story/form/tv', component: storyTv, name: '小视频' },
-      { path: 'mainStory/:num', component: storyMain, name: '主线剧情' },
+      { path: 'mainStory/:num/:type', component: storyMain, name: '主线剧情' },
       { path: 'mainstoryEdit', component: mainstoryEdit, name: '主线剧情编辑' },
       { path: 'table', component: storyTable, name: '剧情列表' },
       { path: 'tableall', component: storyTableall, name: '剧情列表详细' }

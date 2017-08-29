@@ -301,7 +301,7 @@
                 storyForm: {
                     select: '9',
                     actor: '',
-                    actorid: 1,
+                    actorid: '',
                     type: '1',
                     title: '',
                     day: '',
@@ -370,7 +370,7 @@
                 dialogClass:false,
                 currentPage: 1,
                 clothesValue: '',
-                editableTabsValue2: '2',
+                editableTabsValue2: 1,
                 editableTabs2: [],
                 tabIndex: 0,
                 dialogFormVisible: false,
@@ -390,16 +390,19 @@
         created () {
             //alert(this.editableTabs2);
             //alert(this.$route.params.num)
-            if(this.$route.params.num && this.$route.params.num != ':num'){
+            if(this.$route.params && this.$route.params.num != ':num/:type'){
                 //let listQuery={};
-                this.listQuery.id = this.$route.params.num;
+                //this.listQuery.id = this.$route.params.num;
                 //this.listQuery.day = this.storyForm.day;
                 //this.listQuery.plottype = this.storyForm.type;
-                this.listQuery.name = this.storyForm.actor;
+                //this.listQuery.name = this.storyForm.actor;
+                this.listQuery.actorid = this.$route.params.num;
+                this.listQuery.plottype = this.$route.params.type;
+                this.listQuery.day = 1;
                 this.fetchData(this.listQuery);
             }
-            this.listpageQuery.plottype = this.storyForm.type;
-            this.listpageQuery.actorid = this.storyForm.actorid;
+            this.listpageQuery.plottype = this.$route.params.type;
+            this.listpageQuery.actorid = this.$route.params.num;
             this.getList();
         },
         methods : {
@@ -413,6 +416,7 @@
                         content: ''
                     });
                 }
+                this.editableTabsValue2='1';
                 this.listLoading = false;
             })
             },
@@ -483,21 +487,23 @@
                     for(let i=0;i<response.data.content.length;i++){
 
                         if(response.data.content[i].msgtype == 1){
-                            //this.nVideo = true;
-                            //this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
-                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.nVideo = true;
+                            this.storyForm.select = '普通视频';
+                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 this.normalVideo.title = response.data.content[i].title;
                                 this.normalVideo.video = response.data.content[i].msg;
                                 /*this.editableTabs2 = [{
                                     title : "第"+response.data.content[i].day+"天",
                                     name : response.data.content[i].day
                                 }];*/
-                            }
+                            //}
                         }
                         if(response.data.content[i].msgtype == 2){
-                            //this.eVideo = true;
-                            //this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
-                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.eVideo = true;
+                            this.storyForm.select = '交互视频';
+                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 this.eachVideo.title = response.data.content[i].title;
                                 this.eachVideo.startVideo = response.data.content[i].msg;
                                 this.eachVideo.selectVideo1 = response.data.content[i].ivurl1;
@@ -505,22 +511,26 @@
                                 this.eachVideo.eachWord = response.data.content[i].ivmsg;
                                 this.eachVideo.answer1 = response.data.content[i].ivselect1;
                                 this.eachVideo.answer2 = response.data.content[i].ivselect2;
-                            }
+                            //}
                         }
                         if(response.data.content[i].msgtype == 3){
-                            //this.tel = true;
-                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.tel = true;
+                            this.storyForm.select = '电话';
+                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.phone.title = response.data.content[i].title;
                                 this.phone.speak = response.data.content[i].msg;
                                 this.phone.eachWord = msgs[0];
                                 this.phone.answer = msgs[1];
                                 this.phone.cancel = msgs[2];
-                            }
+                            //}
                         }
                         if(response.data.content[i].msgtype == 4){
-                            //this.wTalk = true;
-                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.wTalk = true;
+                            this.storyForm.select = '文字聊天';
+                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.wordTalk.title = response.data.content[i].title;
                                 this.wordTalk.wordContent = response.data.content[i].msg;
@@ -529,11 +539,13 @@
                                 this.wordTalk.answer3 = msgs[2];
                                 this.wordTalk.answer4 = msgs[3];
                                 this.wordTalk.answer5 = msgs[4];
-                            }
+                            //}
                         }
                         if(response.data.content[i].msgtype == 5){
-                            //this.sTalk = true;
-                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.sTalk = true;
+                            this.storyForm.select = '语音聊天';
+                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.soundTalk.title = response.data.content[i].title;
                                 this.soundTalk.sound = response.data.content[i].msg;
@@ -542,11 +554,13 @@
                                 this.soundTalk.answer3 = msgs[2];
                                 this.soundTalk.answer4 = msgs[3];
                                 this.soundTalk.answer5 = msgs[4];
-                            }
+                            //}
                         }
                         if(response.data.content[i].msgtype == 6){
-                            //this.pTalk = true;
-                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.pTalk = true;
+                            this.storyForm.select = '图片聊天';
+                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.picTalk.title = response.data.content[i].title;
                                 this.picTalk.pic = response.data.content[i].msg;
@@ -555,18 +569,22 @@
                                 this.picTalk.answer3 = msgs[2];
                                 this.picTalk.answer4 = msgs[3];
                                 this.picTalk.answer5 = msgs[4];
-                            }
+                            //}
                         }
                         if(response.data.content[i].msgtype == 7){
-                            //this.game = true;
-                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.game = true;
+                            this.storyForm.select = '小游戏';
+                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 this.games.title = response.data.content[i].title;
                                 this.games.region = response.data.content[i].msg;
-                            }
+                            //}
                         }
                         if(response.data.content[i].msgtype == 8){
-                            //this.sVideo = true;
-                            if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.sVideo = true;
+                            this.storyForm.select = '小视频';
+                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.smallVideo.title = response.data.content[i].title;
                                 this.smallVideo.video = response.data.content[i].msg;
@@ -575,7 +593,7 @@
                                 this.smallVideo.answer3 = msgs[2];
                                 this.smallVideo.answer4 = msgs[3];
                                 this.smallVideo.answer5 = msgs[4];
-                            }
+                            //}
                         }
                     }
                 }).catch(err => {
@@ -586,7 +604,7 @@
             selectType () {
                 //this.listQuery.day = this.storyForm.day;
                 this.listQuery.plottype = this.storyForm.type;
-                this.listQuery.name = this.storyForm.actor.key;
+                //this.listQuery.name = this.storyForm.actor.key;
                 this.fetchData(this.listQuery);
             },
             selectDay (obj) {
