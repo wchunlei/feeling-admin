@@ -108,7 +108,7 @@
           <span class="word-counter" v-show="natureLength">{{natureLength}}字</span>
         </el-form-item>
 
-        <el-form :model="photosList" :rules="rules" ref="photos">
+        <el-form :model="photosList" :rules="rules" ref="photosList">
           <el-form-item label-width="50px" label="首图:" class="postInfo-container-item" prop="url">
             <div style="margin-bottom: 20px;">
               <Upload v-model="photosList.url"></Upload>
@@ -128,7 +128,7 @@
 
         </el-form>
         <el-form-item label-width="50px" label="">
-          <el-button type="primary" @click="addPhotos">新增写真集</el-button>
+          <el-button type="primary" @click="addPhotos('photosList')">新增写真集</el-button>
         </el-form-item>
 
         <template v-for="photo in photos">
@@ -160,22 +160,43 @@
                 <el-input placeholder="" style='min-width:150px;' v-model="photos.photoNum"></el-input>
               </el-form-item>
 
+              <el-dialog title="提示" :visible.sync="dialogPhoto" size="tiny" >
+                <span>确定删除?</span>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="dialogPhoto = false">取 消</el-button>
+                  <el-button type="primary" @click="sure(photo.id)">确 定</el-button>
+                </span>
+              </el-dialog>
+
               <el-form-item label-width="50px" label="">
                 <el-button type="primary" @click="delPhoto(photo.id)">删除写真集</el-button>
               </el-form-item>
 
               <el-dialog title="photos" :visible.sync="dialogVisible">
-                <el-form :model="upPhotos" :rules="rules" ref="upPhotos">
-                  <el-form-item label="新增照片:" label-width="90px" prop="photourl">
-                    <div style="margin-bottom: 20px;">
-                      <Upload v-model="upPhotos.photourl"></Upload>
-                    </div>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="picList(photo.id)">确 定</el-button>
-                  </el-form-item>
-                </el-form>
+
+                    <el-form :model="upPhotos" :rules="rules" ref="upPhotos">
+
+                      <el-form-item label="新增照片:" label-width="90px" prop="photourl">
+                        <div style="margin-bottom: 20px;">
+                          <Upload v-model="upPhotos.photourl"></Upload>
+                        </div>
+                      </el-form-item>
+
+                      <el-form-item>
+                        <el-button @click="dialogVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="picList(photo.id)">确 定</el-button>
+                      </el-form-item>
+
+                      <template v-for="upphoto in upPhotos">
+                        <div style="display:inline-block">
+
+                          <el-form-item label="照片:" label-width="90px" prop="thumbnail">
+                            <img :src=upphoto.thumbnail style="width:300px;height:300px" alt="图片不存在"></img>
+                          </el-form-item>
+                        </div>
+                      </template>
+                    </el-form>
+
               </el-dialog>
 
             </el-form>
@@ -322,7 +343,8 @@
           photoNum: ''
         },
         upPhotos: {
-          photourl: ''
+          photourl: '',
+          thumbnail: ''
         },
         addmvs: {
           thumbnail: '',
@@ -331,6 +353,8 @@
           mvname: '',
           amount: ''
         },
+        dialogPhoto: false,
+        flagPhoto: false,
         dialogVisible: false,
         fetchSuccess: true,
         loading: false,
@@ -443,7 +467,7 @@
         });
         this.postForm.status = 'draft';
       },
-      addPhotos () {
+      addPhotos (photosList) {
         //this.photoData.name = this.postForm.photo;
         this.photoData.amount = parseInt(this.photosList.amount);
         this.photoData.url = this.photosList.url;
@@ -451,22 +475,51 @@
         addPhotos (this.photoData).then(response => {
             //this.postForm = response.data;
             this.photoid = response.data.photoid;
+            if(response.data.code==200){
+              this.$message({
+                message: '新增成功',
+                type: 'success'
+              });
+              this.$refs[photosList].resetFields();
+            }
+            this.getDetail(this.listQuery);
         }).catch(err => {
             this.fetchSuccess = false;
           console.log(err);
         });
       },
-      delPhoto (id) {
+      sure (id) {
+        this.dialogPhoto = false;
+        this.flagPhoto = true;
         let photoid={
           id: id
         };
-        delPhotos (photoid).then(response => {
-          //this.postForm = response.data;
-          console.log()
-        }).catch(err => {
-            this.fetchSuccess = false;
-          console.log(err);
-        });
+        if(this.flagPhoto){
+          delPhotos (photoid).then(response => {
+            //this.postForm = response.data;
+            this.flagPhoto = false;
+            this.getDetail(this.listQuery);
+            console.log()
+          }).catch(err => {
+              this.fetchSuccess = false;
+            console.log(err);
+          });
+        }
+      },
+      delPhoto (id) {
+        this.dialogPhoto = true;
+        /*let photoid={
+          id: id
+        };
+        if(this.flagPhoto){
+          delPhotos (photoid).then(response => {
+            //this.postForm = response.data;
+            console.log()
+          }).catch(err => {
+              this.fetchSuccess = false;
+            console.log(err);
+          });
+        }*/
       },
       addMv () {
         let mvlist = {
@@ -502,7 +555,8 @@
           photoid: id
         };
         thumbnaillist (list).then(response => {
-          console.log()
+          this.upPhotos = response.data.content;
+          console.log();
         }).catch(err => {
             this.fetchSuccess = false;
           console.log(err);
