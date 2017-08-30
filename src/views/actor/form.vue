@@ -122,9 +122,9 @@
             <el-input placeholder="" style='width:150px;display:inline-block;' v-model="photosList.amount"></el-input>
             <span>（0金币不锁）</span>
           </el-form-item>
-          <el-form-item label-width="50px" label="数量:" class="postInfo-container-item" prop="photoNum" style="width:300px">
+          <!--<el-form-item label-width="50px" label="数量:" class="postInfo-container-item" prop="photoNum" style="width:300px">
             <el-input placeholder="" style='min-width:150px;' v-model="photos.photoNum"></el-input>
-          </el-form-item>
+          </el-form-item>-->
 
         </el-form>
         <el-form-item label-width="50px" label="">
@@ -194,6 +194,7 @@
                             <img :src=upphoto.thumbnail style="width:300px;height:300px" alt="图片不存在"></img>
                           </el-form-item>
                         </div>
+
                       </template>
                     </el-form>
 
@@ -556,6 +557,7 @@
         };
         thumbnaillist (list).then(response => {
           this.upPhotos = response.data.content;
+          this.photos.photoNum = response.data.content.length;
           console.log();
         }).catch(err => {
             this.fetchSuccess = false;

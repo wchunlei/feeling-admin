@@ -1,6 +1,6 @@
 <template>
   <div class="app-container calendar-list-container">
-    <div class="filter-container">
+    <!--<div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="listQuery.title">
       </el-input>
 
@@ -23,7 +23,7 @@
       <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
       <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
       <el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>
-    </div>
+    </div>-->
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
@@ -33,41 +33,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="姓名">
-        <template scope="scope">
-          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
-        </template>
+      <el-table-column width="180px" align="center" label="渠道名称" prop="name">
       </el-table-column>
 
-      <el-table-column min-width="300px" label="类型">
-        <template scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
-          <el-tag>{{scope.row.type | typeFilter}}</el-tag>
-        </template>
+      <el-table-column min-width="300px" label="会员金额" prop="amount">
       </el-table-column>
 
-      <el-table-column width="110px" align="center" label="性别">
-        <template scope="scope">
-          <span>{{scope.row.author}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="110px" v-if='showAuditor' align="center" label="审核人">
-        <template scope="scope">
-          <span style='color:red;'>{{scope.row.auditor}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="80px" label="职业">
-        <template scope="scope">
-          <icon-svg v-for="n in +scope.row.importance" icon-class="wujiaoxing" class="meta-item__icon" :key="n"></icon-svg>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="性格" width="95">
-        <template scope="scope">
-          <span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>
-        </template>
+      <el-table-column width="110px" align="center" label="新手剧情" prop="storynew">
       </el-table-column>
 
       <el-table-column class-name="status-col" label="状态" width="90">
@@ -95,7 +67,7 @@
       </el-pagination>
     </div>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <!--<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form class="small-space" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
         <el-form-item label="类型">
           <el-select class="filter-item" v-model="temp.type" placeholder="请选择">
@@ -134,9 +106,9 @@
         <el-button v-if="dialogStatus=='create'" type="primary" @click="create">确 定</el-button>
         <el-button v-else type="primary" @click="update">确 定</el-button>
       </div>
-    </el-dialog>
+    </el-dialog>-->
 
-    <el-dialog title="阅读数统计" :visible.sync="dialogPvVisible" size="small">
+    <!--<el-dialog title="阅读数统计" :visible.sync="dialogPvVisible" size="small">
       <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
         <el-table-column prop="key" label="渠道"> </el-table-column>
         <el-table-column prop="pv" label="pv"> </el-table-column>
@@ -144,7 +116,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogPvVisible = false">确 定</el-button>
       </span>
-    </el-dialog>
+    </el-dialog>-->
 
   </div>
 </template>

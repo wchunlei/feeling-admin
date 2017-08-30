@@ -1,6 +1,6 @@
 <template>
   <div class="createPost-container">
-    <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm">
+    <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm" label-width="100px">
 
       <Sticky :className="'sub-navbar '+postForm.status">
         <template v-if="fetchSuccess">
@@ -17,116 +17,38 @@
 
       </Sticky>
 
-      <div class="createPost-main-container">
-        <el-row>
-          <el-col :span="21">
-            <el-form-item style="margin-bottom: 40px;" prop="title">
-              <MDinput name="name" v-model="postForm.title" required :maxlength="100">
-                标题
-              </MDinput>
-              <span v-show="postForm.title.length>=26" class='title-prompt'>app可能会显示不全</span>
-            </el-form-item>
+      <el-form-item label="渠道名称:" style="margin-top:20px;width:300px">
+        <el-input v-model="postForm.name"></el-input>
+      </el-form-item>
 
-            <div class="postInfo-container">
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label-width="45px" label="类型:" class="postInfo-container-item">
-                    <multiselect v-model="postForm.author" :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
-                      <span slot='noResult'>无结果</span>
-                    </multiselect>
-                  </el-form-item>
-                </el-col>
+      <el-form-item label="主角:" label-width="90px" prop="actor">
+        <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                     deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+          <span slot='noResult'>无结果</span>
+        </multiselect>
+      </el-form-item>
 
-                <el-col :span="8">
-                  
-                    <el-form-item label-width="50px" label="渠道名称:" class="postInfo-container-item" prop="source_name">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.source_name" required>
-                      </el-input>
-                    </el-form-item>
-                  
-                </el-col>
+      <el-form-item label="新手剧情:">
+        <el-radio-group v-model="postForm.storynew">
+          <el-radio label="1">我的测试新手剧情</el-radio>
+          <el-radio label="2">情色版新手剧情</el-radio>
+          <el-radio label="3">保守版新手剧情</el-radio>
+        </el-radio-group>
+      </el-form-item>
 
-                <el-col :span="8">
-                  <el-form-item label-width="45px" label="性别:" class="postInfo-container-item">
-                    <el-select class="filter-item" placeholder="请选择" v-model="postForm.sex">
-                      <el-option v-for="item in  sexOptions" :key="item" :label="item" :value="item">
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </div>
+      <el-form-item label="主线剧情:">
+        <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+        <div style="margin: 15px 0;"></div>-->
+        <el-checkbox-group v-model="postForm.checkStory" @change="handleCheckedCitiesChange">
+          <el-checkbox v-for="story in storys" :label="story" :key="story">{{story}}</el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
 
-            <div class="postInfo-container">
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label-width="45px" label="身高:" class="postInfo-container-item">
-                    <multiselect v-model="postForm.author" :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
-                      <span slot='noResult'>无结果</span>
-                    </multiselect>
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8">
-                  
-                    <el-form-item label-width="50px" label="年龄:" class="postInfo-container-item">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.source_name">
-                      </el-input>
-                    </el-form-item>
-                  
-                </el-col>
-
-                <el-col :span="8">
-                  <el-form-item label-width="45px" label="体重:" class="postInfo-container-item">
-                    <el-select class="filter-item" placeholder="请选择" v-model="postForm.sex">
-                      <el-option v-for="item in  sexOptions" :key="item" :label="item" :value="item">
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </div>
-
-            <div class="postInfo-container">
-              <el-row>
-                <el-col :span="8">
-                  <el-form-item label-width="45px" label="胸围:" class="postInfo-container-item">
-                    <multiselect v-model="postForm.author" :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
-                      <span slot='noResult'>无结果</span>
-                    </multiselect>
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8">
-                  
-                    <el-form-item label-width="50px" label="职业:" class="postInfo-container-item">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.source_name">
-                      </el-input>
-                    </el-form-item>
-                  
-                </el-col>
+      <el-form-item label="会员价格:" style="margin-top:20px;width:300px">
+        <el-input v-model="postForm.amount"></el-input>
+      </el-form-item>
 
 
-              </el-row>
-            </div>
-          </el-col>
-        </el-row>
-
-        <el-form-item style="margin-bottom: 40px;" label-width="45px" label="性格:">
-          <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="postForm.content_short">
-          </el-input>
-          <span class="word-counter" v-show="contentShortLength">{{contentShortLength}}字</span>
-        </el-form-item>
-
-
-
-        <div style="margin-bottom: 20px;">
-          <Upload v-model="postForm.image_uri"></Upload>
-        </div>
-      </div>
     </el-form>
 
   </div>
@@ -138,7 +60,7 @@
   import MDinput from 'components/MDinput';
   import { validateURL } from 'utils/validate';
   import { getArticle } from 'api/article';
-  import { userSearch } from 'api/remoteSearch';
+  import { userSearch } from 'api/story';
 
   export default {
     name: 'articleDetail',
@@ -172,35 +94,24 @@
       };
       return {
         postForm: {
-          title: '', // 文章题目
-          content: '', // 文章内容
-          content_short: '', // 文章摘要
-          source_uri: '', // 文章外链
-          image_uri: '', // 文章图片
-          source_name: '', // 文章外部作者
-          display_time: undefined, // 前台展示时间
-          id: undefined,
-          sex: '',
-          platforms: ['a-platform']
+          name: '',
+          storynew: '1',
+          checkStory: [],
+          amount: ''
         },
+        storys: ['保守版佳佳剧情','情色版佳佳剧情','保守版斯诺剧情'],
         fetchSuccess: true,
         loading: false,
         userLIstOptions: [],
-        platformsOptions: [
-            { key: 'a-platform', name: 'a-platform' },
-            { key: 'b-platform', name: 'b-platform' },
-            { key: 'c-platform', name: 'c-platform' }
-        ],
-        sexOptions: ['男', '女1'],
         rules: {
-          image_uri: [{ validator: validateRequire }],
-          title: [{ validator: validateRequire }],
-          source_name: [{ validator: validateRequire }],
-          source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
+          //image_uri: [{ validator: validateRequire }],
+          //title: [{ validator: validateRequire }],
+          //source_name: [{ validator: validateRequire }],
+          //source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
         }
       }
     },
-    computed: {
+    /*computed: {
       contentShortLength() {
         return this.postForm.content_short.length
       },
@@ -208,7 +119,7 @@
         return this.$route.meta.isEdit // 根据meta判断
           // return this.$route.path.indexOf('edit') !== -1 // 根据路由判断
       }
-    },
+    },*/
     created() {
       if (this.isEdit) {
         this.fetchData();
@@ -260,13 +171,16 @@
         this.postForm.status = 'draft';
       },
       getRemoteUserList(query) {
+        console.log("getRemoteUserList")
         userSearch(query).then(response => {
-          if (!response.data.items) return;
-          console.log(response)
-          this.userLIstOptions = response.data.items.map(v => ({
-            key: v.name
-          }));
-        })
+          console.log("getRemoteUserList")
+        if (!response.data.content) return;
+        console.log(response)
+        this.userLIstOptions = response.data.content.map(v => ({
+                  key: v.name,
+                  value: v.id
+                }));
+      })
       }
     }
   }

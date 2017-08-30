@@ -74,6 +74,9 @@
                 </el-form-item>-->
                 <template v-if="nVideo">
                     <el-form ref="normalVideo" :model="normalVideo" label-width="100px">
+                        <el-form-item label="步:" prop="step" style="width:280px">
+                            <el-input v-model="normalVideo.step"></el-input>
+                        </el-form-item>
                         <el-form-item label="剧情标题:" prop="title" style="width:280px">
                             <el-input v-model="normalVideo.title"></el-input>
                         </el-form-item>
@@ -82,10 +85,16 @@
                                 <Upload v-model="normalVideo.video"></Upload>
                             </div>
                         </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="dialogStory = true">新增剧情</el-button>
+                        </el-form-item>
                     </el-form>
                 </template>
                 <template v-if="eVideo">
                     <el-form ref="eachVideo" :model="eachVideo" label-width="100px">
+                        <el-form-item label="步:" prop="step" style="width:280px">
+                            <el-input v-model="eachVideo.step"></el-input>
+                        </el-form-item>
                         <el-form-item label="剧情标题:" prop="title" style="width:280px">
                             <el-input v-model="eachVideo.title"></el-input>
                         </el-form-item>
@@ -264,6 +273,14 @@
                     <el-button type="primary" @click="addClick">确 定</el-button>
                 </span>
             </el-dialog>
+            <el-dialog title="新增" :visible.sync="dialogStory" size="small">
+                <!--<Story :id="storyId" v-on:listener="listenAdd"></Story>-->
+                <Story :id="storyId"></Story>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogStory = false">取 消</el-button>
+                    <el-button type="primary" @click="addStoryClick">确 定</el-button>
+                </span>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -271,6 +288,7 @@
 <script>
     import Tinymce from 'components/Tinymce'
     import Upload from 'components/Upload/singleImage3'
+    import Story from 'components/story/mainstoryEdit'
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
     import { userSearch } from 'api/story';
@@ -281,9 +299,10 @@
     export default {
         name: 'clothes',
         addEvent: '',
-        components: { Tinymce, MDinput, Upload },
+        components: { Tinymce, MDinput, Upload, Story },
         data() {
             return {
+                storyId:'',
                 listQuery: {},
                 listpageQuery: {
                     page: 1,
@@ -308,10 +327,12 @@
                     step: '',
                 },
                 normalVideo: {
+                    step: '',
                     title: '',
                     video: ''
                 },
                 eachVideo: {
+                    step: '',
                     title: '',
                     startVideo: '',
                     selectVideo1: '',
@@ -368,6 +389,7 @@
                     answer5: ''
                 },
                 dialogClass:false,
+                dialogStory: false,
                 currentPage: 1,
                 clothesValue: '',
                 editableTabsValue2: 1,
@@ -382,7 +404,7 @@
                     desc: ''
                 },
                 formLabelWidth: '120px',
-                activeName:'all',
+                activeName:'',
                 total: null,
                 list: []
             }
@@ -406,6 +428,9 @@
             this.getList();
         },
         methods : {
+            /*listenAdd (data) {
+                alert(data);
+            },*/
             getList() {
                 //this.listLoading = true;
                 storyPage (this.listpageQuery).then(response => {
@@ -422,6 +447,7 @@
             },
             fetchData(listQuery){
                 storyListall (listQuery).then(response => {
+                    this.storyId = response.data.content[0].id;
                     //this.postForm.actor.value = response.data.content.actorid;
                     /*this.storyForm.actor = { key:response.data.content[0].name, value:response.data.content[0].actorid };
                     this.storyForm.select = response.data.content[0].msgtype;
@@ -432,9 +458,11 @@
                     this.list = response.data.content;*/
                     if (response.data.content.length == 0) {
                         //普通视频初始化
+                        this.normalVideo.step = '';
                         this.normalVideo.title = '';
                         this.normalVideo.video = '';
                         //交互视频初始化
+                        this.eachVideo.step = '';
                         this.eachVideo.title = '';
                         this.eachVideo.startVideo = '';
                         this.eachVideo.selectVideo1 = '';
@@ -485,12 +513,12 @@
                         this.smallVideo.answer5 = '';
                     }
                     for(let i=0;i<response.data.content.length;i++){
-
                         if(response.data.content[i].msgtype == 1){
                             this.nVideo = true;
                             this.storyForm.select = '普通视频';
                             this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
                             //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                this.normalVideo.step = response.data.content[i].step;
                                 this.normalVideo.title = response.data.content[i].title;
                                 this.normalVideo.video = response.data.content[i].msg;
                                 /*this.editableTabs2 = [{
@@ -504,6 +532,7 @@
                             this.storyForm.select = '交互视频';
                             this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
                             //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                this.eachVideo.step = response.data.content[i].step;
                                 this.eachVideo.title = response.data.content[i].title;
                                 this.eachVideo.startVideo = response.data.content[i].msg;
                                 this.eachVideo.selectVideo1 = response.data.content[i].ivurl1;
@@ -610,69 +639,70 @@
             selectDay (obj) {
                 this.listQuery.day = obj.name;
                 this.fetchData(this.listQuery);
+                this.fetchData(this.listQuery);
             },
             selectScenes () {
                 if(this.storyForm.select==1){
                     this.nVideo = true;
                     //this.listQuery.day = this.storyForm.day;
-                    this.listQuery.plottype = this.storyForm.type;
-                    this.fetchData(this.listQuery);
+                    //this.listQuery.plottype = this.storyForm.type;
+                    //this.fetchData(this.listQuery);
                 } else {
                     this.nVideo = false;
                 }
                 if(this.storyForm.select==2){
                     this.eVideo = true;
                     //this.listQuery.day = this.storyForm.day;
-                    this.listQuery.plottype = this.storyForm.type;
-                    this.fetchData(this.listQuery);
+                    //this.listQuery.plottype = this.storyForm.type;
+                    //this.fetchData(this.listQuery);
                 } else {
                     this.eVideo = false;
                 }
                 if(this.storyForm.select==4){
                     this.wTalk = true;
                     //this.listQuery.day = this.storyForm.day;
-                    this.listQuery.plottype = this.storyForm.type;
-                    this.fetchData(this.listQuery);
+                    //this.listQuery.plottype = this.storyForm.type;
+                    //this.fetchData(this.listQuery);
                 } else {
                     this.wTalk = false;
                 }
                 if(this.storyForm.select==6){
                     this.pTalk = true;
                     //this.listQuery.day = this.storyForm.day;
-                    this.listQuery.plottype = this.storyForm.type;
-                    this.fetchData(this.listQuery);
+                    //this.listQuery.plottype = this.storyForm.type;
+                    //this.fetchData(this.listQuery);
                 } else {
                     this.pTalk = false;
                 }
                 if(this.storyForm.select==5){
                     this.sTalk = true;
                     //this.listQuery.day = this.storyForm.day;
-                    this.listQuery.plottype = this.storyForm.type;
-                    this.fetchData(this.listQuery);
+                    //this.listQuery.plottype = this.storyForm.type;
+                    //this.fetchData(this.listQuery);
                 } else {
                     this.sTalk = false;
                 }
                 if(this.storyForm.select==3){
                     this.tel = true;
                     //this.listQuery.day = this.storyForm.day;
-                    this.listQuery.plottype = this.storyForm.type;
-                    this.fetchData(this.listQuery);
+                    //this.listQuery.plottype = this.storyForm.type;
+                    //this.fetchData(this.listQuery);
                 } else {
                     this.tel = false;
                 }
                 if(this.storyForm.select==7){
                     this.game = true;
                     //this.listQuery.day = this.storyForm.day;
-                    this.listQuery.plottype = this.storyForm.type;
-                    this.fetchData(this.listQuery);
+                    //this.listQuery.plottype = this.storyForm.type;
+                    //this.fetchData(this.listQuery);
                 } else {
                     this.game = false;
                 }
                 if(this.storyForm.select==8){
                     this.sVideo = true;
                     //this.listQuery.day = this.storyForm.day;
-                    this.listQuery.plottype = this.storyForm.type;
-                    this.fetchData(this.listQuery);
+                    //this.listQuery.plottype = this.storyForm.type;
+                    //this.fetchData(this.listQuery);
                 } else {
                     this.sVideo = false;
                 }
