@@ -273,7 +273,7 @@
                     });
                     let newTabName = ++this.tabIndex + '';
                     this.editableDay.push({
-                        title: this.addEvent,
+                        title: "第"+this.addEvent+"天",
                         name: newTabName,
                         content: ''
                     });

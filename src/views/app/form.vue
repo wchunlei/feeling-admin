@@ -22,10 +22,13 @@
       </el-form-item>
 
       <el-form-item label="主角:" label-width="90px" prop="actor">
-        <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+        <!--<multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
           <span slot='noResult'>无结果</span>
-        </multiselect>
+        </multiselect>-->
+        <el-checkbox-group v-model="postForm.actor" :min="1">
+          <el-checkbox v-for="city in userLIstOptions" :label="city" :key="city">{{city.key}}</el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
 
       <el-form-item label="新手剧情:">
@@ -40,7 +43,7 @@
         <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
         <div style="margin: 15px 0;"></div>-->
         <el-checkbox-group v-model="postForm.checkStory" @change="handleCheckedCitiesChange">
-          <el-checkbox v-for="story in storys" :label="story" :key="story">{{story}}</el-checkbox>
+          <el-checkbox v-for="(story,index) in storys" :label="story" :key="story">{{story.name}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
 
@@ -61,6 +64,7 @@
   import { validateURL } from 'utils/validate';
   import { getArticle } from 'api/article';
   import { userSearch } from 'api/story';
+  import { appupdate } from 'api/app';
 
   export default {
     name: 'articleDetail',
@@ -95,11 +99,21 @@
       return {
         postForm: {
           name: '',
+          actor: [],
           storynew: '1',
           checkStory: [],
           amount: ''
         },
-        storys: ['保守版佳佳剧情','情色版佳佳剧情','保守版斯诺剧情'],
+        storys: [{
+          id: 1,
+          name: '保守版佳佳剧情',
+        },{
+          id: 2,
+          name: '情色版佳佳剧情'
+        },{
+          id: 3,
+          name: '保守版斯诺剧情'
+        }],
         fetchSuccess: true,
         loading: false,
         userLIstOptions: [],
@@ -124,6 +138,7 @@
       if (this.isEdit) {
         this.fetchData();
       }
+      this.getRemoteUserList();
     },
     methods: {
       fetchData() {
@@ -135,18 +150,37 @@
         });
       },
       submitForm() {
-        this.postForm.display_time = parseInt(this.display_time / 1000);
-        console.log(this.postForm)
+        let storyid = this.postForm.checkStory;
+        for(let i=0;i<this.postForm.checkStory.length;i++){
+          storyid[i].id = this.postForm.checkStory[i].id;
+        }
+        let actorid = this.postForm.actor;
+        for(let i=0;i<this.postForm.actor.length;i++){
+          actorid[i].value = parseInt(this.postForm.actor[i].value);
+        }
+        let appinfo = {
+          name:  this.postForm.name,
+          amount: parseInt(this.postForm.amount),
+          actor: actorid,
+          storynew: parseInt(this.postForm.storynew),
+          story: storyid
+        };
         this.$refs.postForm.validate(valid => {
           if (valid) {
-            this.loading = true;
-            this.$notify({
-              title: '成功',
-              message: '发布文章成功',
-              type: 'success',
-              duration: 2000
-            });
-            this.postForm.status = 'published';
+            appupdate (appinfo).then(response => {
+              if(response.data.code==200){
+              this.$message({
+                message: '新增成功',
+                type: 'success'
+              });
+              //this.$refs[formName].resetFields();
+            }
+            if (!response.data.items) return;
+            console.log(response)
+            this.userLIstOptions = response.data.items.map(v => ({
+                      key: v.name
+                    }));
+          });
             this.loading = false;
           } else {
             console.log('error submit!!');

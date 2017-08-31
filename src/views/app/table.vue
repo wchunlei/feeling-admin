@@ -124,6 +124,7 @@
 <script>
   import { fetchList, fetchPv } from 'api/article_table';
   import { parseTime } from 'utils';
+  import { applist } from 'api/app';
 
   const calendarTypeOptions = [
       { key: 'CN', display_name: '中国' },
@@ -197,8 +198,8 @@
     methods: {
       getList() {
         this.listLoading = true;
-        fetchList(this.listQuery).then(response => {
-          this.list = response.data.items;
+        applist (this.listQuery).then(response => {
+          this.list = response.data.content;
           this.total = response.data.total;
           this.listLoading = false;
         })

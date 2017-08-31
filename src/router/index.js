@@ -165,15 +165,15 @@ export const asyncRouterMap = [
     name: '剧情管理',
     icon: 'zujian',
     children: [
-      { path: 'story/form/video', component: storyVideo, name: '普通视频' },
+      /*{ path: 'story/form/video', component: storyVideo, name: '普通视频' },
       { path: 'story/form/video_interactive', component: storyVideo_interactive, name: '交互视频' },
       { path: 'story/form/tel', component: storyTel, name: '电话' },
       { path: 'story/form/talk', component: storyTalk, name: '文字聊天' },
       { path: 'story/form/radio', component: storyRadio, name: '语音聊天' },
       { path: 'story/form/picture', component: storyPicture, name: '图片聊天' },
       { path: 'story/form/game', component: storyGame, name: '小游戏' },
-      { path: 'story/form/tv', component: storyTv, name: '小视频' },
-      { path: 'mainStory/:num/:type', component: storyMain, name: '主线剧情' },
+      { path: 'story/form/tv', component: storyTv, name: '小视频' },*/
+      { path: 'mainStory/:num/:type/:actorid', component: storyMain, name: '主线剧情' },
       { path: 'mainstoryEdit', component: mainstoryEdit, name: '主线剧情编辑' },
       { path: 'table', component: storyTable, name: '剧情列表' },
       { path: 'tableall', component: storyTableall, name: '剧情列表详细' }

@@ -38,7 +38,7 @@
                 </el-tabs>
             </div>
             <el-form ref="storyForm" :model="storyForm" label-width="100px" style="margin-top:20px;padding-top:20px;">
-                <el-form-item label="场景类型:" prop="select">
+                <!--<el-form-item label="场景类型:" prop="select">
                     <el-select v-model="storyForm.select" placeholder="请选择活动区域" @change="selectScenes">
                         <el-option label="请选择" value="9"></el-option>
                         <el-option label="普通视频" value="1"></el-option>
@@ -50,7 +50,7 @@
                         <el-option label="小游戏" value="7"></el-option>
                         <el-option label="小视频" value="8"></el-option>
                     </el-select>
-                </el-form-item>
+                </el-form-item>-->
                 <el-form-item label="对象:" prop="actor" style="width:280px">
                     <multiselect v-model="storyForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
@@ -77,6 +77,19 @@
                         <el-form-item label="步:" prop="step" style="width:280px">
                             <el-input v-model="normalVideo.step"></el-input>
                         </el-form-item>
+                        <el-form-item label="场景类型:" prop="select">
+                            <el-select v-model="normalVideo.select" placeholder="请选择活动区域" @change="selectScenes">
+                                <el-option label="请选择" value="9"></el-option>
+                                <el-option label="普通视频" value="1"></el-option>
+                                <el-option label="交互视频" value="2"></el-option>
+                                <el-option label="电话" value="3"></el-option>
+                                <el-option label="文字聊天" value="4"></el-option>
+                                <el-option label="语音聊天" value="5"></el-option>
+                                <el-option label="图片聊天" value="6"></el-option>
+                                <el-option label="小游戏" value="7"></el-option>
+                                <el-option label="小视频" value="8"></el-option>
+                            </el-select>
+                        </el-form-item>
                         <el-form-item label="剧情标题:" prop="title" style="width:280px">
                             <el-input v-model="normalVideo.title"></el-input>
                         </el-form-item>
@@ -85,15 +98,26 @@
                                 <Upload v-model="normalVideo.video"></Upload>
                             </div>
                         </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" @click="dialogStory = true">新增剧情</el-button>
-                        </el-form-item>
                     </el-form>
                 </template>
+
                 <template v-if="eVideo">
                     <el-form ref="eachVideo" :model="eachVideo" label-width="100px">
                         <el-form-item label="步:" prop="step" style="width:280px">
                             <el-input v-model="eachVideo.step"></el-input>
+                        </el-form-item>
+                        <el-form-item label="场景类型:" prop="select">
+                            <el-select v-model="eachVideo.select" placeholder="请选择活动区域" @change="selectScenes">
+                                <el-option label="请选择" value="9"></el-option>
+                                <el-option label="普通视频" value="1"></el-option>
+                                <el-option label="交互视频" value="2"></el-option>
+                                <el-option label="电话" value="3"></el-option>
+                                <el-option label="文字聊天" value="4"></el-option>
+                                <el-option label="语音聊天" value="5"></el-option>
+                                <el-option label="图片聊天" value="6"></el-option>
+                                <el-option label="小游戏" value="7"></el-option>
+                                <el-option label="小视频" value="8"></el-option>
+                            </el-select>
                         </el-form-item>
                         <el-form-item label="剧情标题:" prop="title" style="width:280px">
                             <el-input v-model="eachVideo.title"></el-input>
@@ -124,8 +148,63 @@
                         </el-form-item>
                     </el-form>
                 </template>
+
+                <template v-if="tel">
+                    <el-form ref="phone" :model="phone" label-width="100px">
+                        <el-form-item label="步:" prop="step" style="width:280px">
+                            <el-input v-model="phone.step"></el-input>
+                        </el-form-item>
+                        <el-form-item label="场景类型:" prop="select">
+                            <el-select v-model="phone.select" placeholder="请选择活动区域" @change="selectScenes">
+                                <el-option label="请选择" value="9"></el-option>
+                                <el-option label="普通视频" value="1"></el-option>
+                                <el-option label="交互视频" value="2"></el-option>
+                                <el-option label="电话" value="3"></el-option>
+                                <el-option label="文字聊天" value="4"></el-option>
+                                <el-option label="语音聊天" value="5"></el-option>
+                                <el-option label="图片聊天" value="6"></el-option>
+                                <el-option label="小游戏" value="7"></el-option>
+                                <el-option label="小视频" value="8"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                            <el-input v-model="phone.title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="电话:" prop="speak">
+                            <div style="margin-bottom: 20px;">
+                                <Upload v-model="phone.speak"></Upload>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="交互文字:" prop="eachWord" style="width:280px">
+                            <el-input v-model="phone.eachWord"></el-input>
+                        </el-form-item>
+                        <el-form-item label="接听:" prop="answer" style="width:280px">
+                            <el-input v-model="phone.answer"></el-input>
+                        </el-form-item>
+                        <el-form-item label="取消:" prop="cancel" style="width:280px">
+                            <el-input v-model="phone.cancel"></el-input>
+                        </el-form-item>
+                    </el-form>
+                </template>
+
                 <template v-if="wTalk">
                     <el-form ref="wordTalk" :model="wordTalk" label-width="100px">
+                        <el-form-item label="步:" prop="step" style="width:280px">
+                            <el-input v-model="wordTalk.step"></el-input>
+                        </el-form-item>
+                        <el-form-item label="场景类型:" prop="select">
+                            <el-select v-model="wordTalk.select" placeholder="请选择活动区域" @change="selectScenes">
+                                <el-option label="请选择" value="9"></el-option>
+                                <el-option label="普通视频" value="1"></el-option>
+                                <el-option label="交互视频" value="2"></el-option>
+                                <el-option label="电话" value="3"></el-option>
+                                <el-option label="文字聊天" value="4"></el-option>
+                                <el-option label="语音聊天" value="5"></el-option>
+                                <el-option label="图片聊天" value="6"></el-option>
+                                <el-option label="小游戏" value="7"></el-option>
+                                <el-option label="小视频" value="8"></el-option>
+                            </el-select>
+                        </el-form-item>
                         <el-form-item label="剧情标题:" prop="title" style="width:280px">
                             <el-input v-model="wordTalk.title"></el-input>
                         </el-form-item>
@@ -149,35 +228,25 @@
                         </el-form-item>
                     </el-form>
                 </template>
-                <template v-if="pTalk">
-                    <el-form ref="picTalk" :model="picTalk" label-width="100px">
-                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
-                            <el-input v-model="picTalk.title"></el-input>
-                        </el-form-item>
-                        <el-form-item label="图片聊天:" prop="pic">
-                            <div style="margin-bottom: 20px;">
-                                <Upload v-model="picTalk.pic"></Upload>
-                            </div>
-                        </el-form-item>
-                        <el-form-item label="回复一:" prop="answer1" style="width:280px">
-                            <el-input v-model="picTalk.answer1"></el-input>
-                        </el-form-item>
-                        <el-form-item label="回复二:" prop="answer2" style="width:280px">
-                            <el-input v-model="picTalk.answer2"></el-input>
-                        </el-form-item>
-                        <el-form-item label="回复三:" prop="answer3" style="width:280px">
-                            <el-input v-model="picTalk.answer3"></el-input>
-                        </el-form-item>
-                        <el-form-item label="回复四:" prop="answer4" style="width:280px">
-                            <el-input v-model="picTalk.answer4"></el-input>
-                        </el-form-item>
-                        <el-form-item label="回复五:" prop="answer5" style="width:280px">
-                            <el-input v-model="picTalk.answer5"></el-input>
-                        </el-form-item>
-                    </el-form>
-                </template>
+
                 <template v-if="sTalk">
                     <el-form ref="soundTalk" :model="soundTalk" label-width="100px">
+                        <el-form-item label="步:" prop="step" style="width:280px">
+                            <el-input v-model="soundTalk.step"></el-input>
+                        </el-form-item>
+                        <el-form-item label="场景类型:" prop="select">
+                            <el-select v-model="soundTalk.select" placeholder="请选择活动区域" @change="selectScenes">
+                                <el-option label="请选择" value="9"></el-option>
+                                <el-option label="普通视频" value="1"></el-option>
+                                <el-option label="交互视频" value="2"></el-option>
+                                <el-option label="电话" value="3"></el-option>
+                                <el-option label="文字聊天" value="4"></el-option>
+                                <el-option label="语音聊天" value="5"></el-option>
+                                <el-option label="图片聊天" value="6"></el-option>
+                                <el-option label="小游戏" value="7"></el-option>
+                                <el-option label="小视频" value="8"></el-option>
+                            </el-select>
+                        </el-form-item>
                         <el-form-item label="剧情标题:" prop="title" style="width:280px">
                             <el-input v-model="soundTalk.title"></el-input>
                         </el-form-item>
@@ -203,29 +272,69 @@
                         </el-form-item>
                     </el-form>
                 </template>
-                <template v-if="tel">
-                    <el-form ref="phone" :model="phone" label-width="100px">
-                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
-                            <el-input v-model="phone.title"></el-input>
+
+                <template v-if="pTalk">
+                    <el-form ref="picTalk" :model="picTalk" label-width="100px">
+                        <el-form-item label="步:" prop="step" style="width:280px">
+                            <el-input v-model="picTalk.step"></el-input>
                         </el-form-item>
-                        <el-form-item label="电话:" prop="speak">
+                        <el-form-item label="场景类型:" prop="select">
+                            <el-select v-model="picTalk.select" placeholder="请选择活动区域" @change="selectScenes">
+                                <el-option label="请选择" value="9"></el-option>
+                                <el-option label="普通视频" value="1"></el-option>
+                                <el-option label="交互视频" value="2"></el-option>
+                                <el-option label="电话" value="3"></el-option>
+                                <el-option label="文字聊天" value="4"></el-option>
+                                <el-option label="语音聊天" value="5"></el-option>
+                                <el-option label="图片聊天" value="6"></el-option>
+                                <el-option label="小游戏" value="7"></el-option>
+                                <el-option label="小视频" value="8"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="剧情标题:" prop="title" style="width:280px">
+                            <el-input v-model="picTalk.title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="图片聊天:" prop="pic">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="phone.speak"></Upload>
+                                <Upload v-model="picTalk.pic"></Upload>
                             </div>
                         </el-form-item>
-                        <el-form-item label="交互文字:" prop="eachWord" style="width:280px">
-                            <el-input v-model="phone.eachWord"></el-input>
+                        <el-form-item label="回复一:" prop="answer1" style="width:280px">
+                            <el-input v-model="picTalk.answer1"></el-input>
                         </el-form-item>
-                        <el-form-item label="接听:" prop="answer" style="width:280px">
-                            <el-input v-model="phone.answer"></el-input>
+                        <el-form-item label="回复二:" prop="answer2" style="width:280px">
+                            <el-input v-model="picTalk.answer2"></el-input>
                         </el-form-item>
-                        <el-form-item label="取消:" prop="cancel" style="width:280px">
-                            <el-input v-model="phone.cancel"></el-input>
+                        <el-form-item label="回复三:" prop="answer3" style="width:280px">
+                            <el-input v-model="picTalk.answer3"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复四:" prop="answer4" style="width:280px">
+                            <el-input v-model="picTalk.answer4"></el-input>
+                        </el-form-item>
+                        <el-form-item label="回复五:" prop="answer5" style="width:280px">
+                            <el-input v-model="picTalk.answer5"></el-input>
                         </el-form-item>
                     </el-form>
                 </template>
+
                 <template v-if="game">
                     <el-form ref="games" :model="games" label-width="100px">
+                        <el-form-item label="步:" prop="step" style="width:280px">
+                            <el-input v-model="games.step"></el-input>
+                        </el-form-item>
+                        <el-form-item label="场景类型:" prop="select">
+                            <el-select v-model="games.select" placeholder="请选择活动区域" @change="selectScenes">
+                                <el-option label="请选择" value="9"></el-option>
+                                <el-option label="普通视频" value="1"></el-option>
+                                <el-option label="交互视频" value="2"></el-option>
+                                <el-option label="电话" value="3"></el-option>
+                                <el-option label="文字聊天" value="4"></el-option>
+                                <el-option label="语音聊天" value="5"></el-option>
+                                <el-option label="图片聊天" value="6"></el-option>
+                                <el-option label="小游戏" value="7"></el-option>
+                                <el-option label="小视频" value="8"></el-option>
+                            </el-select>
+                        </el-form-item>
                         <el-form-item label="剧情标题:" prop="title" style="width:280px">
                             <el-input v-model="games.title"></el-input>
                         </el-form-item>
@@ -238,8 +347,25 @@
                         </el-form-item>
                     </el-form>
                 </template>
+
                 <template v-if="sVideo">
                     <el-form ref="smallVideo" :model="smallVideo" label-width="100px">
+                        <el-form-item label="步:" prop="step" style="width:280px">
+                            <el-input v-model="smallVideo.step"></el-input>
+                        </el-form-item>
+                        <el-form-item label="场景类型:" prop="select">
+                            <el-select v-model="smallVideo.select" placeholder="请选择活动区域" @change="selectScenes">
+                                <el-option label="请选择" value="9"></el-option>
+                                <el-option label="普通视频" value="1"></el-option>
+                                <el-option label="交互视频" value="2"></el-option>
+                                <el-option label="电话" value="3"></el-option>
+                                <el-option label="文字聊天" value="4"></el-option>
+                                <el-option label="语音聊天" value="5"></el-option>
+                                <el-option label="图片聊天" value="6"></el-option>
+                                <el-option label="小游戏" value="7"></el-option>
+                                <el-option label="小视频" value="8"></el-option>
+                            </el-select>
+                        </el-form-item>
                         <el-form-item label="剧情标题:" prop="title" style="width:280px">
                             <el-input v-model="smallVideo.title"></el-input>
                         </el-form-item>
@@ -265,6 +391,10 @@
                         </el-form-item>
                     </el-form>
                 </template>
+
+                <el-form-item>
+                    <el-button type="primary" @click="dialogStory = true">新增剧情</el-button>
+                </el-form-item>
             </el-form>
             <el-dialog title="新增" :visible.sync="dialogClass" size="tiny">
                 <el-input v-model="addEvent" size="small" placeholder="请输入事件名称" autofocus style="width:200px;"></el-input>
@@ -275,11 +405,11 @@
             </el-dialog>
             <el-dialog title="新增" :visible.sync="dialogStory" size="small">
                 <!--<Story :id="storyId" v-on:listener="listenAdd"></Story>-->
-                <Story :id="storyId"></Story>
-                <span slot="footer" class="dialog-footer">
+                <Story :id="storyId" v-on:close="dialogClose"></Story>
+                <!--<span slot="footer" class="dialog-footer">
                     <el-button @click="dialogStory = false">取 消</el-button>
                     <el-button type="primary" @click="addStoryClick">确 定</el-button>
-                </span>
+                </span>-->
             </el-dialog>
         </div>
     </div>
@@ -328,11 +458,13 @@
                 },
                 normalVideo: {
                     step: '',
+                    select: '',
                     title: '',
                     video: ''
                 },
                 eachVideo: {
                     step: '',
+                    select: '',
                     title: '',
                     startVideo: '',
                     selectVideo1: '',
@@ -342,6 +474,8 @@
                     answer2: ''
                 },
                 wordTalk: {
+                    step: '',
+                    select: '',
                     title: '',
                     wordContent: '',
                     answer1: '',
@@ -351,6 +485,8 @@
                     answer5: ''
                 },
                 picTalk: {
+                    step: '',
+                    select: '',
                     title: '',
                     pic: '',
                     answer1: '',
@@ -360,6 +496,8 @@
                     answer5: ''
                 },
                 soundTalk: {
+                    step: '',
+                    select: '',
                     title: '',
                     sound: '',
                     answer1: '',
@@ -369,6 +507,8 @@
                     answer5: ''
                 },
                 phone: {
+                    step: '',
+                    select: '',
                     title: '',
                     speak: '',
                     eachWord: '',
@@ -376,10 +516,14 @@
                     cancel: ''
                 },
                 games: {
+                    step: '',
+                    select: '',
                     title: '',
                     region: ''
                 },
                 smallVideo: {
+                    step: '',
+                    select: '',
                     title: '',
                     video: '',
                     answer1: '',
@@ -404,7 +548,7 @@
                     desc: ''
                 },
                 formLabelWidth: '120px',
-                activeName:'',
+                activeName:1,
                 total: null,
                 list: []
             }
@@ -412,25 +556,28 @@
         created () {
             //alert(this.editableTabs2);
             //alert(this.$route.params.num)
-            if(this.$route.params && this.$route.params.num != ':num/:type'){
+            if(this.$route.params && this.$route.params.num != ':num/:type/:actorid'){
                 //let listQuery={};
                 //this.listQuery.id = this.$route.params.num;
                 //this.listQuery.day = this.storyForm.day;
                 //this.listQuery.plottype = this.storyForm.type;
                 //this.listQuery.name = this.storyForm.actor;
-                this.listQuery.actorid = this.$route.params.num;
+                this.listQuery.actorid = this.$route.params.actorid;
                 this.listQuery.plottype = this.$route.params.type;
                 this.listQuery.day = 1;
                 this.fetchData(this.listQuery);
             }
             this.listpageQuery.plottype = this.$route.params.type;
-            this.listpageQuery.actorid = this.$route.params.num;
+            this.listpageQuery.actorid = this.$route.params.actorid;
             this.getList();
+            this.fetchData(this.listQuery);
         },
         methods : {
-            /*listenAdd (data) {
-                alert(data);
-            },*/
+            dialogClose (data) {
+                this.dialogStory = false;
+                //this.dialogStory = data;
+                //alert(data);
+            },
             getList() {
                 //this.listLoading = true;
                 storyPage (this.listpageQuery).then(response => {
@@ -515,7 +662,7 @@
                     for(let i=0;i<response.data.content.length;i++){
                         if(response.data.content[i].msgtype == 1){
                             this.nVideo = true;
-                            this.storyForm.select = '普通视频';
+                            this.normalVideo.select = '普通视频';
                             this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
                             //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 this.normalVideo.step = response.data.content[i].step;
@@ -529,7 +676,7 @@
                         }
                         if(response.data.content[i].msgtype == 2){
                             this.eVideo = true;
-                            this.storyForm.select = '交互视频';
+                            this.eachVideo.select = '交互视频';
                             this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
                             //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 this.eachVideo.step = response.data.content[i].step;
@@ -544,9 +691,10 @@
                         }
                         if(response.data.content[i].msgtype == 3){
                             this.tel = true;
-                            this.storyForm.select = '电话';
+                            this.phone.select = '电话';
                             this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
                             //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.phone.step = response.data.content[i].step;
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.phone.title = response.data.content[i].title;
                                 this.phone.speak = response.data.content[i].msg;
@@ -557,9 +705,10 @@
                         }
                         if(response.data.content[i].msgtype == 4){
                             this.wTalk = true;
-                            this.storyForm.select = '文字聊天';
+                            this.wordTalk.select = '文字聊天';
                             this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
                             //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.wordTalk.step = response.data.content[i].step;
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.wordTalk.title = response.data.content[i].title;
                                 this.wordTalk.wordContent = response.data.content[i].msg;
@@ -572,9 +721,10 @@
                         }
                         if(response.data.content[i].msgtype == 5){
                             this.sTalk = true;
-                            this.storyForm.select = '语音聊天';
+                            this.soundTalk.select = '语音聊天';
                             this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
                             //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.soundTalk.step = response.data.content[i].step;
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.soundTalk.title = response.data.content[i].title;
                                 this.soundTalk.sound = response.data.content[i].msg;
@@ -587,9 +737,10 @@
                         }
                         if(response.data.content[i].msgtype == 6){
                             this.pTalk = true;
-                            this.storyForm.select = '图片聊天';
+                            this.picTalk.select = '图片聊天';
                             this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
                             //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.picTalk.step = response.data.content[i].step;
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.picTalk.title = response.data.content[i].title;
                                 this.picTalk.pic = response.data.content[i].msg;
@@ -602,18 +753,20 @@
                         }
                         if(response.data.content[i].msgtype == 7){
                             this.game = true;
-                            this.storyForm.select = '小游戏';
+                            this.games.select = '小游戏';
                             this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
                             //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.games.step = response.data.content[i].step;
                                 this.games.title = response.data.content[i].title;
                                 this.games.region = response.data.content[i].msg;
                             //}
                         }
                         if(response.data.content[i].msgtype == 8){
                             this.sVideo = true;
-                            this.storyForm.select = '小视频';
+                            this.smallVideo.select = '小视频';
                             this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
                             //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                            this.smallVideo.step = response.data.content[i].step;
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.smallVideo.title = response.data.content[i].title;
                                 this.smallVideo.video = response.data.content[i].msg;
@@ -638,8 +791,16 @@
             },
             selectDay (obj) {
                 this.listQuery.day = obj.name;
+                this.nVideo = false;
+                this.eVideo = false;
+                this.wTalk = false;
+                this.pTalk = false;
+                this.sTalk = false;
+                this.tel = false;
+                this.game = false;
+                this.sVideo = false;
                 this.fetchData(this.listQuery);
-                this.fetchData(this.listQuery);
+                //this.fetchData(this.listQuery);
             },
             selectScenes () {
                 if(this.storyForm.select==1){
@@ -658,6 +819,14 @@
                 } else {
                     this.eVideo = false;
                 }
+                if(this.storyForm.select==3){
+                    this.tel = true;
+                    //this.listQuery.day = this.storyForm.day;
+                    //this.listQuery.plottype = this.storyForm.type;
+                    //this.fetchData(this.listQuery);
+                } else {
+                    this.tel = false;
+                }
                 if(this.storyForm.select==4){
                     this.wTalk = true;
                     //this.listQuery.day = this.storyForm.day;
@@ -665,14 +834,6 @@
                     //this.fetchData(this.listQuery);
                 } else {
                     this.wTalk = false;
-                }
-                if(this.storyForm.select==6){
-                    this.pTalk = true;
-                    //this.listQuery.day = this.storyForm.day;
-                    //this.listQuery.plottype = this.storyForm.type;
-                    //this.fetchData(this.listQuery);
-                } else {
-                    this.pTalk = false;
                 }
                 if(this.storyForm.select==5){
                     this.sTalk = true;
@@ -682,13 +843,13 @@
                 } else {
                     this.sTalk = false;
                 }
-                if(this.storyForm.select==3){
-                    this.tel = true;
+                if(this.storyForm.select==6){
+                    this.pTalk = true;
                     //this.listQuery.day = this.storyForm.day;
                     //this.listQuery.plottype = this.storyForm.type;
                     //this.fetchData(this.listQuery);
                 } else {
-                    this.tel = false;
+                    this.pTalk = false;
                 }
                 if(this.storyForm.select==7){
                     this.game = true;

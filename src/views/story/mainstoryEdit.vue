@@ -221,7 +221,7 @@
                     <el-input type="textarea" v-model="form.desc"></el-input>
                 </el-form-item>-->
                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit">立即创建</el-button>
+                    <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
                     <el-button>取消</el-button>
                 </el-form-item>
             </el-form>
@@ -329,7 +329,7 @@
             //alert(this.editableTabs2);
         },
         methods : {
-            onSubmit () {
+            onSubmit (formName) {
                 let comment = {
                     actor : this.form.actor,
                     type : this.form.type,
@@ -350,7 +350,8 @@
                                     message: '新增成功',
                                     type: 'success'
                                 });
-                                this.postForm.status = 'published';
+                                //this.postForm.status = 'published';
+                                this.$refs[formName].resetFields();
                             }
                                 if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -373,7 +374,8 @@
                                     message: '新增成功',
                                     type: 'success'
                                 });
-                                this.postForm.status = 'published';
+                                //this.postForm.status = 'published';
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -396,7 +398,8 @@
                                     message: '新增成功',
                                     type: 'success'
                                 });
-                                this.postForm.status = 'published';
+                                //this.postForm.status = 'published';
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -419,7 +422,8 @@
                                     message: '新增成功',
                                     type: 'success'
                                 });
-                                this.postForm.status = 'published';
+                                //this.postForm.status = 'published';
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -442,7 +446,8 @@
                                     message: '新增成功',
                                     type: 'success'
                                 });
-                                this.postForm.status = 'published';
+                                //this.postForm.status = 'published';
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -463,7 +468,8 @@
                                     message: '新增成功',
                                     type: 'success'
                                 });
-                                this.postForm.status = 'published';
+                                //this.postForm.status = 'published';
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -481,7 +487,8 @@
                                     message: '新增成功',
                                     type: 'success'
                                 });
-                                this.postForm.status = 'published';
+                                //this.postForm.status = 'published';
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -504,7 +511,8 @@
                                     message: '新增成功',
                                     type: 'success'
                                 });
-                                this.postForm.status = 'published';
+                                //this.postForm.status = 'published';
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({

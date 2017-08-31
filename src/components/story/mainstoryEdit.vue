@@ -222,7 +222,7 @@
                 </el-form-item>-->
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">立即创建</el-button>
-                    <el-button>取消</el-button>
+                    <el-button v-on:click="sendValue">取消</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -248,7 +248,7 @@
         name: 'clothes',
         addEvent: '',
         components: { Tinymce, MDinput, Upload },
-        props: ['id'],
+        props: ['id',],
         data() {
             return {
                 nVideo: false,
@@ -330,6 +330,9 @@
             //alert(this.editableTabs2);
         },
         methods : {
+            sendValue () {
+                this.$emit("close","false");
+            },
             onSubmit () {
                 //alert(this.id)
                 //this.$emit("listenAdd","123");
@@ -355,6 +358,7 @@
                                     type: 'success'
                                 });
                                 //this.postForm.status = 'published';
+                                this.$emit("close","false");
                             }
                                 if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -378,6 +382,7 @@
                                     type: 'success'
                                 });
                                 //this.postForm.status = 'published';
+                                this.$emit("close","false");
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -401,6 +406,7 @@
                                     type: 'success'
                                 });
                                 //this.postForm.status = 'published';
+                                this.$emit("close","false");
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -424,6 +430,7 @@
                                     type: 'success'
                                 });
                                 //this.postForm.status = 'published';
+                                this.$emit("close","false");
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -447,6 +454,7 @@
                                     type: 'success'
                                 });
                                 //this.postForm.status = 'published';
+                                this.$emit("close","false");
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -468,6 +476,7 @@
                                     type: 'success'
                                 });
                                 //this.postForm.status = 'published';
+                                this.$emit("close","false");
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -486,6 +495,7 @@
                                     type: 'success'
                                 });
                                 //this.postForm.status = 'published';
+                                this.$emit("close","false");
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -509,6 +519,7 @@
                                     type: 'success'
                                 });
                                 //this.postForm.status = 'published';
+                                this.$emit("close","false");
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
