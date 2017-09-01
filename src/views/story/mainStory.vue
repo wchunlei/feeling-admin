@@ -400,7 +400,7 @@
                     <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
 
-                <el-form-item>
+                <el-form-item v-if="addBut">
                     <el-button type="primary" @click="dialogStory = true">新增剧情</el-button>
                 </el-form-item>
             </el-form>
@@ -455,6 +455,7 @@
                 tel: false,
                 game: false,
                 sVideo: false,
+                addBut: false,
                 storyForm: {
                     select: '9',
                     actor: '',
@@ -570,10 +571,15 @@
                 //this.listQuery.day = this.storyForm.day;
                 //this.listQuery.plottype = this.storyForm.type;
                 //this.listQuery.name = this.storyForm.actor;
+                this.addBut = true;
                 this.listQuery.actorid = this.$route.params.actorid;
                 this.listQuery.plottype = this.$route.params.type;
                 this.listQuery.day = 1;
                 this.fetchData(this.listQuery);
+            }
+            if(this.$route.params.num == ':num'){
+                this.addBut = false;
+
             }
             this.listpageQuery.plottype = this.$route.params.type;
             this.listpageQuery.actorid = this.$route.params.actorid;
