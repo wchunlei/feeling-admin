@@ -103,12 +103,12 @@
         </el-row>
 
         <el-form-item style="margin-bottom: 40px;" label-width="45px" label="性格:">
-          <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="postForm.nature">
+          <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="postForm.natures">
           </el-input>
           <span class="word-counter" v-show="natureLength">{{natureLength}}字</span>
         </el-form-item>
 
-        <el-form :model="photosList" :rules="rules" ref="photosList">
+        <el-form v-if="showPhoto" :model="photosList" :rules="rules" ref="photosList">
           <el-form-item label-width="50px" label="首图:" class="postInfo-container-item" prop="url">
             <div style="margin-bottom: 20px;">
               <Upload v-model="photosList.url"></Upload>
@@ -127,11 +127,11 @@
           </el-form-item>-->
 
         </el-form>
-        <el-form-item label-width="50px" label="">
+        <el-form-item v-if="showPhoto" label-width="50px" label="">
           <el-button type="primary" @click="addPhotos('photosList')">新增写真集</el-button>
         </el-form-item>
 
-        <template v-for="photo in photos">
+        <template v-if="showPhoto" v-for="photo in photos">
           <div style="display:inline-block">
             <el-form :model="photos" :rules="rules" ref="photos">
               <el-form-item label-width="60px" label="写真集:" class="postInfo-container-item" prop="url">
@@ -164,7 +164,7 @@
                 <span>确定删除?</span>
                 <span slot="footer" class="dialog-footer">
                   <el-button @click="dialogPhoto = false">取 消</el-button>
-                  <el-button type="primary" @click="sure(photo.id)">确 定</el-button>
+                  <el-button type="primary" @click="surePhoto(photo.id)">确 定</el-button>
                 </span>
               </el-dialog>
 
@@ -204,7 +204,7 @@
           </div>
         </template>
 
-        <el-form :model="addmvs" :rules="rules" ref="addmvs">
+        <el-form v-if="showPhoto" :model="addmvs" :rules="rules" ref="addmvs">
           <el-form-item label-width="68px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
             <div style="margin: 20px 0;">
               <Upload v-model="addmvs.thumbnail"></Upload>
@@ -219,12 +219,12 @@
             <el-input placeholder="" style='min-width:150px;' v-model="addmvs.mvname"></el-input>
           </el-form-item>
 
-          <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="mvCoin" style="width:300px">
+          <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
             <el-input placeholder="" style='width:150px;display:inline-block;' v-model="addmvs.amount"></el-input>
             <span>（0金币不锁）</span>
           </el-form-item>
           <el-form-item label-width="50px" label="">
-            <el-button type="primary" @click="addMv">新增视频</el-button>
+            <el-button type="primary" @click="addMv('addmvs')">新增视频</el-button>
           </el-form-item>
         </el-form>
 
@@ -244,14 +244,22 @@
                 </template>
               </el-form-item>
 
-              <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="mvname" style="width:300px">
-                <el-input placeholder="" style='min-width:150px;' v-model="mv.mvname"></el-input>
+              <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name" style="width:300px">
+                <el-input placeholder="" style='min-width:150px;' v-model="mv.name"></el-input>
               </el-form-item>
 
               <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
                 <el-input placeholder="" style='width:150px;display:inline-block;' v-model="mv.amount"></el-input>
                 <span>（0金币不锁）</span>
               </el-form-item>
+
+              <el-dialog title="提示" :visible.sync="dialogMv" size="tiny" >
+                <span>确定删除?</span>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="dialogMv = false">取 消</el-button>
+                  <el-button type="primary" @click="sureMv(mv.id)">确 定</el-button>
+                </span>
+              </el-dialog>
 
               <el-form-item label-width="50px" label="">
                 <el-button type="primary" @click="delMv(mv.id)">删除视频</el-button>
@@ -327,6 +335,7 @@
           age: '',
           job: '',
           nature: '',
+          natures: ' ',
           headurl: '', // 文章图片
           id: '',
           status: 'draft',
@@ -351,10 +360,12 @@
           thumbnail: '',
           url: '',
           mvurl: '',
-          mvname: '',
+          name: '',
           amount: ''
         },
+        showPhoto: true,
         dialogPhoto: false,
+        dialogMv: false,
         flagPhoto: false,
         dialogVisible: false,
         fetchSuccess: true,
@@ -390,6 +401,8 @@
         this.getDetail(this.listQuery);
         this.photoData.id = parseInt(this.$route.params.actor);
         this.mvData.id = parseInt(this.$route.params.actor);
+      } else {
+        this.showPhoto = false;
       }
       if (this.isEdit) {
         this.fetchData();
@@ -398,9 +411,14 @@
     methods: {
       getDetail () {
         actorListAll (this.listQuery).then(response => {
-            this.postForm = response.data.content;
-            this.photos = response.data.content.photo;
-            this.mvs = response.data.content.mv;
+          this.postForm = response.data.content;
+          this.photos = response.data.content.photo;
+          this.mvs = response.data.content.mv;
+          for(let i=0;i<this.postForm.nature.length;i++){
+            this.postForm.nature[i].name = response.data.content.nature[i].name;
+            this.postForm.natures = this.postForm.natures + this.postForm.nature[i].name + ',';
+          }
+          this.postForm.natures = this.postForm.natures.replace("undefined",'');
             /*for(let i=0;i<response.data.content.photo.length;i++){
               this.photos.amount =this.photos[i].amount;
               this.photos.url = this.photos[i].url;
@@ -489,7 +507,7 @@
           console.log(err);
         });
       },
-      sure (id) {
+      surePhoto (id) {
         this.dialogPhoto = false;
         this.flagPhoto = true;
         let photoid={
@@ -522,7 +540,7 @@
           });
         }*/
       },
-      addMv () {
+      addMv (addmvs) {
         let mvlist = {
           id: parseInt(this.$route.params.actor),
           mvname: this.addmvs.mvname,
@@ -532,22 +550,46 @@
         };
         addMvs (mvlist).then(response => {
             //this.postForm = response.data;
+          if(response.data.code==200){
+            this.$message({
+              message: '新增成功',
+              type: 'success'
+            });
+            this.$refs[addmvs].resetFields();
+          }
+          this.getDetail(this.listQuery);
           }).catch(err => {
             this.fetchSuccess = false;
           console.log(err);
         });
       },
-      delMv (id) {
+      sureMv (id) {
+        this.dialogMv = false;
+        this.flagMv = true;
         let mvid={
           id: id
         };
         delMv (mvid).then(response => {
           //this.postForm = response.data;
+          this.getDetail(this.listQuery);
           console.log()
         }).catch(err => {
-          this.fetchSuccess = false;
-        console.log(err);
-      });
+            this.fetchSuccess = false;
+          console.log(err);
+        });
+      },
+      delMv (id) {
+        this.dialogMv = true;
+        /*let mvid={
+          id: id
+        };
+        delMv (mvid).then(response => {
+          //this.postForm = response.data;
+          console.log()
+          }).catch(err => {
+            this.fetchSuccess = false;
+          console.log(err);
+        });*/
       },
       thumbnaillist (id) {
         this.dialogVisible = true;

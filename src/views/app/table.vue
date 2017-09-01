@@ -33,22 +33,16 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="渠道名称" prop="name">
+      <el-table-column min-width="350px" align="center" label="渠道名称" prop="name">
       </el-table-column>
 
-      <el-table-column min-width="300px" label="会员金额" prop="amount">
+      <el-table-column width="350px" align="center" label="新手剧情" prop="storynew">
       </el-table-column>
 
-      <el-table-column width="110px" align="center" label="新手剧情" prop="storynew">
+      <el-table-column width="200px" align="center" label="会员金额" prop="amount">
       </el-table-column>
 
-      <el-table-column class-name="status-col" label="状态" width="90">
-        <template scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="操作" width="150">
+      <el-table-column align="center" label="操作" width="350">
         <template scope="scope">
           <el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
           </el-button>
@@ -200,7 +194,18 @@
         this.listLoading = true;
         applist (this.listQuery).then(response => {
           this.list = response.data.content;
-          this.total = response.data.total;
+        for(let j=0;j<response.data.content.length;j++){
+          if(response.data.content[j].storynew == 1){
+            this.list[j].storynew = "保守版佳佳剧情";
+          }
+          if(response.data.content[j].storynew == 2){
+            this.list[j].storynew = "情色版佳佳剧情";
+          }
+          if(response.data.content[j].storynew == 3){
+            this.list[j].storynew = "保守版斯诺剧情";
+          }
+        }
+          //this.total = response.data.total;
           this.listLoading = false;
         })
       },

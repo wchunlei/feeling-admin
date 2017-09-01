@@ -1,14 +1,14 @@
 <template>
     <div id="main-content" class="app-container calendar-list-container" style="height:840px">
-        <div id="operate_wrapper" class="filter-container">
+        <!--<div id="operate_wrapper" class="filter-container">
             <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="listQuery.name">
             </el-input>
 
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-            <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
+            &lt;!&ndash;<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>&ndash;&gt;
             <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
             <el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>
-        </div>
+        </div>-->
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
@@ -27,10 +27,10 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="110px" v-if='showAuditor' align="center" label="审核人" prop="auditor">
-            </el-table-column>
+            <!--<el-table-column width="110px" v-if='showAuditor' align="center" label="审核人" prop="auditor">
+            </el-table-column>-->
 
-            <el-table-column width="220px" label="服装名称" prop="clothName">
+            <!--<el-table-column width="220px" label="服装名称" prop="clothName">
             </el-table-column>
 
             <el-table-column width="220px" label="最低温度" prop="minTemperature">
@@ -46,12 +46,15 @@
             </el-table-column>
 
             <el-table-column width="220px" label="服装价格" prop="price">
-            </el-table-column>
+            </el-table-column>-->
 
             <!--<el-table-column width="400px" label="内容" prop="textarea">
             </el-table-column>-->
 
             <el-table-column min-width="180px" label="修改时间" prop="modify_time">
+            </el-table-column>
+
+            <el-table-column width="400px" label="状态" prop="status">
             </el-table-column>
 
             <el-table-column align="center" label="操作" width="250px" fixed="right">

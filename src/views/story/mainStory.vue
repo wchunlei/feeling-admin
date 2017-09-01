@@ -14,7 +14,7 @@
                             style="margin-bottom:20px;">
                     </el-pagination>
                 </div>
-                <el-button type="primary" size="large" @click="addTab(editableTabsValue2)" style="margin:10px 0">新增天数</el-button>
+                <!--<el-button type="primary" size="large" @click="addTab(editableTabsValue2)" style="margin:10px 0">新增天数</el-button>-->
                 <el-tabs v-model="activeName" type="card" @tab-remove="removeTab" @tab-click="selectDay">
                     <!--<el-tab-pane label="第一天" name="all">
                         <el-button type="primary" size="large" @click="dialogFormVisible=true" style="margin:10px 0">新增事件</el-button>
@@ -99,6 +99,7 @@
                             </div>
                         </el-form-item>
                     </el-form>
+                    <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
 
                 <template v-if="eVideo">
@@ -147,6 +148,7 @@
                             <el-input v-model="eachVideo.answer2"></el-input>
                         </el-form-item>
                     </el-form>
+                    <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
 
                 <template v-if="tel">
@@ -185,6 +187,7 @@
                             <el-input v-model="phone.cancel"></el-input>
                         </el-form-item>
                     </el-form>
+                    <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
 
                 <template v-if="wTalk">
@@ -227,6 +230,7 @@
                             <el-input v-model="wordTalk.answer5"></el-input>
                         </el-form-item>
                     </el-form>
+                    <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
 
                 <template v-if="sTalk">
@@ -271,6 +275,7 @@
                             <el-input v-model="soundTalk.answer5"></el-input>
                         </el-form-item>
                     </el-form>
+                    <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
 
                 <template v-if="pTalk">
@@ -315,6 +320,7 @@
                             <el-input v-model="picTalk.answer5"></el-input>
                         </el-form-item>
                     </el-form>
+                    <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
 
                 <template v-if="game">
@@ -346,6 +352,7 @@
                             </el-select>
                         </el-form-item>
                     </el-form>
+                    <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
 
                 <template v-if="sVideo">
@@ -390,6 +397,7 @@
                             <el-input v-model="smallVideo.answer5"></el-input>
                         </el-form-item>
                     </el-form>
+                    <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
 
                 <el-form-item>
