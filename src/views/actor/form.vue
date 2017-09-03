@@ -135,7 +135,7 @@
           <div style="display:inline-block">
             <el-form :model="photos" :rules="rules" ref="photos">
               <el-form-item label-width="60px" label="写真集:" class="postInfo-container-item" prop="url">
-                <div style="margin-bottom: 0px;" @click="thumbnaillist(photo.id)">
+                <div style="margin-bottom: 0px;cursor:pointer;" @click="thumbnaillist(photo.id)">
                   <img :src=photo.url style="width:300px;height:300px" alt="图片不存在"></img>
                   <!--<Upload  v-model="photos.url" @click="dialogVisible = true"></Upload>-->
                 </div>
@@ -157,7 +157,7 @@
               </el-form-item>
 
               <el-form-item label-width="50px" label="数量:" class="postInfo-container-item" prop="photoNum" style="width:300px">
-                <el-input placeholder="" style='min-width:150px;' v-model="photos.photoNum"></el-input>
+                <el-input placeholder="" style='min-width:150px;' v-model="photo.photoNum"></el-input>
               </el-form-item>
 
               <el-dialog title="提示" :visible.sync="dialogPhoto" size="tiny" >
@@ -203,6 +203,8 @@
             </el-form>
           </div>
         </template>
+
+        <hr v-if="showPhoto" width="100%" color="#999" style="margin-bottom:40px" />
 
         <el-form v-if="showPhoto" :model="addmvs" :rules="rules" ref="addmvs">
           <el-form-item label-width="68px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
@@ -599,7 +601,12 @@
         };
         thumbnaillist (list).then(response => {
           this.upPhotos = response.data.content;
-          this.photos.photoNum = response.data.content.length;
+          //this.photos.photoNum = response.data.content.length;
+          for(let i=0;i<this.photos.length;i++){
+            if(this.photos[i].id == id){
+              this.photos[i].photoNum = response.data.content.length;
+            }
+          }
           console.log();
         }).catch(err => {
             this.fetchSuccess = false;
