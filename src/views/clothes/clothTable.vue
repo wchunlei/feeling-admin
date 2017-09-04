@@ -113,7 +113,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
     import { clothList } from 'api/cloth';
     import { clothdelete } from 'api/cloth';
     import { parseTime } from 'utils';

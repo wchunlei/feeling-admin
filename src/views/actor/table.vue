@@ -4,8 +4,13 @@
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="listQuery.title">
       </el-input>
 
-      <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" placeholder="性别">
+      <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.gender" placeholder="性别">
         <el-option v-for="item in  sexOptions" :key="item.label" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+
+      <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.status" placeholder="状态">
+        <el-option v-for="item in  statusOptions" :key="item.label" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
 
@@ -148,11 +153,12 @@
   </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
   import { actorList, fetchPv } from 'api/actor';
   import { parseTime } from 'utils';
   import Upload from 'components/Upload/singleImage3';
   import { actorUpdate } from 'api/actor';
+  import { actorstatus } from 'api/actor';
 
   const calendarTypeOptions = [
       { key: 'CN', display_name: '中国' },
@@ -180,8 +186,9 @@
           limit: 20,
           importance: undefined,
           title: undefined,
-          type: undefined,
-          sort: '+id'
+          gender: undefined,
+          status: undefined,
+          //sort: '+id'
         },
         temp: {
           id: undefined,
@@ -202,6 +209,19 @@
         }, {
           value: '2',
           label: '女'
+        }],
+        statusOptions: [{
+          value: 'published',
+          label: '发布'
+        }, {
+          value: 'draft',
+          label: '草稿'
+        }, {
+          value: 'deleted',
+          label: '删除'
+        }, {
+          value: '',
+          label: '全部'
         }],
         dialogFormVisible: false,
         dialogStatus: '',
@@ -239,6 +259,7 @@
           this.total = response.data.total;
           this.listLoading = false;
         })
+        this.listLoading = false;
       },
       handleFilter() {
         this.getList();
@@ -261,11 +282,20 @@
         this.listQuery.end = parseInt((+time[1] + 3600 * 1000 * 24) / 1000);
       },
       handleModifyStatus(row, status) {
+        this.listLoading = true;
+        let statusData = {
+          id : row.id,
+          status : status
+        }
+        actorstatus(statusData).then(response => {
+          console.log(response)
+        })
         this.$message({
           message: '操作成功',
           type: 'success'
         });
         row.status = status;
+        this.listLoading = false;
       },
       handleCreate() {
         this.resetTemp();

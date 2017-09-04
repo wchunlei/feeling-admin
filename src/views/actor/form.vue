@@ -108,7 +108,7 @@
           <span class="word-counter" v-show="natureLength">{{natureLength}}字</span>
         </el-form-item>
 
-        <el-form v-if="showPhoto" :model="photosList" :rules="rules" ref="photosList">
+        <el-form v-if="showPhoto" :model="photosList" :rules="addPhotosRules" ref="photosList">
           <el-form-item label-width="50px" label="首图:" class="postInfo-container-item" prop="url">
             <div style="margin-bottom: 20px;">
               <Upload v-model="photosList.url"></Upload>
@@ -174,7 +174,7 @@
 
               <el-dialog title="photos" :visible.sync="dialogVisible">
 
-                    <el-form :model="upPhotos" :rules="rules" ref="upPhotos">
+                    <el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
 
                       <el-form-item label="新增照片:" label-width="90px" prop="photourl">
                         <div style="margin-bottom: 20px;">
@@ -206,7 +206,7 @@
 
         <hr v-if="showPhoto" width="100%" color="#999" style="margin-bottom:40px" />
 
-        <el-form v-if="showPhoto" :model="addmvs" :rules="rules" ref="addmvs">
+        <el-form v-if="showPhoto" :model="addmvs" :rules="addMvRules" ref="addmvs">
           <el-form-item label-width="68px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
             <div style="margin: 20px 0;">
               <Upload v-model="addmvs.thumbnail"></Upload>
@@ -277,7 +277,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
   import Tinymce from 'components/Tinymce';
   import Upload from 'components/Upload/singleImage3';
   import MDinput from 'components/MDinput';
@@ -380,11 +380,19 @@
           value: '2',
           label: '女'
         }],
-        rules: {
-          //headurl: [{ validator: validateRequire }],
-          //style: [{ validator: validateRequire }],
-          //name: [{ validator: validateRequire }],
-          //headurl: [{ validator: validateSourceUri, trigger: 'blur' }]
+        addPhotosRules: {
+          url: [{ validator: validateRequire }],
+          amount: [{ validator: validateRequire }],
+          name: [{ validator: validateRequire }]
+        },
+        addMvRules: {
+          thumbnail: [{ validator: validateRequire }],
+          mvurl: [{ validator: validateRequire }],
+          amount: [{ validator: validateRequire }],
+          mvname: [{ validator: validateRequire }]
+        },
+        picListRules: {
+          photourl: [{ validator: validateRequire }]
         }
       }
     },
@@ -448,7 +456,6 @@
         this.$refs.postForm.validate(valid => {
           if (valid) {
             this.loading = true;
-
             actorUpdate(actorinfo).then(response => {
               if (!response.data.items) return;
               console.log(response)
@@ -493,20 +500,27 @@
         this.photoData.amount = parseInt(this.photosList.amount);
         this.photoData.url = this.photosList.url;
         this.photoData.name = this.photosList.name;
-        addPhotos (this.photoData).then(response => {
-            //this.postForm = response.data;
-            this.photoid = response.data.photoid;
-            if(response.data.code==200){
-              this.$message({
-                message: '新增成功',
-                type: 'success'
-              });
-              this.$refs[photosList].resetFields();
-            }
-            this.getDetail(this.listQuery);
-        }).catch(err => {
-            this.fetchSuccess = false;
-          console.log(err);
+        this.$refs.photosList.validate(valid => {
+          if (valid) {
+            addPhotos(this.photoData).then(response => {
+              //this.postForm = response.data;
+              this.photoid = response.data.photoid;
+              if (response.data.code == 200) {
+                this.$message({
+                  message: '新增成功',
+                  type: 'success'
+                });
+                this.$refs[photosList].resetFields();
+              }
+              this.getDetail(this.listQuery);
+            }).catch(err => {
+              this.fetchSuccess = false;
+              console.log(err);
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
         });
       },
       surePhoto (id) {
@@ -550,19 +564,26 @@
           mvpicture: this.addmvs.thumbnail,
           amount: parseInt(this.addmvs.amount)
         };
-        addMvs (mvlist).then(response => {
-            //this.postForm = response.data;
-          if(response.data.code==200){
-            this.$message({
-              message: '新增成功',
-              type: 'success'
+        this.$refs.addmvs.validate(valid => {
+          if (valid) {
+            addMvs (mvlist).then(response => {
+                //this.postForm = response.data;
+              if(response.data.code==200){
+                this.$message({
+                  message: '新增成功',
+                  type: 'success'
+                });
+                this.$refs[addmvs].resetFields();
+              }
+              this.getDetail(this.listQuery);
+              }).catch(err => {
+                this.fetchSuccess = false;
+              console.log(err);
             });
-            this.$refs[addmvs].resetFields();
+          } else {
+            console.log('error submit!!');
+            return false;
           }
-          this.getDetail(this.listQuery);
-          }).catch(err => {
-            this.fetchSuccess = false;
-          console.log(err);
         });
       },
       sureMv (id) {
@@ -620,12 +641,27 @@
           photourl: this.upPhotos.photourl
         };
         //photoList.photourl = this.upPhotos.photourl;
-        addPhoto (photoList).then(response => {
+        //this.$refs.upPhotos.validate(valid => {
+          //if (valid) {
+
+          /*} else {
+            console.log('error submit!!');
+            return false;
+          }
+        });*/
+        if (photoList.photourl) {
+          addPhoto (photoList).then(response => {
             console.log()
-        }).catch(err => {
+          }).catch(err => {
             this.fetchSuccess = false;
-          console.log(err);
-        });
+            console.log(err);
+          });
+        } else {
+          this.$message({
+            message: '上传失败',
+            type: 'error'
+          });
+        }
         this.dialogVisible = false;
       },
       getRemoteUserList(query) {

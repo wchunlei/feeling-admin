@@ -83,7 +83,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
     import { actorList, fetchPv } from 'api/actor';
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';

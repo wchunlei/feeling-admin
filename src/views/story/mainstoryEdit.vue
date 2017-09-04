@@ -1,10 +1,10 @@
 <template>
     <div class="createPost-container">
         <div class="cloth_center" style="margin-left:20px">
-            <el-form ref="form" :model="form" label-width="80px">
+            <el-form ref="form" :model="form" label-width="80px" :rules="formRules">
                 <el-form-item label="场景类型:" prop="select">
                     <el-select v-model="form.select" placeholder="请选择活动区域" @change="selectScenes">
-                        <el-option label="请选择" value="9"></el-option>
+                        <el-option label="请选择" value=""></el-option>
                         <el-option label="普通视频" value="1"></el-option>
                         <el-option label="交互视频" value="2"></el-option>
                         <el-option label="电话" value="3"></el-option>
@@ -16,7 +16,7 @@
                     </el-select>
                 </el-form-item>
                 <template v-if="nVideo">
-                    <el-form ref="normalVideo" :model="normalVideo" label-width="80px">
+                    <el-form ref="normalVideo" :model="normalVideo" label-width="80px" :rules="normalVideoRules">
                         <el-form-item label="普通视频:" prop="video">
                             <div style="margin-bottom: 20px;">
                                 <Upload v-model="normalVideo.video"></Upload>
@@ -25,7 +25,7 @@
                     </el-form>
                 </template>
                 <template v-if="eVideo">
-                    <el-form ref="eachVideo" :model="eachVideo" label-width="80px">
+                    <el-form ref="eachVideo" :model="eachVideo" label-width="80px" :rules="eachVideoRules">
                         <el-form-item label="开始视频:" prop="startVideo">
                             <div style="margin-bottom: 20px;">
                                 <Upload v-model="eachVideo.startVideo"></Upload>
@@ -222,14 +222,14 @@
                 </el-form-item>-->
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
-                    <el-button>取消</el-button>
+                    <!--<el-button>取消</el-button>-->
                 </el-form-item>
             </el-form>
         </div>
     </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce'
     import Upload from 'components/Upload/singleImage3'
     import MDinput from 'components/MDinput';
@@ -249,6 +249,17 @@
         addEvent: '',
         components: { Tinymce, MDinput, Upload },
         data() {
+            const validateRequire = (rule, value, callback) => {
+                if (value === '') {
+                    this.$message({
+                        message: rule.field + '为必传项',
+                        type: 'error'
+                    });
+                    callback(null)
+                } else {
+                    callback()
+                }
+            };
             return {
                 nVideo: false,
                 eVideo: false,
@@ -260,7 +271,7 @@
                 sVideo: false,
                 userLIstOptions: [],
                 form: {
-                    select: '9',
+                    select: '',
                     actor: '',
                     type: '',
                     title: '',
@@ -323,6 +334,25 @@
                     answer4: '',
                     answer5: ''
                 },
+                formRules: {
+                    select: [{ validator: validateRequire }],
+                    actor: [{ validator: validateRequire }],
+                    type: [{ validator: validateRequire, trigger: 'change' }],
+                    title: [{ validator: validateRequire }],
+                    day: [{ validator: validateRequire }],
+                    step: [{ validator: validateRequire }]
+                },
+                /*normalVideoRules: {
+                    video: [{ validator: validateRequire }]
+                },
+                eachVideoRules: {
+                    startVideo: [{ validator: validateRequire }],
+                    selectVideo1: [{ validator: validateRequire }],
+                    selectVideo2: [{ validator: validateRequire }],
+                    eachWord: [{ validator: validateRequire }],
+                    answer1: [{ validator: validateRequire }],
+                    answer2: [{ validator: validateRequire }]
+                },*/
             }
         },
         created () {

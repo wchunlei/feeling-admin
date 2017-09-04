@@ -54,7 +54,7 @@
 
         <div v-show="!listLoading" id="pagination" class="pagination-container">
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
-                           :page-sizes="[10,20,30,40]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+            :page-sizes="[10,20,30,40]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>
 
@@ -95,7 +95,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
     import { diaryList } from 'api/diary';
     import { diarydelete } from 'api/diary';
     import { parseTime } from 'utils';

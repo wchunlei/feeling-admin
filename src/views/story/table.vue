@@ -100,7 +100,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
   import { storyList, fetchPv } from 'api/story';
   import { parseTime } from 'utils';
   import { storyUpdate } from 'api/story';

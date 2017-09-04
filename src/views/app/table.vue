@@ -115,7 +115,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
   import { fetchList, fetchPv } from 'api/article_table';
   import { parseTime } from 'utils';
   import { applist } from 'api/app';

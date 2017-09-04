@@ -9,6 +9,15 @@ export function actorUpdate(actorinfo) {
   });
 }
 
+export function actorstatus(actorinfo) {
+  const data = actorinfo;
+  return fetch({
+    url: '?act=actorstatus',
+    method: 'post',
+    data
+  });
+}
+
 export function actorList(query) {
   return fetch({
     url: '?act=actorlist',

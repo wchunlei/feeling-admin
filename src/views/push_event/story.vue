@@ -2,7 +2,7 @@
     <div class="createPost-container">
         <div class="cloth_center">
             <el-form ref="actorValue" :model="actorValue" label-width="100px" style="margin-top:20px;padding-top:20px;">
-                <el-form-item label="选择剧情:" prop="day">
+                <el-form-item label="选择剧情:" prop="select">
                     <!--<el-input v-model="form.day" size="small" style="width: 100px;"></el-input>-->
                     <el-select v-model="actorValue.select" placeholder="请选择">
                         <el-option
@@ -28,15 +28,15 @@
                     <el-pagination
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
-                        :current-page="currentPage"
-                        :page-sizes="[1, 2, 3, 4]"
-                        :page-size="2"
-                        layout="total, sizes, prev, pager, next, jumper"
+                        :current-page="listQuery.page"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="listQuery.limit"
+                        layout="total, sizes"
                         :total="total"
                         style="margin-bottom:20px;">
                     </el-pagination>
                 </div>
-                <el-button type="primary" size="large" @click="addTab(editableTabsValue2)" style="margin:10px 0">新增天数</el-button>
+                <!--<el-button type="primary" size="large" @click="addTab(editableTabsValue2)" style="margin:10px 0">新增天数</el-button>-->
                 <!--<el-tabs v-model="activeName" type="card" closable @tab-remove="removeTab" @tab-click="storyShow">
                     <el-tab-pane v-for="(item, index) in editableTabs2"  :key="item.name" :label="item.title" :name="item.title">
                         {{item.content}}
@@ -47,7 +47,7 @@
                             v-for="(item, index) in editableDay"
                             :key="item.name"
                             :label="item.title"
-                            :name="item.title">
+                            :name="item.name">
                         {{item.content}}
                     </el-tab-pane>
                 </el-tabs>
@@ -112,18 +112,18 @@
                     <el-button type="primary" @click="addStory">确 定</el-button>
                 </div>
             </el-dialog>
-            <el-dialog title="新增" :visible.sync="dialogClass" size="tiny">
+            <!--<el-dialog title="新增" :visible.sync="dialogClass" size="tiny">
                 <el-input v-model="addEvent" size="small" placeholder="请输入天数" autofocus style="width:200px;"></el-input>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogClass = false">取 消</el-button>
                     <el-button type="primary" @click="addClick">确 定</el-button>
                 </span>
-            </el-dialog>
+            </el-dialog>-->
         </div>
     </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce'
     import Upload from 'components/Upload/singleImage3'
     import MDinput from 'components/MDinput';
@@ -139,7 +139,7 @@
         components: { Tinymce, MDinput, Upload },
         data() {
             return {
-                tableDay: '',
+                tableDay: 1,
                 editableDay: [],
                 tabIndex: 1,
                 listQuery: {
@@ -148,13 +148,13 @@
                 },
                 listinfo: {},
                 dialogClass:false,
-                currentPage: 1,
+                //currentPage: 1,
                 actorOptions: [{
                     value: 1,
-                    label: '佳佳'
+                    label: '剧情1'
                 }, {
                     value: 2,
-                    label: '花花'
+                    label: '剧情2'
                 }, ],
                 actorValue: {
                     select: 2
@@ -227,12 +227,21 @@
             getList() {
                 //this.listLoading = true;
                 storypageList (this.listQuery).then(response => {
-                    for(let i=0;i<response.data.content.data.length;i++){
-                        this.editableDay.push({
-                            title: response.data.content.data[i].day,
-                            name: i+1,
-                            content: ''
-                        });
+                    let objTemp = {};
+                    //let arr = [];
+                    if (this.editableDay) {
+                        this.editableDay = [];
+                        for (let i = 0; i < response.data.content.data.length; i++) {
+                            if (!objTemp[response.data.content.data[i].day]){
+                                //arr.push(response.data.content.data[i].day)
+                                this.editableDay.push({
+                                    title: "第" + response.data.content.data[i].day + "天",
+                                    name: response.data.content.data[i].day,
+                                    content: ''
+                                });
+                                objTemp[response.data.content.data[i].day] = "yes";
+                            }
+                        }
                     }
                 this.listLoading = false;
             })
@@ -244,16 +253,16 @@
                 this.getList();
             },
             handleSizeChange(val) {
-                if(this.editableDay){
+                /*if(this.editableDay){
                     this.editableDay=null;
-                }
+                }*/
                 this.listQuery.limit = parseInt(val);
                 this.getList();
             },
             handleCurrentChange(val) {
-                if(this.editableDay){
+                /*if(this.editableDay){
                     this.editableDay=null;
-                }
+                }*/
                 this.listQuery.page = parseInt(val);
                 this.getList();
             },
@@ -264,7 +273,7 @@
                     this.listLoading = false;
                 })
             },*/
-            addClick () {
+            /*addClick () {
                 if(this.addEvent){
                     this.dialogClass=false;
                     this.$message({
@@ -283,7 +292,7 @@
                     this.dialogClass=false;
                 }
                 //alert(this.editableTabs2[0].name)
-            },
+            },*/
             addTab(targetName) {
                 this.dialogClass=true;
                 //this.dialogFormVisible = true;
@@ -343,7 +352,7 @@
                     storyList(this.listinfo).then(response => {
                         this.list = response.data.content;
                         this.listLoading = false;
-                    })
+                    });
                 //}
             },
             addStory () {
@@ -370,8 +379,8 @@
                 };
                 this.loading = true;
                 storyUpdate (storyinfo).then(response => {
-                    if (!response.data.items) return;
                     console.log(response);
+                    this.getList();
                 });
                 this.loading = false;
                 /*let newTabName = ++this.tabIndex + '';
@@ -405,8 +414,11 @@
                     //this.list = response.data.content;
                     if(response.data.code==200){
                         if(this.editableDay){
-                            this.editableDay=null;
                             this.getList();
+                            storyList(this.listinfo).then(response => {
+                                this.list = response.data.content;
+                                this.listLoading = false;
+                            });
                         }
                     }
                     this.listLoading = false;

@@ -6,10 +6,10 @@
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
-                            :current-page="currentPage"
-                            :page-sizes="[1, 2, 3, 4]"
-                            :page-size="2"
-                            layout="total, sizes, prev, pager, next, jumper"
+                            :current-page.sync="listpageQuery.page"
+                            :page-sizes="[10, 20, 30, 40]"
+                            :page-size="listpageQuery.limit"
+                            layout="total, sizes "
                             :total="total"
                             style="margin-bottom:20px;">
                     </el-pagination>
@@ -423,7 +423,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce'
     import Upload from 'components/Upload/singleImage3'
     import Story from 'components/story/mainstoryEdit'
@@ -543,7 +543,7 @@
                 },
                 dialogClass:false,
                 dialogStory: false,
-                currentPage: 1,
+                //currentPage: 1,
                 clothesValue: '',
                 editableTabsValue2: 1,
                 editableTabs2: [],
@@ -557,7 +557,7 @@
                     desc: ''
                 },
                 formLabelWidth: '120px',
-                activeName:1,
+                activeName: 1,
                 total: null,
                 list: []
             }
@@ -595,16 +595,19 @@
             getList() {
                 //this.listLoading = true;
                 storyPage (this.listpageQuery).then(response => {
-                    for(let i=0;i<response.data.content.data.length;i++){
-                    this.editableTabs2.push({
-                        title: "第"+response.data.content.data[i].day+"天",
-                        name: i+1,
-                        content: ''
-                    });
-                }
-                this.editableTabsValue2='1';
-                this.listLoading = false;
-            })
+                    if (this.editableTabs2) {
+                        this.editableTabs2 = [];
+                        for(let i=0;i<response.data.content.data.length;i++){
+                            this.editableTabs2.push({
+                                title: "第"+response.data.content.data[i].day+"天",
+                                name: i+1,
+                                content: ''
+                            });
+                        }
+                    }
+                    this.editableTabsValue2='1';
+                    this.listLoading = false;
+                })
             },
             fetchData(listQuery){
                 storyListall (listQuery).then(response => {
@@ -883,11 +886,11 @@
                 }
             },
             handleSizeChange(val) {
-                this.listpageQuery.limit = parseInt(val);
+                this.listpageQuery.limit = val;
                 this.getList();
             },
             handleCurrentChange(val) {
-                this.listpageQuery.page = parseInt(val);
+                this.listpageQuery.page = val;
                 this.getList();
             },
             addClick () {
