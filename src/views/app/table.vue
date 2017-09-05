@@ -30,7 +30,7 @@
       <el-table-column align="center" label="序号" width="65" prop="id">
         <template scope="scope">
           <!--<span>{{scope.row.id}}</span>-->
-          <span><router-link :to="{ path: '/app/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
+          <span style="color:#337ab7;"><router-link :to="{ path: '/app/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
         </template>
       </el-table-column>
 

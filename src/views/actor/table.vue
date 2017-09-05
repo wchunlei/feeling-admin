@@ -20,11 +20,11 @@
       <el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>
     </div>
 
-    <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+    <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
-      <el-table-column align="center" label="序号" width="65">
+      <el-table-column align="center" label="序号" width="65" column-key="id">
         <template scope="scope">
-          <span><span><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span></span>
+          <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
         </template>
       </el-table-column>
 
@@ -179,6 +179,7 @@
     name: 'table_demo',
     data() {
       return {
+        isA: true,
         list: null,
         total: null,
         listLoading: true,
@@ -404,3 +405,5 @@
     }
   }
 </script>
+
+
