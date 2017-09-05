@@ -27,9 +27,10 @@
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-      <el-table-column align="center" label="序号" width="65">
+      <el-table-column align="center" label="序号" width="65" prop="id">
         <template scope="scope">
-          <span>{{scope.row.id}}</span>
+          <!--<span>{{scope.row.id}}</span>-->
+          <span><router-link :to="{ path: '/app/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
         </template>
       </el-table-column>
 
@@ -119,6 +120,7 @@
   import { fetchList, fetchPv } from 'api/article_table';
   import { parseTime } from 'utils';
   import { applist } from 'api/app';
+  import { appdel } from 'api/app';
 
   const calendarTypeOptions = [
       { key: 'CN', display_name: '中国' },
@@ -230,10 +232,21 @@
         this.listQuery.end = parseInt((+time[1] + 3600 * 1000 * 24) / 1000);
       },
       handleModifyStatus(row, status) {
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        });
+        this.listLoading = true;
+        let delId = {
+          id : row.id
+        }
+        appdel (delId).then(response => {
+          if (response.data.code == 200) {
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            });
+            this.getList();
+          }
+          //this.total = response.data.total;
+          this.listLoading = false;
+        })
         row.status = status;
       },
       handleCreate() {

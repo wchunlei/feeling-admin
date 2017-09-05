@@ -189,7 +189,8 @@
                 },
                 rules: {
                     clothName: [{ validator: validateRequire }],
-                    price: [{ validator: onlyNum }]
+                    price: [{ validator: onlyNum }],
+                    actor: [{ validator: validateRequire }]
                 }
             }
         },
@@ -204,7 +205,7 @@
             fetchData(listQuery) {
                 getcloth(listQuery).then(response => {
                     //this.postForm.actor.value = response.data.content.actorid;
-                    this.postForm.actor = { key:response.data.content.name, value:response.data.content.actorid };
+                    this.postForm.actor = { key:response.data.content.actorname, value:response.data.content.actorid };
                     this.postForm.clothTypeid = response.data.content.dressid;
                     this.postForm.clothName = response.data.content.dressname;
                     this.postForm.pic = response.data.content.dresspic;
@@ -237,29 +238,36 @@
                 //actorinfo = this.postForm;
                 this.$refs.postForm.validate(valid => {
                     if (valid) {
-                        this.loading = true;
-                        clothUpdate (clothinfo).then(response => {
-                            if(response.data.code==200){
-                                this.$message({
-                                    message: '新增成功',
-                                    type: 'success'
-                                });
-                                this.$refs[formName].resetFields();
-                            }
-                            if (!response.data.items) return;
-                        console.log(response)
-                        this.userLIstOptions = response.data.items.map(v => ({
+                        if (this.postForm.actor.value){
+                            this.loading = true;
+                            clothUpdate (clothinfo).then(response => {
+                                if(response.data.code==200){
+                                    this.$message({
+                                        message: '新增成功',
+                                        type: 'success'
+                                    });
+                                    this.$refs[formName].resetFields();
+                                }
+                                if (!response.data.items) return;
+                                console.log(response)
+                                this.userLIstOptions = response.data.items.map(v => ({
                                     key: v.name
                                 }));
-                    });
-                        /*this.$notify({
-                            title: '成功',
-                            message: '发布成功',
-                            type: 'success',
-                            duration: 2000
-                        });*/
-                        this.postForm.status = 'published';
-                        this.loading = false;
+                            });
+                            /*this.$notify({
+                             title: '成功',
+                             message: '发布成功',
+                             type: 'success',
+                             duration: 2000
+                             });*/
+                            this.postForm.status = 'published';
+                            this.loading = false;
+                        } else {
+                            this.$message({
+                                message: '请选择主角',
+                                type: 'error'
+                            });
+                        }
                     } else {
                         console.log('error submit!!');
                         return false;

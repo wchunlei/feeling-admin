@@ -17,7 +17,7 @@
 
       </Sticky>
 
-      <el-form-item label="渠道名称:" style="margin-top:20px;width:300px">
+      <el-form-item label="渠道名称:" style="margin-top:20px;width:300px" prop="name">
         <el-input v-model="postForm.name"></el-input>
       </el-form-item>
 
@@ -26,12 +26,12 @@
                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
           <span slot='noResult'>无结果</span>
         </multiselect>-->
-        <el-checkbox-group v-model="postForm.actor" :min="1">
-          <el-checkbox v-for="city in userLIstOptions" :label="city" :key="city">{{city.key}}</el-checkbox>
+        <el-checkbox-group v-model="postForm.actor">
+          <el-checkbox v-for="act in userLIstOptions" :label="act.key" :key="act.key">{{act.key}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
 
-      <el-form-item label="新手剧情:">
+      <el-form-item label="新手剧情:" prop="storynew">
         <el-radio-group v-model="postForm.storynew">
           <el-radio label="1">我的测试新手剧情</el-radio>
           <el-radio label="2">情色版新手剧情</el-radio>
@@ -39,15 +39,15 @@
         </el-radio-group>
       </el-form-item>
 
-      <el-form-item label="主线剧情:">
+      <el-form-item label="主线剧情:" prop="checkStory">
         <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
         <div style="margin: 15px 0;"></div>-->
-        <el-checkbox-group v-model="postForm.checkStory" @change="handleCheckedCitiesChange">
-          <el-checkbox v-for="(story,index) in storys" :label="story" :key="story">{{story.name}}</el-checkbox>
+        <el-checkbox-group v-model="postForm.checkStory">
+          <el-checkbox v-for="(story,index) in storys" :label="story.id" :key="story.id">{{story.name}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
 
-      <el-form-item label="会员价格:" style="margin-top:20px;width:300px">
+      <el-form-item label="会员价格:" style="margin-top:20px;width:300px" prop="amount">
         <el-input v-model="postForm.amount"></el-input>
       </el-form-item>
 
@@ -65,6 +65,7 @@
   import { getArticle } from 'api/article';
   import { userSearch } from 'api/story';
   import { appupdate } from 'api/app';
+  import { applist } from 'api/app';
 
   export default {
     name: 'articleDetail',
@@ -118,9 +119,9 @@
         loading: false,
         userLIstOptions: [],
         rules: {
-          //image_uri: [{ validator: validateRequire }],
-          //title: [{ validator: validateRequire }],
-          //source_name: [{ validator: validateRequire }],
+          name: [{ validator: validateRequire }],
+          //actor: [{ validator: validateRequire }],
+          amount: [{ validator: validateRequire }],
           //source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
         }
       }
@@ -139,26 +140,52 @@
         this.fetchData();
       }
       this.getRemoteUserList();
+      if(this.$route.params.num && this.$route.params.num != ':num'){
+        let listQuery={};
+        listQuery.id = this.$route.params.num;
+        this.fetchData(listQuery);
+      }
     },
     methods: {
-      fetchData() {
-        getArticle().then(response => {
-          this.postForm = response.data;
+      fetchData(listQuery) {
+        applist(listQuery).then(response => {
+          this.postForm.name = response.data.content[0].name;
+          this.postForm.amount = response.data.content[0].amount;
+          this.postForm.storynew = response.data.content[0].storynew.toString();
+          for (let i=0;i<response.data.content[0].actor.length;i++){
+            this.postForm.actor.push(response.data.content[0].actor[i].name);
+          }
+          for (let i=0;i<response.data.content[0].story.length;i++){
+            this.postForm.checkStory.push(response.data.content[0].story[i].id)
+          }
         }).catch(err => {
           this.fetchSuccess = false;
           console.log(err);
         });
       },
       submitForm() {
-        let storyid = this.postForm.checkStory;
+        //alert(Object.prototype.toString.call(this.postForm.checkStory) == '[object Array]');
+        //let storyid = this.postForm.checkStory;
+        let storyid = [];
         for(let i=0;i<this.postForm.checkStory.length;i++){
-          storyid[i].id = this.postForm.checkStory[i].id;
+          //storyid[i] = this.postForm.checkStory[i];
+          let item = {};
+          item.id = this.postForm.checkStory[i];
+          storyid.push(item);
         }
-        let actorid = this.postForm.actor;
+        let actorid = [];
         for(let i=0;i<this.postForm.actor.length;i++){
-          actorid[i].value = parseInt(this.postForm.actor[i].value);
+          let itemAct = {};
+          for(let j=0;j<this.userLIstOptions.length;j++){
+            if(this.userLIstOptions[j].key == this.postForm.actor[i]){
+              this.postForm.actor[i] = parseInt(this.userLIstOptions[j].value);
+            }
+          }
+          itemAct.value = this.postForm.actor[i];
+          actorid.push(itemAct);
         }
         let appinfo = {
+          id: this.$route.params.num,
           name:  this.postForm.name,
           amount: parseInt(this.postForm.amount),
           actor: actorid,

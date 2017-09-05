@@ -16,3 +16,12 @@ export function applist(query) {
         params: query
     });
 }
+
+export function appdel(appinfo) {
+    const data = appinfo;
+    return fetch({
+        url: '?act=appdel',
+        method: 'post',
+        data
+    });
+}

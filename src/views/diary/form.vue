@@ -96,7 +96,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce'
     import Uploadvideo from 'components/Upload/video'
     import Uploadimg from 'components/Upload/singleImage3'

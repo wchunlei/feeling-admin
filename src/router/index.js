@@ -173,13 +173,13 @@ export const asyncRouterMap = [
       { path: 'story/form/picture', component: storyPicture, name: '图片聊天' },
       { path: 'story/form/game', component: storyGame, name: '小游戏' },
       { path: 'story/form/tv', component: storyTv, name: '小视频' },*/
-      { path: 'mainStory/:num/:type/:actorid', component: storyMain, name: '主线剧情' },
-      { path: 'mainstoryEdit', component: mainstoryEdit, name: '主线剧情编辑' },
       { path: 'table', component: storyTable, name: '剧情列表' },
-      { path: 'tableall', component: storyTableall, name: '剧情列表详细' }
+      //{ path: 'mainstoryEdit', component: mainstoryEdit, name: '主线剧情编辑' },
+      { path: 'mainStory/:num/:type/:actorid', component: storyMain, name: '主线剧情' },
+      { path: 'tableall', component: storyTableall, name: '剧情列表详细' },
     ]
   },
-  {
+/*  {
     path: '/event',
     component: Layout,
     redirect: '/event/index',
@@ -189,7 +189,7 @@ export const asyncRouterMap = [
       { path: 'index', component: eventStory, name: '剧情事件' },
       { path: 'tinymce', component: eventApp, name: '渠道事件' }
     ]
-  },
+  },*/
   {
     path: '/diary',
     component: Layout,
@@ -234,11 +234,11 @@ export const asyncRouterMap = [
     name: '渠道管理',
     icon: 'zujian',
     children: [
-      { path: 'app/form/create', component: appForm, name: '新增渠道' },
+      { path: 'form/:num', component: appForm, name: '新增渠道' },
       { path: 'table', component: appTable, name: '渠道列表' }
     ]
   },
-  {
+/*  {
     path: '/components',
     component: Layout,
     redirect: '/components/index',
@@ -248,7 +248,7 @@ export const asyncRouterMap = [
       { path: 'index', component: componentsIndex, name: '新增主角' },
       { path: 'tinymce', component: Tinymce, name: '主角列表' }
     ]
-  },
+  },*/
   /*
   {
     path: '/permission',

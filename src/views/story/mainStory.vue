@@ -2,7 +2,8 @@
     <div class="createPost-container">
         <div class="cloth_center">
             <div style="margin:30px">
-                <div class="block">
+                <Story v-if="storyEdit"></Story>
+                <div v-if="addBut" class="block">
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
@@ -51,13 +52,13 @@
                         <el-option label="小视频" value="8"></el-option>
                     </el-select>
                 </el-form-item>-->
-                <el-form-item label="对象:" prop="actor" style="width:280px">
+                <el-form-item v-if="addBut" label="对象:" prop="actor" style="width:280px">
                     <multiselect v-model="storyForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
-                <el-form-item label="剧情类型:">
+                <el-form-item v-if="addBut" label="剧情类型:">
                     <el-select v-model="storyForm.type" placeholder="请选择" @change="selectType">
                         <el-option label="新手" value="1"></el-option>
                         <el-option label="主线" value="2"></el-option>
@@ -440,6 +441,7 @@
         components: { Tinymce, MDinput, Upload, Story },
         data() {
             return {
+                storyEdit: false,
                 storyId:'',
                 listQuery: {},
                 listpageQuery: {
@@ -579,6 +581,7 @@
             }
             if(this.$route.params.num == ':num'){
                 this.addBut = false;
+                this.storyEdit = true;
 
             }
             this.listpageQuery.plottype = this.$route.params.type;
