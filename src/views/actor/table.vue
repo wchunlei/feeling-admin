@@ -159,6 +159,7 @@
   import Upload from 'components/Upload/singleImage3';
   import { actorUpdate } from 'api/actor';
   import { actorstatus } from 'api/actor';
+  import { actordel } from 'api/actor';
 
   const calendarTypeOptions = [
       { key: 'CN', display_name: '中国' },
@@ -283,13 +284,20 @@
       },
       handleModifyStatus(row, status) {
         this.listLoading = true;
-        let statusData = {
+        let delId = {
+          id: parseInt(row.id)
+        }
+        actordel(delId).then(response => {
+          console.log(response);
+          this.getList();
+        });
+        /*let statusData = {
           id : row.id,
           status : status
         }
         actorstatus(statusData).then(response => {
           console.log(response)
-        })
+        })*/
         this.$message({
           message: '操作成功',
           type: 'success'

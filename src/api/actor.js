@@ -18,6 +18,15 @@ export function actorstatus(actorinfo) {
   });
 }
 
+export function actordel(actorinfo) {
+  const data = actorinfo;
+  return fetch({
+    url: '?act=actordel',
+    method: 'post',
+    data
+  });
+}
+
 export function actorList(query) {
   return fetch({
     url: '?act=actorlist',

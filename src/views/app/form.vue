@@ -185,23 +185,30 @@
           actorid.push(itemAct);
         }
         let appinfo = {
-          id: this.$route.params.num,
           name:  this.postForm.name,
           amount: parseInt(this.postForm.amount),
           actor: actorid,
           storynew: parseInt(this.postForm.storynew),
           story: storyid
         };
+        if (this.$route.params.num != ':num'){
+          appinfo.id = this.$route.params.num;
+        }
         this.$refs.postForm.validate(valid => {
           if (valid) {
             appupdate (appinfo).then(response => {
-              if(response.data.code==200){
+              if(response.data.code==200 && this.$route.params.num == ':num'){
               this.$message({
                 message: '新增成功',
                 type: 'success'
               });
               //this.$refs[formName].resetFields();
-            }
+            } else {
+                this.$message({
+                  message: '修改成功',
+                  type: 'success'
+                });
+              }
             if (!response.data.items) return;
             console.log(response)
             this.userLIstOptions = response.data.items.map(v => ({
