@@ -33,9 +33,7 @@
 
       <el-form-item label="新手剧情:" prop="storynew">
         <el-radio-group v-model="postForm.storynew">
-          <el-radio label="1">我的测试新手剧情</el-radio>
-          <el-radio label="2">情色版新手剧情</el-radio>
-          <el-radio label="3">保守版新手剧情</el-radio>
+          <el-radio  v-for="(story, index) in storynews" :label="story.id" :key="story.id">{{ story.name }}</el-radio>
         </el-radio-group>
       </el-form-item>
 
@@ -66,6 +64,7 @@
   import { userSearch } from 'api/story';
   import { appupdate } from 'api/app';
   import { applist } from 'api/app';
+  import { storyList } from 'api/story';
 
   export default {
     name: 'articleDetail',
@@ -101,20 +100,12 @@
         postForm: {
           name: '',
           actor: [],
-          storynew: '1',
+          storynew: 0,
           checkStory: [],
           amount: ''
         },
-        storys: [{
-          id: 1,
-          name: '保守版佳佳剧情',
-        },{
-          id: 2,
-          name: '情色版佳佳剧情'
-        },{
-          id: 3,
-          name: '保守版斯诺剧情'
-        }],
+        storynews: [],
+        storys: [],
         fetchSuccess: true,
         loading: false,
         userLIstOptions: [],
@@ -145,13 +136,14 @@
         listQuery.id = this.$route.params.num;
         this.fetchData(listQuery);
       }
+      this.getStory();
     },
     methods: {
       fetchData(listQuery) {
         applist(listQuery).then(response => {
           this.postForm.name = response.data.content[0].name;
           this.postForm.amount = response.data.content[0].amount;
-          this.postForm.storynew = response.data.content[0].storynew.toString();
+          this.postForm.storynew = response.data.content[0].storynew;
           for (let i=0;i<response.data.content[0].actor.length;i++){
             this.postForm.actor.push(response.data.content[0].actor[i].name);
           }
@@ -162,6 +154,34 @@
           this.fetchSuccess = false;
           console.log(err);
         });
+      },
+      getStory () {
+        this.listLoading = true;
+        storyList().then(response => {
+          let tempIds = 0;
+          let tempId = 0;
+          if (tempIds || tempId) {
+            tempIds = 0;
+            tempId =0;
+          }
+          for (let i=0; i<response.data.content.length; i++) {
+            if (response.data.content[i].plottype == 1){
+              let tempnew = {};
+              tempnew.id = tempIds++;
+              tempnew.name = response.data.content[i].title;
+              this.storynews.push(tempnew);
+            }
+            if (response.data.content[i].plottype == 2){
+              let temp = {};
+              temp.id = tempId++;
+              temp.name = response.data.content[i].title;
+              this.storys.push(temp);
+            }
+          }
+          this.list = response.data.content;
+          this.total = response.data.total;
+        });
+        this.listLoading = false;
       },
       submitForm() {
         //alert(Object.prototype.toString.call(this.postForm.checkStory) == '[object Array]');

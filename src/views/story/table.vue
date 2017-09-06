@@ -189,8 +189,8 @@
         storyList(this.listQuery).then(response => {
           this.list = response.data.content;
           this.total = response.data.total;
-          this.listLoading = false;
-        })
+        });
+        this.listLoading = false;
       },
       handleFilter() {
         this.getList();
