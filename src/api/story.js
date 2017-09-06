@@ -97,6 +97,15 @@ export function storyStatus(storyinfo) {
   });
 }
 
+export function updatestory(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=updatestory',
+    method: 'post',
+    data
+  });
+}
+
 export function storyList(query) {
   return fetch({
     url: '?act=storylist',

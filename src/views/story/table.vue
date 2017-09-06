@@ -105,6 +105,7 @@
   import { parseTime } from 'utils';
   import { storyUpdate } from 'api/story';
   import { storyStatus } from 'api/story';
+  import { updatestory } from 'api/story';
 
   const calendarTypeOptions = [
       { key: 'CN', display_name: '中国' },
@@ -212,11 +213,19 @@
         this.listQuery.end = parseInt((+time[1] + 3600 * 1000 * 24) / 1000);
       },
       handleModifyStatus(row, status) {
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        });
-        row.status = status;
+        this.listLoading = true;
+        let data = {
+          id: row.id,
+          status: status
+        };
+        updatestory (data).then(response => {
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          });
+          row.status = status;
+        })
+        this.listLoading = false;
       },
       handleCreate() {
         this.resetTemp();
