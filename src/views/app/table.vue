@@ -40,6 +40,9 @@
       <el-table-column width="350px" align="center" label="新手剧情" prop="storynew">
       </el-table-column>
 
+      <el-table-column width="350px" align="center" label="主线剧情" prop="tempStory">
+      </el-table-column>
+
       <el-table-column width="200px" align="center" label="会员金额" prop="amount">
       </el-table-column>
 
@@ -121,6 +124,7 @@
   import { parseTime } from 'utils';
   import { applist } from 'api/app';
   import { appdel } from 'api/app';
+  import { storyList } from 'api/story';
 
   const calendarTypeOptions = [
       { key: 'CN', display_name: '中国' },
@@ -140,6 +144,9 @@
     data() {
       return {
         list: null,
+        storynews: [],
+        storys: [],
+        tempStory: '',
         total: null,
         listLoading: true,
         listQuery: {
@@ -176,6 +183,7 @@
       }
     },
     created() {
+      this.getStory();
       this.getList();
     },
     filters: {
@@ -192,21 +200,59 @@
       }
     },
     methods: {
+      getStory () {
+        this.listLoading = true;
+        storyList().then(response => {
+          let tempIds = 0;
+          let tempId = 0;
+          if (tempIds || tempId) {
+            tempIds = 0;
+            tempId =0;
+          }
+          for (let i=0; i<response.data.content.length; i++) {
+            if (response.data.content[i].plottype == 1){
+              let tempnew = {};
+              tempnew.id = tempIds++;
+              tempnew.name = response.data.content[i].title;
+              this.storynews.push(tempnew);
+            }
+            if (response.data.content[i].plottype == 2){
+              let temp = {};
+              temp.id = tempId++;
+              temp.name = response.data.content[i].title;
+              this.storys.push(temp);
+            }
+          }
+          this.list = response.data.content;
+          this.total = response.data.total;
+        });
+        this.listLoading = false;
+      },
       getList() {
         this.listLoading = true;
         applist (this.listQuery).then(response => {
           this.list = response.data.content;
-        for(let j=0;j<response.data.content.length;j++){
-          if(response.data.content[j].storynew == 1){
-            this.list[j].storynew = "保守版佳佳剧情";
+          for(let j=0;j<response.data.content.length;j++){
+            this.list[j].tempStory = [];
+            for(let k=0; k<this.storynews.length; k++){
+              if(response.data.content[j].storynew == this.storynews[k].id){
+                this.list[j].storynew = this.storynews[k].name;
+              }
+            }
+            for(let m=0; m<this.storys.length; m++){
+              //alert(m+'=='+response.data.content[j].story.length)
+              for(let n=0;n<response.data.content[j].story.length;n++){
+                if(response.data.content[j].story[n].id == this.storys[m].id){
+                  if (response.data.content[j].story.length == 1) {
+                    this.list[j].tempStory = this.storys[m].name;
+                  }
+                  if(response.data.content[j].story.length > 1){
+                    this.list[j].tempStory.push(this.storys[m].name+',');
+                  }
+                }
+              }
+            }
           }
-          if(response.data.content[j].storynew == 2){
-            this.list[j].storynew = "情色版佳佳剧情";
-          }
-          if(response.data.content[j].storynew == 3){
-            this.list[j].storynew = "保守版斯诺剧情";
-          }
-        }
           //this.total = response.data.total;
           this.listLoading = false;
         })
