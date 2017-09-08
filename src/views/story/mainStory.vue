@@ -437,10 +437,10 @@
 
     export default {
         name: 'clothes',
-        addEvent: '',
         components: { Tinymce, MDinput, Upload, Story },
         data() {
             return {
+                addEvent: '',
                 storyEdit: false,
                 storyId:'',
                 listQuery: {},
@@ -559,7 +559,7 @@
                     desc: ''
                 },
                 formLabelWidth: '120px',
-                activeName: 1,
+                activeName: '1',
                 total: null,
                 list: []
             }
@@ -603,7 +603,7 @@
                         for(let i=0;i<response.data.content.data.length;i++){
                             this.editableTabs2.push({
                                 title: "第"+response.data.content.data[i].day+"天",
-                                name: i+1,
+                                name: (i+1).toString(),
                                 content: ''
                             });
                         }
@@ -614,91 +614,92 @@
             },
             fetchData(listQuery){
                 storyListall (listQuery).then(response => {
-                    this.storyId = response.data.content[0].id;
-                    //this.postForm.actor.value = response.data.content.actorid;
-                    /*this.storyForm.actor = { key:response.data.content[0].name, value:response.data.content[0].actorid };
-                    this.storyForm.select = response.data.content[0].msgtype;
-                    this.storyForm.type = response.data.content[0].plottype;
-                    this.storyForm.title = response.data.content[0].title;
-                    this.storyForm.day = response.data.content[0].day;
-                    this.storyForm.step = response.data.content[0].step;
-                    this.list = response.data.content;*/
-                    if (response.data.content.length == 0) {
-                        //普通视频初始化
-                        this.normalVideo.step = '';
-                        this.normalVideo.title = '';
-                        this.normalVideo.video = '';
-                        //交互视频初始化
-                        this.eachVideo.step = '';
-                        this.eachVideo.title = '';
-                        this.eachVideo.startVideo = '';
-                        this.eachVideo.selectVideo1 = '';
-                        this.eachVideo.selectVideo2 = '';
-                        this.eachVideo.eachWord = '';
-                        this.eachVideo.answer1 = '';
-                        this.eachVideo.answer2 = '';
-                        //电话初始化
-                        this.phone.title = '';
-                        this.phone.speak = '';
-                        this.phone.eachWord = '';
-                        this.phone.answer = '';
-                        this.phone.cancel = '';
-                        //文字聊天初始化
-                        this.wordTalk.title = '';
-                        this.wordTalk.wordContent = '';
-                        this.wordTalk.answer1 = '';
-                        this.wordTalk.answer2 = '';
-                        this.wordTalk.answer3 = '';
-                        this.wordTalk.answer4 = '';
-                        this.wordTalk.answer5 = '';
-                        //语音聊天初始化
-                        this.soundTalk.title = '';
-                        this.soundTalk.sound = '';
-                        this.soundTalk.answer1 = '';
-                        this.soundTalk.answer2 = '';
-                        this.soundTalk.answer3 = '';
-                        this.soundTalk.answer4 = '';
-                        this.soundTalk.answer5 = '';
-                        //图片聊天初始化
-                        this.picTalk.title = '';
-                        this.picTalk.pic = '';
-                        this.picTalk.answer1 = '';
-                        this.picTalk.answer2 = '';
-                        this.picTalk.answer3 = '';
-                        this.picTalk.answer4 = '';
-                        this.picTalk.answer5 = '';
-                        //小游戏初始化
-                        this.games.title = '';
-                        this.games.region = '';
-                        //小视频初始化
-                        this.smallVideo.title = '';
-                        this.smallVideo.video = '';
-                        this.smallVideo.answer1 = '';
-                        this.smallVideo.answer2 = '';
-                        this.smallVideo.answer3 = '';
-                        this.smallVideo.answer4 = '';
-                        this.smallVideo.answer5 = '';
-                    }
-                    for(let i=0;i<response.data.content.length;i++){
-                        if(response.data.content[i].msgtype == 1){
-                            this.nVideo = true;
-                            this.normalVideo.select = '普通视频';
-                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
-                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                    if (response.data.content) {
+                        this.storyId = response.data.content[0].id;
+                        //this.postForm.actor.value = response.data.content.actorid;
+                        /*this.storyForm.actor = { key:response.data.content[0].name, value:response.data.content[0].actorid };
+                         this.storyForm.select = response.data.content[0].msgtype;
+                         this.storyForm.type = response.data.content[0].plottype;
+                         this.storyForm.title = response.data.content[0].title;
+                         this.storyForm.day = response.data.content[0].day;
+                         this.storyForm.step = response.data.content[0].step;
+                         this.list = response.data.content;*/
+                        if (response.data.content.length == 0) {
+                            //普通视频初始化
+                            this.normalVideo.step = '';
+                            this.normalVideo.title = '';
+                            this.normalVideo.video = '';
+                            //交互视频初始化
+                            this.eachVideo.step = '';
+                            this.eachVideo.title = '';
+                            this.eachVideo.startVideo = '';
+                            this.eachVideo.selectVideo1 = '';
+                            this.eachVideo.selectVideo2 = '';
+                            this.eachVideo.eachWord = '';
+                            this.eachVideo.answer1 = '';
+                            this.eachVideo.answer2 = '';
+                            //电话初始化
+                            this.phone.title = '';
+                            this.phone.speak = '';
+                            this.phone.eachWord = '';
+                            this.phone.answer = '';
+                            this.phone.cancel = '';
+                            //文字聊天初始化
+                            this.wordTalk.title = '';
+                            this.wordTalk.wordContent = '';
+                            this.wordTalk.answer1 = '';
+                            this.wordTalk.answer2 = '';
+                            this.wordTalk.answer3 = '';
+                            this.wordTalk.answer4 = '';
+                            this.wordTalk.answer5 = '';
+                            //语音聊天初始化
+                            this.soundTalk.title = '';
+                            this.soundTalk.sound = '';
+                            this.soundTalk.answer1 = '';
+                            this.soundTalk.answer2 = '';
+                            this.soundTalk.answer3 = '';
+                            this.soundTalk.answer4 = '';
+                            this.soundTalk.answer5 = '';
+                            //图片聊天初始化
+                            this.picTalk.title = '';
+                            this.picTalk.pic = '';
+                            this.picTalk.answer1 = '';
+                            this.picTalk.answer2 = '';
+                            this.picTalk.answer3 = '';
+                            this.picTalk.answer4 = '';
+                            this.picTalk.answer5 = '';
+                            //小游戏初始化
+                            this.games.title = '';
+                            this.games.region = '';
+                            //小视频初始化
+                            this.smallVideo.title = '';
+                            this.smallVideo.video = '';
+                            this.smallVideo.answer1 = '';
+                            this.smallVideo.answer2 = '';
+                            this.smallVideo.answer3 = '';
+                            this.smallVideo.answer4 = '';
+                            this.smallVideo.answer5 = '';
+                        }
+                        for(let i=0;i<response.data.content.length;i++){
+                            if(response.data.content[i].msgtype == 1){
+                                this.nVideo = true;
+                                this.normalVideo.select = '普通视频';
+                                this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                                //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 this.normalVideo.step = response.data.content[i].step;
                                 this.normalVideo.title = response.data.content[i].title;
                                 this.normalVideo.video = response.data.content[i].msg;
                                 /*this.editableTabs2 = [{
-                                    title : "第"+response.data.content[i].day+"天",
-                                    name : response.data.content[i].day
-                                }];*/
-                            //}
-                        }
-                        if(response.data.content[i].msgtype == 2){
-                            this.eVideo = true;
-                            this.eachVideo.select = '交互视频';
-                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
-                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                 title : "第"+response.data.content[i].day+"天",
+                                 name : response.data.content[i].day
+                                 }];*/
+                                //}
+                            }
+                            if(response.data.content[i].msgtype == 2){
+                                this.eVideo = true;
+                                this.eachVideo.select = '交互视频';
+                                this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                                //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
                                 this.eachVideo.step = response.data.content[i].step;
                                 this.eachVideo.title = response.data.content[i].title;
                                 this.eachVideo.startVideo = response.data.content[i].msg;
@@ -707,28 +708,28 @@
                                 this.eachVideo.eachWord = response.data.content[i].ivmsg;
                                 this.eachVideo.answer1 = response.data.content[i].ivselect1;
                                 this.eachVideo.answer2 = response.data.content[i].ivselect2;
-                            //}
-                        }
-                        if(response.data.content[i].msgtype == 3){
-                            this.tel = true;
-                            this.phone.select = '电话';
-                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
-                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
-                            this.phone.step = response.data.content[i].step;
+                                //}
+                            }
+                            if(response.data.content[i].msgtype == 3){
+                                this.tel = true;
+                                this.phone.select = '电话';
+                                this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                                //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                this.phone.step = response.data.content[i].step;
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.phone.title = response.data.content[i].title;
                                 this.phone.speak = response.data.content[i].msg;
                                 this.phone.eachWord = msgs[0];
                                 this.phone.answer = msgs[1];
                                 this.phone.cancel = msgs[2];
-                            //}
-                        }
-                        if(response.data.content[i].msgtype == 4){
-                            this.wTalk = true;
-                            this.wordTalk.select = '文字聊天';
-                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
-                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
-                            this.wordTalk.step = response.data.content[i].step;
+                                //}
+                            }
+                            if(response.data.content[i].msgtype == 4){
+                                this.wTalk = true;
+                                this.wordTalk.select = '文字聊天';
+                                this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                                //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                this.wordTalk.step = response.data.content[i].step;
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.wordTalk.title = response.data.content[i].title;
                                 this.wordTalk.wordContent = response.data.content[i].msg;
@@ -737,14 +738,14 @@
                                 this.wordTalk.answer3 = msgs[2];
                                 this.wordTalk.answer4 = msgs[3];
                                 this.wordTalk.answer5 = msgs[4];
-                            //}
-                        }
-                        if(response.data.content[i].msgtype == 5){
-                            this.sTalk = true;
-                            this.soundTalk.select = '语音聊天';
-                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
-                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
-                            this.soundTalk.step = response.data.content[i].step;
+                                //}
+                            }
+                            if(response.data.content[i].msgtype == 5){
+                                this.sTalk = true;
+                                this.soundTalk.select = '语音聊天';
+                                this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                                //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                this.soundTalk.step = response.data.content[i].step;
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.soundTalk.title = response.data.content[i].title;
                                 this.soundTalk.sound = response.data.content[i].msg;
@@ -753,14 +754,14 @@
                                 this.soundTalk.answer3 = msgs[2];
                                 this.soundTalk.answer4 = msgs[3];
                                 this.soundTalk.answer5 = msgs[4];
-                            //}
-                        }
-                        if(response.data.content[i].msgtype == 6){
-                            this.pTalk = true;
-                            this.picTalk.select = '图片聊天';
-                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
-                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
-                            this.picTalk.step = response.data.content[i].step;
+                                //}
+                            }
+                            if(response.data.content[i].msgtype == 6){
+                                this.pTalk = true;
+                                this.picTalk.select = '图片聊天';
+                                this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                                //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                this.picTalk.step = response.data.content[i].step;
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.picTalk.title = response.data.content[i].title;
                                 this.picTalk.pic = response.data.content[i].msg;
@@ -769,24 +770,24 @@
                                 this.picTalk.answer3 = msgs[2];
                                 this.picTalk.answer4 = msgs[3];
                                 this.picTalk.answer5 = msgs[4];
-                            //}
-                        }
-                        if(response.data.content[i].msgtype == 7){
-                            this.game = true;
-                            this.games.select = '小游戏';
-                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
-                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
-                            this.games.step = response.data.content[i].step;
+                                //}
+                            }
+                            if(response.data.content[i].msgtype == 7){
+                                this.game = true;
+                                this.games.select = '小游戏';
+                                this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                                //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                this.games.step = response.data.content[i].step;
                                 this.games.title = response.data.content[i].title;
                                 this.games.region = response.data.content[i].msg;
-                            //}
-                        }
-                        if(response.data.content[i].msgtype == 8){
-                            this.sVideo = true;
-                            this.smallVideo.select = '小视频';
-                            this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
-                            //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
-                            this.smallVideo.step = response.data.content[i].step;
+                                //}
+                            }
+                            if(response.data.content[i].msgtype == 8){
+                                this.sVideo = true;
+                                this.smallVideo.select = '小视频';
+                                this.storyForm.actor = { key:response.data.content[i].name, value:response.data.content[i].actorid };
+                                //if(response.data.content[i].plottype == this.storyForm.type && this.storyForm.actor.key){
+                                this.smallVideo.step = response.data.content[i].step;
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.smallVideo.title = response.data.content[i].title;
                                 this.smallVideo.video = response.data.content[i].msg;
@@ -795,7 +796,8 @@
                                 this.smallVideo.answer3 = msgs[2];
                                 this.smallVideo.answer4 = msgs[3];
                                 this.smallVideo.answer5 = msgs[4];
-                            //}
+                                //}
+                            }
                         }
                     }
                 }).catch(err => {

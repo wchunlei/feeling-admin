@@ -101,7 +101,7 @@
 </template>
 
 <script type="text/ECMAScript-6">
-  import { storyList, fetchPv } from 'api/story';
+  import { storyList } from 'api/story';
   import { parseTime } from 'utils';
   import { storyUpdate } from 'api/story';
   import { storyStatus } from 'api/story';

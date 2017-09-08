@@ -1,6 +1,6 @@
 <template>
   <div class="createPost-container">
-    <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm">
+    <el-form class="form-container" :model="postForm" ref="postForm">
 
       <Sticky :className="'sub-navbar '+postForm.status">
         <template v-if="fetchSuccess">
@@ -133,7 +133,7 @@
 
         <template v-if="showPhoto" v-for="photo in photos">
           <div style="display:inline-block">
-            <el-form :model="photos" :rules="rules" ref="photos">
+            <el-form :model="photos" ref="photos">
               <el-form-item label-width="60px" label="写真集:" class="postInfo-container-item" prop="url">
                 <div style="margin-bottom: 0px;cursor:pointer;" @click="thumbnaillist(photo.id)">
                   <img :src=photo.url style="width:300px;height:300px" alt="图片不存在"></img>
@@ -232,7 +232,7 @@
 
         <template v-for="mv in mvs">
           <div style="display:inline-block">
-            <el-form :model="mvs" :rules="rules" ref="mvs">
+            <el-form :model="mvs" ref="mvs">
               <el-form-item label-width="70px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
                 <div style="margin-bottom: 0px;">
                   <a :href="'http://'+mv.url"><img :src=mv.thumbnail style="width:200px;height:280px" alt="视频不存在"></img></a>
@@ -365,6 +365,7 @@
           name: '',
           amount: ''
         },
+        mvs: [],
         showPhoto: true,
         dialogPhoto: false,
         dialogMv: false,
@@ -373,6 +374,7 @@
         fetchSuccess: true,
         loading: false,
         userLIstOptions: [],
+        natureLength: false,
         sexOptions: [{
           value: '1',
           label: '男'

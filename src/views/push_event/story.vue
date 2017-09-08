@@ -52,7 +52,7 @@
                     </el-tab-pane>
                 </el-tabs>
                 <el-button type="primary" size="large" @click="dialogFormVisible=true" style="margin:10px 0 10px 40px">新增</el-button>
-                <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+                <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
                     <el-table-column align="center" label="剧情id" width="80" prop="id">
                         <template scope="scope">
@@ -124,9 +124,9 @@
 </template>
 
 <script type="text/ECMAScript-6">
-    import Tinymce from 'components/Tinymce'
-    import Upload from 'components/Upload/singleImage3'
-    import MDinput from 'components/MDinput';
+    //import Tinymce from 'components/Tinymce'
+    //import Upload from 'components/Upload/singleImage3';
+    //import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
     import { storyUpdate } from 'api/pushEvent';
     import { storyList } from 'api/pushEvent';
@@ -135,11 +135,11 @@
 
     export default {
         name: 'clothes',
-        addEvent: '',
-        components: { Tinymce, MDinput, Upload },
+        //addEvent: '',
+        //components: { Upload },
         data() {
             return {
-                tableDay: 1,
+                tableDay: '1',
                 editableDay: [],
                 tabIndex: 1,
                 listQuery: {
@@ -148,6 +148,7 @@
                 },
                 listinfo: {},
                 dialogClass:false,
+                listLoading: false,
                 //currentPage: 1,
                 actorOptions: [{
                     value: 1,
@@ -210,6 +211,19 @@
             this.listQuery.id=this.actorValue.select;
             this.getList();
         },
+        watch: {
+            dialogFormVisible : {
+                handler(curVal,oldVal){
+                    //alert(curVal,oldVal)
+                    this.form = {
+                        day: '',
+                        title: '',
+                        dt: new Date()
+                    }
+                },
+                //deep:true
+            },
+        },
         filters: {
             statusFilter(status) {
                 const statusMap = {
@@ -225,7 +239,7 @@
         },
         methods : {
             getList() {
-                //this.listLoading = true;
+                this.listLoading = true;
                 storypageList (this.listQuery).then(response => {
                     let objTemp = {};
                     //let arr = [];
@@ -236,7 +250,7 @@
                                 //arr.push(response.data.content.data[i].day)
                                 this.editableDay.push({
                                     title: "第" + response.data.content.data[i].day + "天",
-                                    name: response.data.content.data[i].day,
+                                    name: response.data.content.data[i].day.toString(),
                                     content: ''
                                 });
                                 objTemp[response.data.content.data[i].day] = "yes";

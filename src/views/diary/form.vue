@@ -32,7 +32,7 @@
                     </multiselect>
                 </el-form-item>
                 <el-form-item style="margin-bottom: 40px;" label-width="90px" label="日记标题:" prop="title">
-                    <el-input type="textarea" :rows="3" v-model="postForm.title" maxlength= 140>
+                    <el-input type="textarea" :rows="3" v-model="postForm.title" :maxlength=140>
                     </el-input>
                     <span><span style="color:red">*</span>日记标题，最多140字</span>
                 </el-form-item>
@@ -159,6 +159,7 @@
                 },
                 fetchSuccess: true,
                 loading: false,
+                natureLength: false,
                 userLIstOptions: [],
                 /*rules: {
                     actor: [

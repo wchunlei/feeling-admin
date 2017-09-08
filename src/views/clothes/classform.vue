@@ -1,7 +1,7 @@
 <template>
     <div class="createPost-container">
         <div class="cloth_center">
-            <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm">
+            <el-form class="form-container" :model="postForm" ref="postForm">
                 <el-form-item label-width="90px" label="选择主角:" class="postInfo-container-item" prop="actor">
                     <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
@@ -130,6 +130,8 @@
                     video: '',
                     price: '',
                 },
+                weatherOptions: [],
+                conditionOptions: [],
                 actorOptions: [{
                     value: '选项1',
                     label: '女警'

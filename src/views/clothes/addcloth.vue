@@ -274,6 +274,9 @@
                     }
                 });
             },
+            draftForm () {
+                console.log('draftForm');
+            },
             getRemoteUserList(query) {
                 console.log("getRemoteUserList")
                 userSearch(query).then(response => {

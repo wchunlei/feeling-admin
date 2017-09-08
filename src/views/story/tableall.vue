@@ -159,7 +159,7 @@
 </template>
 
 <script>
-  import { storyListall, fetchPv } from 'api/story';
+  import { storyListall } from 'api/story';
   import { parseTime } from 'utils';
   import { storyUpdate } from 'api/story';
   import { storyStatus } from 'api/story';

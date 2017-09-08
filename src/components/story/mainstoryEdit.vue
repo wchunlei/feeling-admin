@@ -248,7 +248,7 @@
         name: 'clothes',
         addEvent: '',
         components: { Tinymce, MDinput, Upload },
-        props: ['id',],
+        props: ['id'],
         data() {
             const validateRequire = (rule, value, callback) => {
                 if (value === '') {

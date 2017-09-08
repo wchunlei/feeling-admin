@@ -342,7 +342,7 @@
             }))
             },
             adjustPage(){
-                this.table_height = this.elementsFlex("el_table_wrap", "main-content", "operate_wrapper", "pagination", true) - 35;
+                //this.table_height = this.elementsFlex("el_table_wrap", "main-content", "operate_wrapper", "pagination", true) - 35;
             },
         },
         watch: {
