@@ -25,8 +25,16 @@
                 </el-form-item>
             </div>
             <div style="margin:20px 0px;">
-                <el-form-item label="分类id:" label-width="90px" prop="clothTypeid">
-                    <el-input v-model="postForm.clothTypeid" size="small" placeholder="请输入服装名称" autofocus style="width:200px;"></el-input>
+                <el-form-item label="分类名称:" label-width="90px" prop="clothType">
+                    <!--<el-input v-model="postForm.clothTypeid" size="small" placeholder="请输入分类id" autofocus style="width:200px;"></el-input>-->
+                    <el-select v-model="postForm.clothType" placeholder="请选择" @change="selectClothTypeid">
+                        <el-option
+                                v-for="item in clothTypes"
+                                :key="item.typeid"
+                                :label="item.typename"
+                                :value="item.typeid">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
             </div>
             <div style="margin:20px 0px;">
@@ -91,6 +99,7 @@
     import { userSearch } from 'api/story';
     import { clothUpdate } from 'api/cloth';
     import { getcloth } from 'api/cloth';
+    import { clothclassList } from 'api/cloth';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -170,13 +179,15 @@
                     label: '全部'
                 }],
                 chothCondition: '',
+                clothTypes: '',
+                selectTypeid: '',
                 fetchSuccess: true,
                 loading: false,
                 userLIstOptions: [],
                 postForm: {
                     actor: '',
                     clothName: '',
-                    clothTypeid: '',
+                    clothType: '',
                     pic: '',
                     vid: '',
                     minTemperature:'',
@@ -201,12 +212,26 @@
                 this.fetchData(listQuery);
             }
         },
+        watch : {
+            "postForm.actor" (newval,oldval) {
+                if (newval.key) {
+                    let classList={};
+                    classList.actorid = parseInt(this.postForm.actor.value);
+                    clothclassList(classList).then(response => {
+                        this.clothTypes = response.data.content;
+                    })
+                    if (this.postForm.clothType && this.$route.params.num == ':num') {
+                        this.postForm.clothType = '';
+                    }
+                }
+            }
+        },
         methods : {
             fetchData(listQuery) {
                 getcloth(listQuery).then(response => {
                     //this.postForm.actor.value = response.data.content.actorid;
                     this.postForm.actor = { key:response.data.content.actorname, value:response.data.content.actorid };
-                    this.postForm.clothTypeid = response.data.content.dressid;
+                    this.postForm.clothType = response.data.content.typeid;
                     this.postForm.clothName = response.data.content.dressname;
                     this.postForm.pic = response.data.content.dresspic;
                     this.postForm.vid = response.data.content.dressvideo;
@@ -220,12 +245,15 @@
                     console.log(err);
                 });
             },
+            selectClothTypeid (value) {
+                this.selectTypeid = value;
+            },
             submitForm(formName) {
                 //this.postForm.display_time = parseInt(this.display_time / 1000);
                 console.log(this.postForm)
                 let clothinfo = {
                     actorid: parseInt(this.postForm.actor.value),
-                    typeid: parseInt(this.postForm.clothTypeid),
+                    typeid: parseInt(this.selectTypeid),
                     dressname: this.postForm.clothName,
                     dresspic: this.postForm.pic,
                     dressvideo: this.postForm.vid,

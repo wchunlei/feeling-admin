@@ -5,7 +5,7 @@
 			<i class="el-icon-upload"></i>
 			<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 		</el-upload>
-		<div class="image-preview image-app-preview">
+		<!--<div class="image-preview image-app-preview">
 			<div class="image-preview-wrapper" v-show="imageUrl.length>1">
 				<div class='app-fake-conver'>&nbsp&nbsp</div>
 				<img :src="imageUrl">
@@ -13,7 +13,7 @@
 					<i @click="rmImage" class="el-icon-delete"></i>
 				</div>
 			</div>
-		</div>
+		</div>-->
 		<div class="image-preview">
 			<div class="image-preview-wrapper" v-show="imageUrl.length>1">
 				<img :src="imageUrl">

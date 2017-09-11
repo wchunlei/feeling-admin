@@ -12,7 +12,7 @@ export function clothUpdate(clothinfo) {
 export function clothclassUpdate(clothinfo) {
     const data = clothinfo;
     return fetch({
-        url: '?act=desstypeupdate',
+        url: '?act=dresstypeupdate',
         method: 'post',
         data
     });

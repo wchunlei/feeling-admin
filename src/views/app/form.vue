@@ -49,7 +49,6 @@
         <el-input v-model="postForm.amount"></el-input>
       </el-form-item>
 
-
     </el-form>
 
   </div>

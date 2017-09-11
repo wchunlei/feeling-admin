@@ -59,10 +59,10 @@
 
             <el-table-column align="center" label="操作" width="250px" fixed="right">
                 <template scope="scope">
-                    <el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
+                    <!--<el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
                     </el-button>
                     <el-button v-if="scope.row.status!='draft'" size="small" @click="handleModifyStatus(scope.row,'draft')">草稿
-                    </el-button>
+                    </el-button>-->
                     <el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
                     </el-button>
                 </template>

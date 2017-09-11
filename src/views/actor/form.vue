@@ -103,7 +103,7 @@
         </el-row>
 
         <el-form-item style="margin-bottom: 40px;" label-width="45px" label="性格:">
-          <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="postForm.natures">
+          <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="postForm.nature">
           </el-input>
           <span class="word-counter" v-show="natureLength">{{natureLength}}字</span>
         </el-form-item>
@@ -337,7 +337,6 @@
           age: '',
           job: '',
           nature: '',
-          natures: ' ',
           headurl: '', // 文章图片
           id: '',
           status: 'draft',
@@ -426,11 +425,12 @@
           this.postForm = response.data.content;
           this.photos = response.data.content.photo;
           this.mvs = response.data.content.mv;
-          for(let i=0;i<this.postForm.nature.length;i++){
+          /*for(let i=0;i<this.postForm.nature.length;i++){
             this.postForm.nature[i].name = response.data.content.nature[i].name;
-            this.postForm.natures = this.postForm.natures + this.postForm.nature[i].name + ',';
+            this.postForm.nature = this.postForm.nature + this.postForm.nature[i].name + ',';
+            alert(this.postForm.nature)
           }
-          this.postForm.natures = this.postForm.natures.replace("undefined",'');
+          this.postForm.nature = this.postForm.nature.replace("undefined",'');*/
             /*for(let i=0;i<response.data.content.photo.length;i++){
               this.photos.amount =this.photos[i].amount;
               this.photos.url = this.photos[i].url;

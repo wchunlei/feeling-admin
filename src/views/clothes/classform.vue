@@ -7,7 +7,6 @@
                                  deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
-                    <el-button type="primary" @click="selectUser" style="position:relative;left:180px;top:-40px;">确定</el-button>
                 </el-form-item>
                 <el-form-item label-width="90px" label="服装分类:" class="postInfo-container-item" prop="clothclass">
                     <el-button type="primary" size="" @click="addTab(editableTabsValue2)" style="margin-bottom: 40px">新增分类</el-button>
@@ -49,15 +48,8 @@
                         <el-button type="primary" @click="classifyDialog">确 定</el-button>
                     </div>
                 </el-dialog>
-                <el-form-item label="分类名称:" :label-width="formLabelWidth">
-                    <el-select v-model="postForm.clothesValue" placeholder="请选择">
-                        <el-option
-                                v-for="item in clothesOptions"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </el-option>
-                    </el-select>
+                <el-form-item label="服装名称:" :label-width="formLabelWidth" prop="clothesValue">
+                    <el-input v-model="postForm.clothesValue" auto-complete="off" style="width:200px;"></el-input>
                 </el-form-item>
                 <el-form-item label="服装图片:" :label-width="formLabelWidth">
                     <div style="margin-bottom: 20px;">
@@ -103,7 +95,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce'
     import Upload from 'components/Upload/singleImage3'
     import MDinput from 'components/MDinput';
@@ -140,13 +132,6 @@
                     label: '花花'
                 }, ],
                 actorValue: '',
-                clothesOptions: [{
-                    value: '选项1',
-                    label: '连衣裙'
-                }, {
-                    value: '选项2',
-                    label: '长裤'
-                } ],
                 clothesValue: '',
                 editableTabsValue2: '2',
                 list: [],
@@ -171,6 +156,13 @@
             if(this.postForm.actor.value){
                 //this.getList();
              }
+        },
+        watch: {
+            "postForm.actor" (newval,oldval) {
+                if (newval.key) {
+                    this.getList();
+                }
+            }
         },
         methods : {
             getTypeid (targetName) {
@@ -361,9 +353,6 @@
                         }));
                 })
             },
-            selectUser () {
-                this.getList();
-            }
         }
     }
 </script>
