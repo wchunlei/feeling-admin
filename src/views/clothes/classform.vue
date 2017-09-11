@@ -27,7 +27,7 @@
                             <span style="margin:20px 20px 0 0;float:left;">分类ICON:</span>
                             <img src="../../../gifs/winter.jpg" class="image" style="margin:20px 0;">
                         </el-tab-pane>-->
-                        <el-tab-pane v-for="(item, index) in list" closable :key="item.typeid" :label="item.typename" :name="item.typeid">
+                        <el-tab-pane v-for="(item, index) in list" closable :key="item.typeid" :label="item.typename" :name="item.typeid.toString()">
                             {{item.typeicon}}
                         </el-tab-pane>
                     </el-tabs>
@@ -153,21 +153,23 @@
                 userLIstOptions: [],
             }
         },
-        created() {
+        created () {
             if(this.postForm.actor.value){
                 //this.getList();
              }
         },
         watch: {
             "postForm.actor" (newval,oldval) {
-                if (newval.key) {
+                if (newval && newval.key) {
                     this.getList();
+                } else {
+                    this.list = [];
+                    this.showClothDetail = false;
                 }
             }
         },
         methods : {
             getTypeid (targetName) {
-                //alert(targetName.name)
                 this.listLoading = true;
                 this.listLoading = false;
                 let listallQuery={};
@@ -203,6 +205,7 @@
                     this.list = response.data.content;
                     if (response.data.content[0]) {
                         this.showClothDetail = true;
+                        this.activeName = response.data.content[0].typeid;
                     } else {
                         this.showClothDetail = false;
                     }
@@ -255,7 +258,7 @@
                             if (nextTab) {
                                 activeName = nextTab.typename;
                             }else{
-                                activeName='al';
+                                activeName='all';
                             }
                             if(this.list.indexOf(tab)>-1){
                                 this.editableTabs1=[];
