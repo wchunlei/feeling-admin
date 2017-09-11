@@ -18,7 +18,7 @@
             </Sticky>
             <div style="margin:20px 0px;">
                 <el-form-item label="主角:" label-width="90px" prop="actor">
-                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                    <multiselect v-model="postForm.actor" required autofocus :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
@@ -39,7 +39,7 @@
             </div>
             <div style="margin:20px 0px;">
                 <el-form-item label="服装名称:" label-width="90px" prop="clothName">
-                    <el-input v-model="postForm.clothName" size="small" placeholder="请输入服装名称" autofocus style="width:200px;"></el-input>
+                    <el-input v-model="postForm.clothName" size="small" placeholder="请输入服装名称" style="width:200px"></el-input>
                 </el-form-item>
             </div>
             <div>

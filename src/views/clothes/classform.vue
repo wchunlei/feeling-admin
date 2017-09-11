@@ -9,8 +9,8 @@
                     </multiselect>
                 </el-form-item>
                 <el-form-item label-width="90px" label="服装分类:" class="postInfo-container-item" prop="clothclass">
-                    <el-button type="primary" size="" @click="addTab(editableTabsValue2)" style="margin-bottom: 40px">新增分类</el-button>
-                    <el-tabs v-model="activeName" type="card" @tab-remove="removeTab" @tab-click="getTypeid">
+                    <!--<el-button type="primary" size="" @click="addTab(editableTabsValue2)" style="margin-bottom: 40px">新增分类</el-button>-->
+                    <el-tabs v-model="activeName" type="card" editable @edit="addTab" @tab-remove="removeTab" @tab-click="getTypeid">
                         <!--<el-tab-pane label="春装" name="all">
                             <span style="margin:20px 20px 0 0;float:left;">分类ICON:</span>
                             <img src="../../../gifs/spring.jpg" class="image" style="margin:20px 0;">
@@ -48,20 +48,20 @@
                         <el-button type="primary" @click="classifyDialog">确 定</el-button>
                     </div>
                 </el-dialog>
-                <el-form-item label="服装名称:" :label-width="formLabelWidth" prop="clothesValue">
+                <el-form-item v-if="showClothDetail" label="服装名称:" :label-width="formLabelWidth" prop="clothesValue">
                     <el-input v-model="postForm.clothesValue" auto-complete="off" style="width:200px;"></el-input>
                 </el-form-item>
-                <el-form-item label="服装图片:" :label-width="formLabelWidth">
+                <el-form-item v-if="showClothDetail" label="服装图片:" :label-width="formLabelWidth">
                     <div style="margin-bottom: 20px;">
                         <Upload v-model="postForm.picture"></Upload>
                     </div>
                 </el-form-item>
-                <el-form-item label="服装视频:" :label-width="formLabelWidth">
+                <el-form-item v-if="showClothDetail" label="服装视频:" :label-width="formLabelWidth">
                     <div style="margin-bottom: 20px;">
                         <Upload v-model="postForm.video"></Upload>
                     </div>
                 </el-form-item>
-                <div style="margin:20px 0px;">
+                <div v-if="showClothDetail" style="margin:20px 30px;">
                     <el-form-item label="服装温度:" style="margin-bottom: 40px;" label-width="90px" prop="minTemperature">
                         <el-input v-model="postForm.minTemperature" size="small" placeholder="最低温度" style="width:75px;"></el-input> ---
                         <el-input v-model="postForm.maxTemperature" size="small" placeholder="最高温度" style="width:75px;"></el-input>
@@ -137,6 +137,7 @@
                 list: [],
                 tabIndex: 6,
                 dialogFormVisible: false,
+                showClothDetail: false,
                 classify: {
                     name: '',
                     upload:'',
@@ -200,10 +201,22 @@
                 listQuery.actorid = parseInt(this.postForm.actor.value);
                 clothclassList(listQuery).then(response => {
                     this.list = response.data.content;
+                    if (response.data.content[0]) {
+                        this.showClothDetail = true;
+                    } else {
+                        this.showClothDetail = false;
+                    }
                  })
              },
-            addTab(targetName) {
-                this.dialogFormVisible = true;
+            addTab(targetName,action) {
+                if (this.postForm.actor) {
+                    this.dialogFormVisible = true;
+                } else {
+                    this.$message({
+                        message: '请先选择主角',
+                        type: 'error'
+                    });
+                }
 //                let newTabName = ++this.tabIndex + '';
 //                this.list.push({
 //                    title: 'New Tab',
