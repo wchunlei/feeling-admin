@@ -175,8 +175,8 @@ export const asyncRouterMap = [
       { path: 'story/form/tv', component: storyTv, name: '小视频' },*/
       { path: 'table', component: storyTable, name: '剧情列表' },
       //{ path: 'mainstoryEdit', component: mainstoryEdit, name: '主线剧情编辑' },
-      { path: 'mainStory/:num/:type/:actorid', component: storyMain, name: '主线剧情' },
-      { path: 'tableall', component: storyTableall, name: '剧情列表详细' },
+      { path: 'mainStory/:num/:type/:actorid/:actorname/:title', component: storyMain, name: '新增剧情' },
+      /*{ path: 'tableall', component: storyTableall, name: '剧情列表详细' },*/
     ]
   },
 /*  {

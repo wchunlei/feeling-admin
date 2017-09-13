@@ -96,6 +96,15 @@
         }
       };
       return {
+        search: {
+          page: 1,
+          limit: 20,
+          importance: undefined,
+          name: undefined,
+          gender: undefined,
+          status: undefined,
+          //sort: '+id'
+        },
         postForm: {
           name: '',
           actor: [],

@@ -1,6 +1,6 @@
 <template>
   <div class="createPost-container">
-    <el-form class="form-container" :model="postForm" ref="postForm">
+    <el-form class="form-container" :model="postForm" ref="postForm" :rules="actorDetail">
 
       <Sticky :className="'sub-navbar '+postForm.status">
         <template v-if="fetchSuccess">
@@ -394,6 +394,11 @@
         },
         picListRules: {
           photourl: [{ validator: validateRequire }]
+        },
+        actorDetail: {
+          height: [
+            { required: true, type: 'number', message: '请输入活动名称'}
+          ],
         }
       }
     },

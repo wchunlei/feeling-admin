@@ -214,7 +214,7 @@
         },
         watch : {
             "postForm.actor" (newval,oldval) {
-                if (newval.key) {
+                if (newval && newval.key) {
                     let classList={};
                     classList.actorid = parseInt(this.postForm.actor.value);
                     clothclassList(classList).then(response => {

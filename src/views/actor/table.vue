@@ -15,9 +15,9 @@
       </el-select>
 
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
+      <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
       <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
-      <el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>
+      <!--<el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>-->
     </div>
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
@@ -29,8 +29,11 @@
       </el-table-column>
 
       <el-table-column width="180px" align="center" label="姓名">
-        <template scope="scope">
+        <!--<template scope="scope">
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
+        </template>-->
+        <template scope="scope">
+          <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
 
@@ -41,42 +44,48 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="110px" v-if='showAuditor' align="center" label="审核人">
+      <!--<el-table-column width="110px" v-if='showAuditor' align="center" label="审核人">
         <template scope="scope">
           <span style='color:red;'>{{scope.row.auditor}}</span>
         </template>
-      </el-table-column>
+      </el-table-column>-->
 
-      <el-table-column width="200px" label="职业">
+      <el-table-column width="200px" align="center" label="职业">
         <template scope="scope">
           <span>{{scope.row.job}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="性格" width="100px">
+      <el-table-column min-width="180px" align="center" label="性格">
         <template scope="scope">
           <span>{{scope.row.nature}}</span>
           <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" label="类型" width="90px">
+      <el-table-column class-name="status-col" label="类型" width="200px">
         <template scope="scope">
           <span>{{scope.row.style}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="180px" label="修改时间">
+      <el-table-column width="200px" align="center" label="修改时间">
         <template scope="scope">
           <span>{{scope.row.modify_time}}</span>
         </template>
       </el-table-column>
 
+      <el-table-column class-name="status-col" label="状态" width="90">
+        <template scope="scope">
+          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="操作" width="250px">
         <template scope="scope">
-          <el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
+          <el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatusPublish(scope.row,'published')">发布
           </el-button>
-          <el-button v-if="scope.row.status!='draft'" size="small" @click="handleModifyStatus(scope.row,'draft')">草稿
+          <el-button v-if="scope.row.status!='draft'" size="small" @click="handleModifyStatusDraft(scope.row,'draft')">草稿
           </el-button>
           <el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
           </el-button>
@@ -91,7 +100,7 @@
       </el-pagination>
     </div>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <!--<el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form class="small-space" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
         
         <el-form-item label="姓名">
@@ -138,7 +147,7 @@
         <el-button v-if="dialogStatus=='create'" type="primary" @click="create">确 定</el-button>
         <el-button v-else type="primary" @click="update">确 定</el-button>
       </div>
-    </el-dialog>
+    </el-dialog>-->
 
     <el-dialog title="阅读数统计" :visible.sync="dialogPvVisible" size="small">
       <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
@@ -149,6 +158,14 @@
         <el-button type="primary" @click="dialogPvVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!--<el-dialog title="提示" :visible.sync="dialogDel" size="tiny">
+      <span>确定删除?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogDel = false">取 消</el-button>
+        <el-button type="primary" @click="delSure">确 定</el-button>
+      </span>
+    </el-dialog>-->
 
   </div>
 </template>
@@ -232,6 +249,8 @@
           create: '创建'
         },
         dialogPvVisible: false,
+        dialogDel: false,
+        flag: false,
         pvData: [],
         showAuditor: false,
         tableKey: 0
@@ -283,28 +302,62 @@
         this.listQuery.start = parseInt(+time[0] / 1000);
         this.listQuery.end = parseInt((+time[1] + 3600 * 1000 * 24) / 1000);
       },
-      handleModifyStatus(row, status) {
-        this.listLoading = true;
-        let delId = {
-          id: parseInt(row.id)
-        }
-        actordel(delId).then(response => {
-          console.log(response);
-          this.getList();
-        });
-        /*let statusData = {
+      handleModifyStatusPublish (row, status) {
+        let statusData = {
           id : row.id,
           status : status
         }
         actorstatus(statusData).then(response => {
           console.log(response)
-        })*/
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        });
+        })
         row.status = status;
-        this.listLoading = false;
+      },
+      handleModifyStatusDraft (row, status) {
+        let statusData = {
+          id : row.id,
+          status : status
+        }
+        actorstatus(statusData).then(response => {
+          console.log(response)
+        })
+        row.status = status;
+      },
+      delSure () {
+        this.dialogDel = false;
+        this.flag = true;
+      },
+      handleModifyStatus(row, status) {
+        /*let delId = {
+          id: parseInt(row.id)
+        }
+        this.dialogDel = true;
+        if (this.flag) {
+          actordel(delId).then(response => {
+            //console.log(response);
+            this.getList();
+          });
+          let statusData = {
+            id : row.id,
+            status : status
+          }
+          actorstatus(statusData).then(response => {
+            console.log(response)
+          })
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          });
+          row.status = status;
+          this.listLoading = false;
+        }*/
+        let statusData = {
+          id : row.id,
+          status : status
+        }
+        actorstatus(statusData).then(response => {
+          console.log(response)
+        })
+        row.status = status;
       },
       handleCreate() {
         this.resetTemp();

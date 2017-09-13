@@ -187,7 +187,7 @@
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
-                <el-form-item label="剧情类型:">
+                <!--<el-form-item label="剧情类型:">
                     <el-select v-model="form.type" placeholder="请选择">
                         <el-option label="新手" value="1"></el-option>
                         <el-option label="主线" value="2"></el-option>
@@ -201,11 +201,11 @@
                 </el-form-item>
                 <el-form-item label="步:" prop="step" style="width:280px">
                     <el-input v-model="form.step"></el-input>
-                </el-form-item>
-                <!--<el-form-item label="出现条件:" prop="condition">
+                </el-form-item>-->
+                <el-form-item label="出现条件:" prop="condition">
                     <el-select v-model="form.condition" placeholder="请选择活动区域">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
+                        <el-option label="上一步结束" value="1"></el-option>
+                        <el-option label="无" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="编辑事件:" prop="event" style="width:280px">
@@ -217,7 +217,7 @@
                         <el-radio label="2">自定义</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="活动形式" style="width:350px">
+                <!--<el-form-item label="活动形式" style="width:350px">
                     <el-input type="textarea" v-model="form.desc"></el-input>
                 </el-form-item>-->
                 <el-form-item>
@@ -248,7 +248,7 @@
         name: 'clothes',
         addEvent: '',
         components: { Tinymce, MDinput, Upload },
-        props: ['id'],
+        props: ['id', 'type', 'day', 'title'],
         data() {
             const validateRequire = (rule, value, callback) => {
                 if (value === '') {
@@ -278,9 +278,9 @@
                     title: '',
                     day: '',
                     step: '',
-                    //event: '',
-                    //condition: '',
-                    //resource: '1',
+                    event: '',
+                    condition: '1',
+                    resource: '1',
                     //desc: ''
                 },
                 normalVideo: {
@@ -358,10 +358,13 @@
                 let comment = {
                     id : this.id,
                     actor : this.form.actor,
-                    type : this.form.type,
-                    title : this.form.title,
-                    day : this.form.day,
-                    step : this.form.step,
+                    type : this.type,
+                    title : this.title,
+                    day : this.day.toString(),
+                    condition: parseInt(this.form.condition),
+                    event: this.form.event,
+                    event_condition: parseInt(this.form.resource),
+                    //step : this.form.step,
                     status : 'published'
                 }
                 this.$refs.form.validate(valid => {

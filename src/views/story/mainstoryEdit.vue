@@ -187,7 +187,7 @@
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
-                <el-form-item label="剧情类型:">
+                <!--<el-form-item label="剧情类型:">
                     <el-select v-model="form.type" placeholder="请选择">
                         <el-option label="新手" value="1"></el-option>
                         <el-option label="主线" value="2"></el-option>
@@ -201,8 +201,8 @@
                 </el-form-item>
                 <el-form-item label="步:" prop="step" style="width:280px">
                     <el-input v-model="form.step"></el-input>
-                </el-form-item>
-                <!--<el-form-item label="出现条件:" prop="condition">
+                </el-form-item>-->
+                <el-form-item label="出现条件:" prop="condition">
                     <el-select v-model="form.condition" placeholder="请选择活动区域">
                         <el-option label="区域一" value="shanghai"></el-option>
                         <el-option label="区域二" value="beijing"></el-option>
@@ -217,7 +217,7 @@
                         <el-radio label="2">自定义</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="活动形式" style="width:350px">
+                <!--<el-form-item label="活动形式" style="width:350px">
                     <el-input type="textarea" v-model="form.desc"></el-input>
                 </el-form-item>-->
                 <el-form-item>
@@ -377,9 +377,9 @@
                             videoUpdate (nVideoinfo).then(response => {
                                 if(response.data.code == 200){
                                 this.$message({
-                                    message: '新增成功',
-                                    type: 'success'
-                                });
+                                        message: '新增成功',
+                                        type: 'success'
+                                    });
                                 //this.postForm.status = 'published';
                                 this.$refs[formName].resetFields();
                             }

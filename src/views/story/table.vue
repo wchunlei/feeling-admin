@@ -13,7 +13,7 @@
       <el-table-column align="center" label="序号" width="65">
         <template scope="scope">
           <!--<span>{{scope.row.id}}</span>-->
-          <span style="color:#337ab7;"><router-link :to="{ path: '/story/mainStory/' + scope.row.id + '/' + scope.row.plottype + '/' + scope.row.actorid }">{{scope.row.id}}</router-link></span>
+          <span style="color:#337ab7;"><router-link :to="{ path: '/story/mainStory/' + scope.row.id + '/' + scope.row.plottype + '/' + scope.row.actorid + '/' + scope.row.name + '/' +scope.row.title}">{{scope.row.id}}</router-link></span>
         </template>
       </el-table-column>
 

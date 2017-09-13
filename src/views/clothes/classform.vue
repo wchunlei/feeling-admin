@@ -205,7 +205,7 @@
                     this.list = response.data.content;
                     if (response.data.content[0]) {
                         this.showClothDetail = true;
-                        this.activeName = response.data.content[0].typeid;
+                        this.activeName = response.data.content[0].typeid.toString();
                     } else {
                         this.showClothDetail = false;
                     }
@@ -317,19 +317,21 @@
                         };
                         this.loading = true;
                         clothclassUpdate (clothinfo).then(response => {
+                            if (response.data.content.code == 200) {
+                                this.$notify({
+                                    title: '成功',
+                                    message: '发布成功',
+                                    type: 'success',
+                                    duration: 2000
+                                });
+                            }
                             if (!response.data.items) return;
                         console.log(response);
-                        this.userLIstOptions = response.data.items.map(v => ({
+                        /*this.userLIstOptions = response.data.items.map(v => ({
                                     key: v.name
-                                }));
+                                }));*/
                         });
-                        this.$notify({
-                            title: '成功',
-                            message: '发布成功',
-                            type: 'success',
-                            duration: 2000
-                        });
-                        this.postForm.status = 'published';
+                        //this.postForm.status = 'published';
                         this.loading = false;
                     } else {
                         console.log('error submit!!');

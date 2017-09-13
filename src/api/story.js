@@ -8,6 +8,24 @@ export function userSearch(name) {
   });
 }
 
+export function addstory(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=addstory',
+    method: 'post',
+    data
+  });
+}
+
+export function addstoryday(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=addstoryday',
+    method: 'post',
+    data
+  });
+}
+
 export function videoUpdate(storyinfo) {
   const data = storyinfo;
   return fetch({
