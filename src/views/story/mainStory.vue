@@ -790,7 +790,8 @@
                 let data = {
                     type: parseInt(this.form.type),
                     title: this.form.title,
-                    actorid: parseInt(this.form.actor.value)
+                    actorid: parseInt(this.form.actor.value),
+                    status: 'published'
                 };
                 addstory (data).then(response => {
                     if(response.data.code == 200){

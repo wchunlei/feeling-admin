@@ -17,19 +17,19 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="姓名">
-        <template scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="180px" align="center" label="标题">
+      <el-table-column min-width="300px" align="center" label="标题">
         <template scope="scope">
           <span>{{scope.row.title}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="300px" label="类型">
+      <el-table-column width="200px" align="center" label="主角">
+        <template scope="scope">
+          <span>{{scope.row.name}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column width="200px" align="center" label="类型">
         <template scope="scope">
           <span v-if="scope.row.plottype==1">新用户剧情</span>
           <span v-if="scope.row.plottype==2">主线剧情</span>
@@ -64,7 +64,7 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form class="small-space" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item label="姓名">
+        <el-form-item label="主角">
           <el-input v-model="temp.name"></el-input>
         </el-form-item>
 
@@ -187,6 +187,7 @@
       getList() {
         this.listLoading = true;
         storyList(this.listQuery).then(response => {
+          //this.list.status = 'published';
           this.list = response.data.content;
           this.total = response.data.total;
         });
