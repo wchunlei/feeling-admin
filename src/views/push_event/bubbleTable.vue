@@ -20,7 +20,7 @@
                 </template>-->
             </el-table-column>
 
-            <el-table-column width="180px" align="center" label="事件编号" prop="eventid">
+            <el-table-column width="150px" align="center" label="事件编号" prop="eventid">
                 <template scope="scope">
                     <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
                     <span>{{scope.row.eventid}}</span>
@@ -30,25 +30,25 @@
             <!--<el-table-column width="110px" v-if='showAuditor' align="center" label="审核人" prop="auditor">
             </el-table-column>-->
 
-            <el-table-column width="400px" label="事件标题" prop="eventtitle">
+            <el-table-column min-width="400px" align="center" label="事件标题" prop="eventtitle">
             </el-table-column>
 
-            <el-table-column width="150px" label="事件类型" prop="eventtype">
+            <el-table-column width="180px" align="center" label="事件类型" prop="eventtype">
             </el-table-column>
 
-            <el-table-column min-width="180px" label="触发时间" prop="eventtime">
+            <el-table-column min-width="180px" align="center" label="最低温度" prop="mintemp">
             </el-table-column>
 
-            <el-table-column min-width="180px" label="最高温度" prop="maxtemp">
+            <el-table-column min-width="180px" align="center" label="最高温度" prop="maxtemp">
             </el-table-column>
 
-            <el-table-column min-width="180px" label="最低温度" prop="mintemp">
+            <el-table-column min-width="180px" align="center" label="天气" prop="weather">
             </el-table-column>
 
-            <el-table-column min-width="180px" label="天气" prop="weather">
+            <el-table-column min-width="180px" align="center" label="满足条件" prop="condition">
             </el-table-column>
 
-            <el-table-column min-width="180px" label="满足条件" prop="condition">
+            <el-table-column width="180px" align="center" label="触发时间" prop="eventtime">
             </el-table-column>
 
             <el-table-column align="center" label="操作" width="250px" fixed="right">
@@ -107,7 +107,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
     import { diaryList } from 'api/diary';
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';
@@ -201,6 +201,25 @@
                 this.listLoading = true;
                 bubbleList(this.listQuery).then(response => {
                     this.list = response.data.content;
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if (response.data.content[i].eventtype == 1) {
+                            this.list[i].eventtype = '文字';
+                        }
+                        if (response.data.content[i].eventtype == 2) {
+                            this.list[i].eventtype = '视频';
+                        }
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if (response.data.content[i].condition == 0) {
+                            this.list[i].condition = '无';
+                        }
+                        if (response.data.content[i].condition == 1) {
+                            this.list[i].condition = '任一满足';
+                        }
+                        if (response.data.content[i].condition == 2) {
+                            this.list[i].condition = '全部满足';
+                        }
+                    }
                     this.listLoading = false;
                 })
             },

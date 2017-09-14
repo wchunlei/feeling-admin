@@ -1,0 +1,64 @@
+/*Admin module dialog style*/
+.el-dialog label {
+    font-weight:500;
+}
+
+.el-dialog__header {
+    height:40px;
+    padding:0;
+    text-align:center;
+    line-height:40px;
+    background-color:#1970cf;
+}
+
+.el-dialog__header .el-dialog__title {
+    color:#fff;
+    font-weight:500;
+    font-size:14px;
+}
+
+.el-dialog__header .el-dialog__headerbtn {
+    padding:8px 10px 0 0;
+}
+
+.el-dialog__footer {
+    background-color:#f8f8f8;
+}
+
+.el-dialog .el-input__inner {
+    height:28px;
+    border-radius:0;
+}
+
+.el-dialog .el-textarea__inner {
+    border-radius:0;
+}
+
+.el-dialog .el-dialog__body {
+    max-height:400px;
+    overflow:auto;
+}
+
+.el-dialog .el-date-editor.el-input {
+    width:100%;
+}
+
+.el-dialog .el-date-editor--date .el-input__inner {
+    width:100%;
+    padding-left:50px;
+    margin:0;
+    border-color:#bfcbd9;
+}
+
+.el-dialog .el-date-editor--date .el-input__inner:hover {
+    border-color:#8391a5;
+}
+
+.el-dialog .el-icon-date:after, .el-dialog .el-icon-time:after {
+    left:-1px;
+    top:-3px;
+}
+
+.el-dialog .el-icon-date:before, .el-dialog .el-icon-time:before {
+    top:5px;
+}

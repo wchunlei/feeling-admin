@@ -2,14 +2,14 @@
     <div class="createPost-container">
         <div class="cloth_center">
             <div style="margin:30px">
-                <el-form ref="form" :model="form" label-width="80px" :rules="formRules">
+                <el-form ref="form" :model="form" label-width="80px" :rules="storyRules">
                     <el-form-item label="对象:" prop="actor" style="width:280px">
                         <multiselect v-model="form.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                     </el-form-item>
-                    <el-form-item label="剧情类型:">
+                    <el-form-item label="剧情类型:" prop="type">
                         <el-select v-model="form.type" placeholder="请选择">
                             <el-option label="新手" value="1"></el-option>
                             <el-option label="主线" value="2"></el-option>
@@ -539,14 +539,14 @@
                     <el-button type="primary" @click="dialogStory = true">新增剧情</el-button>
                 </el-form-item>
             </el-form>
-            <el-dialog title="新增" :visible.sync="dialogClass" size="tiny">
+            <!--<el-dialog title="新增剧情" :visible.sync="dialogClass" size="tiny">
                 <el-input v-model="addEvent" size="small" placeholder="请输入事件名称" autofocus style="width:200px;"></el-input>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogClass = false">取 消</el-button>
                     <el-button type="primary" @click="addClick">确 定</el-button>
                 </span>
-            </el-dialog>
-            <el-dialog title="新增" :visible.sync="dialogStory" size="small">
+            </el-dialog>-->
+            <el-dialog title="新增剧情" :visible.sync="dialogStory" size="small">
                 <!--<Story :id="storyId" v-on:listener="listenAdd"></Story>-->
                 <Story :id="storyId" :type="storyType" :day="storyDay" :title="storyTitle" v-on:close="dialogClose"></Story>
                 <!--<span slot="footer" class="dialog-footer">
@@ -574,6 +574,13 @@
         name: 'clothes',
         components: { Tinymce, MDinput, Upload, Story },
         data() {
+            const validateRequire = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('不能为空'));
+                } else {
+                    callback()
+                }
+            };
             return {
                 addEvent: '',
                 storyEdit: false,
@@ -736,12 +743,19 @@
                 formLabelWidth: '120px',
                 activeName: '1',
                 total: null,
-                list: []
+                list: [],
+                storyRules:{
+                    actor: [{ validator: validateRequire }],
+                    type: [{ validator: validateRequire }],
+                    title: [{ validator: validateRequire, trigger: 'blur' }]
+                }
             }
         },
         created () {
             //alert(this.editableTabs2);
             //alert(this.$route.params.num)
+            let Query = {};
+            this.getRemoteUserList(Query);
             if(this.$route.params && this.$route.params.num != ':num/:type/:actorid/:actorname/:title'){
                 //let listQuery={};
                 //this.listQuery.id = this.$route.params.num;
@@ -786,28 +800,42 @@
                 //alert(data);
             },
             onSubmit () {
-                this.listLoading = true;
-                let data = {
-                    type: parseInt(this.form.type),
-                    title: this.form.title,
-                    actorid: parseInt(this.form.actor.value),
-                    status: 'published'
-                };
-                addstory (data).then(response => {
-                    if(response.data.code == 200){
-                        this.$message({
-                            message: '新增成功',
-                            type: 'success'
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        this.listLoading = true;
+                        let data = {
+                            type: parseInt(this.form.type),
+                            title: this.form.title,
+                            actorid: parseInt(this.form.actor.value),
+                            status: 'published'
+                        };
+                        addstory(data).then(response => {
+                            if (response.data.code == 200) {
+                                this.$message({
+                                    message: '新增成功',
+                                    type: 'success'
+                                });
+                                //this.postForm.status = 'published';
+                                //this.$refs[formName].resetFields();
+                            }
+                            if (response.data.msg == 'add duplicate story!') {
+                                this.$message({
+                                    message: '该剧情已存在',
+                                    type: 'error'
+                                });
+                            }
+                            this.listLoading = false;
                         });
-                        //this.postForm.status = 'published';
-                        //this.$refs[formName].resetFields();
-                    }
-                    this.listLoading = false;
-                })
+                    } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
             },
             addDay (targetName, action) {
                 if (action === 'add') {
                     this.listLoading = true;
+                    this.showButton = true;
                     let data = {
                         id: parseInt(this.$route.params.num),
                         actorid: parseInt(this.$route.params.actorid)
@@ -857,6 +885,9 @@
                                 content: ''
                             });
                         }
+                    }
+                    if (response.data.content.data != '') {
+                        this.showButton = true;
                     }
                     this.editableTabsValue2='1';
                     this.listLoading = false;
@@ -1106,6 +1137,7 @@
                 //alert(this.storyDay+'--sele')
                 this.fetchData(this.listQuery);
                 //this.fetchData(this.listQuery);
+                this.showButton = true;
             },
             selectScenes () {
                 if(this.storyForm.select==1){
@@ -1251,7 +1283,7 @@
         }
     }
 </script>
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
     @import "src/styles/mixin.scss";
     .title-prompt{
         position: absolute;
@@ -1294,6 +1326,20 @@
     .clothStyle{
         margin-left:15px;
         display:inline-block;
+    }
+
+    .el-dialog__header {
+        height:40px;
+        padding:0;
+        text-align:center;
+        line-height:40px;
+        background-color:#1970cf;
+    }
+
+    .el-dialog__header .el-dialog__title {
+        color:#fff;
+        font-weight:500;
+        font-size:14px;
     }
 </style>
 

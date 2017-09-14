@@ -4,13 +4,12 @@
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
                 <el-form-item label="选择渠道" prop="region">
                     <el-select v-model="ruleForm.region" placeholder="选择渠道:">
-                        <el-option label="渠道一" value="shanghai"></el-option>
-                        <el-option label="渠道二" value="beijing"></el-option>
+                        <el-option v-for="item in regions" :key="item.value" :label="item.label" :value="item.label"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="事件ID:" prop="id">
+                <!--<el-form-item label="事件ID:" prop="id">
                     <el-input v-model="ruleForm.id" style="width: 100px;"></el-input>
-                </el-form-item>
+                </el-form-item>-->
                 <el-form-item label="事件名称:" prop="name">
                     <el-input v-model="ruleForm.name" style="width: 300px;"></el-input>
                     <!--<el-button type="primary" size="large" style="margin-left:100px">删除</el-button>-->
@@ -36,13 +35,14 @@
     </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce'
     import Upload from 'components/Upload/singleImage3'
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
     import { getArticle } from 'api/article';
     import { channelUpdate } from 'api/pushEvent';
+    import { applist } from 'api/app';
 
     export default {
         name: 'channel',
@@ -56,6 +56,7 @@
                     eventType: '',
                     dt: new Date()
                 },
+                regions: [],
                 rules: {
                     name: [
                         { required: true, message: '请输入事件名称', trigger: 'blur' },
@@ -67,8 +68,22 @@
                 }
             }
         },
+        created () {
+            this.getList();
+        },
         methods : {
+            getList () {
+                applist ().then(response => {
+                    for(let i=0; i<response.data.content.length; i++) {
+                        let temp = {};
+                        temp.value = response.data.content[i].id;
+                        temp.label = response.data.content[i].name;
+                        this.regions.push(temp);
+                    }
+                });
+            },
             submitForm(formName) {
+                alert(this.ruleForm.region)
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let date=this.ruleForm.dt;

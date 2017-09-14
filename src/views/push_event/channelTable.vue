@@ -30,13 +30,13 @@
             <el-table-column width="110px" v-if='showAuditor' align="center" label="触发时间" prop="auditor">
             </el-table-column>
 
-            <el-table-column width="400px" label="渠道" prop="app">
+            <el-table-column width="400px" align="center" label="渠道" prop="app">
             </el-table-column>
 
-            <el-table-column width="150px" label="类型" prop="type">
+            <el-table-column width="150px" align="center" label="类型" prop="type">
             </el-table-column>
 
-            <el-table-column min-width="180px" label="修改时间" prop="modify_time">
+            <el-table-column min-width="180px" align="center" label="修改时间" prop="modify_time">
             </el-table-column>
 
             <el-table-column align="center" label="操作" width="250px">
@@ -188,8 +188,16 @@
                 this.listLoading = true;
                 channelList().then(response => {
                     this.list = response.data.content;
-                this.listLoading = false;
-            })
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if (response.data.content[i].type == 1) {
+                            this.list[i].type = '文字';
+                        }
+                        if (response.data.content[i].type == 2) {
+                            this.list[i].type = '视频';
+                        }
+                    }
+                    this.listLoading = false;
+                })
             },
             handleFilter() {
                 this.getList();

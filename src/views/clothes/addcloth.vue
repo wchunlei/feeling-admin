@@ -206,6 +206,8 @@
             }
         },
         created() {
+            let Query = {};
+            this.getRemoteUserList(Query);
             if(this.$route.params.num && this.$route.params.num != ':num'){
                 let listQuery={};
                 listQuery.dressid = parseInt(this.$route.params.num);

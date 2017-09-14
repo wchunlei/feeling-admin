@@ -20,7 +20,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="180px" align="center" label="姓名" prop="name">
+            <el-table-column width="180px" align="center" label="主角" prop="name">
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>-->
                     <span>{{scope.row.name}}</span>

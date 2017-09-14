@@ -7,7 +7,7 @@
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
             <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
             <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
-            <el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>
+            <!--<el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>-->
         </div>
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
@@ -20,23 +20,23 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="180px" align="center" label="姓名" prop="name">
+            <el-table-column width="180px" align="center" label="主角" prop="name">
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>-->
                     <span>{{scope.row.name}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column width="110px" v-if='showAuditor' align="center" label="审核人" prop="auditor">
-            </el-table-column>
+            <!--<el-table-column width="110px" v-if='showAuditor' align="center" label="审核人" prop="auditor">
+            </el-table-column>-->
 
-            <el-table-column width="400px" label="标题" prop="title">
+            <el-table-column min-width="400px" label="标题" align="center" prop="title">
             </el-table-column>
 
             <!--<el-table-column width="400px" label="内容" prop="textarea">
             </el-table-column>-->
 
-            <el-table-column min-width="180px" label="修改时间" prop="modify_time">
+            <el-table-column width="300px" label="修改时间" align="center" prop="modify_time">
             </el-table-column>
 
             <el-table-column align="center" label="操作" width="250px">

@@ -192,12 +192,13 @@
             }
         },
         created() {
+            let Query = {};
+            this.getRemoteUserList(Query);
             if(this.$route.params.num && this.$route.params.num != ':num'){
                 let listQuery={};
                 listQuery.id = this.$route.params.num;
                 this.fetchData(listQuery);
             }
-
             /*id = $route.params.num;
             if(id == "num:"){
                 id = "";

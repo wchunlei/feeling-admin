@@ -17,9 +17,9 @@
 		<div class="image-preview">
 			<div class="image-preview-wrapper" v-show="imageUrl.length>1">
 				<img :src="imageUrl">
-				<div class="image-preview-action">
+				<!--<div class="image-preview-action">
 					<i @click="rmImage" class="el-icon-delete"></i>
-				</div>
+				</div>-->
 			</div>
 		</div>
 	</div>
@@ -41,7 +41,8 @@
 	  data() {
 	    return {
 	      tempUrl: '',
-	      dataObj: { token: '', key: '' }
+	      dataObj: { token: '', key: '' },
+			//imageUrl: ''
     };
   },
 	  methods: {
@@ -51,8 +52,9 @@
 	    emitInput(val) {
 	      this.$emit('input', val);
     },
-	    handleImageScucess(file) {
-	      this.emitInput(file.content.url)
+	    handleImageScucess(res, file) {
+		this.emitInput(res.content.url);
+		this.imageUrl = URL.createObjectURL(file.raw);
     },
 	    beforeUpload() {
 	      const _self = this;

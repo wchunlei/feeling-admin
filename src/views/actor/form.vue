@@ -54,24 +54,24 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="50px" label="身高:" class="postInfo-container-item">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.height">
+                  <el-form-item label-width="50px" label="身高:" class="postInfo-container-item" prop="height">
+                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.height">
                       </el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
                   
-                    <el-form-item label-width="50px" label="年龄:" class="postInfo-container-item">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.age">
+                    <el-form-item label-width="50px" label="年龄:" class="postInfo-container-item" prop="age">
+                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.age">
                       </el-input>
                   </el-form-item>
                   
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="50px" label="体重:" class="postInfo-container-item">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.weight">
+                  <el-form-item label-width="50px" label="体重:" class="postInfo-container-item" prop="weight">
+                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.weight">
                       </el-input>
                   </el-form-item>
                 </el-col>
@@ -81,8 +81,8 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="50px" label="胸围:" class="postInfo-container-item">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.bust">
+                  <el-form-item label-width="50px" label="胸围:" class="postInfo-container-item" prop="bust">
+                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.bust">
                       </el-input>
                   </el-form-item>
                 </el-col>
@@ -119,7 +119,7 @@
           </el-form-item>
 
           <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
-            <el-input placeholder="" style='width:150px;display:inline-block;' v-model="photosList.amount"></el-input>
+            <el-input placeholder="" style='width:150px;display:inline-block;' v-model.number="photosList.amount"></el-input>
             <span>（0金币不锁）</span>
           </el-form-item>
           <!--<el-form-item label-width="50px" label="数量:" class="postInfo-container-item" prop="photoNum" style="width:300px">
@@ -152,7 +152,7 @@
               </el-form-item>
 
               <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
-                <el-input placeholder="" style='width:150px;display:inline-block;' v-model="photo.amount"></el-input>
+                <el-input placeholder="" style='width:150px;display:inline-block;' v-model.number="photo.amount"></el-input>
                 <span>（0金币不锁）</span>
               </el-form-item>
 
@@ -222,7 +222,7 @@
           </el-form-item>
 
           <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
-            <el-input placeholder="" style='width:150px;display:inline-block;' v-model="addmvs.amount"></el-input>
+            <el-input placeholder="" style='width:150px;display:inline-block;' v-model.number="addmvs.amount"></el-input>
             <span>（0金币不锁）</span>
           </el-form-item>
           <el-form-item label-width="50px" label="">
@@ -251,7 +251,7 @@
               </el-form-item>
 
               <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
-                <el-input placeholder="" style='width:150px;display:inline-block;' v-model="mv.amount"></el-input>
+                <el-input placeholder="" style='width:150px;display:inline-block;' v-model.number="mv.amount"></el-input>
                 <span>（0金币不锁）</span>
               </el-form-item>
 
@@ -296,13 +296,25 @@
     name: 'articleDetail',
     components: { Tinymce, MDinput, Upload },
     data() {
+      const checkNum = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('不能为空'));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('请输入正整数'));
+          } else {
+            if (value < 0) {
+              callback(new Error('不能小于0'));
+            } else {
+              callback();
+            }
+          }
+        }, 500);
+      };
       const validateRequire = (rule, value, callback) => {
-        if (value === '') {
-          this.$message({
-            message: rule.field + '为必传项',
-            type: 'error'
-          });
-          callback(null)
+        if (!value) {
+          return callback(new Error('不能为空'));
         } else {
           callback()
         }
@@ -383,22 +395,24 @@
         }],
         addPhotosRules: {
           url: [{ validator: validateRequire }],
-          amount: [{ validator: validateRequire }],
+          amount: [{ validator: checkNum }],
           name: [{ validator: validateRequire }]
         },
         addMvRules: {
           thumbnail: [{ validator: validateRequire }],
           mvurl: [{ validator: validateRequire }],
-          amount: [{ validator: validateRequire }],
+          amount: [{ validator: checkNum }],
           mvname: [{ validator: validateRequire }]
         },
         picListRules: {
           photourl: [{ validator: validateRequire }]
         },
         actorDetail: {
-          height: [
-            { required: true, type: 'number', message: '请输入活动名称'}
-          ],
+          name: [{ validator: validateRequire, trigger: 'blur' }],
+          height: [{ validator: checkNum, trigger: 'blur' }],
+          weight: [{ validator: checkNum, trigger: 'blur' }],
+          age: [{ validator: checkNum, trigger: 'blur' }],
+          //bust: [{ validator: checkNum, trigger: 'blur' }],
         }
       }
     },
@@ -428,6 +442,12 @@
       getDetail () {
         actorListAll (this.listQuery).then(response => {
           this.postForm = response.data.content;
+          if (response.data.content.gender == 1) {
+            this.postForm.gender = '男'
+          }
+          if (response.data.content.gender == 2) {
+            this.postForm.gender = '女'
+          }
           this.photos = response.data.content.photo;
           this.mvs = response.data.content.mv;
           /*for(let i=0;i<this.postForm.nature.length;i++){

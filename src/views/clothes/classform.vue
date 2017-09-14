@@ -154,6 +154,8 @@
             }
         },
         created () {
+            let Query = {};
+            this.getRemoteUserList(Query);
             if(this.postForm.actor.value){
                 //this.getList();
              }
