@@ -135,6 +135,10 @@
                                 <el-radio label="2">自定义</el-radio>
                             </el-radio-group>
                         </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="normalVideoModify">修改剧情</el-button>
+                            <el-button type="primary" @click="normalVideoDelete">删除剧情</el-button>
+                        </el-form-item>
                     </el-form>
                     <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
@@ -198,6 +202,10 @@
                                 <el-radio label="2">自定义</el-radio>
                             </el-radio-group>
                         </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="eachVideoModify">修改剧情</el-button>
+                            <el-button type="primary" @click="eachVideoDelete">删除剧情</el-button>
+                        </el-form-item>
                     </el-form>
                     <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
@@ -250,6 +258,10 @@
                                 <el-radio label="1">和出现条件相同</el-radio>
                                 <el-radio label="2">自定义</el-radio>
                             </el-radio-group>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="phoneModify">修改剧情</el-button>
+                            <el-button type="primary" @click="phoneDelete">删除剧情</el-button>
                         </el-form-item>
                     </el-form>
                     <hr width="96%" color="#999" style="margin-bottom:40px" />
@@ -307,6 +319,10 @@
                                 <el-radio label="1">和出现条件相同</el-radio>
                                 <el-radio label="2">自定义</el-radio>
                             </el-radio-group>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="wordTalkModify">修改剧情</el-button>
+                            <el-button type="primary" @click="wordTalkDelete">删除剧情</el-button>
                         </el-form-item>
                     </el-form>
                     <hr width="96%" color="#999" style="margin-bottom:40px" />
@@ -367,6 +383,10 @@
                                 <el-radio label="2">自定义</el-radio>
                             </el-radio-group>
                         </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="soundTalkModify">修改剧情</el-button>
+                            <el-button type="primary" @click="soundTalkDelete">删除剧情</el-button>
+                        </el-form-item>
                     </el-form>
                     <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
@@ -426,6 +446,10 @@
                                 <el-radio label="2">自定义</el-radio>
                             </el-radio-group>
                         </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="picTalkModify">修改剧情</el-button>
+                            <el-button type="primary" @click="picTalkDelete">删除剧情</el-button>
+                        </el-form-item>
                     </el-form>
                     <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
@@ -471,6 +495,10 @@
                                 <el-radio label="1">和出现条件相同</el-radio>
                                 <el-radio label="2">自定义</el-radio>
                             </el-radio-group>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="gamesModify">修改剧情</el-button>
+                            <el-button type="primary" @click="gamesDelete">删除剧情</el-button>
                         </el-form-item>
                     </el-form>
                     <hr width="96%" color="#999" style="margin-bottom:40px" />
@@ -531,6 +559,10 @@
                                 <el-radio label="2">自定义</el-radio>
                             </el-radio-group>
                         </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="smallVideoModify">修改剧情</el-button>
+                            <el-button type="primary" @click="smallVideoDelete">删除剧情</el-button>
+                        </el-form-item>
                     </el-form>
                     <hr width="96%" color="#999" style="margin-bottom:40px" />
                 </template>
@@ -548,12 +580,16 @@
             </el-dialog>-->
             <el-dialog title="新增剧情" :visible.sync="dialogStory" size="small">
                 <!--<Story :id="storyId" v-on:listener="listenAdd"></Story>-->
-                <Story :id="storyId" :type="storyType" :day="storyDay" :title="storyTitle" v-on:close="dialogClose"></Story>
+                <Story :id="storyId" :type="storyType" :day="storyDay" :title="storyTitle" :actorSelect="storyActor" v-on:close="dialogClose"></Story>
                 <!--<span slot="footer" class="dialog-footer">
                     <el-button @click="dialogStory = false">取 消</el-button>
                     <el-button type="primary" @click="addStoryClick">确 定</el-button>
                 </span>-->
             </el-dialog>
+            <!--<el-dialog title="确定删除" :visible.sync="dialogStoryDel" size="tiny">
+                <el-button @click="dialogStoryDel = false">取 消</el-button>
+                <el-button type="primary" @click="storyClickDel">确 定</el-button>
+            </el-dialog>-->
         </div>
     </div>
 </template>
@@ -566,9 +602,18 @@
     import { validateURL } from 'utils/validate';
     import { userSearch } from 'api/story';
     import { addstory } from 'api/story';
+    import { storydel } from 'api/story';
     import { storyListall } from 'api/story';
     import { storyPage } from 'api/story';
     import { addstoryday } from 'api/story';
+    import { videoUpdate } from 'api/story';
+    import { videoInterUpdate } from 'api/story';
+    import { talkUpdate } from 'api/story';
+    import { pictureUpdate } from 'api/story';
+    import { radioUpdate } from 'api/story';
+    import { telUpdate } from 'api/story';
+    import { gameUpdate } from 'api/story';
+    import { tvUpdate } from 'api/story';
 
     export default {
         name: 'clothes',
@@ -588,6 +633,7 @@
                 storyType: '',
                 storyDay: '',
                 storyTitle: '',
+                storyActor: '',
                 listQuery: {},
                 listpageQuery: {
                     page: 1,
@@ -727,6 +773,7 @@
                 },
                 dialogClass:false,
                 dialogStory: false,
+                dialogStoryDel: false,
                 //currentPage: 1,
                 clothesValue: '',
                 editableTabsValue2: 1,
@@ -774,6 +821,7 @@
                 this.storyTitle = this.$route.params.title;
                 this.storyDay = '1';
                 this.storyId = this.$route.params.num;
+                this.storyActor = this.$route.params.actorname;
             }
             if(this.$route.params.num == ':num'){
                 this.addBut = false;
@@ -1013,9 +1061,9 @@
                                 let msgs = response.data.content[i].nxtmsg.split("||");
                                 this.phone.title = response.data.content[i].title;
                                 this.phone.speak = response.data.content[i].msg;
-                                this.phone.eachWord = msgs[0];
-                                this.phone.answer = msgs[1];
-                                this.phone.cancel = msgs[2];
+                                this.phone.eachWord = response.data.content[i].question;
+                                this.phone.answer = response.data.content[i].allow;
+                                this.phone.cancel = response.data.content[i].deny;
                                 this.phone.condition = response.data.content[i].condition;
                                 this.phone.event = response.data.content[i].event;
                                 this.phone.resource = response.data.content[i].event_condition.toString();
@@ -1268,6 +1316,603 @@
                 this.activeName = activeName;
                 this.editableTabs2 = tabs.filter(tab => tab.name !== targetName);
             },*/
+            normalVideoDelete () {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let delData = {
+                        id: parseInt(this.$route.params.num),
+                        actorid: parseInt(this.$route.params.actorid),
+                        day: parseInt(this.storyDay),
+                        step: parseInt(this.normalVideo.step)
+                    }
+                    storydel (delData).then(response => {
+                        if (response.data.code == 200) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.fetchData(this.listQuery);
+                            this.nVideo = false;
+                        }
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            eachVideoDelete () {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let delData = {
+                        id: parseInt(this.$route.params.num),
+                        actorid: parseInt(this.$route.params.actorid),
+                        day: parseInt(this.storyDay),
+                        step: parseInt(this.eachVideo.step)
+                    }
+                    storydel (delData).then(response => {
+                        if (response.data.code == 200) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.fetchData(this.listQuery);
+                            this.eVideo = false;
+                        }
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            phoneDelete () {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let delData = {
+                        id: parseInt(this.$route.params.num),
+                        actorid: parseInt(this.$route.params.actorid),
+                        day: parseInt(this.storyDay),
+                        step: parseInt(this.phone.step)
+                    }
+                    storydel (delData).then(response => {
+                        if (response.data.code == 200) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.fetchData(this.listQuery);
+                            this.tel = false;
+                        }
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            wordTalkDelete () {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let delData = {
+                        id: parseInt(this.$route.params.num),
+                        actorid: parseInt(this.$route.params.actorid),
+                        day: parseInt(this.storyDay),
+                        step: parseInt(this.wordTalk.step)
+                    }
+                    storydel (delData).then(response => {
+                        if (response.data.code == 200) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.fetchData(this.listQuery);
+                            this.wTalk = false;
+                        }
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            soundTalkDelete () {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let delData = {
+                        id: parseInt(this.$route.params.num),
+                        actorid: parseInt(this.$route.params.actorid),
+                        day: parseInt(this.storyDay),
+                        step: parseInt(this.soundTalk.step)
+                    }
+                    storydel (delData).then(response => {
+                        if (response.data.code == 200) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.fetchData(this.listQuery);
+                            this.sTalk = false;
+                        }
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            picTalkDelete () {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let delData = {
+                        id: parseInt(this.$route.params.num),
+                        actorid: parseInt(this.$route.params.actorid),
+                        day: parseInt(this.storyDay),
+                        step: parseInt(this.picTalk.step)
+                    }
+                    storydel (delData).then(response => {
+                        if (response.data.code == 200) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.fetchData(this.listQuery);
+                            this.pTalk = false;
+                        }
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            gamesDelete () {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let delData = {
+                        id: parseInt(this.$route.params.num),
+                        actorid: parseInt(this.$route.params.actorid),
+                        day: parseInt(this.storyDay),
+                        step: parseInt(this.games.step)
+                    }
+                    storydel (delData).then(response => {
+                        if (response.data.code == 200) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.fetchData(this.listQuery);
+                            this.game = false;
+                        }
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            smallVideoDelete () {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let delData = {
+                        id: parseInt(this.$route.params.num),
+                        actorid: parseInt(this.$route.params.actorid),
+                        day: parseInt(this.storyDay),
+                        step: parseInt(this.smallVideo.step)
+                    }
+                    storydel (delData).then(response => {
+                        if (response.data.code == 200) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            this.fetchData(this.listQuery);
+                            this.sVideo = false;
+                        }
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            normalVideoModify () {
+                let comment = {
+                    id : this.$route.params.num,
+                    actor : this.form.actor,
+                    type : this.$route.params.type,
+                    title : this.$route.params.title,
+                    day : this.storyDay.toString(),
+                    status : 'published'
+                }
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        this.loading = true;
+                        if(this.nVideo){
+                            let nVideoinfo = comment;
+                            nVideoinfo.video_uri = this.normalVideo.video;
+                            nVideoinfo.condition = this.normalVideo.condition;
+                            nVideoinfo.event = this.normalVideo.event;
+                            nVideoinfo.event_condition = parseInt(this.normalVideo.resource);
+                            nVideoinfo.step = this.normalVideo.step;
+                            videoUpdate (nVideoinfo).then(response => {
+                                if(response.data.code == 200){
+                                    this.$message({
+                                        message: '修改成功',
+                                        type: 'success'
+                                    });
+                                    //this.postForm.status = 'published';
+                                    this.$emit("close","false");
+                                    //this.$refs[formName].resetFields();
+                                }
+                                if (!response.data.content) return;
+                                this.userLIstOptions = response.data.content.map(v => ({
+                                    key: v.name,
+                                    value: v.id
+                                }));
+                            });
+                        }
+                        this.loading = false;
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            eachVideoModify () {
+                let comment = {
+                    id : this.$route.params.num,
+                    actor : this.form.actor,
+                    type : this.$route.params.type,
+                    title : this.$route.params.title,
+                    day : this.storyDay.toString(),
+                    status : 'published'
+                }
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        this.loading = true;
+                        if(this.eVideo){
+                            let nVideoinfo = comment;
+                            nVideoinfo.video_uri = this.eachVideo.startVideo;
+                            nVideoinfo.video_uri1 = this.eachVideo.selectVideo1;
+                            nVideoinfo.video_uri2 = this.eachVideo.selectVideo2;
+                            nVideoinfo.question = this.eachVideo.eachWord;
+                            nVideoinfo.answer1 = this.eachVideo.answer1;
+                            nVideoinfo.answer2 = this.eachVideo.answer2;
+                            nVideoinfo.condition = this.eachVideo.condition;
+                            nVideoinfo.event = this.eachVideo.event;
+                            nVideoinfo.event_condition = parseInt(this.eachVideo.resource);
+                            nVideoinfo.step = this.eachVideo.step;
+                            videoInterUpdate (nVideoinfo).then(response => {
+                                if(response.data.code == 200){
+                                    this.$message({
+                                        message: '修改成功',
+                                        type: 'success'
+                                    });
+                                    //this.postForm.status = 'published';
+                                    this.$emit("close","false");
+                                }
+                                if (!response.data.content) return;
+                                this.userLIstOptions = response.data.content.map(v => ({
+                                    key: v.name,
+                                    value: v.id
+                                }));
+                            });
+                        }
+                        this.loading = false;
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            phoneModify () {
+                let comment = {
+                    id : this.$route.params.num,
+                    actor : this.form.actor,
+                    type : this.$route.params.type,
+                    title : this.$route.params.title,
+                    day : this.storyDay.toString(),
+                    status : 'published'
+                }
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        this.loading = true;
+                        if(this.tel){
+                            let nVideoinfo = comment;
+                            nVideoinfo.audio_uri = this.phone.speak;
+                            nVideoinfo.question = this.phone.eachWord;
+                            nVideoinfo.allow = this.phone.answer;
+                            nVideoinfo.deny = this.phone.cancel;
+                            nVideoinfo.condition = this.phone.condition;
+                            nVideoinfo.event = this.phone.event;
+                            nVideoinfo.event_condition = parseInt(this.phone.resource);
+                            nVideoinfo.step = this.phone.step;
+                            telUpdate (nVideoinfo).then(response => {
+                                if(response.data.code == 200){
+                                    this.$message({
+                                        message: '修改成功',
+                                        type: 'success'
+                                    });
+                                    //this.postForm.status = 'published';
+                                    this.$emit("close","false");
+                                }
+                                if (!response.data.content) return;
+                                this.userLIstOptions = response.data.content.map(v => ({
+                                    key: v.name,
+                                    value: v.id
+                                }));
+                            });
+                        }
+                        this.loading = false;
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            wordTalkModify () {
+                let comment = {
+                    id : this.$route.params.num,
+                    actor : this.form.actor,
+                    type : this.$route.params.type,
+                    title : this.$route.params.title,
+                    day : this.storyDay.toString(),
+                    status : 'published'
+                }
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        this.loading = true;
+                        if(this.wTalk){
+                            let nVideoinfo = comment;
+                            nVideoinfo.msg = this.wordTalk.wordContent;
+                            nVideoinfo.replay1 = this.wordTalk.answer1;
+                            nVideoinfo.replay2 = this.wordTalk.answer2;
+                            nVideoinfo.replay3 = this.wordTalk.answer3;
+                            nVideoinfo.replay4 = this.wordTalk.answer4;
+                            nVideoinfo.replay5 = this.wordTalk.answer5;
+                            nVideoinfo.condition = this.wordTalk.condition;
+                            nVideoinfo.event = this.wordTalk.event;
+                            nVideoinfo.event_condition = parseInt(this.wordTalk.resource);
+                            nVideoinfo.step = this.wordTalk.step;
+                            talkUpdate (nVideoinfo).then(response => {
+                                if(response.data.code == 200){
+                                    this.$message({
+                                        message: '修改成功',
+                                        type: 'success'
+                                    });
+                                    //this.postForm.status = 'published';
+                                    this.$emit("close","false");
+                                }
+                                if (!response.data.content) return;
+                                this.userLIstOptions = response.data.content.map(v => ({
+                                    key: v.name,
+                                    value: v.id
+                                }));
+                            });
+                        }
+                        this.loading = false;
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            soundTalkModify () {
+                let comment = {
+                    id : this.$route.params.num,
+                    actor : this.form.actor,
+                    type : this.$route.params.type,
+                    title : this.$route.params.title,
+                    day : this.storyDay.toString(),
+                    status : 'published'
+                }
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        this.loading = true;
+                        if(this.sTalk){
+                            let nVideoinfo = comment;
+                            nVideoinfo.radio_uri = this.soundTalk.sound;
+                            nVideoinfo.replay1 = this.soundTalk.answer1;
+                            nVideoinfo.replay2 = this.soundTalk.answer2;
+                            nVideoinfo.replay3 = this.soundTalk.answer3;
+                            nVideoinfo.replay4 = this.soundTalk.answer4;
+                            nVideoinfo.replay5 = this.soundTalk.answer5;
+                            nVideoinfo.condition = this.soundTalk.condition;
+                            nVideoinfo.event = this.soundTalk.event;
+                            nVideoinfo.event_condition = parseInt(this.soundTalk.resource);
+                            nVideoinfo.step = this.soundTalk.step;
+                            radioUpdate (nVideoinfo).then(response => {
+                                if(response.data.code == 200){
+                                    this.$message({
+                                        message: '修改成功',
+                                        type: 'success'
+                                    });
+                                    //this.postForm.status = 'published';
+                                    this.$emit("close","false");
+                                }
+                                if (!response.data.content) return;
+                                this.userLIstOptions = response.data.content.map(v => ({
+                                    key: v.name,
+                                    value: v.id
+                                }));
+                            });
+                        }
+                        this.loading = false;
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            picTalkModify () {
+                let comment = {
+                    id : this.$route.params.num,
+                    actor : this.form.actor,
+                    type : this.$route.params.type,
+                    title : this.$route.params.title,
+                    day : this.storyDay.toString(),
+                    status : 'published'
+                }
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        this.loading = true;
+                        if(this.pTalk){
+                            let nVideoinfo = comment;
+                            nVideoinfo.picture_uri = this.picTalk.pic;
+                            nVideoinfo.replay1 = this.picTalk.answer1;
+                            nVideoinfo.replay2 = this.picTalk.answer2;
+                            nVideoinfo.replay3 = this.picTalk.answer3;
+                            nVideoinfo.replay4 = this.picTalk.answer4;
+                            nVideoinfo.replay5 = this.picTalk.answer5;
+                            nVideoinfo.condition = this.picTalk.condition;
+                            nVideoinfo.event = this.picTalk.event;
+                            nVideoinfo.event_condition = parseInt(this.picTalk.resource);
+                            nVideoinfo.step = this.picTalk.step;
+                            pictureUpdate (nVideoinfo).then(response => {
+                                if(response.data.code == 200){
+                                    this.$message({
+                                        message: '修改成功',
+                                        type: 'success'
+                                    });
+                                    //this.postForm.status = 'published';
+                                    this.$emit("close","false");
+                                }
+                                if (!response.data.content) return;
+                                this.userLIstOptions = response.data.content.map(v => ({
+                                    key: v.name,
+                                    value: v.id
+                                }));
+                            });
+                        }
+                        this.loading = false;
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            gamesModify () {
+                let comment = {
+                    id : this.$route.params.num,
+                    actor : this.form.actor,
+                    type : this.$route.params.type,
+                    title : this.$route.params.title,
+                    day : this.storyDay.toString(),
+                    status : 'published'
+                }
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        this.loading = true;
+                        if(this.game){
+                            let nVideoinfo = comment;
+                            nVideoinfo.game = this.games.region;
+                            nVideoinfo.condition = this.games.condition;
+                            nVideoinfo.event = this.games.event;
+                            nVideoinfo.event_condition = parseInt(this.games.resource);
+                            nVideoinfo.step = this.games.step;
+                            gameUpdate (nVideoinfo).then(response => {
+                                if(response.data.code == 200){
+                                    this.$message({
+                                        message: '修改成功',
+                                        type: 'success'
+                                    });
+                                    //this.postForm.status = 'published';
+                                    this.$emit("close","false");
+                                }
+                                if (!response.data.content) return;
+                                this.userLIstOptions = response.data.content.map(v => ({
+                                    key: v.name,
+                                    value: v.id
+                                }));
+                            });
+                        }
+                        this.loading = false;
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            smallVideoModify () {
+                let comment = {
+                    id : this.$route.params.num,
+                    actor : this.form.actor,
+                    type : this.$route.params.type,
+                    title : this.$route.params.title,
+                    day : this.storyDay.toString(),
+                    status : 'published'
+                }
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        this.loading = true;
+                        if(this.sVideo){
+                            let nVideoinfo = comment;
+                            nVideoinfo.tv_uri = this.smallVideo.video;
+                            nVideoinfo.replay1 = this.smallVideo.answer1;
+                            nVideoinfo.replay2 = this.smallVideo.answer2;
+                            nVideoinfo.replay3 = this.smallVideo.answer3;
+                            nVideoinfo.replay4 = this.smallVideo.answer4;
+                            nVideoinfo.replay5 = this.smallVideo.answer5;
+                            nVideoinfo.condition = this.smallVideo.condition;
+                            nVideoinfo.event = this.smallVideo.event;
+                            nVideoinfo.event_condition = parseInt(this.smallVideo.resource);
+                            nVideoinfo.step = this.smallVideo.step;
+                            tvUpdate (nVideoinfo).then(response => {
+                                if(response.data.code == 200){
+                                    this.$message({
+                                        message: '修改成功',
+                                        type: 'success'
+                                    });
+                                    //this.postForm.status = 'published';
+                                    this.$emit("close","false");
+                                }
+                                if (!response.data.content) return;
+                                this.userLIstOptions = response.data.content.map(v => ({
+                                    key: v.name,
+                                    value: v.id
+                                }));
+                            });
+                        }
+                        this.loading = false;
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
             getRemoteUserList (query) {
                 console.log("getRemoteUserList")
                 userSearch(query).then(response => {

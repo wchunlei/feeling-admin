@@ -346,6 +346,8 @@
             }
         },
         created () {
+            let Query = {};
+            this.getRemoteUserList(Query);
             //alert(this.editableTabs2);
         },
         methods : {

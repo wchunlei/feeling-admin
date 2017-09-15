@@ -63,13 +63,20 @@
   import { userSearch } from 'api/story';
   import { appupdate } from 'api/app';
   import { applist } from 'api/app';
-  import { storyList } from 'api/story';
+  import { storyData } from 'api/story';
 
   export default {
     name: 'articleDetail',
     components: { Tinymce, MDinput, Upload },
     data() {
       const validateRequire = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('不能为空'));
+        } else {
+          callback()
+        }
+      };
+      /*const validateRequire = (rule, value, callback) => {
         if (value === '') {
           this.$message({
             message: rule.field + '为必传项',
@@ -79,7 +86,7 @@
         } else {
           callback()
         }
-      };
+      };*/
       const validateSourceUri = (rule, value, callback) => {
         if (value) {
           if (validateURL(value)) {
@@ -165,7 +172,7 @@
       },
       getStory () {
         this.listLoading = true;
-        storyList().then(response => {
+        storyData().then(response => {
           let tempIds = 0;
           let tempId = 0;
           if (tempIds || tempId) {

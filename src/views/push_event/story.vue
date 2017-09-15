@@ -2,6 +2,12 @@
     <div class="createPost-container">
         <div class="cloth_center">
             <el-form ref="actorValue" :model="actorValue" label-width="100px" style="margin-top:20px;padding-top:20px;">
+                <el-form-item label="主角:" label-width="90px" prop="actor">
+                    <multiselect v-model="actorValue.actor" required autofocus :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                                 deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                        <span slot='noResult'>无结果</span>
+                    </multiselect>
+                </el-form-item>
                 <el-form-item label="选择剧情:" prop="select">
                     <!--<el-input v-model="form.day" size="small" style="width: 100px;"></el-input>-->
                     <el-select v-model="actorValue.select" placeholder="请选择">
@@ -92,9 +98,9 @@
                 </el-table>
             </div>
             <el-dialog title="新增剧情事件" :visible.sync="dialogFormVisible">
-                <el-form ref="form" :model="form" label-width="100px" style="margin-top:20px;padding-top:20px;">
+                <el-form ref="form" :model="form" label-width="100px" :rules="formRules" style="margin-top:20px;padding-top:20px;">
                     <el-form-item label="第几天:" prop="day">
-                        <el-input v-model="form.day" size="small" style="width: 100px;"></el-input>
+                        <el-input v-model.number="form.day" size="small" style="width: 100px;"></el-input>
                     </el-form-item>
                     <!--<el-form-item label="剧情ID:" prop="storyid">
                         <el-input v-model="form.storyid" size="small" style="width: 100px;"></el-input>
@@ -127,6 +133,8 @@
     //import Tinymce from 'components/Tinymce'
     //import Upload from 'components/Upload/singleImage3';
     //import MDinput from 'components/MDinput';
+    import { userSearch } from 'api/story';
+    import { storyData } from 'api/story';
     import { validateURL } from 'utils/validate';
     import { storyUpdate } from 'api/pushEvent';
     import { storyList } from 'api/pushEvent';
@@ -138,7 +146,32 @@
         //addEvent: '',
         //components: { Upload },
         data() {
+            const checkNum = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('不能为空'));
+                }
+                setTimeout(() => {
+                    if (!Number.isInteger(value)) {
+                        callback(new Error('请输入正整数'));
+                    } else {
+                        if (value < 0) {
+                            callback(new Error('不能小于0'));
+                        } else {
+                            callback();
+                        }
+                    }
+                }, 500);
+            };
+            const validateRequire = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('不能为空'));
+                } else {
+                    callback()
+                }
+            };
             return {
+                actorData: '',
+                userLIstOptions: [],
                 tableDay: '1',
                 editableDay: [],
                 tabIndex: 1,
@@ -150,23 +183,11 @@
                 dialogClass:false,
                 listLoading: false,
                 //currentPage: 1,
-                actorOptions: [{
-                    value: 1,
-                    label: '剧情1'
-                }, {
-                    value: 2,
-                    label: '剧情2'
-                }, ],
+                actorOptions: [],
                 actorValue: {
-                    select: 2
+                    actor: '',
+                    select: ''
                 },
-                clothesOptions: [{
-                    value: '选项1',
-                    label: '连衣裙'
-                }, {
-                    value: '选项2',
-                    label: '长裤'
-                } ],
                 clothesValue: '',
                 editableTabsValue2: '2',
                 editableTabs2: [],
@@ -203,13 +224,20 @@
                     modify_time: '2017-01-03 10:10:10'
                 }*/],
                 total: null,
-                list1: []
+                formRules: {
+                    day: [{ validator: checkNum, trigger: 'blur' }],
+                    title: [{ validator: validateRequire, trigger: 'blur' }],
+                }
             }
         },
         created () {
             //alert(this.editableTabs2);
-            this.listQuery.id=this.actorValue.select;
-            this.getList();
+            let Query = {};
+            this.getRemoteUserList(Query);
+            this.actorData = {};
+            //this.getStoryList(this.actorData);
+            //this.listQuery.id=this.actorValue.select;
+            //this.getList();
         },
         watch: {
             dialogFormVisible : {
@@ -223,6 +251,22 @@
                 },
                 //deep:true
             },
+            "actorValue.actor" (newval,oldval) {
+                if (this.actorOptions) {
+                    this.actorOptions = [];
+                }
+                if (newval && newval.key) {
+                    this.actorData.name = this.actorValue.actor.key;
+                    this.getStoryList(this.actorData);
+                }
+                if (this.actorValue.select) {
+                    this.actorValue.select = '';
+                }
+            },
+            "actorValue.select" (newval,oldval) {
+                this.listQuery.id=this.actorValue.select;
+                this.getList();
+            }
         },
         filters: {
             statusFilter(status) {
@@ -238,6 +282,18 @@
             }
         },
         methods : {
+            getStoryList () {
+                storyData(this.actorData).then(response => {
+                    //this.list.status = 'published';
+                    console.log(response.data.content);
+                    for (let i=0; i<response.data.content.length; i++){
+                        let temp ={};
+                        temp.value = response.data.content[i].id;
+                        temp.label = response.data.content[i].title;
+                        this.actorOptions.push(temp);
+                    }
+                });
+            },
             getList() {
                 this.listLoading = true;
                 storypageList (this.listQuery).then(response => {
@@ -370,31 +426,46 @@
                 //}
             },
             addStory () {
-                this.dialogFormVisible = false;
-                let date=this.form.dt;
-                let year=date.getFullYear(),
-                        month=date.getMonth()+ 1,
-                        day=date.getDate(),
-                        hour=date.getHours(),
-                        minutes=date.getMinutes(),
-                        seconds=date.getSeconds();
-                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-                this.list.push({
-                    id: this.actorValue.select,
-                    //eventid: this.actorValue.select,
-                    title: this.form.title,
-                    dt: dateString
-                })
-                let storyinfo = {
-                    id: parseInt(this.actorValue.select),
-                    title: this.form.title,
-                    dt: dateString,
-                    day:parseInt(this.form.day)
-                };
-                this.loading = true;
-                storyUpdate (storyinfo).then(response => {
-                    console.log(response);
-                    this.getList();
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        let date=this.form.dt;
+                        let year=date.getFullYear(),
+                                month=date.getMonth()+ 1,
+                                day=date.getDate(),
+                                hour=date.getHours(),
+                                minutes=date.getMinutes(),
+                                seconds=date.getSeconds();
+                        let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                        this.list.push({
+                            id: this.actorValue.select,
+                            //eventid: this.actorValue.select,
+                            title: this.form.title,
+                            dt: dateString
+                        })
+                        let storyinfo = {
+                            id: parseInt(this.actorValue.select),
+                            title: this.form.title,
+                            dt: dateString,
+                            day:parseInt(this.form.day)
+                        };
+                        this.loading = true;
+                        storyUpdate (storyinfo).then(response => {
+                            console.log(response);
+                            if (response.data.code == 101) {
+                                this.$message({
+                                    message: '请选择剧情',
+                                    type: 'error'
+                                });
+                            }
+                            if (response.data.code == 200) {
+                                this.getList();
+                            }
+                        });
+                        this.dialogFormVisible = false;
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
                 });
                 this.loading = false;
                 /*let newTabName = ++this.tabIndex + '';
@@ -443,6 +514,18 @@
                 });
                 row.status = status;
             },
+            getRemoteUserList(query) {
+                console.log("getRemoteUserList")
+                userSearch(query).then(response => {
+                    console.log("getRemoteUserList")
+                    if (!response.data.content) return;
+                    console.log(response)
+                    this.userLIstOptions = response.data.content.map(v => ({
+                        key: v.name,
+                        value: v.id
+                    }));
+                })
+            }
         }
     }
 </script>

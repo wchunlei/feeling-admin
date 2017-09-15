@@ -101,7 +101,7 @@
 </template>
 
 <script type="text/ECMAScript-6">
-  import { storyList } from 'api/story';
+  import { storyData } from 'api/story';
   import { parseTime } from 'utils';
   import { storyUpdate } from 'api/story';
   import { storyStatus } from 'api/story';
@@ -186,7 +186,7 @@
     methods: {
       getList() {
         this.listLoading = true;
-        storyList(this.listQuery).then(response => {
+        storyData(this.listQuery).then(response => {
           //this.list.status = 'published';
           this.list = response.data.content;
           this.total = response.data.total;

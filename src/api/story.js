@@ -26,6 +26,15 @@ export function addstoryday(storyinfo) {
   });
 }
 
+export function storydel(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=storydel',
+    method: 'post',
+    data
+  });
+}
+
 export function videoUpdate(storyinfo) {
   const data = storyinfo;
   return fetch({
@@ -124,7 +133,7 @@ export function updatestory(storyinfo) {
   });
 }
 
-export function storyList(query) {
+export function storyData(query) {
   return fetch({
     url: '?act=storylist',
     method: 'get',

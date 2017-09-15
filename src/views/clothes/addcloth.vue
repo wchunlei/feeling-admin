@@ -84,7 +84,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="服装价格:" style="margin-bottom: 40px;" label-width="90px" prop="price">
-                    <el-input v-model="postForm.price" size="small" placeholder="请输入服装价格" style="width:200px;"></el-input>
+                    <el-input v-model.number="postForm.price" size="small" placeholder="请输入服装价格" style="width:200px;"></el-input>
                 </el-form-item>
             </div>
         </el-form>
@@ -118,6 +118,22 @@
         components: { Upload },
         name: 'table_demo',
         data() {
+            const checkNum = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('不能为空'));
+                }
+                setTimeout(() => {
+                    if (!Number.isInteger(value)) {
+                        callback(new Error('请输入正整数'));
+                    } else {
+                        if (value < 0) {
+                            callback(new Error('不能小于0'));
+                        } else {
+                            callback();
+                        }
+                    }
+                }, 500);
+            };
             const onlyNum = (rule, value, callback) => {
                 let reg=/^[1-9]\d*$/ig;
                 if (value&&!reg.test(value)) {
@@ -130,7 +146,7 @@
                     callback();
                 }
             };
-            const validateRequire = (rule, value, callback) => {
+            /*const validateRequire = (rule, value, callback) => {
                 if (value === '') {
                     this.$message({
                         message: rule.field + '为必传项',
@@ -140,8 +156,15 @@
                 } else {
                     callback()
                 }
+            };*/
+            const validateRequire = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('不能为空'));
+                } else {
+                    callback()
+                }
             };
-            const validateSourceUri = (rule, value, callback) => {
+            /*const validateSourceUri = (rule, value, callback) => {
                 if (value) {
                     if (validateURL(value)) {
                         callback()
@@ -155,7 +178,7 @@
                 } else {
                     callback()
                 }
-            };
+            };*/
             return {
                 weatherOptions: [{
                     value: 'sun',
@@ -200,7 +223,7 @@
                 },
                 rules: {
                     clothName: [{ validator: validateRequire }],
-                    price: [{ validator: onlyNum }],
+                    price: [{ validator: checkNum }],
                     actor: [{ validator: validateRequire }]
                 }
             }
