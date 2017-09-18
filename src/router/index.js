@@ -154,8 +154,8 @@ export const asyncRouterMap = [
     name: '主角管理',
     icon: 'zujian',
     children: [
+      { path: 'table', component: actorTable, name: '主角列表' },
       { path: 'form/:actor', component: actorForm, name: '新增主角' },
-      { path: 'table', component: actorTable, name: '主角列表' }
     ]
   },
   {
@@ -197,8 +197,8 @@ export const asyncRouterMap = [
     name: '日记管理',
     icon: 'zujian',
     children: [
+      { path: 'table', component: diaryTable, name: '日记列表' },
       { path: 'form/:num', component: diaryForm, name: '新增日记' },
-      { path: 'table', component: diaryTable, name: '日记列表' }
     ]
   },
   {

@@ -181,12 +181,12 @@
                         <el-option label="区域二" value="beijing"></el-option>
                     </el-select>
                 </el-form-item>-->
-                <el-form-item label="对象:" prop="actor" style="width:280px">
+                <!--<el-form-item label="对象:" prop="actor" style="width:280px">
                     <multiselect v-model="form.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
-                </el-form-item>
+                </el-form-item>-->
                 <!--<el-form-item label="剧情类型:">
                     <el-select v-model="form.type" placeholder="请选择">
                         <el-option label="新手" value="1"></el-option>
@@ -208,7 +208,7 @@
                         <el-option label="无" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="编辑事件:" prop="event" style="width:280px">
+                <el-form-item label="编辑事件:" prop="event" style="width:550px">
                     <el-input v-model="form.event"></el-input>
                 </el-form-item>
                 <el-form-item label="事件条件:" prop="resource">
@@ -248,7 +248,7 @@
         name: 'clothes',
         addEvent: '',
         components: { Tinymce, MDinput, Upload },
-        props: ['id', 'type', 'day', 'title'],
+        props: ['id', 'type', 'day', 'title', 'actorSelect'],
         data() {
             const validateRequire = (rule, value, callback) => {
                 if (value === '') {
@@ -337,7 +337,7 @@
                 },
                 formRules: {
                     select: [{ validator: validateRequire }],
-                    actor: [{ validator: validateRequire }],
+                    //actor: [{ validator: validateRequire }],
                     type: [{ validator: validateRequire, trigger: 'change' }],
                     title: [{ validator: validateRequire }],
                     day: [{ validator: validateRequire }],
@@ -359,7 +359,7 @@
                 //this.$emit("listenAdd","123");
                 let comment = {
                     id : this.id,
-                    actor : this.form.actor,
+                    actor : this.actorSelect,
                     type : this.type,
                     title : this.title,
                     day : this.day.toString(),
@@ -408,6 +408,7 @@
                                 });
                                 //this.postForm.status = 'published';
                                 this.$emit("close","false");
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -432,6 +433,7 @@
                                 });
                                 //this.postForm.status = 'published';
                                 this.$emit("close","false");
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -456,6 +458,7 @@
                                 });
                                 //this.postForm.status = 'published';
                                 this.$emit("close","false");
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -480,6 +483,7 @@
                                 });
                                 //this.postForm.status = 'published';
                                 this.$emit("close","false");
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -502,6 +506,7 @@
                                 });
                                 //this.postForm.status = 'published';
                                 this.$emit("close","false");
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -521,6 +526,7 @@
                                 });
                                 //this.postForm.status = 'published';
                                 this.$emit("close","false");
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({
@@ -545,6 +551,7 @@
                                 });
                                 //this.postForm.status = 'published';
                                 this.$emit("close","false");
+                                this.$refs[formName].resetFields();
                             }
                             if (!response.data.content) return;
                             this.userLIstOptions = response.data.content.map(v => ({

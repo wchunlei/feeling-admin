@@ -97,8 +97,9 @@
                 </el-form-item>-->
                 <template v-if="nVideo">
                     <el-form ref="normalVideo" :model="normalVideo" label-width="100px">
-                        <el-form-item label="步:" prop="step" style="width:280px">
-                            <el-input v-model="normalVideo.step"></el-input>
+                        <el-form-item label="" prop="step">
+                            <!--<span>第</span><el-input v-model="normalVideo.step" style="display: inline-block;width:30px" disabled></el-input><span>步</span>-->
+                            <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ normalVideo.step }}</el-input><span style="display: inline-block;margin-left:8px;">步</span>
                         </el-form-item>
                         <el-form-item label="场景类型:" prop="select">
                             <el-select v-model="normalVideo.select" placeholder="请选择活动区域" @change="selectScenes">
@@ -126,7 +127,7 @@
                                 <el-option v-for="item in conditions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="编辑事件:" prop="event" style="width:280px">
+                        <el-form-item label="编辑事件:" prop="event" style="width:550px">
                             <el-input v-model="normalVideo.event"></el-input>
                         </el-form-item>
                         <el-form-item label="事件条件:" prop="resource">
@@ -145,8 +146,12 @@
 
                 <template v-if="eVideo">
                     <el-form ref="eachVideo" :model="eachVideo" label-width="100px">
-                        <el-form-item label="步:" prop="step" style="width:280px">
+                        <!--<el-form-item label="步:" prop="step" style="width:280px">
                             <el-input v-model="eachVideo.step"></el-input>
+                        </el-form-item>-->
+                        <el-form-item label="" prop="step">
+                            <!--<span>第</span><el-input v-model="normalVideo.step" style="display: inline-block;width:30px" disabled></el-input><span>步</span>-->
+                            <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ eachVideo.step }}</el-input><span style="display: inline-block;margin-left:8px;">步</span>
                         </el-form-item>
                         <el-form-item label="场景类型:" prop="select">
                             <el-select v-model="eachVideo.select" placeholder="请选择活动区域" @change="selectScenes">
@@ -193,7 +198,7 @@
                                 <el-option v-for="item in conditions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="编辑事件:" prop="event" style="width:280px">
+                        <el-form-item label="编辑事件:" prop="event" style="width:550px">
                             <el-input v-model="eachVideo.event"></el-input>
                         </el-form-item>
                         <el-form-item label="事件条件:" prop="resource">
@@ -212,8 +217,12 @@
 
                 <template v-if="tel">
                     <el-form ref="phone" :model="phone" label-width="100px">
-                        <el-form-item label="步:" prop="step" style="width:280px">
+                        <!--<el-form-item label="步:" prop="step" style="width:280px">
                             <el-input v-model="phone.step"></el-input>
+                        </el-form-item>-->
+                        <el-form-item label="" prop="step">
+                            <!--<span>第</span><el-input v-model="normalVideo.step" style="display: inline-block;width:30px" disabled></el-input><span>步</span>-->
+                            <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ phone.step }}</el-input><span style="display: inline-block;margin-left:8px;">步</span>
                         </el-form-item>
                         <el-form-item label="场景类型:" prop="select">
                             <el-select v-model="phone.select" placeholder="请选择活动区域" @change="selectScenes">
@@ -250,7 +259,7 @@
                                 <el-option v-for="item in conditions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="编辑事件:" prop="event" style="width:280px">
+                        <el-form-item label="编辑事件:" prop="event" style="width:550px">
                             <el-input v-model="phone.event"></el-input>
                         </el-form-item>
                         <el-form-item label="事件条件:" prop="resource">
@@ -269,8 +278,12 @@
 
                 <template v-if="wTalk">
                     <el-form ref="wordTalk" :model="wordTalk" label-width="100px">
-                        <el-form-item label="步:" prop="step" style="width:280px">
+                        <!--<el-form-item label="步:" prop="step" style="width:280px">
                             <el-input v-model="wordTalk.step"></el-input>
+                        </el-form-item>-->
+                        <el-form-item label="" prop="step">
+                            <!--<span>第</span><el-input v-model="normalVideo.step" style="display: inline-block;width:30px" disabled></el-input><span>步</span>-->
+                            <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ wordTalk.step }}</el-input><span style="display: inline-block;margin-left:8px;">步</span>
                         </el-form-item>
                         <el-form-item label="场景类型:" prop="select">
                             <el-select v-model="wordTalk.select" placeholder="请选择活动区域" @change="selectScenes">
@@ -311,7 +324,7 @@
                                 <el-option v-for="item in conditions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="编辑事件:" prop="event" style="width:280px">
+                        <el-form-item label="编辑事件:" prop="event" style="width:550px">
                             <el-input v-model="wordTalk.event"></el-input>
                         </el-form-item>
                         <el-form-item label="事件条件:" prop="resource">
@@ -330,8 +343,12 @@
 
                 <template v-if="sTalk">
                     <el-form ref="soundTalk" :model="soundTalk" label-width="100px">
-                        <el-form-item label="步:" prop="step" style="width:280px">
+                        <!--<el-form-item label="步:" prop="step" style="width:280px">
                             <el-input v-model="soundTalk.step"></el-input>
+                        </el-form-item>-->
+                        <el-form-item label="" prop="step">
+                            <!--<span>第</span><el-input v-model="normalVideo.step" style="display: inline-block;width:30px" disabled></el-input><span>步</span>-->
+                            <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ soundTalk.step }}</el-input><span style="display: inline-block;margin-left:8px;">步</span>
                         </el-form-item>
                         <el-form-item label="场景类型:" prop="select">
                             <el-select v-model="soundTalk.select" placeholder="请选择活动区域" @change="selectScenes">
@@ -374,7 +391,7 @@
                                 <el-option v-for="item in conditions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="编辑事件:" prop="event" style="width:280px">
+                        <el-form-item label="编辑事件:" prop="event" style="width:550px">
                             <el-input v-model="soundTalk.event"></el-input>
                         </el-form-item>
                         <el-form-item label="事件条件:" prop="resource">
@@ -393,8 +410,12 @@
 
                 <template v-if="pTalk">
                     <el-form ref="picTalk" :model="picTalk" label-width="100px">
-                        <el-form-item label="步:" prop="step" style="width:280px">
+                        <!--<el-form-item label="步:" prop="step" style="width:280px">
                             <el-input v-model="picTalk.step"></el-input>
+                        </el-form-item>-->
+                        <el-form-item label="" prop="step">
+                            <!--<span>第</span><el-input v-model="normalVideo.step" style="display: inline-block;width:30px" disabled></el-input><span>步</span>-->
+                            <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ picTalk.step }}</el-input><span style="display: inline-block;margin-left:8px;">步</span>
                         </el-form-item>
                         <el-form-item label="场景类型:" prop="select">
                             <el-select v-model="picTalk.select" placeholder="请选择活动区域" @change="selectScenes">
@@ -437,7 +458,7 @@
                                 <el-option v-for="item in conditions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="编辑事件:" prop="event" style="width:280px">
+                        <el-form-item label="编辑事件:" prop="event" style="width:550px">
                             <el-input v-model="picTalk.event"></el-input>
                         </el-form-item>
                         <el-form-item label="事件条件:" prop="resource">
@@ -456,8 +477,12 @@
 
                 <template v-if="game">
                     <el-form ref="games" :model="games" label-width="100px">
-                        <el-form-item label="步:" prop="step" style="width:280px">
+                        <!--<el-form-item label="步:" prop="step" style="width:280px">
                             <el-input v-model="games.step"></el-input>
+                        </el-form-item>-->
+                        <el-form-item label="" prop="step">
+                            <!--<span>第</span><el-input v-model="normalVideo.step" style="display: inline-block;width:30px" disabled></el-input><span>步</span>-->
+                            <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ games.step }}</el-input><span style="display: inline-block;margin-left:8px;">步</span>
                         </el-form-item>
                         <el-form-item label="场景类型:" prop="select">
                             <el-select v-model="games.select" placeholder="请选择活动区域" @change="selectScenes">
@@ -487,7 +512,7 @@
                                 <el-option v-for="item in conditions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="编辑事件:" prop="event" style="width:280px">
+                        <el-form-item label="编辑事件:" prop="event" style="width:550px">
                             <el-input v-model="games.event"></el-input>
                         </el-form-item>
                         <el-form-item label="事件条件:" prop="resource">
@@ -506,8 +531,12 @@
 
                 <template v-if="sVideo">
                     <el-form ref="smallVideo" :model="smallVideo" label-width="100px">
-                        <el-form-item label="步:" prop="step" style="width:280px">
+                        <!--<el-form-item label="步:" prop="step" style="width:280px">
                             <el-input v-model="smallVideo.step"></el-input>
+                        </el-form-item>-->
+                        <el-form-item label="" prop="step">
+                            <!--<span>第</span><el-input v-model="normalVideo.step" style="display: inline-block;width:30px" disabled></el-input><span>步</span>-->
+                            <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ smallVideo.step }}</el-input><span style="display: inline-block;margin-left:8px;">步</span>
                         </el-form-item>
                         <el-form-item label="场景类型:" prop="select">
                             <el-select v-model="smallVideo.select" placeholder="请选择活动区域" @change="selectScenes">
@@ -550,7 +579,7 @@
                                 <el-option v-for="item in conditions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="编辑事件:" prop="event" style="width:280px">
+                        <el-form-item label="编辑事件:" prop="event" style="width:550px">
                             <el-input v-model="smallVideo.event"></el-input>
                         </el-form-item>
                         <el-form-item label="事件条件:" prop="resource">
@@ -803,7 +832,7 @@
             //alert(this.$route.params.num)
             let Query = {};
             this.getRemoteUserList(Query);
-            if(this.$route.params && this.$route.params.num != ':num/:type/:actorid/:actorname/:title'){
+            if(this.$route.params && this.$route.params.num != ':num'){
                 //let listQuery={};
                 //this.listQuery.id = this.$route.params.num;
                 //this.listQuery.day = this.storyForm.day;
@@ -821,7 +850,8 @@
                 this.storyTitle = this.$route.params.title;
                 this.storyDay = '1';
                 this.storyId = this.$route.params.num;
-                this.storyActor = this.$route.params.actorname;
+                this.storyActor ={key: this.$route.params.actorname, value: this.$route.params.actorid};
+                this.getList();
             }
             if(this.$route.params.num == ':num'){
                 this.addBut = false;
@@ -832,8 +862,8 @@
             }
             this.listpageQuery.plottype = this.$route.params.type;
             this.listpageQuery.actorid = this.$route.params.actorid;
-            this.getList();
-            this.fetchData(this.listQuery);
+            //this.getList();
+            //this.fetchData(this.listQuery);
         },
         /*watch: {
             storyDay () {

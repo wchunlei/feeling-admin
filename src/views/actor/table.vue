@@ -87,8 +87,8 @@
           </el-button>
           <el-button v-if="scope.row.status!='draft'" size="small" @click="handleModifyStatusDraft(scope.row,'draft')">草稿
           </el-button>
-          <el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
-          </el-button>
+          <!--<el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
+          </el-button>-->
         </template>
       </el-table-column>
 
@@ -278,6 +278,14 @@
         actorList(this.listQuery).then(response => {
           this.list = response.data.content;
           this.total = response.data.total;
+          for (let i=0; i<response.data.content.length; i++) {
+            if (response.data.content[i].status == 'published') {
+              this.list[i].status = '发布';
+            }
+            if (response.data.content[i].status == 'draft') {
+              this.list[i].status = '草稿';
+            }
+          }
           this.listLoading = false;
         })
         this.listLoading = false;
@@ -309,8 +317,11 @@
         }
         actorstatus(statusData).then(response => {
           console.log(response)
+          if (status == 'published') {
+            row.status = '发布';
+          }
         })
-        row.status = status;
+        //row.status = status;
       },
       handleModifyStatusDraft (row, status) {
         let statusData = {
@@ -319,8 +330,11 @@
         }
         actorstatus(statusData).then(response => {
           console.log(response)
+          if (status == 'draft') {
+            row.status = '草稿';
+          }
         })
-        row.status = status;
+        //row.status = status;
       },
       delSure () {
         this.dialogDel = false;

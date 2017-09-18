@@ -1,7 +1,7 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="listQuery.name">
+      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="主角" v-model="listQuery.name">
       </el-input>
 
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
@@ -17,9 +17,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="300px" align="center" label="标题">
+      <el-table-column min-width="300px" align="center" label="剧情标题">
         <template scope="scope">
-          <span>{{scope.row.title}}</span>
+          <span style="color:#337ab7;"><router-link :to="{ path: '/story/mainStory/' + scope.row.id + '/' + scope.row.plottype + '/' + scope.row.actorid + '/' + scope.row.name + '/' +scope.row.title}">{{scope.row.title}}</router-link></span>
         </template>
       </el-table-column>
 
@@ -49,8 +49,8 @@
           </el-button>
           <el-button v-if="scope.row.status!='draft'" size="small" @click="handleModifyStatus(scope.row,'draft')">草稿
           </el-button>
-          <el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
-          </el-button>
+          <!--<el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
+          </el-button>-->
         </template>
       </el-table-column>
 
@@ -190,6 +190,14 @@
           //this.list.status = 'published';
           this.list = response.data.content;
           this.total = response.data.total;
+          for (let i=0; i<response.data.content.length; i++) {
+            if (response.data.content[i].status == 'published') {
+              this.list[i].status = '发布';
+            }
+            if (response.data.content[i].status == 'draft') {
+              this.list[i].status = '草稿';
+            }
+          }
         });
         this.listLoading = false;
       },
@@ -224,7 +232,13 @@
             message: '操作成功',
             type: 'success'
           });
-          row.status = status;
+          if (status == 'published') {
+            row.status = '发布';
+          }
+          if (status == 'draft') {
+            row.status = '草稿';
+          }
+          //row.status = status;
         })
         this.listLoading = false;
       },

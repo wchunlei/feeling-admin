@@ -20,6 +20,9 @@
                 </template>
             </el-table-column>
 
+            <el-table-column min-width="400px" label="日记标题" align="center" prop="title">
+            </el-table-column>
+
             <el-table-column width="180px" align="center" label="主角" prop="name">
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>-->
@@ -30,13 +33,16 @@
             <!--<el-table-column width="110px" v-if='showAuditor' align="center" label="审核人" prop="auditor">
             </el-table-column>-->
 
-            <el-table-column min-width="400px" label="标题" align="center" prop="title">
-            </el-table-column>
-
             <!--<el-table-column width="400px" label="内容" prop="textarea">
             </el-table-column>-->
 
             <el-table-column width="300px" label="修改时间" align="center" prop="modify_time">
+            </el-table-column>
+
+            <el-table-column class-name="status-col" label="状态" width="90">
+                <template scope="scope">
+                    <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+                </template>
             </el-table-column>
 
             <el-table-column align="center" label="操作" width="250px">
