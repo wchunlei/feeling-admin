@@ -230,7 +230,7 @@
           </el-form-item>
         </el-form>
 
-        <template v-for="mv in mvs">
+        <template v-if="showPhoto" v-for="mv in mvs">
           <div style="display:inline-block">
             <el-form :model="mvs" ref="mvs">
               <el-form-item label-width="70px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">

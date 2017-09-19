@@ -124,7 +124,7 @@
   import { parseTime } from 'utils';
   import { applist } from 'api/app';
   import { appdel } from 'api/app';
-  import { storyList } from 'api/story';
+  import { storyData } from 'api/story';
 
   const calendarTypeOptions = [
       { key: 'CN', display_name: '中国' },
@@ -202,7 +202,7 @@
     methods: {
       getStory () {
         this.listLoading = true;
-        storyList().then(response => {
+        storyData().then(response => {
           let tempIds = 0;
           let tempId = 0;
           if (tempIds || tempId) {

@@ -51,12 +51,17 @@
 
     </el-form>
 
+    <div style="margin-left: 20px">
+      <Upload></Upload>
+    </div>
+
   </div>
 </template>
 
 <script type="text/ECMAScript-6">
+  import Upload from 'components/Upload/picture'
   import Tinymce from 'components/Tinymce'
-  import Upload from 'components/Upload/singleImage3'
+  //import Upload from 'components/Upload/singleImage3'
   import MDinput from 'components/MDinput';
   import { validateURL } from 'utils/validate';
   import { getArticle } from 'api/article';

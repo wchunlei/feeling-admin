@@ -1,5 +1,14 @@
 import fetch from 'utils/fetch';
 
+export function addmoments(diaryinfo) {
+    const data = diaryinfo;
+    return fetch({
+        url: '?act=addmoments',
+        method: 'post',
+        data
+    });
+}
+
 export function diaryUpdate(diaryinfo) {
     const data = diaryinfo;
     return fetch({

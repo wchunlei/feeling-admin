@@ -32,23 +32,93 @@
                     </multiselect>
                 </el-form-item>
                 <el-form-item style="margin-bottom: 40px;" label-width="90px" label="日记标题:" prop="title">
-                    <el-input type="textarea" :rows="3" v-model="postForm.title" :maxlength=140>
+                    <el-input type="textarea" :rows="3" v-model="postForm.title" :maxlength=140 style="width:300px">
                     </el-input>
                     <span><span style="color:red">*</span>日记标题，最多140字</span>
                 </el-form-item>
 
-                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type">
+                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="发布时间:" prop="textarea">
+                    <el-date-picker
+                            v-model="postForm.dt"
+                            type="datetime"
+                            placeholder="选择日期时间">
+                    </el-date-picker>
+                </el-form-item>
+
+                <el-button v-if="showButton" type="primary" @click="addDiary">新增日记</el-button>
+
+                <template v-if="showDiary" v-for="diary in diarys">
+                    <div style="display:inline-block">
+                        <el-form :model="diarys" ref="diarys">
+                            <el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type">
+                                <template>
+                                    <span @click="showPicture"><el-radio class="radio" v-model="radio" label="0">图片</el-radio></span>
+                                    <span @click="showVideo"><el-radio class="radio" v-model="radio" label="1">视频</el-radio></span>
+                                </template>
+                            </el-form-item>
+                            <div v-show="showPic" style="margin-bottom: 20px;">
+                                <el-form-item label-width="90px" label="图片:" prop="pic1">最多9张图片</el-form-item>
+                                <Uploadimg v-model="diary.pic1"></Uploadimg>
+                            </div>
+                            <div v-show="showPic" style="margin-bottom: 20px;">
+                                <Uploadimg v-model="diary.pic2"></Uploadimg>
+                            </div>
+                            <div v-show="showPic" style="margin-bottom: 20px;">
+                                <Uploadimg v-model="diary.pic3"></Uploadimg>
+                            </div>
+                            <div v-show="showPic" style="margin-bottom: 20px;">
+                                <Uploadimg v-model="diary.pic4"></Uploadimg>
+                            </div>
+                            <div v-show="showPic" style="margin-bottom: 20px;">
+                                <Uploadimg v-model="diary.pic5"></Uploadimg>
+                            </div>
+                            <div v-show="showPic" style="margin-bottom: 20px;">
+                                <Uploadimg v-model="diary.pic6"></Uploadimg>
+                            </div>
+                            <div v-show="showPic" style="margin-bottom: 20px;">
+                                <Uploadimg v-model="diary.pic7"></Uploadimg>
+                            </div>
+                            <div v-show="showPic" style="margin-bottom: 20px;">
+                                <Uploadimg v-model="diary.pic8"></Uploadimg>
+                            </div>
+                            <div v-show="showPic" style="margin-bottom: 20px;">
+                                <Uploadimg v-model="diary.pic9"></Uploadimg>
+                            </div>
+
+                            <div v-show="showVid" style="margin-bottom: 20px;">
+                                <el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>
+                                <Uploadvideo v-model="diary.video"></Uploadvideo>
+                            </div>
+
+                            <!--<el-dialog title="提示" :visible.sync="dialogMv" size="tiny" >
+                                <span>确定删除?</span>
+                                <span slot="footer" class="dialog-footer">
+                                  <el-button @click="dialogMv = false">取 消</el-button>
+                                  <el-button type="primary" @click="sureMv(mv.id)">确 定</el-button>
+                                </span>
+                            </el-dialog>-->
+
+                            <el-form-item label-width="50px" label="">
+                                <el-button type="primary" @click="addPic(mv.id)">新增图片</el-button>
+                                <el-button type="primary" @click="delMv(mv.id)">删除图片</el-button>
+                            </el-form-item>
+
+                        </el-form>
+                    </div>
+                </template>
+
+                <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type">
                     <template>
                         <span @click="showPicture"><el-radio class="radio" v-model="radio" label="0">图片</el-radio></span>
                         <span @click="showVideo"><el-radio class="radio" v-model="radio" label="1">视频</el-radio></span>
                     </template>
-                </el-form-item>
+                </el-form-item>-->
 
-                <el-form-item style="margin-bottom: 20px;" label-width="45px" label="">
+                <!--<el-form-item style="margin-bottom: 20px;" label-width="45px" label="">
                     <span class="word-counter" v-show="natureLength">{{natureLength}}字</span>
-                </el-form-item>
+                </el-form-item>-->
 
-                <div v-show="showPic" style="margin-bottom: 20px;">
+                <!--<div v-show="showPic" style="margin-bottom: 20px;">
                     <el-form-item label-width="90px" label="图片:" prop="pic1">最多9张图片</el-form-item>
                     <Uploadimg v-model="postForm.pic1"></Uploadimg>
                 </div>
@@ -80,19 +150,10 @@
                 <div v-show="showVid" style="margin-bottom: 20px;">
                     <el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>
                     <Uploadvideo v-model="postForm.video"></Uploadvideo>
-                </div>
-
-                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="发布时间:" prop="textarea">
-                    <el-date-picker
-                        v-model="postForm.dt"
-                        type="datetime"
-                        placeholder="选择日期时间">
-                    </el-date-picker>
-                </el-form-item>
+                </div>-->
 
             </div>
         </el-form>
-
     </div>
 </template>
 
@@ -103,6 +164,7 @@
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
     import { getDiary } from 'api/diary';
+    import { addmoments } from 'api/diary';
     import { diaryUpdate } from 'api/diary';
     import { userSearch } from 'api/story';
 
@@ -157,10 +219,26 @@
                     dt: new Date(),
                     status: 'draft'
                 },
+                diaryInfo: {
+                    type: '',
+                    video: '', // 视频
+                    pic1: '', // 图片
+                    pic2: '', // 图片
+                    pic3: '', // 图片
+                    pic4: '', // 图片
+                    pic5: '', // 图片
+                    pic6: '', // 图片
+                    pic7: '', // 图片
+                    pic8: '', // 图片
+                    pic9: '', // 图片
+                },
+                showButton: false,
+                showDiary: false,
                 fetchSuccess: true,
                 loading: false,
                 natureLength: false,
                 userLIstOptions: [],
+                diarys: [],
                 /*rules: {
                     actor: [
                         { required: true, message: '请输入姓名', trigger: 'change' }
@@ -198,6 +276,12 @@
                 let listQuery={};
                 listQuery.id = this.$route.params.num;
                 this.fetchData(listQuery);
+                this.showDiary = true;
+                this.showButton = false;
+            }
+            if(this.$route.params.num && this.$route.params.num == ':num'){
+                this.showButton = true;
+                this.showDiary = false;
             }
             /*id = $route.params.num;
             if(id == "num:"){
@@ -213,7 +297,8 @@
                     //this.postForm.actor.value = response.data.content.actorid;
                     this.postForm.actor = { key:response.data.content.name, value:response.data.content.actorid };
                     this.postForm.title = response.data.content.title;
-                    this.postForm.type = response.data.content.type;
+                    this.diarys = response.data.content.content;
+                    /*this.postForm.type = response.data.content.type;
                     this.postForm.pic1 = response.data.content.pic1;
                     this.postForm.pic2 = response.data.content.pic2;
                     this.postForm.pic3 = response.data.content.pic3;
@@ -224,11 +309,59 @@
                     this.postForm.pic8 = response.data.content.pic8;
                     this.postForm.pic9 = response.data.content.pic9;
                     this.postForm.id = response.data.content.id;
-                    this.postForm.video = response.data.content.video;
+                    this.postForm.video = response.data.content.video;*/
             }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);
                 });
+            },
+            addDiary () {
+                //this.$refs.postForm.validate(valid => {
+                    //if (valid) {
+                        //var diaryinfo;
+                        let date=this.postForm.dt;
+                        let year=date.getFullYear(),
+                                month=date.getMonth()+ 1,
+                                day=date.getDate(),
+                                hour=date.getHours(),
+                                minutes=date.getMinutes(),
+                                seconds=date.getSeconds();
+                        let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                        let diaryinfo={
+                            //actorid: parseInt(this.postForm.actorid),
+                            actorid: parseInt(this.postForm.actor.value),
+                            title: this.postForm.title,
+                            dt: dateString
+                        }
+                        //diaryinfo = this.postForm;
+                        this.loading = true;
+                        addmoments (diaryinfo).then(response => {
+                            if(response.data.code==200){
+                                this.$message({
+                                    message: '新增成功',
+                                    type: 'success'
+                                });
+                                this.$refs[formName].resetFields();
+                            }
+                            if (!response.data.items) return;
+                            console.log(response)
+                            this.userLIstOptions = response.data.items.map(v => ({
+                                key: v.name
+                            }));
+                        });
+                        /*this.$notify({
+                         title: '成功',
+                         message: '发布成功',
+                         type: 'success',
+                         duration: 2000
+                         });*/
+                        this.postForm.status = 'published';
+                        this.loading = false;
+                    /*} else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });*/
             },
             submitForm(formName) {
                 this.$refs.postForm.validate(valid => {
