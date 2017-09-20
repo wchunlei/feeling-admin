@@ -133,7 +133,7 @@
 
         <template v-if="showPhoto" v-for="photo in photos">
           <div style="display:inline-block">
-            <el-form :model="photos" ref="photos">
+            <el-form :model="photo" ref="photo">
               <el-form-item label-width="60px" label="写真集:" class="postInfo-container-item" prop="url">
                 <div style="margin-bottom: 0px;cursor:pointer;" @click="thumbnaillist(photo.id)">
                   <img :src=photo.url style="width:300px;height:300px" alt="图片不存在"></img>
@@ -232,7 +232,7 @@
 
         <template v-if="showPhoto" v-for="mv in mvs">
           <div style="display:inline-block">
-            <el-form :model="mvs" ref="mvs">
+            <el-form :model="mv" ref="mv">
               <el-form-item label-width="70px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
                 <div style="margin-bottom: 0px;">
                   <a :href="'http://'+mv.url"><img :src=mv.thumbnail style="width:200px;height:280px" alt="视频不存在"></img></a>
@@ -353,12 +353,7 @@
           id: '',
           status: 'draft',
         },
-        photos: {
-          url: '',
-          amount: '',
-          name: '',
-          photoNum: ''
-        },
+        photos: [],
         photosList: {
           url: '',
           amount: '',

@@ -241,7 +241,31 @@
                 this.listQuery.end = parseInt((+time[1] + 3600 * 1000 * 24) / 1000);
             },
             handleModifyStatus(row, status) {
-                this.listLoading = true;
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let deleteitem={
+                        id: parseInt(row.eventid)
+                    };
+                    this.listLoading = true;
+                    bubbleDelete(deleteitem).then(response => {
+                        if(response.data.code==200){
+                            this.getList();
+                        }
+                    });
+                    this.$message({
+                        message: '操作成功',
+                        type: 'success'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+                /*this.listLoading = true;
                 let deleteitem={
                     id: parseInt(row.eventid)
                 };
@@ -257,7 +281,7 @@
                     message: '操作成功',
                     type: 'success'
                 });
-                row.status = status;
+                row.status = status;*/
             },
             handleCreate() {
                 this.resetTemp();

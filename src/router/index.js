@@ -198,7 +198,7 @@ export const asyncRouterMap = [
     icon: 'zujian',
     children: [
       { path: 'table', component: diaryTable, name: '日记列表' },
-      { path: 'form/:num', component: diaryForm, name: '新增日记' },
+      { path: 'form/:num/:actorid', component: diaryForm, name: '新增日记' },
     ]
   },
   {
@@ -209,8 +209,8 @@ export const asyncRouterMap = [
     icon: 'zujian',
     children: [
       { path: 'classform', component: classForm, name: '分类管理' },
+      { path: 'clothTable', component: clothesTable, name: '服装列表' },
       { path: 'addcloth/:num', component: addClothes, name: '新增服装' },
-      { path: 'clothTable', component: clothesTable, name: '服装列表' }
     ]
   },
   {

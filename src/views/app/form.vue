@@ -51,7 +51,19 @@
 
     </el-form>
 
-    <div style="margin-left: 20px">
+    <div class="uplo">
+      <Upload></Upload>
+      <Upload></Upload>
+      <Upload></Upload>
+    </div>
+    <div class="uplo">
+      <Upload></Upload>
+      <Upload></Upload>
+      <Upload></Upload>
+    </div>
+    <div class="uplo">
+      <Upload></Upload>
+      <Upload></Upload>
       <Upload></Upload>
     </div>
 
@@ -59,7 +71,7 @@
 </template>
 
 <script type="text/ECMAScript-6">
-  import Upload from 'components/Upload/picture'
+  import Upload from 'components/Upload/picture1'
   import Tinymce from 'components/Tinymce'
   //import Upload from 'components/Upload/singleImage3'
   import MDinput from 'components/MDinput';
@@ -331,6 +343,9 @@
       position: absolute;
       right: -10px;
       top: 0px;
+    }
+    .uplo div{
+      display: inline-block;
     }
   }
 </style>

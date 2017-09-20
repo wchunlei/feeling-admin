@@ -214,13 +214,18 @@
                  })
              },
             addTab(targetName,action) {
-                if (this.postForm.actor) {
-                    this.dialogFormVisible = true;
-                } else {
-                    this.$message({
-                        message: '请先选择主角',
-                        type: 'error'
-                    });
+                if (action === 'add') {
+                    if (this.postForm.actor) {
+                        this.dialogFormVisible = true;
+                    } else {
+                        this.$message({
+                            message: '请先选择主角',
+                            type: 'error'
+                        });
+                    }
+                }
+                if (action === 'remove') {
+                    this.removeTab(targetName);
                 }
 //                let newTabName = ++this.tabIndex + '';
 //                this.list.push({
@@ -236,24 +241,22 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.listLoading = true;
                     let deleteitem={
                         id: parseInt(targetName)
                     };
-                    this.listLoading = true;
                     clothclassdelete(deleteitem).then(response => {
                         //this.list = response.data.content;
-                        this.listLoading = false;
+                        if (response.data.code == 200) {
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                            this.getList();
+                        }
                     });
-                    this.$message({
-                        message: '操作成功',
-                        type: 'success'
-                    });
-                    row.status = status;
                     let tabs = this.list;
                     let activeName = this.activeName;
                     if (activeName === targetName) {
-                        alert()
                         tabs.forEach((tab, index) => {
                             if (tab.typename === targetName) {
                             let nextTab = tabs[index + 1] || tabs[index - 1];
@@ -273,10 +276,6 @@
                     }
                     this.activeName = activeName;
                     this.list = tabs.filter(tab => tab.typename !== targetName);
-                        this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                        });
                     }).catch(() => {
                         this.$message({
                         type: 'info',
@@ -319,16 +318,13 @@
                         };
                         this.loading = true;
                         clothclassUpdate (clothinfo).then(response => {
-                            if (response.data.content.code == 200) {
-                                this.$notify({
-                                    title: '成功',
-                                    message: '发布成功',
-                                    type: 'success',
-                                    duration: 2000
+                            if (response.data.code == 200) {
+                                this.$message({
+                                    message: '新增成功',
+                                    type: 'success'
                                 });
+                                this.getList();
                             }
-                            if (!response.data.items) return;
-                        console.log(response);
                         /*this.userLIstOptions = response.data.items.map(v => ({
                                     key: v.name
                                 }));*/
@@ -340,7 +336,7 @@
                         return false;
                     }
                 });
-                if(JSON.stringify(this.list).indexOf(this.classify.name)==-1){
+                /*if(JSON.stringify(this.list).indexOf(this.classify.name)==-1){
                     if(this.classify.name){
                         this.list.push({
                             title: this.classify.name,
@@ -359,7 +355,7 @@
                         showClose:true
                     });
                     this.classify.name=null;
-                }
+                }*/
             },
             getRemoteUserList(query) {
                 console.log("getRemoteUserList")

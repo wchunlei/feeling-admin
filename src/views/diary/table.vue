@@ -16,7 +16,7 @@
                 <template scope="scope">
                     <!--<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>-->
                     <!--<router-link to="/diary/form">{{scope.row.id}}</router-link>-->
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/diary/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/diary/form/' + scope.row.id + '/' + scope.row.actorid }">{{scope.row.id}}</router-link></span>
                 </template>
             </el-table-column>
 
@@ -36,14 +36,14 @@
             <!--<el-table-column width="400px" label="内容" prop="textarea">
             </el-table-column>-->
 
-            <el-table-column width="300px" label="修改时间" align="center" prop="modify_time">
+            <el-table-column width="300px" label="发布时间" align="center" prop="modify_time">
             </el-table-column>
 
-            <el-table-column class-name="status-col" label="状态" width="90">
+            <!--<el-table-column class-name="status-col" label="状态" width="90">
                 <template scope="scope">
                     <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
                 </template>
-            </el-table-column>
+            </el-table-column>-->
 
             <el-table-column align="center" label="操作" width="250px">
                 <template scope="scope">
@@ -123,15 +123,15 @@
     }, {});
 
     export default {
-        props: {
+        /*props: {
             screenHeight: Number
-        },
-        mounted(){
+        },*/
+        /*mounted(){
             var _this=this;
             setTimeout(() => {
                 this.adjustPage();
             },100);
-        },
+        },*/
         components: { Upload },
         name: 'table_demo',
         data() {
@@ -218,9 +218,33 @@
                 this.listQuery.end = parseInt((+time[1] + 3600 * 1000 * 24) / 1000);
             },
             handleModifyStatus(row, status) {
-                this.listLoading = true;
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let deleteitem={
+                        diaryid: parseInt(row.id),
+                        actorid: parseInt(row.actorid)
+                    };
+                    this.listLoading = true;
+                    diarydelete(deleteitem).then(response => {
+                        //this.list = response.data.content;
+                        if(response.data.code==200){
+                            this.getList();
+                        }
+                        this.listLoading = false;
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+                /*this.listLoading = true;
                 let deleteitem={
-                    id: parseInt(row.id)
+                    diaryid: parseInt(row.id),
+                    actorid: parseInt(row.actorid)
                 };
                 this.listLoading = true;
                 diarydelete(deleteitem).then(response => {
@@ -229,12 +253,12 @@
                         this.getList();
                     }
                     this.listLoading = false;
-            });
+                });
                 this.$message({
                     message: '操作成功',
                     type: 'success'
                 });
-                row.status = status;
+                row.status = status;*/
             },
             handleCreate() {
                 this.resetTemp();
@@ -328,16 +352,16 @@
                 }
             }))
             },
-            adjustPage(){
+            /*adjustPage(){
                 this.table_height = this.elementsFlex("el_table_wrap", "main-content", "operate_wrapper", "pagination", true) - 35;
-            },
+            },*/
         },
-        watch: {
+        /*watch: {
             screenHeight () {
                 this.adjustPage();
                 //console.log(this.elementsFlex("el_table_wrap", "main-content", "table_wrapper", "pagination",true));
                 //this.table_height=this.elementsFlex("el_table_wrap", "main-content", "table_wrapper", "pagination",true);
             }
-        },
+        },*/
     }
 </script>
