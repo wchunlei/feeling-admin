@@ -64,7 +64,7 @@
                                 <el-input v-model="diary.id"></el-input>
                             </el-form-item>-->
                             <el-form-item label-width="90px" prop="id">
-                                <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ diary.index }}</el-input><span style="display: inline-block;margin-left:8px;">条</span>
+                                <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ diary.index }}</el-input><span style="display: inline-block;margin-left:8px;">条：</span>
                             </el-form-item>
                             <el-form-item>
                                 <div style="margin-bottom: 20px;">
@@ -72,30 +72,31 @@
                                     <Uploadimg v-model="diary.pic1"></Uploadimg>
                                 </div>
                             </el-form-item>
-                            <!--<div v-show="showPic" style="margin-bottom: 20px;">
-                                <Uploadimg v-model="diary.pic2"></Uploadimg>
-                            </div>
-                            <div v-show="showPic" style="margin-bottom: 20px;">
+                            <el-form-item>
+                                <div style="margin-bottom: 20px;">
+                                    <Uploadimg v-model="diary.pic2"></Uploadimg>
+                                </div>
+                            </el-form-item>
+                            <div style="margin-bottom: 20px;">
                                 <Uploadimg v-model="diary.pic3"></Uploadimg>
                             </div>
-                            <div v-show="showPic" style="margin-bottom: 20px;">
+                            <div style="margin-bottom: 20px;">
                                 <Uploadimg v-model="diary.pic4"></Uploadimg>
                             </div>
-                            <div v-show="showPic" style="margin-bottom: 20px;">
+                            <div style="margin-bottom: 20px;">
                                 <Uploadimg v-model="diary.pic5"></Uploadimg>
                             </div>
-                            <div v-show="showPic" style="margin-bottom: 20px;">
+                            <div style="margin-bottom: 20px;">
                                 <Uploadimg v-model="diary.pic6"></Uploadimg>
                             </div>
-                            <div v-show="showPic" style="margin-bottom: 20px;">
-                                <Uploadimg v-model="diary.pic7"></Uploadimg>
+                            <div l="diary.pic7"></Uploadimg>
                             </div>
-                            <div v-show="showPic" style="margin-bottom: 20px;">
+                            <div style="margin-bottom: 20px;">
                                 <Uploadimg v-model="diary.pic8"></Uploadimg>
                             </div>
-                            <div v-show="showPic" style="margin-bottom: 20px;">
+                            <div style="margin-bottom: 20px;">
                                 <Uploadimg v-model="diary.pic9"></Uploadimg>
-                            </div>-->
+                            </div>
                             <el-form-item>
                                 <div style="margin-bottom: 20px;">
                                     <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
@@ -284,7 +285,7 @@
                     pic7: '', // 图片
                     pic8: '', // 图片
                     pic9: '', // 图片
-                    status: 'draft'
+                    //status: 'draft'
                 },
                 postForm: {
                     //id: this.$route.params.num,
@@ -533,7 +534,7 @@
                         pic9: this.diaryContent.pic9,
                         video: this.diaryContent.video,
                         dt: dateString
-                    }
+                    };
                     /*if(this.$route.params.num && this.$route.params.num != ':num'){
                         diaryinfo.id=this.postForm.id;
                     }*/
@@ -549,7 +550,6 @@
                             listQuery.id = this.$route.params.num;
                             listQuery.actorid = this.$route.params.actorid;
                             this.fetchData(listQuery);
-                            this.$refs[formName].resetFields();
                         }
                         if (!response.data.items) return;
                     console.log(response)
@@ -557,13 +557,14 @@
                                 key: v.name
                             }));
                     });
+                    this.$refs[formName].resetFields();
                     /*this.$notify({
                         title: '成功',
                         message: '发布成功',
                         type: 'success',
                         duration: 2000
                     });*/
-                    this.postForm.status = 'published';
+                    //this.postForm.status = 'published';
                     this.loading = false;
                     this.dialogDiaryContent = false;
                     /*} else {
