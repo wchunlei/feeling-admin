@@ -28,7 +28,7 @@
                             <img src="../../../gifs/winter.jpg" class="image" style="margin:20px 0;">
                         </el-tab-pane>-->
                         <el-tab-pane v-for="(item, index) in list" closable :key="item.typeid" :label="item.typename" :name="item.typeid.toString()">
-                            {{item.typeicon}}
+                            <img :src=item.typeicon style="width:300px;height:300px" alt=""> </img>
                         </el-tab-pane>
                     </el-tabs>
                 </el-form-item>
@@ -417,4 +417,8 @@
         display:inline-block;
     }
 </style>
-
+<style>
+    .el-tab-pane{
+        margin-left:0
+    }
+</style>

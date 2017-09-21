@@ -51,7 +51,6 @@
 
     </el-form>
 
-    <Upload></Upload>
 
   </div>
 </template>
@@ -59,7 +58,6 @@
 <script type="text/ECMAScript-6">
   import Tinymce from 'components/Tinymce'
   //import Upload from 'components/Upload/singleImage3'
-  import Upload from 'components/Upload/audio'
   import MDinput from 'components/MDinput';
   import { validateURL } from 'utils/validate';
   import { getArticle } from 'api/article';
@@ -70,7 +68,7 @@
 
   export default {
     name: 'articleDetail',
-    components: { Tinymce, MDinput, Upload},
+    components: { Tinymce, MDinput, },
     data() {
       const validateRequire = (rule, value, callback) => {
         if (!value) {
