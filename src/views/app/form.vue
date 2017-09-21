@@ -51,27 +51,10 @@
 
     </el-form>
 
-    <div class="uplo">
-      <Upload></Upload>
-      <Upload></Upload>
-      <Upload></Upload>
-    </div>
-    <div class="uplo">
-      <Upload></Upload>
-      <Upload></Upload>
-      <Upload></Upload>
-    </div>
-    <div class="uplo">
-      <Upload></Upload>
-      <Upload></Upload>
-      <Upload></Upload>
-    </div>
-
   </div>
 </template>
 
 <script type="text/ECMAScript-6">
-  import Upload from 'components/Upload/picture1'
   import Tinymce from 'components/Tinymce'
   //import Upload from 'components/Upload/singleImage3'
   import MDinput from 'components/MDinput';
@@ -84,7 +67,7 @@
 
   export default {
     name: 'articleDetail',
-    components: { Tinymce, MDinput, Upload },
+    components: { Tinymce, MDinput, },
     data() {
       const validateRequire = (rule, value, callback) => {
         if (!value) {
@@ -343,9 +326,6 @@
       position: absolute;
       right: -10px;
       top: 0px;
-    }
-    .uplo div{
-      display: inline-block;
     }
   }
 </style>

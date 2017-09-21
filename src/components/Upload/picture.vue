@@ -1,30 +1,13 @@
 <template>
     <div>
-        <!--<el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="http://192.168.1.43:3000/system/upload"
-                   :on-success="handleImageScucess">
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        </el-upload>
-        <div class="image-preview image-app-preview">
-            <div class="image-preview-wrapper" v-show="imageUrl.length>1">
-                <div class='app-fake-conver'>&nbsp&nbsp</div>
-                <img :src="imageUrl">
-                <div class="image-preview-action">
-                    <i @click="rmImage" class="el-icon-delete"></i>
-                </div>
-            </div>
-        </div>
-        <div class="image-preview">
-            <div class="image-preview-wrapper" v-show="imageUrl.length>1">
-                <img :src="imageUrl">
-                <div class="image-preview-action">
-                    <i @click="rmImage" class="el-icon-delete"></i>
-                </div>
-            </div>
-        </div>-->
 
-        <el-upload action="http://192.168.1.43:3000/system/upload" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" class="el-upload">
-            <i class="el-icon-plus"></i>
+        <el-upload
+                class="avatar-uploader"
+                action="http://192.168.1.43:3000/system/upload"
+                :show-file-list="false"
+                :on-success="handleImageScucess">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         <el-dialog v-model="dialogVisible" size="tiny">
             <img width="100%" :src="dialogImageUrl" alt="">
@@ -34,33 +17,81 @@
 </template>
 
 <script>
+    // 预览效果见文章
+    import { getToken } from 'api/qiniu';
     export default {
+        name: 'singleImageUpload',
+        props: {
+            value: String
+        },
+        computed: {
+            imageUrl() {
+                return this.value
+            }
+        },
         data() {
             return {
-                dialogImageUrl: '',
-                dialogVisible: false
+                dialogVisible: false,
+                tempUrl: '',
+                dataObj: { token: '', key: '' },
+                //imageUrl: ''
             };
         },
         methods: {
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
+            rmImage() {
+                this.emitInput('');
             },
-            handlePictureCardPreview(file) {
-                this.dialogImageUrl = file.url;
-                this.dialogVisible = true;
+            emitInput(val) {
+                this.$emit('input', val);
+            },
+            handleImageScucess(res, file) {
+                this.emitInput(res.content.url);
+                this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeUpload() {
+                const _self = this;
+                return new Promise((resolve, reject) => {
+                            getToken().then(response => {
+                            const key = response.data.qiniu_key;
+                const token = response.data.qiniu_token;
+                _self._data.dataObj.token = token;
+                _self._data.dataObj.key = key;
+                this.tempUrl = response.data.qiniu_url;
+                resolve(true);
+            }).catch(err => {
+                    console.log(err);
+                reject(false)
+            });
+            });
             }
         }
-    }
+    };
 </script>
 
-<!--<style rel="stylesheet/scss" lang="scss" scoped>
-    @import "src/styles/mixin.scss";
-    .upload-container {
-        width: 100%;
-        .el-upload {
-            width: 200px;
-        }
+<style>
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
     }
-</style>-->
-
-
+    .avatar-uploader .el-upload:hover {
+        border-color: #20a0ff;
+        display: inline-block;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: inline-block;
+    }
+</style>

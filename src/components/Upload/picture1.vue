@@ -5,17 +5,19 @@
                 class="avatar-uploader"
                 action="http://192.168.1.43:3000/system/upload"
                 :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload">
+                :on-success="handleImageScucess">
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <i v-else class="el-icon-plus avatar-uploader-icon" v-show="imageUrl.length>1"></i>
         </el-upload>
 
     </div>
 </template>
 
 <script>
+    // 预览效果见文章
+    import { getToken } from 'api/qiniu';
     export default {
+        name: 'singleImageUpload',
         props: {
             value: String
         },
@@ -26,31 +28,40 @@
         },
         data() {
             return {
-                imageUrl: ''
+                tempUrl: '',
+                dataObj: { token: '', key: '' },
+                //imageUrl: ''
             };
         },
         methods: {
+            rmImage() {
+                this.emitInput('');
+            },
             emitInput(val) {
                 this.$emit('input', val);
             },
-            handleAvatarSuccess(res, file) {
+            handleImageScucess(res, file) {
                 this.emitInput(res.content.url);
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
-            beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isLt2M = file.size / 1024 / 1024 < 2;
-
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!');
-                }
-                return isJPG && isLt2M;
+            beforeUpload() {
+                const _self = this;
+                return new Promise((resolve, reject) => {
+                            getToken().then(response => {
+                            const key = response.data.qiniu_key;
+                const token = response.data.qiniu_token;
+                _self._data.dataObj.token = token;
+                _self._data.dataObj.key = key;
+                this.tempUrl = response.data.qiniu_url;
+                resolve(true);
+            }).catch(err => {
+                    console.log(err);
+                reject(false)
+            });
+            });
             }
         }
-    }
+    };
 </script>
 
 <style>

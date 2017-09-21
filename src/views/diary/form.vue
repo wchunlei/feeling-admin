@@ -66,37 +66,43 @@
                             <el-form-item label-width="90px" prop="id">
                                 <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ diary.index }}</el-input><span style="display: inline-block;margin-left:8px;">条：</span>
                             </el-form-item>
-                            <el-form-item>
+                            <el-form-item class="uplo">
                                 <div style="margin-bottom: 20px;">
                                     <!--<el-form-item label-width="90px" label="图片:" prop="pic1">最多9张图片</el-form-item>-->
                                     <Uploadimg v-model="diary.pic1"></Uploadimg>
                                 </div>
-                            </el-form-item>
-                            <el-form-item>
                                 <div style="margin-bottom: 20px;">
                                     <Uploadimg v-model="diary.pic2"></Uploadimg>
                                 </div>
+                                <div style="margin-bottom: 20px;">
+                                    <Uploadimg v-model="diary.pic3"></Uploadimg>
+                                </div>
                             </el-form-item>
-                            <div style="margin-bottom: 20px;">
-                                <Uploadimg v-model="diary.pic3"></Uploadimg>
-                            </div>
-                            <div style="margin-bottom: 20px;">
-                                <Uploadimg v-model="diary.pic4"></Uploadimg>
-                            </div>
-                            <div style="margin-bottom: 20px;">
-                                <Uploadimg v-model="diary.pic5"></Uploadimg>
-                            </div>
-                            <div style="margin-bottom: 20px;">
-                                <Uploadimg v-model="diary.pic6"></Uploadimg>
-                            </div>
-                            <div l="diary.pic7"></Uploadimg>
-                            </div>
-                            <div style="margin-bottom: 20px;">
-                                <Uploadimg v-model="diary.pic8"></Uploadimg>
-                            </div>
-                            <div style="margin-bottom: 20px;">
-                                <Uploadimg v-model="diary.pic9"></Uploadimg>
-                            </div>
+
+                            <el-form-item class="uplo">
+                                <div style="margin-bottom: 20px;">
+                                    <Uploadimg v-model="diary.pic4"></Uploadimg>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <Uploadimg v-model="diary.pic5"></Uploadimg>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <Uploadimg v-model="diary.pic6"></Uploadimg>
+                                </div>
+                            </el-form-item>
+
+                            <el-form-item class="uplo">
+                                <div style="margin-bottom: 20px;">
+                                    <Uploadimg v-model="diary.pic7"></Uploadimg>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <Uploadimg v-model="diary.pic8"></Uploadimg>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <Uploadimg v-model="diary.pic9"></Uploadimg>
+                                </div>
+                            </el-form-item>
+
                             <el-form-item>
                                 <div style="margin-bottom: 20px;">
                                     <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
@@ -140,39 +146,50 @@
                                 <span @click="showVideoContent"><el-radio v-model="radioContent" label="1">视频</el-radio></span>
                             </template>
                         </el-form-item>
-                        <div v-show="showPicContent" style="margin-bottom: 20px;">
-                            <el-form-item label-width="90px" label="图片:" prop="pic1">最多9张图片</el-form-item>
-                            <Uploadimg v-model="diaryContent.pic1"></Uploadimg>
-                        </div>
-                        <div v-show="showPicContent" style="margin-bottom: 20px;">
-                            <Uploadimg v-model="diaryContent.pic2"></Uploadimg>
-                        </div>
-                        <div v-show="showPicContent" style="margin-bottom: 20px;">
-                            <Uploadimg v-model="diaryContent.pic3"></Uploadimg>
-                        </div>
-                        <div v-show="showPicContent" style="margin-bottom: 20px;">
-                            <Uploadimg v-model="diaryContent.pic4"></Uploadimg>
-                        </div>
-                        <div v-show="showPicContent" style="margin-bottom: 20px;">
-                            <Uploadimg v-model="diaryContent.pic5"></Uploadimg>
-                        </div>
-                        <div v-show="showPicContent" style="margin-bottom: 20px;">
-                            <Uploadimg v-model="diaryContent.pic6"></Uploadimg>
-                        </div>
-                        <div v-show="showPicContent" style="margin-bottom: 20px;">
-                            <Uploadimg v-model="diaryContent.pic7"></Uploadimg>
-                        </div>
-                        <div v-show="showPicContent" style="margin-bottom: 20px;">
-                            <Uploadimg v-model="diaryContent.pic8"></Uploadimg>
-                        </div>
-                        <div v-show="showPicContent" style="margin-bottom: 20px;">
-                            <Uploadimg v-model="diaryContent.pic9"></Uploadimg>
-                        </div>
 
-                        <div v-show="showVidContent" style="margin-bottom: 20px;">
-                            <el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>
-                            <Uploadimg v-model="diaryContent.video"></Uploadimg>
-                        </div>
+                        <el-form-item class="uplo" label-width="200px">
+                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
+                                <!--<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>-->
+                                <Upload v-model="diaryContent.pic1"></Upload>
+                            </div>
+                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
+                                <Upload v-model="diaryContent.pic2"></Upload>
+                            </div>
+                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
+                                <Upload v-model="diaryContent.pic3"></Upload>
+                            </div>
+                        </el-form-item>
+
+                        <el-form-item class="uplo" label-width="200px">
+                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
+                                <Upload v-model="diaryContent.pic4"></Upload>
+                            </div>
+                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
+                                <Upload v-model="diaryContent.pic5"></Upload>
+                            </div>
+                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
+                                <Upload v-model="diaryContent.pic6"></Upload>
+                            </div>
+                        </el-form-item>
+                        <el-form-item class="uplo" label-width="200px">
+                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
+                                <Upload v-model="diaryContent.pic7"></Upload>
+                            </div>
+                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
+                                <Upload v-model="diaryContent.pic8"></Upload>
+                            </div>
+                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
+                                <Upload v-model="diaryContent.pic9"></Upload>
+                            </div>
+                        </el-form-item>
+
+                        <el-form-item class="uplo" label-width="400px">
+                            <div v-show="showVidContent" style="margin-bottom: 20px;display: inline-block">
+                                <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
+                                <Upload v-model="diaryContent.video"></Upload>
+                            </div>
+                        </el-form-item>
+
                     </el-form>
                     <span slot="footer" class="dialog-footer">
                         <el-button @click="dialogDiaryContent = false">取 消</el-button>
@@ -233,7 +250,9 @@
 <script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce'
     //import Uploadvideo from 'components/Upload/video'
-    import Uploadimg from 'components/Upload/singleImage3'
+    //import Uploadimg from 'components/Upload/singleImage3'
+    import Uploadimg from 'components/Upload/picture1';
+    import Upload from 'components/Upload/picture';
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
     import { getDiary } from 'api/diary';
@@ -244,7 +263,7 @@
 
     export default {
         name: 'articleDetail',
-        components: { Tinymce, MDinput, Uploadimg },
+        components: { Tinymce, MDinput, Uploadimg, Upload },
         data() {
             const validateRequire = (rule, value, callback) => {
                 if (value === '') {
@@ -729,6 +748,9 @@
         position: absolute;
         right: -10px;
         top: 0px;
+    }
+    .uplo div{
+        display: inline-block;
     }
     }
 </style>
