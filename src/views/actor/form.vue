@@ -209,7 +209,7 @@
         <el-form v-if="showPhoto" :model="addmvs" :rules="addMvRules" ref="addmvs">
           <el-form-item label-width="68px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
             <div style="margin: 20px 0;">
-              <Upload v-model="addmvs.thumbnail"></Upload>
+              <Uploadvideo v-model="addmvs.thumbnail"></Uploadvideo>
             </div>
           </el-form-item>
 
@@ -235,7 +235,7 @@
             <el-form :model="mv" ref="mv">
               <el-form-item label-width="70px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
                 <div style="margin-bottom: 0px;">
-                  <a :href="'http://'+mv.url"><img :src=mv.thumbnail style="width:200px;height:280px" alt="视频不存在"></img></a>
+                  <a :href="'http://'+mv.url"><video :src=mv.thumbnail style="width:200px;height:280px" controls ></video></a>
                   <!--<Upload  v-model="photos.url" @click="dialogVisible = true"></Upload>-->
                 </div>
               </el-form-item>
@@ -280,6 +280,7 @@
 <script type="text/ECMAScript-6">
   import Tinymce from 'components/Tinymce';
   import Upload from 'components/Upload/singleImage3';
+  import Uploadvideo from 'components/Upload/video';
   import MDinput from 'components/MDinput';
   import { validateURL } from 'utils/validate';
   import { getArticle } from 'api/article';
@@ -294,7 +295,7 @@
 
   export default {
     name: 'articleDetail',
-    components: { Tinymce, MDinput, Upload },
+    components: { Tinymce, MDinput, Upload, Uploadvideo },
     data() {
       const checkNum = (rule, value, callback) => {
         if (!value) {

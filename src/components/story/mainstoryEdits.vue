@@ -19,7 +19,7 @@
                     <el-form ref="normalVideo" :model="normalVideo" label-width="80px">
                         <el-form-item label="普通视频:" prop="video">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="normalVideo.video"></Upload>
+                                <Uploadvideo v-model="normalVideo.video"></Uploadvideo>
                             </div>
                         </el-form-item>
                     </el-form>
@@ -28,17 +28,17 @@
                     <el-form ref="eachVideo" :model="eachVideo" label-width="80px">
                         <el-form-item label="开始视频:" prop="startVideo">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="eachVideo.startVideo"></Upload>
+                                <Uploadvideo v-model="eachVideo.startVideo"></Uploadvideo>
                             </div>
                         </el-form-item>
                         <el-form-item label="选择一视频:" prop="selectVideo1">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="eachVideo.selectVideo1"></Upload>
+                                <Uploadvideo v-model="eachVideo.selectVideo1"></Uploadvideo>
                             </div>
                         </el-form-item>
                         <el-form-item label="选择二视频:" prop="selectVideo2">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="eachVideo.selectVideo2"></Upload>
+                                <Uploadvideo v-model="eachVideo.selectVideo2"></Uploadvideo>
                             </div>
                         </el-form-item>
                         <el-form-item label="交互文字:" prop="eachWord" style="width:280px">
@@ -102,7 +102,7 @@
                     <el-form ref="soundTalk" :model="soundTalk" label-width="80px">
                         <el-form-item label="语言聊天:" prop="sound">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="soundTalk.sound"></Upload>
+                                <Uploadaudio v-model="soundTalk.sound"></Uploadaudio>
                             </div>
                         </el-form-item>
                         <el-form-item label="回复一:" prop="answer1" style="width:280px">
@@ -126,7 +126,7 @@
                     <el-form ref="eachVideo" :model="phone" label-width="80px">
                         <el-form-item label="电话:" prop="speak">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="phone.speak"></Upload>
+                                <Uploadaudio v-model="phone.speak"></Uploadaudio>
                             </div>
                         </el-form-item>
                         <el-form-item label="交互文字:" prop="eachWord" style="width:280px">
@@ -155,7 +155,7 @@
                     <el-form ref="smallVideo" :model="smallVideo" label-width="80px">
                         <el-form-item label="小视频:" prop="video">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="smallVideo.video"></Upload>
+                                <Uploadvideo v-model="smallVideo.video"></Uploadvideo>
                             </div>
                         </el-form-item>
                         <el-form-item label="回复一:" prop="answer1" style="width:280px">
@@ -232,6 +232,8 @@
 <script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce'
     import Upload from 'components/Upload/singleImage3'
+    import Uploadvideo from 'components/Upload/video'
+    import Uploadaudio from 'components/Upload/audio'
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
     import { userSearch } from 'api/story';
@@ -247,7 +249,7 @@
     export default {
         name: 'clothes',
         addEvent: '',
-        components: { Tinymce, MDinput, Upload },
+        components: { Tinymce, MDinput, Upload, Uploadvideo, Uploadaudio },
         props: ['id', 'type', 'day', 'title', 'actorSelect'],
         data() {
             const validateRequire = (rule, value, callback) => {

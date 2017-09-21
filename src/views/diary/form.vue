@@ -69,44 +69,54 @@
                             <el-form-item class="uplo">
                                 <div style="margin-bottom: 20px;">
                                     <!--<el-form-item label-width="90px" label="图片:" prop="pic1">最多9张图片</el-form-item>-->
-                                    <Uploadimg v-model="diary.pic1"></Uploadimg>
+                                    <!--<Uploadimg v-model="diary.pic1"></Uploadimg>-->
+                                    <img :src=diary.pic1 style="width:300px;height:300px" alt=""> </img>
                                 </div>
                                 <div style="margin-bottom: 20px;">
-                                    <Uploadimg v-model="diary.pic2"></Uploadimg>
+                                    <!--<Uploadimg v-model="diary.pic2"></Uploadimg>-->
+                                    <img :src=diary.pic2 style="width:300px;height:300px" alt=""> </img>
                                 </div>
                                 <div style="margin-bottom: 20px;">
-                                    <Uploadimg v-model="diary.pic3"></Uploadimg>
-                                </div>
-                            </el-form-item>
-
-                            <el-form-item class="uplo">
-                                <div style="margin-bottom: 20px;">
-                                    <Uploadimg v-model="diary.pic4"></Uploadimg>
-                                </div>
-                                <div style="margin-bottom: 20px;">
-                                    <Uploadimg v-model="diary.pic5"></Uploadimg>
-                                </div>
-                                <div style="margin-bottom: 20px;">
-                                    <Uploadimg v-model="diary.pic6"></Uploadimg>
+                                    <!--<Uploadimg v-model="diary.pic3"></Uploadimg>-->
+                                    <img :src=diary.pic3 style="width:300px;height:300px" alt=""> </img>
                                 </div>
                             </el-form-item>
 
                             <el-form-item class="uplo">
                                 <div style="margin-bottom: 20px;">
-                                    <Uploadimg v-model="diary.pic7"></Uploadimg>
+                                    <!--<Uploadimg v-model="diary.pic4"></Uploadimg>-->
+                                    <img :src=diary.pic4 style="width:300px;height:300px" alt=""> </img>
                                 </div>
                                 <div style="margin-bottom: 20px;">
-                                    <Uploadimg v-model="diary.pic8"></Uploadimg>
+                                    <!--<Uploadimg v-model="diary.pic5"></Uploadimg>-->
+                                    <img :src=diary.pic5 style="width:300px;height:300px" alt=""> </img>
                                 </div>
                                 <div style="margin-bottom: 20px;">
-                                    <Uploadimg v-model="diary.pic9"></Uploadimg>
+                                    <!--<Uploadimg v-model="diary.pic6"></Uploadimg>-->
+                                    <img :src=diary.pic6 style="width:300px;height:300px" alt=""> </img>
+                                </div>
+                            </el-form-item>
+
+                            <el-form-item class="uplo">
+                                <div style="margin-bottom: 20px;">
+                                    <!--<Uploadimg v-model="diary.pic7"></Uploadimg>-->
+                                    <img :src=diary.pic7 style="width:300px;height:300px" alt=""> </img>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <!--<Uploadimg v-model="diary.pic8"></Uploadimg>-->
+                                    <img :src=diary.pic8 style="width:300px;height:300px" alt=""> </img>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <!--<Uploadimg v-model="diary.pic9"></Uploadimg>-->
+                                    <img :src=diary.pic9 style="width:300px;height:300px" alt=""> </img>
                                 </div>
                             </el-form-item>
 
                             <el-form-item>
                                 <div style="margin-bottom: 20px;">
                                     <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
-                                    <Uploadimg v-model="diary.video"></Uploadimg>
+                                    <!--<Uploadvideo v-model="diary.video"></Uploadvideo>-->
+                                    <video :src=diary.video style="width:200px;height:280px" controls ></video>
                                 </div>
                             </el-form-item>
 
@@ -183,10 +193,10 @@
                             </div>
                         </el-form-item>
 
-                        <el-form-item class="uplo" label-width="400px">
-                            <div v-show="showVidContent" style="margin-bottom: 20px;display: inline-block">
+                        <el-form-item label-width="40px">
+                            <div v-show="showVidContent" style="margin-bottom: 20px;">
                                 <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
-                                <Upload v-model="diaryContent.video"></Upload>
+                                <Uploadvideo v-model="diaryContent.video"></Uploadvideo>
                             </div>
                         </el-form-item>
 
@@ -253,6 +263,7 @@
     //import Uploadimg from 'components/Upload/singleImage3'
     import Uploadimg from 'components/Upload/picture1';
     import Upload from 'components/Upload/picture';
+    import Uploadvideo from 'components/Upload/video';
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
     import { getDiary } from 'api/diary';
@@ -263,7 +274,7 @@
 
     export default {
         name: 'articleDetail',
-        components: { Tinymce, MDinput, Uploadimg, Upload },
+        components: { Tinymce, MDinput, Uploadimg, Upload, Uploadvideo },
         data() {
             const validateRequire = (rule, value, callback) => {
                 if (value === '') {

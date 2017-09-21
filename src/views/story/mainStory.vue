@@ -119,7 +119,8 @@
                         </el-form-item>-->
                         <el-form-item label="普通视频:" prop="video">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="normalVideo.video"></Upload>
+                                <Uploadvideo v-model="normalVideo.video"></Uploadvideo>
+                               <!-- <video :src=normalVideo.video style="width:200px;height:280px" controls ></video>-->
                             </div>
                         </el-form-item>
                         <el-form-item label="出现条件:" prop="condition">
@@ -171,17 +172,20 @@
                         </el-form-item>-->
                         <el-form-item label="开始视频:" prop="startVideo">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="eachVideo.startVideo"></Upload>
+                                <Uploadvideo v-model="eachVideo.startVideo"></Uploadvideo>
+                                <!--<video :src=eachVideo.startVideo style="width:200px;height:280px" controls ></video>-->
                             </div>
                         </el-form-item>
                         <el-form-item label="选择一视频:" prop="selectVideo1">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="eachVideo.selectVideo1"></Upload>
+                                <Uploadvideo v-model="eachVideo.selectVideo1"></Uploadvideo>
+                                <!--<video :src=eachVideo.selectVideo1 style="width:200px;height:280px" controls ></video>-->
                             </div>
                         </el-form-item>
                         <el-form-item label="选择二视频:" prop="selectVideo2">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="eachVideo.selectVideo2"></Upload>
+                                <Uploadvideo v-model="eachVideo.selectVideo2"></Uploadvideo>
+                                <!--<video :src=eachVideo.selectVideo2 style="width:200px;height:280px" controls ></video>-->
                             </div>
                         </el-form-item>
                         <el-form-item label="交互文字:" prop="eachWord" style="width:280px">
@@ -242,7 +246,7 @@
                         </el-form-item>-->
                         <el-form-item label="电话:" prop="speak">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="phone.speak"></Upload>
+                                <Uploadaudio v-model="phone.speak"></Uploadaudio>
                             </div>
                         </el-form-item>
                         <el-form-item label="交互文字:" prop="eachWord" style="width:280px">
@@ -368,7 +372,7 @@
                         </el-form-item>-->
                         <el-form-item label="语言聊天:" prop="sound">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="soundTalk.sound"></Upload>
+                                <Uploadaudio v-model="soundTalk.sound"></Uploadaudio>
                             </div>
                         </el-form-item>
                         <el-form-item label="回复一:" prop="answer1" style="width:280px">
@@ -556,7 +560,8 @@
                         </el-form-item>-->
                         <el-form-item label="小视频:" prop="video">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="smallVideo.video"></Upload>
+                                <Uploadvideo v-model="smallVideo.video"></Uploadvideo>
+                                <!--<video :src=smallVideo.video style="width:200px;height:280px" controls ></video>-->
                             </div>
                         </el-form-item>
                         <el-form-item label="回复一:" prop="answer1" style="width:280px">
@@ -626,6 +631,8 @@
 <script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce'
     import Upload from 'components/Upload/singleImage3'
+    import Uploadvideo from 'components/Upload/video'
+    import Uploadaudio from 'components/Upload/audio'
     import Story from 'components/story/mainstoryEdits'
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
@@ -646,7 +653,7 @@
 
     export default {
         name: 'clothes',
-        components: { Tinymce, MDinput, Upload, Story },
+        components: { Tinymce, MDinput, Upload, Story, Uploadvideo, Uploadaudio },
         data() {
             const validateRequire = (rule, value, callback) => {
                 if (!value) {
