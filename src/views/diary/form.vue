@@ -66,7 +66,7 @@
                             <el-form-item label-width="90px" prop="id">
                                 <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ diary.index }}</el-input><span style="display: inline-block;margin-left:8px;">条：</span>
                             </el-form-item>
-                            <el-form-item class="uplo">
+                            <el-form-item v-if="diary.pic1" class="uplo">
                                 <div style="margin-bottom: 20px;">
                                     <!--<el-form-item label-width="90px" label="图片:" prop="pic1">最多9张图片</el-form-item>-->
                                     <!--<Uploadimg v-model="diary.pic1"></Uploadimg>-->
@@ -82,7 +82,7 @@
                                 </div>
                             </el-form-item>
 
-                            <el-form-item class="uplo">
+                            <el-form-item v-if="diary.pic4" class="uplo">
                                 <div style="margin-bottom: 20px;">
                                     <!--<Uploadimg v-model="diary.pic4"></Uploadimg>-->
                                     <img :src=diary.pic4 style="width:300px;height:300px" alt=""> </img>
@@ -97,7 +97,7 @@
                                 </div>
                             </el-form-item>
 
-                            <el-form-item class="uplo">
+                            <el-form-item v-if="diary.pic7"  class="uplo">
                                 <div style="margin-bottom: 20px;">
                                     <!--<Uploadimg v-model="diary.pic7"></Uploadimg>-->
                                     <img :src=diary.pic7 style="width:300px;height:300px" alt=""> </img>
@@ -116,7 +116,7 @@
                                 <div style="margin-bottom: 20px;">
                                     <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
                                     <!--<Uploadvideo v-model="diary.video"></Uploadvideo>-->
-                                    <video :src=diary.video style="width:200px;height:280px" controls ></video>
+                                    <video v-if="diary.video" :src=diary.video style="width:200px;height:280px" controls ></video>
                                 </div>
                             </el-form-item>
 
