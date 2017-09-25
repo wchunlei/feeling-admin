@@ -262,13 +262,13 @@
                 <span>（0金币不锁）</span>
               </el-form-item>
 
-              <el-dialog title="提示" :visible.sync="dialogMv" size="tiny" >
+              <!--<el-dialog title="提示" :visible.sync="dialogMv" size="tiny" >
                 <span>确定删除?</span>
                 <span slot="footer" class="dialog-footer">
                   <el-button @click="dialogMv = false">取 消</el-button>
                   <el-button type="primary" @click="sureMv(mv.id)">确 定</el-button>
                 </span>
-              </el-dialog>
+              </el-dialog>-->
 
               <el-form-item label-width="50px" label="">
                 <el-button type="primary" @click="delMv(mv.id)">删除视频</el-button>
@@ -682,7 +682,7 @@
           }
         });
       },
-      sureMv (id) {
+      /*sureMv (id) {
         this.dialogMv = false;
         this.flagMv = true;
         let mvid={
@@ -696,9 +696,31 @@
             this.fetchSuccess = false;
           console.log(err);
         });
-      },
+      },*/
       delMv (id) {
-        this.dialogMv = true;
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let mvid={
+            id: id
+          };
+          delMv (mvid).then(response => {
+            //this.postForm = response.data;
+            this.getDetail(this.listQuery);
+            console.log()
+          }).catch(err => {
+            this.fetchSuccess = false;
+            console.log(err);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+        //this.dialogMv = true;
         /*let mvid={
           id: id
         };
