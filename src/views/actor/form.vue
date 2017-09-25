@@ -208,7 +208,7 @@
             </el-form>
           </div>
         </template>
-        <hr style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
+        <hr v-if="showHr" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
 
         <!--<hr v-if="showPhoto" width="100%" color="#999" style="margin-bottom:40px" />-->
 
@@ -384,6 +384,7 @@
         },
         mvs: [],
         showPhoto: true,
+        showHr: true,
         dialogPhoto: false,
         dialogMv: false,
         flagPhoto: false,
@@ -441,6 +442,7 @@
       } else {
         this.showPhoto = false;
         this.disable = false;
+        this.showHr =false;
       }
       if (this.isEdit) {
         this.fetchData();
@@ -466,6 +468,9 @@
           }
           this.photos = response.data.content.photo;
           this.mvs = response.data.content.mv;
+          if (this.photos == '') {
+            this.showHr =false;
+          }
           /*for(let i=0;i<this.postForm.nature.length;i++){
             this.postForm.nature[i].name = response.data.content.nature[i].name;
             this.postForm.nature = this.postForm.nature + this.postForm.nature[i].name + ',';

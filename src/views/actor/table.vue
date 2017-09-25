@@ -83,7 +83,7 @@
 
       <el-table-column align="center" label="操作" width="250px">
         <template scope="scope">
-          <el-button v-if="scope.row.status!='发布'" size="small" type="success" @click="handleModifyStatusPublish(scope.row,'published')">发布
+          <el-button v-if="scope.row.status!='发布'" size="small" @click="handleModifyStatusPublish(scope.row,'published')">发布
           </el-button>
           <el-button v-if="scope.row.status!='草稿'" size="small" @click="handleModifyStatusDraft(scope.row,'draft')">草稿
           </el-button>
