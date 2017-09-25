@@ -26,7 +26,7 @@
               <el-row>
                 <el-col :span="8">
                   <el-form-item label-width="50px" label="类型:" class="postInfo-container-item" prop="style">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.style">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.style" :disabled="disable">
                       </el-input>
                   </el-form-item>
                 </el-col>
@@ -34,15 +34,15 @@
                 <el-col :span="8">
                   
                     <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.name">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.name" :disabled="disable">
                       </el-input>
                     </el-form-item>
                   
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="45px" label="性别:" class="postInfo-container-item" prop="gender">
-                    <el-select class="filter-item" placeholder="请选择" v-model="postForm.gender">
+                  <el-form-item label-width="50px" label="性别:" class="postInfo-container-item" prop="gender">
+                    <el-select class="filter-item" placeholder="请选择" v-model="postForm.gender" style="width: 166px" :disabled="disable">
                       <el-option v-for="item in  sexOptions" :key="item.label" :label="item.label" :value="item.value">
                       </el-option>
                     </el-select>
@@ -55,7 +55,7 @@
               <el-row>
                 <el-col :span="8">
                   <el-form-item label-width="50px" label="身高:" class="postInfo-container-item" prop="height">
-                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.height">
+                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.height" :disabled="disable">
                       </el-input>
                   </el-form-item>
                 </el-col>
@@ -63,7 +63,7 @@
                 <el-col :span="8">
                   
                     <el-form-item label-width="50px" label="年龄:" class="postInfo-container-item" prop="age">
-                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.age">
+                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.age" :disabled="disable">
                       </el-input>
                   </el-form-item>
                   
@@ -71,7 +71,7 @@
 
                 <el-col :span="8">
                   <el-form-item label-width="50px" label="体重:" class="postInfo-container-item" prop="weight">
-                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.weight">
+                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.weight" :disabled="disable">
                       </el-input>
                   </el-form-item>
                 </el-col>
@@ -82,31 +82,30 @@
               <el-row>
                 <el-col :span="8">
                   <el-form-item label-width="50px" label="胸围:" class="postInfo-container-item" prop="bust">
-                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.bust">
+                      <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.bust" :disabled="disable">
                       </el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
-                  
                     <el-form-item label-width="50px" label="职业:" class="postInfo-container-item">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.job">
+                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.job" :disabled="disable">
                       </el-input>
                     </el-form-item>
-                  
                 </el-col>
 
+                <el-col :span="8">
+                  <el-form-item style="margin-bottom: 40px;" label-width="50px" label="性格:" class="postInfo-container-item">
+                    <el-input type="textarea" :row="1" placeholder="" v-model="postForm.nature" style="width:170px;" :disabled="disable">
+                    </el-input>
+                    <!--<span class="word-counter" v-show="natureLength">{{natureLength}}字</span>-->
+                  </el-form-item>
+                </el-col>
 
               </el-row>
             </div>
           </el-col>
         </el-row>
-
-        <el-form-item style="margin-bottom: 40px;" label-width="45px" label="性格:">
-          <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="postForm.nature">
-          </el-input>
-          <span class="word-counter" v-show="natureLength">{{natureLength}}字</span>
-        </el-form-item>
 
         <el-form v-if="showPhoto" :model="photosList" :rules="addPhotosRules" ref="photosList">
           <el-form-item label-width="50px" label="首图:" class="postInfo-container-item" prop="url">
@@ -115,7 +114,7 @@
             </div>
           </el-form-item>
           <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name" style="width:300px">
-            <el-input placeholder="" style='min-width:150px;' v-model="photosList.name"></el-input>
+            <el-input placeholder="" style='width:150px;' v-model="photosList.name"></el-input>
           </el-form-item>
 
           <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
@@ -131,13 +130,16 @@
           <el-button type="primary" @click="addPhotos('photosList')">新增写真集</el-button>
         </el-form-item>
 
+        <hr v-if="showPhoto" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
+
         <template v-if="showPhoto" v-for="photo in photos">
-          <div style="display:inline-block">
+          <div style="width: 500px;display:inline-block;margin:0px 10px 20px 10px;border: 1px solid #ccc;padding:10px">
             <el-form :model="photo" ref="photo">
               <el-form-item label-width="60px" label="写真集:" class="postInfo-container-item" prop="url">
                 <div style="margin-bottom: 0px;cursor:pointer;" @click="thumbnaillist(photo.id)">
                   <img :src=photo.url style="width:300px;height:300px" alt="图片不存在"></img>
                   <!--<Upload  v-model="photos.url" @click="dialogVisible = true"></Upload>-->
+                  <i class="el-icon-plus uploader-icon icon-position"></i>
                 </div>
               </el-form-item>
 
@@ -148,7 +150,7 @@
               </el-form-item>
 
               <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name" style="width:300px">
-                <el-input placeholder="" style='min-width:150px;' v-model="photo.name"></el-input>
+                <el-input placeholder="" style='width:150px;' v-model="photo.name"></el-input>
               </el-form-item>
 
               <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
@@ -157,32 +159,32 @@
               </el-form-item>
 
               <el-form-item label-width="50px" label="数量:" class="postInfo-container-item" prop="photoNum" style="width:300px">
-                <el-input placeholder="" style='min-width:150px;' v-model="photo.photoNum"></el-input>
+                <el-input placeholder="" style='width:150px;' v-model="photo.photoNum"></el-input>
               </el-form-item>
 
-              <el-dialog title="提示" :visible.sync="dialogPhoto" size="tiny" >
+              <!--<el-dialog title="提示" :visible.sync="dialogPhoto" size="tiny" >
                 <span>确定删除?</span>
                 <span slot="footer" class="dialog-footer">
                   <el-button @click="dialogPhoto = false">取 消</el-button>
                   <el-button type="primary" @click="surePhoto(photo.id)">确 定</el-button>
                 </span>
-              </el-dialog>
+              </el-dialog>-->
 
               <el-form-item label-width="50px" label="">
                 <el-button type="primary" @click="delPhoto(photo.id)">删除写真集</el-button>
               </el-form-item>
 
-              <el-dialog title="photos" :visible.sync="dialogVisible">
+              <el-dialog title="编辑照片" :visible.sync="dialogVisible">
 
                     <el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
 
-                      <el-form-item label="新增照片:" label-width="90px" prop="photourl">
+                      <el-form-item label="" label-width="60px" prop="photourl">
                         <div style="margin-bottom: 20px;">
-                          <Upload v-model="upPhotos.photourl"></Upload>
+                          <Uploadhead v-model="upPhotos.photourl" v-on:input="picInput"></Uploadhead>
                         </div>
                       </el-form-item>
 
-                      <el-form-item>
+                      <el-form-item style="display:none">
                         <el-button @click="dialogVisible = false">取 消</el-button>
                         <el-button type="primary" @click="picList(photo.id)">确 定</el-button>
                       </el-form-item>
@@ -190,8 +192,11 @@
                       <template v-for="upphoto in upPhotos">
                         <div style="display:inline-block">
 
-                          <el-form-item label="照片:" label-width="90px" prop="thumbnail">
-                            <img :src=upphoto.thumbnail style="width:300px;height:300px" alt="图片不存在"></img>
+                          <el-form-item label="" label-width="60px" prop="thumbnail">
+                            <img :src=upphoto.thumbnail style="width:200px;height:200px" alt="图片不存在"></img>
+                            <button type="button" aria-label="Close" class="el-dialog__headerbtn delButton" @click="delPicture(photo.id,upphoto.thumbnail)">
+                              <i class="el-dialog__close el-icon el-icon-close"></i>
+                            </button>
                           </el-form-item>
                         </div>
 
@@ -203,8 +208,9 @@
             </el-form>
           </div>
         </template>
+        <hr style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
 
-        <hr v-if="showPhoto" width="100%" color="#999" style="margin-bottom:40px" />
+        <!--<hr v-if="showPhoto" width="100%" color="#999" style="margin-bottom:40px" />-->
 
         <el-form v-if="showPhoto" :model="addmvs" :rules="addMvRules" ref="addmvs">
           <el-form-item label-width="68px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
@@ -213,25 +219,26 @@
             </div>
           </el-form-item>
 
-          <el-form-item label-width="70px" label="视频url:" class="postInfo-container-item" prop="mvurl" style="width:300px">
-            <el-input placeholder="" style='min-width:150px;' v-model="addmvs.mvurl"></el-input>
-          </el-form-item>
+          <!--<el-form-item label-width="50px" label="url:" class="postInfo-container-item" prop="mvurl" style="width:300px">
+            <el-input placeholder="" style='width:150px;' v-model="addmvs.mvurl"></el-input>
+          </el-form-item>-->
 
           <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="mvname" style="width:300px">
-            <el-input placeholder="" style='min-width:150px;' v-model="addmvs.mvname"></el-input>
+            <el-input placeholder="" style='width:150px;' v-model="addmvs.mvname"></el-input>
           </el-form-item>
 
           <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
             <el-input placeholder="" style='width:150px;display:inline-block;' v-model.number="addmvs.amount"></el-input>
             <span>（0金币不锁）</span>
           </el-form-item>
-          <el-form-item label-width="50px" label="">
+          <el-form-item label-width="70px" label="">
             <el-button type="primary" @click="addMv('addmvs')">新增视频</el-button>
           </el-form-item>
+          <hr style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
         </el-form>
 
         <template v-if="showPhoto" v-for="mv in mvs">
-          <div style="display:inline-block">
+          <div style="display:inline-block;margin-right:80px;border: 1px solid #ccc;padding:10px">
             <el-form :model="mv" ref="mv">
               <el-form-item label-width="70px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
                 <div style="margin-bottom: 0px;">
@@ -247,7 +254,7 @@
               </el-form-item>
 
               <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name" style="width:300px">
-                <el-input placeholder="" style='min-width:150px;' v-model="mv.name"></el-input>
+                <el-input placeholder="" style='width:150px;' v-model="mv.name"></el-input>
               </el-form-item>
 
               <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
@@ -280,6 +287,7 @@
 <script type="text/ECMAScript-6">
   import Tinymce from 'components/Tinymce';
   import Upload from 'components/Upload/singleImage3';
+  import Uploadhead from 'components/Upload/headPhoto'
   import Uploadvideo from 'components/Upload/video';
   import MDinput from 'components/MDinput';
   import { validateURL } from 'utils/validate';
@@ -295,11 +303,11 @@
 
   export default {
     name: 'articleDetail',
-    components: { Tinymce, MDinput, Upload, Uploadvideo },
+    components: { Tinymce, MDinput, Upload, Uploadvideo, Uploadhead },
     data() {
       const checkNum = (rule, value, callback) => {
         if (!value) {
-          return callback(new Error('不能为空'));
+          return callback(new Error('输入不能为空'));
         }
         setTimeout(() => {
           if (!Number.isInteger(value)) {
@@ -315,7 +323,7 @@
       };
       const validateRequire = (rule, value, callback) => {
         if (!value) {
-          return callback(new Error('不能为空'));
+          return callback(new Error('输入不能为空'));
         } else {
           callback()
         }
@@ -336,6 +344,8 @@
         }
       };
       return {
+        phopoid: '',
+        watcher: false,
         listQuery: {},
         photoData: {},
         mvData: {},
@@ -382,6 +392,7 @@
         loading: false,
         userLIstOptions: [],
         natureLength: false,
+        disable: true,
         sexOptions: [{
           value: '1',
           label: '男'
@@ -405,8 +416,8 @@
         },
         actorDetail: {
           name: [{ validator: validateRequire, trigger: 'blur' }],
-          height: [{ validator: checkNum, trigger: 'blur' }],
-          weight: [{ validator: checkNum, trigger: 'blur' }],
+          height: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
+          weight: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
           age: [{ validator: checkNum, trigger: 'blur' }],
           //bust: [{ validator: checkNum, trigger: 'blur' }],
         }
@@ -429,9 +440,18 @@
         this.mvData.id = parseInt(this.$route.params.actor);
       } else {
         this.showPhoto = false;
+        this.disable = false;
       }
       if (this.isEdit) {
         this.fetchData();
+      }
+    },
+    watch : {
+      "watcher" : {
+        handler:function(val,oldval){
+          this.picList(this.photoid);
+        },
+        deep: true
       }
     },
     methods: {
@@ -546,7 +566,7 @@
           }
         });
       },
-      surePhoto (id) {
+      /*surePhoto (id) {
         this.dialogPhoto = false;
         this.flagPhoto = true;
         let photoid={
@@ -563,9 +583,32 @@
             console.log(err);
           });
         }
-      },
+      },*/
       delPhoto (id) {
-        this.dialogPhoto = true;
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let photoid={
+            id: id
+          };
+          delPhotos (photoid).then(response => {
+            //this.postForm = response.data;
+            this.flagPhoto = false;
+            this.getDetail(this.listQuery);
+            console.log()
+          }).catch(err => {
+            this.fetchSuccess = false;
+            console.log(err);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+        //this.dialogPhoto = true;
         /*let photoid={
           id: id
         };
@@ -578,6 +621,31 @@
             console.log(err);
           });
         }*/
+      },
+      delPicture (id,url) {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let photoinfo={
+            id: id,
+            url: url
+          };
+          delPhotos (photoinfo).then(response => {
+            //this.postForm = response.data;
+            this.thumbnaillist(id);
+            console.log()
+          }).catch(err => {
+            this.fetchSuccess = false;
+            console.log(err);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       addMv (addmvs) {
         let mvlist = {
@@ -638,6 +706,7 @@
         });*/
       },
       thumbnaillist (id) {
+        this.photoid = id;
         this.dialogVisible = true;
         let list = {
           id: parseInt(this.$route.params.actor),
@@ -657,6 +726,11 @@
           console.log(err);
         });
       },
+      picInput (data) {
+        if (data) {
+          this.watcher = data;
+        }
+      },
       picList (id) {
         let photoList={
           id: parseInt(this.$route.params.actor),
@@ -674,7 +748,9 @@
         });*/
         if (photoList.photourl) {
           addPhoto (photoList).then(response => {
-            console.log()
+            console.log();
+            this.upPhotos.photourl = '';
+            this.thumbnaillist(id);
           }).catch(err => {
             this.fetchSuccess = false;
             console.log(err);
@@ -685,7 +761,7 @@
             type: 'error'
           });
         }
-        this.dialogVisible = false;
+        //this.dialogVisible = false;
       },
       getRemoteUserList(query) {
         userSearch(query).then(response => {
@@ -699,7 +775,7 @@
     }
   }
 </script>
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
   @import "src/styles/mixin.scss";
   .title-prompt{
     position: absolute;
@@ -737,6 +813,44 @@
       position: absolute;
       right: -10px;
       top: 0px;
+    }
+    .el-dialog__header {
+      height:40px;
+      padding:0;
+      text-align:center;
+      line-height:40px;
+      background-color:#1970cf;
+    }
+
+    .el-dialog__header .el-dialog__title {
+      color:#fff;
+      font-weight:500;
+      font-size:14px;
+    }
+    .el-dialog .el-dialog__body {
+      max-height:740px;
+      overflow:auto;
+    }
+    .el-dialog__headerbtn {
+      margin-right:10px
+    }
+    .delButton {
+      position: relative;
+      left: -20px;
+      top:-5px
+    }
+    .uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 178px;
+      height: 178px;
+      line-height: 178px;
+      text-align: center;
+    }
+    .icon-position {
+      position: absolute;
+      left: 60px;
+      top: 60px;
     }
   }
 </style>

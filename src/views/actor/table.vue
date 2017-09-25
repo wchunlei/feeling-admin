@@ -77,15 +77,15 @@
 
       <el-table-column class-name="status-col" label="状态" width="90">
         <template scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+          <el-tag :type="scope.row.status | statusFilter" :class="{activeColor: isColor}">{{scope.row.status}}</el-tag>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="操作" width="250px">
         <template scope="scope">
-          <el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatusPublish(scope.row,'published')">发布
+          <el-button v-if="scope.row.status!='发布'" size="small" type="success" @click="handleModifyStatusPublish(scope.row,'published')">发布
           </el-button>
-          <el-button v-if="scope.row.status!='draft'" size="small" @click="handleModifyStatusDraft(scope.row,'draft')">草稿
+          <el-button v-if="scope.row.status!='草稿'" size="small" @click="handleModifyStatusDraft(scope.row,'draft')">草稿
           </el-button>
           <!--<el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
           </el-button>-->
@@ -196,6 +196,7 @@
     name: 'table_demo',
     data() {
       return {
+        isColor: true,
         isA: true,
         list: null,
         total: null,
@@ -259,6 +260,11 @@
     created() {
       this.getList();
     },
+    computed: {
+      classObject () {
+        return isColor ? activeColor : '';
+      }
+    },
     filters: {
       statusFilter(status) {
         const statusMap = {
@@ -319,6 +325,7 @@
           console.log(response)
           if (status == 'published') {
             row.status = '发布';
+            //this.isColor = true;
           }
         })
         //row.status = status;
@@ -472,5 +479,11 @@
     }
   }
 </script>
+
+<style>
+  .activeColor {
+    background: #13ce66;
+  }
+</style>
 
 

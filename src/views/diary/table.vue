@@ -16,11 +16,16 @@
                 <template scope="scope">
                     <!--<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>-->
                     <!--<router-link to="/diary/form">{{scope.row.id}}</router-link>-->
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/diary/form/' + scope.row.id + '/' + scope.row.actorid }">{{scope.row.id}}</router-link></span>
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/diary/form/' + scope.row.id + '/' + scope.row.actorid }" active-class="router-link-active" exact>{{scope.row.id}}</router-link></span>
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="400px" label="日记标题" align="center" prop="title">
+            <el-table-column min-width="400px" label="日记名称" align="center" prop="title">
+                <template scope="scope">
+                    <!--<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>-->
+                    <!--<router-link to="/diary/form">{{scope.row.id}}</router-link>-->
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/diary/form/' + scope.row.id + '/' + scope.row.actorid }" active-class="router-link-active" exact>{{scope.row.title}}</router-link></span>
+                </template>
             </el-table-column>
 
             <el-table-column width="180px" align="center" label="主角" prop="name">

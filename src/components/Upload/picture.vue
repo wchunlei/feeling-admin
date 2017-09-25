@@ -9,9 +9,9 @@
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
-        <el-dialog v-model="dialogVisible" size="tiny">
+        <!--<el-dialog v-model="dialogVisible" size="tiny">
             <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
+        </el-dialog>-->
 
     </div>
 </template>
@@ -31,7 +31,6 @@
         },
         data() {
             return {
-                dialogVisible: false,
                 tempUrl: '',
                 dataObj: { token: '', key: '' },
                 //imageUrl: ''

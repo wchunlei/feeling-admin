@@ -87,7 +87,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="服装价格:" style="margin-bottom: 40px;" label-width="90px" prop="price">
-                        <el-input v-model="postForm.price" size="small" placeholder="请输入服装价格" style="width:200px;"></el-input>
+                        <el-input v-model="postForm.price" size="small" placeholder="请输入服装价格" style="width:100px;"></el-input>
                     </el-form-item>
                 </div>
             </el-form>
@@ -96,8 +96,8 @@
 </template>
 
 <script type="text/ECMAScript-6">
-    import Tinymce from 'components/Tinymce'
-    import Upload from 'components/Upload/singleImage3'
+    import Tinymce from 'components/Tinymce';
+    import Upload from 'components/Upload/singleImage3';
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
     import { userSearch } from 'api/story';
