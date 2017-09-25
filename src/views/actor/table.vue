@@ -22,25 +22,18 @@
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
-      <el-table-column align="center" label="序号" width="65" column-key="id">
+      <el-table-column align="center" label="序号" width="100" column-key="id">
         <template scope="scope">
           <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="主角">
+      <el-table-column width="200px" align="center" label="主角">
         <!--<template scope="scope">
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
         </template>-->
         <template scope="scope">
           <span>{{scope.row.name}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="80px" align="center" label="性别">
-        <template scope="scope">
-          <span v-if="scope.row.gender==1">男</span>
-          <span v-if="scope.row.gender==2">女</span>
         </template>
       </el-table-column>
 
@@ -56,16 +49,16 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="180px" align="center" label="性格">
-        <template scope="scope">
-          <span>{{scope.row.nature}}</span>
-          <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-        </template>
-      </el-table-column>
-
       <el-table-column class-name="status-col" label="类型" width="200px">
         <template scope="scope">
           <span>{{scope.row.style}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column min-width="200px" align="center" label="性格">
+        <template scope="scope">
+          <span>{{scope.row.nature}}</span>
+          <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
         </template>
       </el-table-column>
 
@@ -75,13 +68,20 @@
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" label="状态" width="90">
+      <el-table-column width="100px" align="center" label="性别">
+        <template scope="scope">
+          <span v-if="scope.row.gender==1">男</span>
+          <span v-if="scope.row.gender==2">女</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column class-name="status-col" label="状态" width="100">
         <template scope="scope">
           <el-tag :type="scope.row.status | statusFilter" :class="{activeColor: isColor}">{{scope.row.status}}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" width="250px">
+      <el-table-column align="center" label="操作" width="200px">
         <template scope="scope">
           <el-button v-if="scope.row.status!='发布'" size="small" @click="handleModifyStatusPublish(scope.row,'published')">发布
           </el-button>
@@ -197,7 +197,6 @@
     data() {
       return {
         isColor: true,
-        isA: true,
         list: null,
         total: null,
         listLoading: true,
@@ -237,9 +236,6 @@
           value: 'draft',
           label: '草稿'
         }, {
-          value: 'deleted',
-          label: '删除'
-        }, {
           value: '',
           label: '全部'
         }],
@@ -259,11 +255,6 @@
     },
     created() {
       this.getList();
-    },
-    computed: {
-      classObject () {
-        return isColor ? activeColor : '';
-      }
     },
     filters: {
       statusFilter(status) {

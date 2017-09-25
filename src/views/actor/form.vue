@@ -6,38 +6,42 @@
         <template v-if="fetchSuccess">
           
 
-          <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm()">发布
+          <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm('postForm')">发布
           </el-button>
           <el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>
 
         </template>
         <template v-else>
-          <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
+          <!--<el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>-->
+          <el-tag>用户详情</el-tag>
         </template>
 
       </Sticky>
 
       <div class="createPost-main-container">
+        <el-form-item label="头像:" label-width="50px" prop="headurl">
+          <div style="margin-bottom: 20px;width:800px">
+            <Uploadhead v-model="postForm.headurl" v-on:input="picInput"></Uploadhead>
+          </div>
+        </el-form-item>
         <el-row>
           <el-col :span="21">
-            
 
             <div class="postInfo-container">
+
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="50px" label="类型:" class="postInfo-container-item" prop="style">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.style" :disabled="disable">
-                      </el-input>
+                  <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name">
+                    <el-input placeholder="" style='min-width:150px;' v-model="postForm.name" :disabled="disable">
+                    </el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
-                  
-                    <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name">
-                      <el-input placeholder="" style='min-width:150px;' v-model="postForm.name" :disabled="disable">
-                      </el-input>
-                    </el-form-item>
-                  
+                  <el-form-item label-width="50px" label="类型:" class="postInfo-container-item" prop="style">
+                    <el-input placeholder="" style='min-width:150px;' v-model="postForm.style" :disabled="disable">
+                    </el-input>
+                  </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
@@ -86,14 +90,12 @@
                       </el-input>
                   </el-form-item>
                 </el-col>
-
                 <el-col :span="8">
                     <el-form-item label-width="50px" label="职业:" class="postInfo-container-item">
                       <el-input placeholder="" style='min-width:150px;' v-model="postForm.job" :disabled="disable">
                       </el-input>
                     </el-form-item>
                 </el-col>
-
                 <el-col :span="8">
                   <el-form-item style="margin-bottom: 40px;" label-width="50px" label="性格:" class="postInfo-container-item">
                     <el-input type="textarea" :row="1" placeholder="" v-model="postForm.nature" style="width:170px;" :disabled="disable">
@@ -101,9 +103,9 @@
                     <!--<span class="word-counter" v-show="natureLength">{{natureLength}}字</span>-->
                   </el-form-item>
                 </el-col>
-
               </el-row>
             </div>
+
           </el-col>
         </el-row>
 
@@ -176,32 +178,32 @@
 
               <el-dialog title="编辑照片" :visible.sync="dialogVisible">
 
-                    <el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
+                  <el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
 
-                      <el-form-item label="" label-width="60px" prop="photourl">
-                        <div style="margin-bottom: 20px;">
-                          <Uploadhead v-model="upPhotos.photourl" v-on:input="picInput"></Uploadhead>
-                        </div>
-                      </el-form-item>
+                    <el-form-item label="" label-width="60px" prop="photourl">
+                      <div style="margin-bottom: 20px;">
+                        <Uploadhead v-model="upPhotos.photourl" v-on:input="picInput"></Uploadhead>
+                      </div>
+                    </el-form-item>
 
-                      <el-form-item style="display:none">
-                        <el-button @click="dialogVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="picList(photo.id)">确 定</el-button>
-                      </el-form-item>
+                    <el-form-item style="display:none">
+                      <el-button @click="dialogVisible = false">取 消</el-button>
+                      <el-button type="primary" @click="picList(photo.id)">确 定</el-button>
+                    </el-form-item>
 
-                      <template v-for="upphoto in upPhotos">
-                        <div style="display:inline-block">
+                    <template v-for="upphoto in upPhotos">
+                      <div style="display:inline-block">
 
-                          <el-form-item label="" label-width="60px" prop="thumbnail">
-                            <img :src=upphoto.thumbnail style="width:200px;height:200px" alt="图片不存在"></img>
-                            <button type="button" aria-label="Close" class="el-dialog__headerbtn delButton" @click="delPicture(photo.id,upphoto.thumbnail)">
-                              <i class="el-dialog__close el-icon el-icon-close"></i>
-                            </button>
-                          </el-form-item>
-                        </div>
+                        <el-form-item label="" label-width="60px" prop="thumbnail">
+                          <img :src=upphoto.thumbnail style="width:200px;height:200px" alt="图片不存在"></img>
+                          <button type="button" aria-label="Close" class="el-dialog__headerbtn delButton" @click="delPicture(photo.id,upphoto.thumbnail)">
+                            <i class="el-dialog__close el-icon el-icon-close"></i>
+                          </button>
+                        </el-form-item>
+                      </div>
 
-                      </template>
-                    </el-form>
+                    </template>
+                  </el-form>
 
               </el-dialog>
 
@@ -361,8 +363,8 @@
           job: '',
           nature: '',
           headurl: '', // 文章图片
-          id: '',
-          status: 'draft',
+          //id: '',
+          status: 'published',
         },
         photos: [],
         photosList: {
@@ -439,14 +441,15 @@
         this.getDetail(this.listQuery);
         this.photoData.id = parseInt(this.$route.params.actor);
         this.mvData.id = parseInt(this.$route.params.actor);
+        this.fetchSuccess = false;
       } else {
         this.showPhoto = false;
         this.disable = false;
         this.showHr =false;
       }
-      if (this.isEdit) {
+      /*if (this.isEdit) {
         this.fetchData();
-      }
+      }*/
     },
     watch : {
       "watcher" : {
@@ -496,7 +499,7 @@
           console.log(err);
         });
       },
-      submitForm() {
+      submitForm(formName) {
         //this.postForm.display_time = parseInt(this.display_time / 1000);
         console.log(this.postForm)
         var actorinfo;
@@ -505,21 +508,20 @@
           if (valid) {
             this.loading = true;
             actorUpdate(actorinfo).then(response => {
-              if (!response.data.items) return;
+              /*if (!response.data.items) return;
               console.log(response)
               this.userLIstOptions = response.data.items.map(v => ({
                 key: v.name
-              }));
-
+              }));*/
+              if(response.data.code == 200) {
+                this.$message({
+                  message: '发布成功',
+                  type: 'success'
+                });
+                this.$refs[formName].resetFields();
+                this.postForm.status = 'published';
+              }
             });
-
-            this.$notify({
-              title: '成功',
-              message: '发布成功',
-              type: 'success',
-              duration: 2000
-            });
-            this.postForm.status = 'published';
             this.loading = false;
           } else {
             console.log('error submit!!');
@@ -782,12 +784,12 @@
             this.fetchSuccess = false;
             console.log(err);
           });
-        } else {
+        }/* else {
           this.$message({
             message: '上传失败',
             type: 'error'
           });
-        }
+        }*/
         //this.dialogVisible = false;
       },
       getRemoteUserList(query) {

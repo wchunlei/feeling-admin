@@ -3,6 +3,12 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="主角" v-model="listQuery.name">
       </el-input>
+      <!--<el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="状态" v-model="listQuery.status">
+      </el-input>-->
+      <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.status" placeholder="状态">
+        <el-option v-for="item in  statusOptions" :key="item.label" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
 
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
@@ -10,7 +16,7 @@
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-      <el-table-column align="center" label="序号" width="65">
+      <el-table-column align="center" label="序号" width="100">
         <template scope="scope">
           <!--<span>{{scope.row.id}}</span>-->
           <span style="color:#337ab7;"><router-link :to="{ path: '/story/mainStory/' + scope.row.id + '/' + scope.row.plottype + '/' + scope.row.actorid + '/' + scope.row.name + '/' +scope.row.title}">{{scope.row.id}}</router-link></span>
@@ -23,13 +29,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="200px" align="center" label="主角">
+      <el-table-column width="300px" align="center" label="主角">
         <template scope="scope">
           <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="200px" align="center" label="类型">
+      <el-table-column width="300px" align="center" label="类型">
         <template scope="scope">
           <span v-if="scope.row.plottype==1">新用户剧情</span>
           <span v-if="scope.row.plottype==2">主线剧情</span>
@@ -37,17 +43,17 @@
       </el-table-column>
       
 
-      <el-table-column class-name="status-col" label="状态" width="90">
+      <el-table-column class-name="status-col" label="状态" width="300">
         <template scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+          <el-tag :type="scope.row.status | statusFilter" :class="{activeColor: isColor}">{{scope.row.status}}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" width="150">
+      <el-table-column align="center" label="操作" width="200">
         <template scope="scope">
-          <el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
+          <el-button v-if="scope.row.status!='发布'" size="small" @click="handleModifyStatus(scope.row,'published')">发布
           </el-button>
-          <el-button v-if="scope.row.status!='draft'" size="small" @click="handleModifyStatus(scope.row,'draft')">草稿
+          <el-button v-if="scope.row.status!='草稿'" size="small" @click="handleModifyStatus(scope.row,'draft')">草稿
           </el-button>
           <!--<el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
           </el-button>-->
@@ -127,13 +133,16 @@
         list: null,
         total: null,
         listLoading: true,
+        isColor: true,
         listQuery: {
           page: 1,
           limit: 20,
           importance: undefined,
           title: undefined,
           type: undefined,
-          sort: '+id'
+          name: undefined,
+          status: undefined,
+          //sort: '+id'
         },
         temp: {
           id: undefined,
@@ -154,6 +163,16 @@
         }, {
           value: '2',
           label: '主线剧情'
+        }],
+        statusOptions: [{
+          value: 'published',
+          label: '发布'
+        }, {
+          value: 'draft',
+          label: '草稿'
+        }, {
+          value: '',
+          label: '全部'
         }],
         dialogFormVisible: false,
         dialogStatus: '',
@@ -225,6 +244,7 @@
         this.listLoading = true;
         let data = {
           id: row.id,
+          actorid: row.actorid,
           status: status
         };
         updatestory (data).then(response => {
@@ -342,3 +362,8 @@
     }
   }
 </script>
+<style>
+  .activeColor {
+    background: #13ce66;
+  }
+</style>
