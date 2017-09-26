@@ -8,7 +8,7 @@
 		<div class="image-preview image-app-preview">
 			<div class="image-preview-wrapper" v-show="imageUrl.length>1">
 				<div class='app-fake-conver'>&nbsp&nbsp</div>
-				<audio :src="imageUrl" width="100" height="180" controls style="margin-top:140px"></audio>
+				<audio :src="imageUrl" width="" height="180" controls style="margin-top:140px"></audio>
 				<!--<div class="image-preview-action">
 					<i @click="rmImage" class="el-icon-delete"></i>
 				</div>-->
@@ -79,11 +79,11 @@
 	position: relative;
 	@include clearfix;
 	.image-uploader {
-		width: 35%;
+		width: 220px;
 		float: left;
 	}
 	.image-preview {
-		width: 200px;
+		width: 100px;
 		height: 200px;
 		position: relative;
 		border: 1px dashed #d9d9d9;

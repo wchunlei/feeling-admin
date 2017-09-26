@@ -33,7 +33,8 @@
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
         </template>-->
         <template scope="scope">
-          <span>{{scope.row.name}}</span>
+          <!--<span>{{scope.row.name}}</span>-->
+          <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.name}}</router-link></span>
         </template>
       </el-table-column>
 

@@ -2,7 +2,7 @@
     <div class="createPost-container">
         <div class="cloth_center" style="margin-left:20px">
             <el-form ref="form" :model="form" label-width="80px" :rules="formRules">
-                <el-form-item label="场景类型:" prop="select">
+                <el-form-item label="场景类型:" prop="select" style="width:280px">
                     <el-select v-model="form.select" placeholder="请选择活动区域" @change="selectScenes">
                         <el-option label="请选择" value=""></el-option>
                         <el-option label="普通视频" value="1"></el-option>
@@ -202,13 +202,13 @@
                 <el-form-item label="步:" prop="step" style="width:280px">
                     <el-input v-model="form.step"></el-input>
                 </el-form-item>-->
-                <el-form-item label="出现条件:" prop="condition">
+                <el-form-item label="出现条件:" prop="condition" style="width:280px">
                     <el-select v-model="form.condition" placeholder="请选择活动区域">
                         <el-option label="上一步结束" value="1"></el-option>
                         <el-option label="无" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="编辑事件:" prop="event" style="width:550px">
+                <el-form-item label="编辑事件:" prop="event" style="width:280px">
                     <el-input v-model="form.event"></el-input>
                 </el-form-item>
                 <el-form-item label="事件条件:" prop="resource">
@@ -626,7 +626,7 @@
         }
     }
 </script>
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
     @import "src/styles/mixin.scss";
     .title-prompt{
         position: absolute;
@@ -664,6 +664,26 @@
         position: absolute;
         right: -10px;
         top: 0px;
+    }
+    .el-dialog__header {
+        height:40px;
+        padding:0;
+        text-align:center;
+        line-height:40px;
+        background-color:#1970cf;
+    }
+
+    .el-dialog__header .el-dialog__title {
+        color:#fff;
+        font-weight:500;
+        font-size:14px;
+    }
+    .el-dialog .el-dialog__body {
+        max-height:740px;
+        overflow:auto;
+    }
+    .el-dialog__headerbtn {
+        margin-right:10px
     }
     }
     .clothStyle{
