@@ -208,9 +208,9 @@ export const asyncRouterMap = [
     name: '服装管理',
     icon: 'zujian',
     children: [
-      { path: 'classform', component: classForm, name: '分类管理' },
+      { path: 'classform/:num/:name', component: classForm, name: '分类管理' },
       { path: 'clothTable', component: clothesTable, name: '服装列表' },
-      { path: 'addcloth/:num', component: addClothes, name: '新增服装' },
+      //{ path: 'addcloth', component: addClothes, name: '新增服装' },
     ]
   },
   {

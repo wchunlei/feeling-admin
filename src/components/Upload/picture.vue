@@ -5,7 +5,8 @@
                 class="avatar-uploader"
                 action="http://192.168.1.43:3000/system/upload"
                 :show-file-list="false"
-                :on-success="handleImageScucess">
+                :on-success="handleImageScucess"
+                :on-remove="handleRemove">
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -46,6 +47,9 @@
             handleImageScucess(res, file) {
                 this.emitInput(res.content.url);
                 this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
             },
             beforeUpload() {
                 const _self = this;

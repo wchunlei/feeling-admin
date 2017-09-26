@@ -83,7 +83,7 @@
 	position: relative;
 	@include clearfix;
 	.image-uploader {
-		width: 15%;
+		width: 200px;
 		float: left;
 	}
 	.image-preview {

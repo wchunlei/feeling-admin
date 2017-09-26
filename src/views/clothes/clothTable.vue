@@ -12,18 +12,19 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="65" prop="id" fixed>
+            <el-table-column align="center" label="序号" width="200" prop="id" fixed>
                 <template scope="scope">
                     <!--<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>-->
                     <!--<router-link to="/diary/form">{{scope.row.id}}</router-link>-->
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/clothes/addcloth/' + scope.row.id }">{{scope.row.id}}</router-link></span>
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/clothes/classform/' + scope.row.actorid + '/' + scope.row.name}">{{scope.row.id}}</router-link></span>
                 </template>
             </el-table-column>
 
-            <el-table-column width="180px" align="center" label="主角" prop="name">
+            <el-table-column width="300px" align="center" label="主角" prop="name">
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>-->
-                    <span>{{scope.row.name}}</span>
+                    <!--<span>{{scope.row.name}}</span>-->
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/clothes/classform/' + scope.row.actorid + '/' + scope.row.name}">{{scope.row.name}}</router-link></span>
                 </template>
             </el-table-column>
 
@@ -51,10 +52,10 @@
             <!--<el-table-column width="400px" label="内容" prop="textarea">
             </el-table-column>-->
 
-            <el-table-column min-width="180px" label="修改时间" prop="modify_time">
+            <el-table-column min-width="180px" align="center" label="修改时间" prop="modify_time">
             </el-table-column>
 
-            <el-table-column width="400px" label="状态" prop="status">
+            <el-table-column width="200px" align="center" label="状态" prop="status">
             </el-table-column>
 
             <el-table-column align="center" label="操作" width="250px" fixed="right">
@@ -207,7 +208,12 @@
                 this.listLoading = true;
                 clothList (this.listQuery).then(response => {
                     this.list = response.data.content;
-                this.listLoading = false;
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if (response.data.content[i].status == 'published') {
+                            this.list[i].status = '发布';
+                        }
+                    }
+                    this.listLoading = false;
                 })
             },
             handleFilter() {

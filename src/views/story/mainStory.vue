@@ -5,7 +5,7 @@
                 <el-form ref="form" :model="form" label-width="80px" :rules="storyRules">
                     <el-form-item label="对象:" prop="actor" style="width:280px">
                         <multiselect v-model="form.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                     deselectLabel="删除" track-by="key" :internalSearch="false" label="key" :disabled="disable">
+                                     deselectLabel="" track-by="key" :internalSearch="false" label="key" :disabled="disable">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                     </el-form-item>

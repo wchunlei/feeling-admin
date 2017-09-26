@@ -1,10 +1,10 @@
 <template>
     <div class="createPost-container">
         <div class="cloth_center">
-            <el-form class="form-container" :model="postForm" ref="postForm">
+            <el-form class="form-container" :model="postFormCommon" ref="postFormCommon">
                 <el-form-item label-width="90px" label="选择主角:" class="postInfo-container-item" prop="actor">
-                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                    <multiselect v-model="postFormCommon.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
@@ -28,69 +28,97 @@
                             <img src="../../../gifs/winter.jpg" class="image" style="margin:20px 0;">
                         </el-tab-pane>-->
                         <el-tab-pane v-for="(item, index) in list" closable :key="item.typeid" :label="item.typename" :name="item.typeid.toString()">
-                            <img :src=item.typeicon style="width:300px;height:300px" alt=""> </img>
+                            <span style="margin:20px 20px 0 0;float:left;">分类ICON:</span>
+                            <img :src=item.typeicon style="width:100px;height:100px" alt=""></img>
                         </el-tab-pane>
                     </el-tabs>
                 </el-form-item>
-                <el-dialog title="新增分类" :visible.sync="dialogFormVisible">
-                    <el-form :model="classify">
-                        <el-form-item label="分类名称" :label-width="formLabelWidth">
-                            <el-input v-model="classify.name" auto-complete="off"></el-input>
+            </el-form>
+
+            <hr v-if="showClothDetail" width="96%" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
+            <el-dialog title="新增分类" :visible.sync="dialogFormVisible">
+                <el-form :model="classify">
+                    <el-form-item label="分类名称" :label-width="formLabelWidth">
+                        <el-input v-model="classify.name" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="分类ICON" :label-width="formLabelWidth">
+                        <div style="margin-bottom: 20px;">
+                            <Upload v-model="classify.upload"></Upload>
+                        </div>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="classifyDialog">确 定</el-button>
+                </div>
+            </el-dialog>
+
+            <el-dialog title="新增服装" :visible.sync="dialogAddCloth">
+                <Cloth :actorId="actorId" :actorName="actorName" :typeId="typeId" :typeName="typeName" v-on:close="dialogClose"></Cloth>
+                <!--<div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogAddCloth = false">取 消</el-button>
+                    <el-button type="primary" @click="addCloth">确 定</el-button>
+                </div>-->
+            </el-dialog>
+
+            <template v-if="showDiary" v-for="postForm in postFormList">
+                <div>
+                    <el-form class="form-container" :model="postForm" ref="postForm">
+                        <el-form-item v-if="showClothDetail" label="服装名称:" :label-width="formLabelWidth" prop="dressname">
+                            <el-input v-model="postForm.dressname" auto-complete="off" style="width:200px;"></el-input>
                         </el-form-item>
-                        <el-form-item label="分类ICON" :label-width="formLabelWidth">
+                        <el-form-item v-if="showClothDetail" label="服装图片:" :label-width="formLabelWidth">
                             <div style="margin-bottom: 20px;">
-                                <Upload v-model="classify.upload"></Upload>
+                                <Upload v-model="postForm.dresspic"></Upload>
                             </div>
                         </el-form-item>
+                        <el-form-item v-if="showClothDetail" label="服装视频:" :label-width="formLabelWidth">
+                            <div style="margin-bottom: 20px;">
+                                <!--<Upload v-model="postForm.dressvideo"></Upload>-->
+                                <Uploadvideo v-model="postForm.dressvideo"></Uploadvideo>
+                            </div>
+                        </el-form-item>
+                        <div v-if="showClothDetail" style="margin:20px 30px;">
+                            <el-form-item label="服装温度:" style="margin-bottom: 40px;" label-width="90px" prop="mintemp">
+                                <el-input v-model="postForm.mintemp" size="small" placeholder="最低温度" style="width:88px;"></el-input> ---
+                                <el-input v-model="postForm.maxtemp" size="small" placeholder="最高温度" style="width:88px;"></el-input>
+                            </el-form-item>
+                            <el-form-item label="服装天气:" style="margin-bottom: 40px;" label-width="90px" prop="weather">
+                                <el-select v-model="postForm.weather" placeholder="请选择" style="width:200px;">
+                                    <el-option
+                                            v-for="item in weatherOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="服装条件:" style="margin-bottom: 40px;" label-width="90px" prop="condition">
+                                <el-select v-model="postForm.condition" placeholder="请选择" style="width:200px;">
+                                    <el-option
+                                            v-for="item in conditionOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="服装价格:" style="margin-bottom: 40px;" label-width="90px" prop="price">
+                                <el-input v-model="postForm.price" placeholder="请输入服装价格" style="width:200px;"></el-input>
+                            </el-form-item>
+                        </div>
+                        <el-form-item label-width="30px" label="" style="display: inline-block">
+                            <el-button type="primary" @click="editDiaryDialog(diary)">编辑服装</el-button>
+                        </el-form-item>
+                        <el-form-item label-width="20px" label="" style="display: inline-block">
+                            <el-button type="primary" @click="delDiary(diary.id)">删除服装</el-button>
+                        </el-form-item>
+                        <hr v-if="showClothDetail" width="96%" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
                     </el-form>
-                    <div slot="footer" class="dialog-footer">
-                        <el-button @click="dialogFormVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="classifyDialog">确 定</el-button>
-                    </div>
-                </el-dialog>
-                <el-form-item v-if="showClothDetail" label="服装名称:" :label-width="formLabelWidth" prop="clothesValue">
-                    <el-input v-model="postForm.clothesValue" auto-complete="off" style="width:200px;"></el-input>
-                </el-form-item>
-                <el-form-item v-if="showClothDetail" label="服装图片:" :label-width="formLabelWidth">
-                    <div style="margin-bottom: 20px;">
-                        <Upload v-model="postForm.picture"></Upload>
-                    </div>
-                </el-form-item>
-                <el-form-item v-if="showClothDetail" label="服装视频:" :label-width="formLabelWidth">
-                    <div style="margin-bottom: 20px;">
-                        <Upload v-model="postForm.video"></Upload>
-                    </div>
-                </el-form-item>
-                <div v-if="showClothDetail" style="margin:20px 30px;">
-                    <el-form-item label="服装温度:" style="margin-bottom: 40px;" label-width="90px" prop="minTemperature">
-                        <el-input v-model="postForm.minTemperature" size="small" placeholder="最低温度" style="width:75px;"></el-input> ---
-                        <el-input v-model="postForm.maxTemperature" size="small" placeholder="最高温度" style="width:75px;"></el-input>
-                    </el-form-item>
-                    <el-form-item label="服装天气:" style="margin-bottom: 40px;" label-width="90px" prop="chothWeather">
-                        <el-select v-model="postForm.chothWeather" placeholder="请选择">
-                            <el-option
-                                    v-for="item in weatherOptions"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="服装条件:" style="margin-bottom: 40px;" label-width="90px" prop="chothCondition">
-                        <el-select v-model="postForm.chothCondition" placeholder="请选择">
-                            <el-option
-                                    v-for="item in conditionOptions"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="服装价格:" style="margin-bottom: 40px;" label-width="90px" prop="price">
-                        <el-input v-model="postForm.price" size="small" placeholder="请输入服装价格" style="width:100px;"></el-input>
-                    </el-form-item>
                 </div>
-            </el-form>
+            </template>
+
+            <el-button v-if="showClothDetail" type="primary" @click="addClothes" style="margin:0 0 20px 30px">新增服装</el-button>
         </div>
     </div>
 </template>
@@ -98,6 +126,8 @@
 <script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce';
     import Upload from 'components/Upload/singleImage3';
+    import Uploadvideo from 'components/Upload/video';
+    import Cloth from 'components/Clothes/addcloth';
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
     import { userSearch } from 'api/story';
@@ -108,18 +138,24 @@
 
     export default {
         name: 'clothes',
-        components: { Tinymce, MDinput, Upload },
+        components: { Tinymce, MDinput, Upload, Uploadvideo, Cloth },
         data() {
             return {
+                actorId: '',
+                actorName: '',
+                typeId: '',
+                typeName: '',
+                postFormCommon: {
+                    actor: ''
+                },
                 postForm: {
-                    actor: '',
-                    clothesValue: '',
-                    minTemperature:'',
-                    maxTemperature: '',
-                    chothWeather: '',
-                    chothCondition: '',
-                    picture: '',
-                    video: '',
+                    dressname: '',
+                    mintemp:'',
+                    maxtemp: '',
+                    weather: '',
+                    condition: '',
+                    dresspic: '',
+                    dressvideo: '',
                     price: '',
                 },
                 weatherOptions: [],
@@ -137,7 +173,9 @@
                 list: [],
                 tabIndex: 6,
                 dialogFormVisible: false,
+                dialogAddCloth: false,
                 showClothDetail: false,
+                showDiary: false,
                 classify: {
                     name: '',
                     upload:'',
@@ -151,63 +189,101 @@
                     upload : '',
                 },
                 userLIstOptions: [],
+                postFormList: [],
+                listQuery: {},
+                listallQuery: {}
             }
         },
         created () {
             let Query = {};
             this.getRemoteUserList(Query);
-            if(this.postForm.actor.value){
+            if(this.postFormCommon.actor.value){
                 //this.getList();
              }
+            if(this.$route.params.num && this.$route.params.num != ':num'){
+                this.postFormCommon.actor = {key: this.$route.params.name, value: this.$route.params.num };
+                this.listQuery.actorid = this.$route.params.num;
+                this.getList();
+                this.actorId = this.$route.params.num;
+                this.actorName = this.$route.params.name;
+            }
         },
         watch: {
-            "postForm.actor" (newval,oldval) {
+            "postFormCommon.actor" (newval,oldval) {
                 if (newval && newval.key) {
                     this.getList();
                 } else {
                     this.list = [];
                     this.showClothDetail = false;
                 }
+            },
+            "typeId" (newval,oldval) {
+                this.listallQuery.typeid = newval;
             }
         },
         methods : {
+            dialogClose (data) {
+                this.dialogAddCloth = false;
+                //alert(this.listallQuery.typeid)
+                //this.getTypeid(this.listallQuery);
+            },
+            addClothes () {
+                if (typeof this.typeId == "undefined") {
+                    this.$message({
+                        message: '请先选择服装分类',
+                        type: 'warning'
+                    });
+                } else {
+                    this.dialogAddCloth = true;
+                }
+            },
             getTypeid (targetName) {
                 this.listLoading = true;
                 this.listLoading = false;
-                let listallQuery={};
-                listallQuery.actorid = parseInt(this.postForm.actor.value);
-                listallQuery.typeid = targetName.name;
-                clothActorList(listallQuery).then(response => {
+                this.typeId = targetName.name;
+                this.typeName = targetName.label;
+                //alert(this.typeName)
+                //let listallQuery={};
+                this.listallQuery.actorid = parseInt(this.postFormCommon.actor.value);
+                this.listallQuery.typeid = targetName.name;
+                clothActorList(this.listallQuery).then(response => {
                     if(response.data.content[0]){
-                        this.postForm.clothesValue = response.data.content[0].dressname;
+                        this.showDiary = true;
+                        this.postFormList = response.data.content;
+                        /*this.postForm.clothesValue = response.data.content[0].dressname;
                         this.postForm.picture = response.data.content[0].dresspic;
                         this.postForm.video = response.data.content[0].dressvideo;
                         this.postForm.chothWeather = response.data.content[0].weather;
                         this.postForm.minTemperature = response.data.content[0].mintemp;
                         this.postForm.maxTemperature = response.data.content[0].maxtemp;
                         this.postForm.chothCondition = response.data.content[0].condition;
-                        this.postForm.price = response.data.content[0].price;
+                        this.postForm.price = response.data.content[0].price;*/
                     } else {
-                        this.postForm.clothesValue = '';
+                        this.showDiary = false;
+                        /*this.postForm.clothesValue = '';
                         this.postForm.picture = '';
                         this.postForm.video = '';
                         this.postForm.chothWeather = '';
                         this.postForm.minTemperature = '';
                         this.postForm.maxTemperature = '';
                         this.postForm.chothCondition = '';
-                        this.postForm.price = '';
+                        this.postForm.price = '';*/
                     }
                 })
             },
             getList() {
                 this.listLoading = true;
-                let listQuery={};
-                listQuery.actorid = parseInt(this.postForm.actor.value);
-                clothclassList(listQuery).then(response => {
+                //let listQuery={};
+                this.listQuery.actorid = parseInt(this.postFormCommon.actor.value);
+                clothclassList(this.listQuery).then(response => {
                     this.list = response.data.content;
                     if (response.data.content[0]) {
                         this.showClothDetail = true;
                         this.activeName = response.data.content[0].typeid.toString();
+                        this.typeName = response.data.content[0].typename;
+                        this.typeId = response.data.content[0].typeid;
+                        this.listallQuery.typeid = response.data.content[0].typeid;
+                        this.getTypeid(this.listallQuery);
                     } else {
                         this.showClothDetail = false;
                     }
@@ -215,7 +291,7 @@
              },
             addTab(targetName,action) {
                 if (action === 'add') {
-                    if (this.postForm.actor) {
+                    if (this.postFormCommon.actor) {
                         this.dialogFormVisible = true;
                     } else {
                         this.$message({
@@ -312,7 +388,7 @@
                 this.$refs.postForm.validate(valid => {
                     if (valid) {
                         let clothinfo = {
-                            actorid: parseInt(this.postForm.actor.value),
+                            actorid: parseInt(this.postFormCommon.actor.value),
                             typename: this.classify.name,
                             typeicon: this.classify.upload
                         };
@@ -420,5 +496,25 @@
 <style>
     .el-tab-pane{
         margin-left:0
+    }
+    .el-dialog__header {
+        height:40px;
+        padding:0;
+        text-align:center;
+        line-height:40px;
+        background-color:#1970cf;
+    }
+
+    .el-dialog__header .el-dialog__title {
+        color:#fff;
+        font-weight:500;
+        font-size:14px;
+    }
+    .el-dialog .el-dialog__body {
+        max-height:730px;
+        overflow:auto;
+    }
+    .el-dialog__headerbtn {
+        margin-right:10px
     }
 </style>

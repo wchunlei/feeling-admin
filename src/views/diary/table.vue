@@ -12,7 +12,7 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="65" prop="id">
+            <el-table-column align="center" label="序号" width="150" prop="id">
                 <template scope="scope">
                     <!--<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>-->
                     <!--<router-link to="/diary/form">{{scope.row.id}}</router-link>-->
@@ -28,7 +28,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="180px" align="center" label="主角" prop="name">
+            <el-table-column width="300px" align="center" label="主角" prop="name">
                 <template scope="scope">
                     <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>-->
                     <span>{{scope.row.name}}</span>
@@ -41,7 +41,7 @@
             <!--<el-table-column width="400px" label="内容" prop="textarea">
             </el-table-column>-->
 
-            <el-table-column width="300px" label="发布时间" align="center" prop="modify_time">
+            <el-table-column width="300px" label="修改时间" align="center" prop="modify_time">
             </el-table-column>
 
             <!--<el-table-column class-name="status-col" label="状态" width="90">
