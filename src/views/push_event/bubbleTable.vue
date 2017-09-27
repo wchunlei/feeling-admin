@@ -12,7 +12,7 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="65" prop="id" fixed type="index">
+            <el-table-column align="center" label="序号" width="100" prop="id" fixed type="index">
                 <!--<template scope="scope">
                     &lt;!&ndash;<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>&ndash;&gt;
                     &lt;!&ndash;<router-link to="/diary/form">{{scope.row.id}}</router-link>&ndash;&gt;
@@ -388,3 +388,10 @@
         },
     }
 </script>
+
+<style>
+    .pagination-container {
+        position: fixed;
+        top: 90%;
+    }
+</style>

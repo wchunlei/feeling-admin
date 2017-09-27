@@ -10,7 +10,7 @@
                 </el-form-item>
                 <el-form-item label-width="90px" label="服装分类:" class="postInfo-container-item" prop="clothclass">
                     <!--<el-button type="primary" size="" @click="addTab(editableTabsValue2)" style="margin-bottom: 40px">新增分类</el-button>-->
-                    <el-tabs v-model="activeName" type="card" editable @edit="addTab" @tab-remove="removeTab" @tab-click="getTypeid">
+                    <el-tabs v-model="activeName"  editable @edit="addTab" @tab-remove="removeTab" @tab-click="getTypeid">
                         <!--<el-tab-pane label="春装" name="all">
                             <span style="margin:20px 20px 0 0;float:left;">分类ICON:</span>
                             <img src="../../../gifs/spring.jpg" class="image" style="margin:20px 0;">
@@ -37,8 +37,8 @@
 
             <hr v-if="showClothDetail" width="96%" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
             <el-dialog title="新增分类" :visible.sync="dialogFormVisible">
-                <el-form :model="classify">
-                    <el-form-item label="分类名称" :label-width="formLabelWidth">
+                <el-form :model="classify" :rules="classifyRules" ref="classify">
+                    <el-form-item label="分类名称" :label-width="formLabelWidth" prop="name" style="margin-bottom: 30px;width: 570px">
                         <el-input v-model="classify.name" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="分类ICON" :label-width="formLabelWidth">
@@ -49,7 +49,7 @@
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="classifyDialog">确 定</el-button>
+                    <el-button type="primary" @click="classifyDialog('classify')">确 定</el-button>
                 </div>
             </el-dialog>
 
@@ -59,6 +59,58 @@
                     <el-button @click="dialogAddCloth = false">取 消</el-button>
                     <el-button type="primary" @click="addCloth">确 定</el-button>
                 </div>-->
+            </el-dialog>
+
+            <el-dialog title="编辑服装" :visible.sync="dialogEditCloth">
+                <el-form class="form-container" :model="postFormEdit" ref="postFormEdit">
+                    <el-form-item v-if="showClothDetail" label="服装名称:" :label-width="formLabelWidth" prop="dressname">
+                        <el-input v-model="postFormEdit.dressname" auto-complete="off" style="width:200px;"></el-input>
+                    </el-form-item>
+                    <el-form-item v-if="showClothDetail" label="服装图片:" :label-width="formLabelWidth">
+                        <div style="margin-bottom: 20px;">
+                            <Upload v-model="postFormEdit.dresspic"></Upload>
+                        </div>
+                    </el-form-item>
+                    <el-form-item v-if="showClothDetail" label="服装视频:" :label-width="formLabelWidth">
+                        <div style="margin-bottom: 20px;">
+                            <!--<Upload v-model="postForm.dressvideo"></Upload>-->
+                            <Uploadvideo v-model="postFormEdit.dressvideo"></Uploadvideo>
+                        </div>
+                    </el-form-item>
+                    <div v-if="showClothDetail" style="margin:20px 30px;">
+                        <el-form-item label="服装温度:" style="margin-bottom: 40px;" label-width="90px" prop="mintemp">
+                            <el-input v-model="postFormEdit.mintemp" size="small" placeholder="最低温度" style="width:88px;"></el-input> ---
+                            <el-input v-model="postFormEdit.maxtemp" size="small" placeholder="最高温度" style="width:88px;"></el-input>
+                        </el-form-item>
+                        <el-form-item label="服装天气:" style="margin-bottom: 40px;" label-width="90px" prop="weather">
+                            <el-select v-model="postFormEdit.weather" placeholder="请选择" style="width:200px;">
+                                <el-option
+                                        v-for="item in weatherOptions"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="服装条件:" style="margin-bottom: 40px;" label-width="90px" prop="condition">
+                            <el-select v-model="postFormEdit.condition" placeholder="请选择" style="width:200px;">
+                                <el-option
+                                        v-for="item in conditionOptions"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="服装价格:" style="margin-bottom: 40px;" label-width="90px" prop="price">
+                            <el-input v-model="postFormEdit.price" placeholder="请输入服装价格" style="width:200px;"></el-input>
+                        </el-form-item>
+                    </div>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogEditCloth = false">取 消</el-button>
+                    <el-button type="primary" @click="editCloth('postFormEdit')">确 定</el-button>
+                </div>
             </el-dialog>
 
             <template v-if="showDiary" v-for="postForm in postFormList">
@@ -108,10 +160,10 @@
                             </el-form-item>
                         </div>
                         <el-form-item label-width="30px" label="" style="display: inline-block">
-                            <el-button type="primary" @click="editDiaryDialog(diary)">编辑服装</el-button>
+                            <el-button type="primary" @click="editClothData(postForm)">编辑服装</el-button>
                         </el-form-item>
                         <el-form-item label-width="20px" label="" style="display: inline-block">
-                            <el-button type="primary" @click="delDiary(diary.id)">删除服装</el-button>
+                            <el-button type="primary" @click="delCloth(postForm.dressid)">删除服装</el-button>
                         </el-form-item>
                         <hr v-if="showClothDetail" width="96%" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
                     </el-form>
@@ -135,6 +187,8 @@
     import { clothclassList } from 'api/cloth';
     import { clothActorList } from 'api/cloth';
     import { clothclassdelete } from 'api/cloth';
+    import { clothUpdate } from 'api/cloth';
+    import { clothdelete } from 'api/cloth';
 
     export default {
         name: 'clothes',
@@ -158,8 +212,36 @@
                     dressvideo: '',
                     price: '',
                 },
-                weatherOptions: [],
-                conditionOptions: [],
+                postFormEdit: {
+                    dressname: '',
+                    mintemp:null,
+                    maxtemp: null,
+                    weather: '',
+                    condition: '',
+                    dresspic: '',
+                    dressvideo: '',
+                    price: null,
+                },
+                weatherOptions: [{
+                    value: 'sun',
+                    label: '晴天'
+                }, {
+                    value: 'rain',
+                    label: '下雨'
+                }, {
+                    value: 'cloudy',
+                    label: '阴天'
+                }, ],
+                conditionOptions: [{
+                    value: 0,
+                    label: '无'
+                }, {
+                    value: 1,
+                    label: '任一'
+                }, {
+                    value: 2,
+                    label: '全部'
+                }],
                 actorOptions: [{
                     value: '选项1',
                     label: '女警'
@@ -173,6 +255,7 @@
                 list: [],
                 tabIndex: 6,
                 dialogFormVisible: false,
+                dialogEditCloth: false,
                 dialogAddCloth: false,
                 showClothDetail: false,
                 showDiary: false,
@@ -191,7 +274,10 @@
                 userLIstOptions: [],
                 postFormList: [],
                 listQuery: {},
-                listallQuery: {}
+                listallQuery: {},
+                classifyRules: {
+                    name: [{ required: true, message: '请输入分类名称' }]
+                }
             }
         },
         created () {
@@ -212,6 +298,8 @@
             "postFormCommon.actor" (newval,oldval) {
                 if (newval && newval.key) {
                     this.getList();
+                    this.actorName = newval.key;
+                    this.actorId = newval.value;
                 } else {
                     this.list = [];
                     this.showClothDetail = false;
@@ -236,6 +324,67 @@
                 } else {
                     this.dialogAddCloth = true;
                 }
+            },
+            editClothData (data) {
+                this.dialogEditCloth = true;
+                this.postFormEdit = data;
+                this.postFormEdit.actorid = parseInt(this.$route.params.num);
+                this.postFormEdit.typeid = parseInt(this.typeId);
+            },
+            editCloth (formName) {
+                this.$refs.postFormEdit.validate(valid => {
+                    if (valid) {
+                        this.loading = true;
+                        clothUpdate (this.postFormEdit).then(response => {
+                            if(response.data.code==200){
+                                this.$message({
+                                    message: '编辑成功',
+                                    type: 'success'
+                                });
+                                this.dialogEditCloth = false;
+                                //this.$emit("close","false");
+                                //this.$refs[formName].resetFields();
+                            }
+                            /*if (!response.data.items) return;
+                             console.log(response)
+                             this.userLIstOptions = response.data.items.map(v => ({
+                             key: v.name
+                             }));*/
+                        });
+                        /*this.$notify({
+                         title: '成功',
+                         message: '发布成功',
+                         type: 'success',
+                         duration: 2000
+                         });*/
+                        this.loading = false;
+                    }else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            delCloth (id) {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let deleteitem={
+                        id: parseInt(id)
+                    };
+                    clothdelete(deleteitem).then(response => {
+                        //this.list = response.data.content;
+                        if(response.data.code==200){
+                            //this.getList();
+                        }
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             },
             getTypeid (targetName) {
                 this.listLoading = true;
@@ -382,31 +531,38 @@
                 this.list = tabs.filter(tab => tab.typename !== targetName);*/
             },
 
-            classifyDialog () {
-                this.dialogFormVisible = false;
-                let newTabName = ++this.tabIndex + '';
-                this.$refs.postForm.validate(valid => {
+            classifyDialog (formName) {
+                this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        let clothinfo = {
-                            actorid: parseInt(this.postFormCommon.actor.value),
-                            typename: this.classify.name,
-                            typeicon: this.classify.upload
-                        };
-                        this.loading = true;
-                        clothclassUpdate (clothinfo).then(response => {
-                            if (response.data.code == 200) {
-                                this.$message({
-                                    message: '新增成功',
-                                    type: 'success'
+                        this.dialogFormVisible = false;
+                        let newTabName = ++this.tabIndex + '';
+                        this.$refs.postForm.validate(valid => {
+                            if (valid) {
+                                let clothinfo = {
+                                    actorid: parseInt(this.postFormCommon.actor.value),
+                                    typename: this.classify.name,
+                                    typeicon: this.classify.upload
+                                };
+                                this.loading = true;
+                                clothclassUpdate (clothinfo).then(response => {
+                                    if (response.data.code == 200) {
+                                        this.$message({
+                                            message: '新增成功',
+                                            type: 'success'
+                                        });
+                                        this.getList();
+                                    }
+                                /*this.userLIstOptions = response.data.items.map(v => ({
+                                            key: v.name
+                                        }));*/
                                 });
-                                this.getList();
+                                //this.postForm.status = 'published';
+                                this.loading = false;
+                            } else {
+                                console.log('error submit!!');
+                                return false;
                             }
-                        /*this.userLIstOptions = response.data.items.map(v => ({
-                                    key: v.name
-                                }));*/
                         });
-                        //this.postForm.status = 'published';
-                        this.loading = false;
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -516,5 +672,11 @@
     }
     .el-dialog__headerbtn {
         margin-right:10px
+    }
+    .el-tabs__new-tab .el-icon-plus {
+        color:#20a0ff;
+    }
+    .el-tabs__header {
+        width: 50%;
     }
 </style>

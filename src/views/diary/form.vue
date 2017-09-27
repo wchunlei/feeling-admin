@@ -2,20 +2,15 @@
     <div class="createPost-container">
         <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm">
 
-            <!--<Sticky :className="'sub-navbar '+postForm.status">
+            <Sticky v-if="showButton" :className="'sub-navbar '+postForm.status">
                 <template v-if="fetchSuccess">
-
-
-                    <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm('postForm')">发布
-                    </el-button>
-                    <el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>
-
+                    <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="addDiary('postForm')">新增日记</el-button>
+                    <!--<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>-->
                 </template>
                 <template v-else>
                     <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
                 </template>
-
-            </Sticky>-->
+            </Sticky>
 
             <div class="createPost-main-container">
                 <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="id:" prop="id">
@@ -25,9 +20,9 @@
                     <el-input v-model="postForm.actorid" style="width:100px">
                     </el-input>
                 </el-form-item>-->
-                <el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor">
+                <el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;">
                     <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;margin-bottom: 20px;" :disabled="disableActor">
+                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;" :disabled="disableActor">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
@@ -44,7 +39,7 @@
                     </el-date-picker>
                 </el-form-item>-->
 
-                <el-button v-if="showButton" type="primary" @click="addDiary('postForm')">新增日记</el-button>
+                <!--<el-button v-if="showButton" type="primary" @click="addDiary('postForm')">新增日记</el-button>-->
 
                 <template v-if="showDiary" v-for="diary in diarys">
                     <div>
@@ -453,7 +448,7 @@
             };*/
             const validateRequire = (rule, value, callback) => {
                 if (!value) {
-                    return callback(new Error('不能为空'));
+                    return callback(new Error('请选择主角'));
                 } else {
                     callback()
                 }
@@ -570,8 +565,8 @@
                     ]
                 },*/
                 rules: {
-                    actor: [{ validator: validateRequire, trigger: 'change' }],
-                    title: [{ validator: validateRequire, }],
+                    actor: [{ required: true, validator: validateRequire, trigger: 'change' }],
+                    title: [{ required: true, message: '请输入日记名称' }],
                     //pic1: [{ validator: validateRequire, trigger: 'blur' }],
                     //video: [{ validator: validateRequire, trigger: 'blur' }],
                     //dt: [{ validator: validateRequire, trigger: 'blur' }]
@@ -632,6 +627,14 @@
                     }
                 }
             }*/
+            /*"postForm.actor" (newval,oldval) {
+                if (this.postForm.actor == '' || !newval) {
+                    this.$message({
+                        message: "请选择主角",
+                        type: 'error'
+                    })
+                }
+            }*/
         },
         methods: {
             fetchData(listQuery) {
@@ -665,8 +668,8 @@
                 });
             },
             addDiary (formName) {
-                //this.$refs.postForm.validate(valid => {
-                    //if (valid) {
+                this.$refs.postForm.validate(valid => {
+                    if (valid) {
                         //var diaryinfo;
                         let date=this.postForm.dt;
                         let year=date.getFullYear(),
@@ -692,11 +695,11 @@
                                 });
                                 this.$refs[formName].resetFields();
                             }
-                            if (!response.data.items) return;
+                            /*if (!response.data.items) return;
                             console.log(response)
                             this.userLIstOptions = response.data.items.map(v => ({
                                 key: v.name
-                            }));
+                            }));*/
                         });
                         /*this.$notify({
                          title: '成功',
@@ -706,11 +709,11 @@
                          });*/
                         this.postForm.status = 'published';
                         this.loading = false;
-                    /*} else {
+                    } else {
                         console.log('error submit!!');
                         return false;
                     }
-                });*/
+                });
             },
             delDiary (id) {
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {

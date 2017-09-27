@@ -7,12 +7,12 @@
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
             <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
             <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
-            <el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>
+            <!--<el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>-->
         </div>
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="65" prop="id">
+            <el-table-column align="center" label="序号" width="150" prop="id">
                 <template scope="scope">
                     <!--<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>-->
                     <!--<router-link to="/diary/form">{{scope.row.id}}</router-link>-->
@@ -27,8 +27,8 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="110px" v-if='showAuditor' align="center" label="触发时间" prop="auditor">
-            </el-table-column>
+            <!--<el-table-column width="110px" v-if='showAuditor' align="center" label="触发时间" prop="auditor">
+            </el-table-column>-->
 
             <el-table-column width="400px" align="center" label="渠道" prop="app">
             </el-table-column>
@@ -367,3 +367,10 @@
         },
     }
 </script>
+
+<style>
+    .pagination-container {
+        position: fixed;
+        top: 90%;
+    }
+</style>

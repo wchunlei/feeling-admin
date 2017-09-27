@@ -267,6 +267,14 @@
             },
             "typeId" (newval,oldval) {
                 this.typeId = newval;
+            },
+            "actorName" (newval,oldval) {
+                this.actorName = newval;
+                this.postForm.actor = newval;
+            },
+            "actorId" (newval,oldval) {
+                this.actorId = newval;
+                //this.postForm.actor = newval;
             }
         },
         methods : {

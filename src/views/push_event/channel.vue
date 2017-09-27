@@ -1,35 +1,48 @@
 <template>
     <div class="createPost-container">
         <div class="cloth_center">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-                <el-form-item label="选择渠道" prop="region">
-                    <el-select v-model="ruleForm.region" placeholder="选择渠道:">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
+
+                <Sticky :className="'sub-navbar '+ruleForm.status">
+                    <template v-if="fetchSuccess">
+                        <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm('ruleForm')">发布</el-button>
+                        <!--<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>-->
+                    </template>
+                    <template v-else>
+                        <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
+                    </template>
+
+                </Sticky>
+
+                <el-form-item label="选择渠道" prop="region" style="margin-bottom:40px;margin-top: 30px;">
+                    <el-select v-model="ruleForm.region" placeholder="选择渠道:" style="width: 200px;">
                         <el-option v-for="item in regions" :key="item.value" :label="item.label" :value="item.label"></el-option>
                     </el-select>
                 </el-form-item>
                 <!--<el-form-item label="事件ID:" prop="id">
                     <el-input v-model="ruleForm.id" style="width: 100px;"></el-input>
                 </el-form-item>-->
-                <el-form-item label="事件名称:" prop="name">
-                    <el-input v-model="ruleForm.name" style="width: 300px;"></el-input>
+                <el-form-item label="事件名称:" prop="name" style="margin-bottom:40px;">
+                    <el-input v-model="ruleForm.name" style="width: 200px;"></el-input>
                     <!--<el-button type="primary" size="large" style="margin-left:100px">删除</el-button>-->
                 </el-form-item>
-                <el-form-item label="事件类型" prop="eventType">
-                    <el-select v-model="ruleForm.eventType" placeholder="事件类型:">
+                <el-form-item label="事件类型" prop="eventType" style="margin-bottom:40px;">
+                    <el-select v-model="ruleForm.eventType" placeholder="事件类型:" style="width: 200px;">
                         <el-option label="文字" value="1"></el-option>
                         <el-option label="视频" value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="时间触发条件:" prop="dt">
+                <el-form-item label="时间触发条件:" prop="dt" style="margin-bottom:40px;">
                     <el-date-picker
                         v-model="ruleForm.dt"
                         type="datetime"
-                        placeholder="选择日期时间">
+                        placeholder="选择日期时间"
+                        style="width: 200px;">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item>
+                <!--<el-form-item>
                     <el-button type="primary" @click="submitForm('ruleForm')">新增事件</el-button>
-                </el-form-item>
+                </el-form-item>-->
             </el-form>
         </div>
     </div>
@@ -49,11 +62,13 @@
         components: { Tinymce, MDinput, Upload },
         data() {
             return {
+                loading: false,
+                fetchSuccess: true,
                 ruleForm: {
                     name: '',
                     id: '',
                     region: '',
-                    eventType: '',
+                    eventType: '1',
                     dt: new Date()
                 },
                 regions: [],
@@ -83,7 +98,6 @@
                 });
             },
             submitForm(formName) {
-                alert(this.ruleForm.region)
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let date=this.ruleForm.dt;

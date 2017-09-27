@@ -380,3 +380,10 @@
         },
     }
 </script>
+
+<style>
+    .pagination-container {
+        position: fixed;
+        top: 90%;
+    }
+</style>

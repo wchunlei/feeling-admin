@@ -1,14 +1,13 @@
 <template>
   <div class="createPost-container">
-    <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm" label-width="100px">
+    <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm" label-width="150px">
 
       <Sticky :className="'sub-navbar '+postForm.status">
         <template v-if="fetchSuccess">
           
 
-          <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm()">发布
-          </el-button>
-          <el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>
+          <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm()">发布</el-button>
+          <!--<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>-->
 
         </template>
         <template v-else>
@@ -17,11 +16,11 @@
 
       </Sticky>
 
-      <el-form-item label="渠道名称:" style="margin-top:20px;width:300px" prop="name">
+      <el-form-item label="渠道名称:" style="margin-top:30px;width:300px" prop="name">
         <el-input v-model="postForm.name"></el-input>
       </el-form-item>
 
-      <el-form-item label="主角:" label-width="90px" prop="actor">
+      <el-form-item label="主角:" prop="actor" style="margin-top:40px;">
         <!--<multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
           <span slot='noResult'>无结果</span>
@@ -31,13 +30,13 @@
         </el-checkbox-group>
       </el-form-item>
 
-      <el-form-item label="新手剧情:" prop="storynew">
+      <el-form-item label="新手剧情:" prop="storynew" style="margin-top:40px;">
         <el-radio-group v-model="postForm.storynew">
           <el-radio  v-for="(story, index) in storynews" :label="story.id" :key="story.id">{{ story.name }}</el-radio>
         </el-radio-group>
       </el-form-item>
 
-      <el-form-item label="主线剧情:" prop="checkStory">
+      <el-form-item label="主线剧情:" prop="checkStory" style="margin-top:40px;">
         <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
         <div style="margin: 15px 0;"></div>-->
         <el-checkbox-group v-model="postForm.checkStory">
@@ -45,8 +44,8 @@
         </el-checkbox-group>
       </el-form-item>
 
-      <el-form-item label="会员价格:" style="margin-top:20px;width:300px" prop="amount">
-        <el-input v-model="postForm.amount"></el-input>
+      <el-form-item label="会员价格:" style="margin-top:40px;width:300px" prop="amount">
+        <el-input v-model.number="postForm.amount"></el-input>
       </el-form-item>
 
     </el-form>
@@ -70,9 +69,25 @@
     name: 'articleDetail',
     components: { Tinymce, MDinput, },
     data() {
+      const checkNum = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('输入不能为空'));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('请输入正整数'));
+          } else {
+            if (value < 0) {
+              callback(new Error('不能小于0'));
+            } else {
+              callback();
+            }
+          }
+        }, 500);
+      };
       const validateRequire = (rule, value, callback) => {
         if (!value) {
-          return callback(new Error('不能为空'));
+          return callback(new Error('输入不能为空'));
         } else {
           callback()
         }
@@ -126,9 +141,11 @@
         loading: false,
         userLIstOptions: [],
         rules: {
-          name: [{ validator: validateRequire }],
+          name: [{ required: true, validator: validateRequire }],
+          actor: [{ required: true, message: '请选择主角' }],
+          checkStory: [{ required: true, message: '请选择主线剧情' }],
           //actor: [{ validator: validateRequire }],
-          amount: [{ validator: validateRequire }],
+          amount: [{ required: true, validator: checkNum }],
           //source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
         }
       }

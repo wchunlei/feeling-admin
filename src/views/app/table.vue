@@ -27,7 +27,7 @@
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-      <el-table-column align="center" label="序号" width="65" prop="id">
+      <el-table-column align="center" label="序号" width="100" prop="id">
         <template scope="scope">
           <!--<span>{{scope.row.id}}</span>-->
           <span style="color:#337ab7;"><router-link :to="{ path: '/app/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
@@ -46,7 +46,7 @@
       <el-table-column width="200px" align="center" label="会员金额" prop="amount">
       </el-table-column>
 
-      <el-table-column align="center" label="操作" width="350">
+      <el-table-column align="center" label="操作" width="300">
         <template scope="scope">
           <!--<el-button v-if="scope.row.status!='published'" size="small" type="success" @click="handleModifyStatus(scope.row,'published')">发布
           </el-button>-->
@@ -406,3 +406,10 @@
     }
   }
 </script>
+
+<style>
+  .pagination-container {
+    position: fixed;
+    top: 90%;
+  }
+</style>
