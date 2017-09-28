@@ -1,10 +1,10 @@
 <template>
     <div class="createPost-container">
         <div class="cloth_center">
-            <div style="margin-left:40px">
+            <div class="cloth_commom">
                 <el-form ref="form" :model="form" label-width="120px" :rules="storyRules">
 
-                    <Sticky :className="'sub-navbar '+form.status">
+                    <!--<Sticky :className="'sub-navbar '+form.status">
                         <template v-if="fetchSuccess">
                             <el-button v-if="showButton" v-loading="loading" style="margin-left: 10px;" type="success" @click="dialogStory = true">新增剧情</el-button>
                             <el-button v-if="storyEdit" v-loading="loading" type="success" @click="onSubmit('form')">立即创建</el-button>
@@ -13,7 +13,7 @@
                             <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
                         </template>
 
-                    </Sticky>
+                    </Sticky>-->
 
                     <el-form-item label="主角:" prop="actor" style="margin-top: 40px">
                         <multiselect v-model="form.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
@@ -30,10 +30,10 @@
                     <el-form-item label="剧情标题:" prop="title" style="margin-top: 40px">
                         <el-input v-model="form.title" :disabled="disable" style="width:200px"></el-input>
                     </el-form-item>
-                    <!--<el-form-item v-if="storyEdit">
+                    <el-form-item v-if="storyEdit">
                         <el-button type="primary" @click="onSubmit('form')">立即创建</el-button>
-                        &lt;!&ndash;<el-button>取消</el-button>&ndash;&gt;
-                    </el-form-item>-->
+                        <!--<el-button>取消</el-button>-->
+                    </el-form-item>
                 </el-form>
                 <!--<Story v-if="storyEdit"></Story>-->
                 <!--<div v-if="addBut" class="block">
@@ -752,9 +752,9 @@
                     <hr width="96%" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
                 </template>
 
-                <!--<el-form-item v-if="showButton">
+                <el-form-item v-if="showButton">
                     <el-button type="primary" @click="dialogStory = true">新增剧情</el-button>
-                </el-form-item>-->
+                </el-form-item>
             </el-form>
             <!--<el-dialog title="新增剧情" :visible.sync="dialogClass" size="tiny">
                 <el-input v-model="addEvent" size="small" placeholder="请输入事件名称" autofocus style="width:200px;"></el-input>
@@ -2184,6 +2184,12 @@
     }
     .el-tabs--card>.el-tabs__header .el-tabs__item .el-icon-close {
         display: none;
+    }
+    .cloth_commom {
+        margin-left:40px
+    }
+    .cloth_commom .el-tabs__header {
+        width: 85%;
     }
 </style>
 

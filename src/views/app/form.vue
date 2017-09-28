@@ -2,19 +2,19 @@
   <div class="createPost-container">
     <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm" label-width="150px">
 
-      <Sticky :className="'sub-navbar '+postForm.status">
+      <!--<Sticky :className="'sub-navbar '+postForm.status">
         <template v-if="fetchSuccess">
           
 
           <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm()">发布</el-button>
-          <!--<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>-->
+          &lt;!&ndash;<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>&ndash;&gt;
 
         </template>
         <template v-else>
           <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
         </template>
 
-      </Sticky>
+      </Sticky>-->
 
       <el-form-item label="渠道名称:" style="margin-top:30px;width:300px" prop="name">
         <el-input v-model="postForm.name"></el-input>
@@ -47,7 +47,9 @@
       <el-form-item label="会员价格:" style="margin-top:40px;width:300px" prop="amount">
         <el-input v-model.number="postForm.amount"></el-input>
       </el-form-item>
-
+      <el-form-item>
+        <el-button v-loading="loading"  type="primary" @click="submitForm()">新增渠道</el-button>
+      </el-form-item>
     </el-form>
 
 

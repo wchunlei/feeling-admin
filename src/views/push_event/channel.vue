@@ -3,16 +3,16 @@
         <div class="cloth_center">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
 
-                <Sticky :className="'sub-navbar '+ruleForm.status">
+                <!--<Sticky :className="'sub-navbar '+ruleForm.status">
                     <template v-if="fetchSuccess">
                         <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm('ruleForm')">发布</el-button>
-                        <!--<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>-->
+                        &lt;!&ndash;<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>&ndash;&gt;
                     </template>
                     <template v-else>
                         <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
                     </template>
 
-                </Sticky>
+                </Sticky>-->
 
                 <el-form-item label="选择渠道" prop="region" style="margin-bottom:40px;margin-top: 30px;">
                     <el-select v-model="ruleForm.region" placeholder="选择渠道:" style="width: 200px;">
@@ -40,9 +40,9 @@
                         style="width: 200px;">
                     </el-date-picker>
                 </el-form-item>
-                <!--<el-form-item>
+                <el-form-item>
                     <el-button type="primary" @click="submitForm('ruleForm')">新增事件</el-button>
-                </el-form-item>-->
+                </el-form-item>
             </el-form>
         </div>
     </div>

@@ -676,7 +676,7 @@
     .el-tabs__new-tab .el-icon-plus {
         color:#20a0ff;
     }
-    .el-tabs__header {
-        width: 50%;
+    .postInfo-container-item .el-tabs__header {
+        width: 85%;
     }
 </style>

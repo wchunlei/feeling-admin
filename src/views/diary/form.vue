@@ -2,15 +2,15 @@
     <div class="createPost-container">
         <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm">
 
-            <Sticky v-if="showButton" :className="'sub-navbar '+postForm.status">
+            <!--<Sticky v-if="showButton" :className="'sub-navbar '+postForm.status">
                 <template v-if="fetchSuccess">
                     <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="addDiary('postForm')">新增日记</el-button>
-                    <!--<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>-->
+                    &lt;!&ndash;<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>&ndash;&gt;
                 </template>
                 <template v-else>
                     <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
                 </template>
-            </Sticky>
+            </Sticky>-->
 
             <div class="createPost-main-container">
                 <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="id:" prop="id">
@@ -39,7 +39,7 @@
                     </el-date-picker>
                 </el-form-item>-->
 
-                <!--<el-button v-if="showButton" type="primary" @click="addDiary('postForm')">新增日记</el-button>-->
+                <el-button v-if="showButton" type="primary" @click="addDiary('postForm')">新增日记</el-button>
 
                 <template v-if="showDiary" v-for="diary in diarys">
                     <div>

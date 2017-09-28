@@ -2,21 +2,20 @@
   <div class="createPost-container">
     <el-form class="form-container" :model="postForm" ref="postForm" :rules="actorDetail">
 
-      <Sticky :className="'sub-navbar '+postForm.status">
+      <!--<Sticky :className="'sub-navbar '+postForm.status">
         <template v-if="fetchSuccess">
           
 
-          <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm('postForm')">发布
-          </el-button>
-          <el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>
+          <el-button v-if="fetchSuccess" v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm('postForm')">新增主角</el-button>
+          &lt;!&ndash;<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>&ndash;&gt;
 
         </template>
         <template v-else>
-          <!--<el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>-->
+          &lt;!&ndash;<el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>&ndash;&gt;
           <el-tag>用户详情</el-tag>
         </template>
 
-      </Sticky>
+      </Sticky>-->
 
       <div class="createPost-main-container">
         <el-form-item label="头像:" label-width="50px" prop="headurl">
@@ -108,6 +107,9 @@
 
           </el-col>
         </el-row>
+
+        <el-button v-if="fetchSuccess" v-loading="loading" style="margin-left: 10px;" type="primary" @click="submitForm('postForm')">新增主角</el-button>
+        <hr v-if="showPhoto" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
 
         <el-form v-if="showPhoto" :model="photosList" :rules="addPhotosRules" ref="photosList">
           <el-form-item label-width="50px" label="首图:" class="postInfo-container-item" prop="url">
