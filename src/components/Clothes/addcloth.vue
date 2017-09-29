@@ -19,7 +19,7 @@
             <div style="">
                 <el-form-item label="主角:" label-width="90px" prop="actor">
                     <multiselect v-model="postForm.actor" required autofocus :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" disabled style="width:200px;">
+                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:200px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
@@ -27,7 +27,7 @@
             <div style="margin:20px 0px;">
                 <el-form-item label="分类名称:" label-width="90px" prop="clothType">
                     <!--<el-input v-model="postForm.clothTypeid" size="small" placeholder="请输入分类id" autofocus style="width:200px;"></el-input>-->
-                    <el-select v-model="postForm.clothType" placeholder="请选择" @change="selectClothTypeid" disabled style="width:200px;">
+                    <el-select v-model="postForm.clothType" placeholder="请选择" @change="selectClothTypeid"  style="width:200px;">
                         <el-option
                                 v-for="item in clothTypes"
                                 :key="item.typeid"

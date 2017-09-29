@@ -2,13 +2,13 @@
     <div class="createPost-container">
         <div class="cloth_center">
             <el-form ref="actorValue" :model="actorValue" label-width="100px" style="margin-top:20px;padding-top:20px;">
-                <el-form-item label="主角:" label-width="90px" prop="actor">
+                <el-form-item label="主角:" label-width="100px" prop="actor">
                     <multiselect v-model="actorValue.actor" required autofocus :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
-                <el-form-item label="选择剧情:" prop="select">
+                <el-form-item label="选择剧情:" label-width="100px" prop="select">
                     <!--<el-input v-model="form.day" size="small" style="width: 100px;"></el-input>-->
                     <el-select v-model="actorValue.select" placeholder="请选择">
                         <el-option
@@ -29,8 +29,8 @@
                         :value="item.value">
                 </el-option>
             </el-select>-->
-            <div style="margin:30px">
-                <div class="block">
+            <div v-if="showTable" style="margin:30px">
+                <!--<div class="block">
                     <el-pagination
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
@@ -41,7 +41,7 @@
                         :total="total"
                         style="margin-bottom:20px;">
                     </el-pagination>
-                </div>
+                </div>-->
                 <!--<el-button type="primary" size="large" @click="addTab(editableTabsValue2)" style="margin:10px 0">新增天数</el-button>-->
                 <!--<el-tabs v-model="activeName" type="card" closable @tab-remove="removeTab" @tab-click="storyShow">
                     <el-tab-pane v-for="(item, index) in editableTabs2"  :key="item.name" :label="item.title" :name="item.title">
@@ -60,7 +60,7 @@
                 <el-button type="primary" size="large" @click="dialogFormVisible=true" style="margin:10px 0 10px 40px">新增</el-button>
                 <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-                    <el-table-column align="center" label="剧情id" width="80" prop="id">
+                    <el-table-column align="center" label="剧情id" width="100" prop="id">
                         <template scope="scope">
                             <!--<a href="/diary/form#/diary/form" class="link-type">{{scope.row.id}}</a>-->
                             <!--<router-link to="/diary/form">{{scope.row.id}}</router-link>-->
@@ -75,13 +75,13 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column width="400px" label="标题" prop="title">
+                    <el-table-column min-width="400px" align="center" label="事件名称" prop="title">
                     </el-table-column>
 
                     <!--<el-table-column width="400px" label="内容" prop="textarea">
                     </el-table-column>-->
 
-                    <el-table-column min-width="180px" label="触发时间" prop="dt">
+                    <el-table-column width="200px" align="center" label="触发时间" prop="dt">
                     </el-table-column>
 
                     <el-table-column align="center" label="操作" width="250px">
@@ -100,16 +100,16 @@
             <el-dialog title="新增剧情事件" :visible.sync="dialogFormVisible">
                 <el-form ref="form" :model="form" label-width="100px" :rules="formRules" style="margin-top:20px;padding-top:20px;">
                     <el-form-item label="第几天:" prop="day">
-                        <el-input v-model.number="form.day" size="small" style="width: 100px;"></el-input>
+                        <el-input v-model.number="form.day" size="small" style="width: 200px;"></el-input>
                     </el-form-item>
                     <!--<el-form-item label="剧情ID:" prop="storyid">
                         <el-input v-model="form.storyid" size="small" style="width: 100px;"></el-input>
                     </el-form-item>-->
-                    <el-form-item label="事件标题:" prop="title">
-                        <el-input v-model="form.title" size="small" style="width: 300px;"></el-input>
+                    <el-form-item label="事件名称:" prop="title">
+                        <el-input v-model="form.title" size="small" style="width: 200px;"></el-input>
                     </el-form-item>
                     <el-form-item label="触发时间:">
-                        <el-date-picker v-model="form.dt" type="datetime" placeholder="选择日期时间">
+                        <el-date-picker v-model="form.dt" type="datetime" placeholder="选择日期时间" style="width: 200px;">
                         </el-date-picker>
                     </el-form-item>
                 </el-form>
@@ -148,7 +148,7 @@
         data() {
             const checkNum = (rule, value, callback) => {
                 if (!value) {
-                    return callback(new Error('不能为空'));
+                    return callback(new Error('输入不能为空'));
                 }
                 setTimeout(() => {
                     if (!Number.isInteger(value)) {
@@ -164,7 +164,7 @@
             };
             const validateRequire = (rule, value, callback) => {
                 if (!value) {
-                    return callback(new Error('不能为空'));
+                    return callback(new Error('输入不能为空'));
                 } else {
                     callback()
                 }
@@ -192,6 +192,7 @@
                 editableTabsValue2: '2',
                 editableTabs2: [],
                 dialogFormVisible: false,
+                showTable: false,
                 classify: {
                     name: '',
                     upload:'',
@@ -225,8 +226,8 @@
                 }*/],
                 total: null,
                 formRules: {
-                    day: [{ validator: checkNum, trigger: 'blur' }],
-                    title: [{ validator: validateRequire, trigger: 'blur' }],
+                    day: [{ required: true, validator: checkNum, trigger: 'blur' }],
+                    title: [{ required: true, validator: validateRequire, trigger: 'blur' }],
                 }
             }
         },
@@ -254,17 +255,21 @@
             "actorValue.actor" (newval,oldval) {
                 if (this.actorOptions) {
                     this.actorOptions = [];
+                    this.showTable = false;
                 }
                 if (newval && newval.key) {
                     this.actorData.name = this.actorValue.actor.key;
                     this.getStoryList(this.actorData);
+                    this.showTable = false;
                 }
                 if (this.actorValue.select) {
                     this.actorValue.select = '';
+                    this.showTable = false;
                 }
             },
             "actorValue.select" (newval,oldval) {
-                this.listQuery.id=this.actorValue.select;
+                this.showTable = true;
+                this.listQuery.id = this.actorValue.select;
                 this.getList();
             }
         },

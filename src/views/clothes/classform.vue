@@ -1,14 +1,14 @@
 <template>
     <div class="createPost-container">
         <div class="cloth_center">
-            <el-form class="form-container" :model="postFormCommon" ref="postFormCommon">
-                <el-form-item label-width="90px" label="选择主角:" class="postInfo-container-item" prop="actor">
+            <el-form class="form-container" :model="postFormCommon" ref="postFormCommon" style="margin-top:40px">
+                <el-form-item label-width="120px" label="选择主角:" class="postInfo-container-item" prop="actor">
                     <multiselect v-model="postFormCommon.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
-                <el-form-item label-width="90px" label="服装分类:" class="postInfo-container-item" prop="clothclass">
+                <el-form-item label-width="120px" label="服装分类:" class="postInfo-container-item" prop="clothclass">
                     <!--<el-button type="primary" size="" @click="addTab(editableTabsValue2)" style="margin-bottom: 40px">新增分类</el-button>-->
                     <el-tabs v-model="activeName"  editable @edit="addTab" @tab-remove="removeTab" @tab-click="getTypeid">
                         <!--<el-tab-pane label="春装" name="all">
@@ -62,7 +62,7 @@
             </el-dialog>
 
             <el-dialog title="编辑服装" :visible.sync="dialogEditCloth">
-                <el-form class="form-container" :model="postFormEdit" ref="postFormEdit">
+                <el-form class="form-container" :model="postFormEdit" ref="postFormEdit" label-width="120px">
                     <el-form-item v-if="showClothDetail" label="服装名称:" :label-width="formLabelWidth" prop="dressname">
                         <el-input v-model="postFormEdit.dressname" auto-complete="off" style="width:200px;"></el-input>
                     </el-form-item>
@@ -159,10 +159,10 @@
                                 <el-input v-model="postForm.price" placeholder="请输入服装价格" style="width:200px;"></el-input>
                             </el-form-item>
                         </div>
-                        <el-form-item label-width="30px" label="" style="display: inline-block">
+                        <el-form-item label-width="80px" label="" style="display: inline-block">
                             <el-button type="primary" @click="editClothData(postForm)">编辑服装</el-button>
                         </el-form-item>
-                        <el-form-item label-width="20px" label="" style="display: inline-block">
+                        <el-form-item label-width="30px" label="" style="display: inline-block">
                             <el-button type="primary" @click="delCloth(postForm.dressid)">删除服装</el-button>
                         </el-form-item>
                         <hr v-if="showClothDetail" width="96%" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
@@ -170,7 +170,7 @@
                 </div>
             </template>
 
-            <el-button v-if="showClothDetail" type="primary" @click="addClothes" style="margin:0 0 20px 30px">新增服装</el-button>
+            <el-button v-if="showClothDetail" type="primary" @click="addClothes" style="margin:0 0 20px 80px">新增服装</el-button>
         </div>
     </div>
 </template>

@@ -357,7 +357,7 @@
         postForm: {
           style: '', // 文章题目
           name: '', // 文章内容
-          gender: '',
+          gender: '2',
           weight: '',
           height: '',
           bust: '',
@@ -421,6 +421,7 @@
         },
         actorDetail: {
           name: [{ validator: validateRequire, trigger: 'blur' }],
+          style: [{ validator: validateRequire, trigger: 'blur' }],
           height: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
           weight: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
           age: [{ validator: checkNum, trigger: 'blur' }],
