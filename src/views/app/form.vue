@@ -52,6 +52,11 @@
       </el-form-item>
     </el-form>
 
+    <!--<div class="block">
+      <span class="demonstration">带快捷选项</span>
+      <el-date-picker v-model="value7" type="daterange" align="right" placeholder="选择日期范围" :picker-options="pickerOptions2" :class="{disabled: isDisabled}">
+      </el-date-picker>
+    </div>-->
 
   </div>
 </template>
@@ -121,6 +126,10 @@
         }
       };
       return {
+        value7: new Date(),
+        start: null,
+        end: null,
+        isDisabled: true,
         search: {
           page: 1,
           limit: 20,
@@ -159,6 +168,27 @@
       isEdit() {
         return this.$route.meta.isEdit // 根据meta判断
           // return this.$route.path.indexOf('edit') !== -1 // 根据路由判断
+      }
+    },*/
+    /*computed: {
+      pickerOptions2: function () {
+        if(this.start) {
+          alert(this.start)
+        }
+        return {
+          onPick (time) {
+            this.start = time.minDate;
+            this.end = time.maxDate;
+            //this.disabledDate(times.minDate);
+          },
+          disabledDate(time) {
+            console.log('1');
+            let begin = new Date();
+            //let end = new Date() + 30;
+            return time.getTime() < begin.getTime() || time.getTime() >begin.getTime() + 30*8.64e7;
+          }
+        }
+
       }
     },*/
     created() {

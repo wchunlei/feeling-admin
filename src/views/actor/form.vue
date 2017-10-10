@@ -219,7 +219,12 @@
         <el-form v-if="showPhoto" :model="addmvs" :rules="addMvRules" ref="addmvs">
           <el-form-item label-width="68px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
             <div style="margin: 20px 0;">
-              <Uploadvideo v-model="addmvs.thumbnail"></Uploadvideo>
+              <Uploadvideo v-model="addmvs.thumbnail" :progresses="progressesData"></Uploadvideo>
+            </div>
+          </el-form-item>
+          <el-form-item label-width="50px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
+            <div v-show="progressesData.progress" style="">
+              <el-progress :percentage="progressesData.percentage" :status="progressesData.progressStatus"></el-progress>
             </div>
           </el-form-item>
 
@@ -281,7 +286,6 @@
             </el-form>
           </div>
         </template>
-
       </div>
     </el-form>
 
@@ -354,6 +358,11 @@
         photoData: {},
         mvData: {},
         photoid: '',
+        progressesData: {
+          percentage: 25,
+          progress: false
+        },
+        progressStatus: '',
         postForm: {
           style: '', // 文章题目
           name: '', // 文章内容
@@ -463,6 +472,9 @@
       }
     },
     methods: {
+      uploadListener (data) {
+        alert(data)
+      },
       getDetail () {
         actorListAll (this.listQuery).then(response => {
           this.postForm = response.data.content;

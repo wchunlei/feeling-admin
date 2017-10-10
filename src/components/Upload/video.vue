@@ -1,7 +1,7 @@
 <template>
 	<div class="upload-container">
 		<el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="http://192.168.1.43:3000/system/vod"
-		  :on-success="handleImageScucess" >
+		  :on-success="handleImageScucess" :before-upload="beforeUpload">
 			<i class="el-icon-upload"></i>
 			<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 		</el-upload>
@@ -23,9 +23,7 @@
 	import { getToken } from 'api/qiniu';
 	export default {
 	  name: 'singleImageUpload',
-	  props: {
-	    value: String
-  },
+	  props: ['value', 'progresses'],
 	  computed: {
 	    imageUrl() {
 	      return this.value
@@ -50,9 +48,21 @@
     },*/
 		  handleImageScucess(res, file) {
 			  this.emitInput(res.content.url);
+			  let _this = this;
+			  _this.progresses.percentage = 50;
+			  if (res.code == 200) {
+				  setTimeout(function(){
+					  _this.progresses.percentage = 100;
+					  setTimeout(function(){
+						  _this.progresses.progress = false;
+					  },500)
+				  },1000)
+				//alert(this.progresses.percentage)
+			  }
 			  this.imageUrl = URL.createObjectURL(file.raw);
 		  },
 	    beforeUpload() {
+			this.progresses.progress = true;
 	      const _self = this;
 	      return new Promise((resolve, reject) => {
 	        getToken().then(response => {
