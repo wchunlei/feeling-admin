@@ -134,8 +134,13 @@
                         </el-form-item>
                         <el-form-item label="普通视频:" prop="video">
                             <div style="margin-bottom: 20px;">
-                                <Uploadvideo v-model="normalVideo.video"></Uploadvideo>
+                                <Uploadvideo v-model="normalVideo.video" :progresses="progressesData"></Uploadvideo>
                                 <!-- <video :src=normalVideo.video style="width:200px;height:280px" controls ></video>-->
+                            </div>
+                        </el-form-item>
+                        <el-form-item label-width="50px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
+                            <div v-show="progressesData.progress" style="">
+                                <el-progress :percentage="progressesData.percentage" :status="progressesData.progressStatus"></el-progress>
                             </div>
                         </el-form-item>
                         <!--<el-form-item label="剧情标题:" prop="title" style="width:280px">
@@ -202,8 +207,13 @@
                         </el-form-item>
                         <el-form-item label="开始视频:" prop="startVideo">
                             <div style="margin-bottom: 20px;">
-                                <Uploadvideo v-model="eachVideo.startVideo"></Uploadvideo>
+                                <Uploadvideo v-model="eachVideo.startVideo" :progresses="progressesData"></Uploadvideo>
                                 <!--<video :src=eachVideo.startVideo style="width:200px;height:280px" controls ></video>-->
+                            </div>
+                        </el-form-item>
+                        <el-form-item label-width="50px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
+                            <div v-show="progressesData.progress" style="">
+                                <el-progress :percentage="progressesData.percentage" :status="progressesData.progressStatus"></el-progress>
                             </div>
                         </el-form-item>
                         <!--<el-row>
@@ -214,14 +224,24 @@
                         </el-row>-->
                         <el-form-item label="选择一视频:" prop="selectVideo1">
                             <div style="margin-bottom: 20px;">
-                                <Uploadvideo v-model="eachVideo.selectVideo1"></Uploadvideo>
+                                <Uploadvideo v-model="eachVideo.selectVideo1" :progresses="progressesData"></Uploadvideo>
                                 <!--<video :src=eachVideo.selectVideo1 style="width:200px;height:280px" controls ></video>-->
+                            </div>
+                        </el-form-item>
+                        <el-form-item label-width="50px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
+                            <div v-show="progressesData.progress" style="">
+                                <el-progress :percentage="progressesData.percentage" :status="progressesData.progressStatus"></el-progress>
                             </div>
                         </el-form-item>
                         <el-form-item label="选择二视频:" prop="selectVideo2">
                             <div style="margin-bottom: 20px;">
-                                <Uploadvideo v-model="eachVideo.selectVideo2"></Uploadvideo>
+                                <Uploadvideo v-model="eachVideo.selectVideo2" :progresses="progressesData"></Uploadvideo>
                                 <!--<video :src=eachVideo.selectVideo2 style="width:200px;height:280px" controls ></video>-->
+                            </div>
+                        </el-form-item>
+                        <el-form-item label-width="50px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
+                            <div v-show="progressesData.progress" style="">
+                                <el-progress :percentage="progressesData.percentage" :status="progressesData.progressStatus"></el-progress>
                             </div>
                         </el-form-item>
                         <el-row>
@@ -694,8 +714,13 @@
                         </el-form-item>-->
                         <el-form-item label="小视频:" prop="video">
                             <div style="margin-bottom: 20px;">
-                                <Uploadvideo v-model="smallVideo.video"></Uploadvideo>
+                                <Uploadvideo v-model="smallVideo.video" :progresses="progressesData"></Uploadvideo>
                                 <!--<video :src=smallVideo.video style="width:200px;height:280px" controls ></video>-->
+                            </div>
+                        </el-form-item>
+                        <el-form-item label-width="50px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
+                            <div v-show="progressesData.progress" style="">
+                                <el-progress :percentage="progressesData.percentage" :status="progressesData.progressStatus"></el-progress>
                             </div>
                         </el-form-item>
                         <el-row>
@@ -829,6 +854,11 @@
                     limit: 20
                 },
                 userLIstOptions: [],
+                progressesData: {
+                    percentage: 25,
+                    progress: false
+                },
+                progressStatus: '',
                 nVideo: false,
                 eVideo: false,
                 wTalk: false,
