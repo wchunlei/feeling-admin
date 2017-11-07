@@ -61,6 +61,8 @@ const Tab = _import('example/tab/index');
 
 /* permission */
 const Permission = _import('permission/index');
+/*账号管理*/
+const AccountManage = _import('login/accountManage');
 
 /* actor 角色管理 */
 const actorForm = _import('actor/form');
@@ -117,10 +119,11 @@ Vue.use(Router);
   **/
 
 export const constantRouterMap = [
-    { path: '/login', component: Login, hidden: true },
-    { path: '/authredirect', component: authRedirect, hidden: true },
-    { path: '/404', component: Err404, hidden: true },
-    { path: '/401', component: Err401, hidden: true },
+   { path: '/login', component: Login, hidden: true },
+     { path: '/authredirect', component: authRedirect, hidden: true },
+     { path: '/404', component: Err404, hidden: true },
+     { path: '/401', component: Err401, hidden: true },
+
   {
     path: '/',
     component: Layout,
@@ -146,7 +149,16 @@ export default new Router({
 });
 
 export const asyncRouterMap = [
-  
+  {
+    path : '/login',
+    component: Layout,
+    redirect: '/login/index',
+    name: '账号管理',
+    icon: 'zujian',
+    children: [
+      { path: 'index', component: AccountManage, name: '新增账号' }
+    ]
+  },
   {
     path: '/actor',
     component: Layout,

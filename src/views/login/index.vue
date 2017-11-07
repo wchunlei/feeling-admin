@@ -29,9 +29,10 @@
   </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
   import { isWscnEmail } from 'utils/validate';
   import socialSign from './socialsignin';
+  import { loginByEmailMessage } from 'api/login';
 
   export default {
     components: { socialSign },
@@ -72,14 +73,41 @@
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
           if (valid) {
-            this.loading = true;
+            //this.loading = true;
             this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
               this.loading = false;
               this.$router.push({ path: '/' });
+              /*if (response.data.code == 200) {
+                this.loading = false;
+                this.$router.push({ path: '/' });
+              } else {
+                alert()
+                this.$message({
+                  message: '用户名密码错误',
+                  type: 'error'
+                });
+              }*/
                 // this.showDialog = true;
             }).catch(err => {
               this.$message.error(err);
               this.loading = false;
+            });
+            let loginInfo = {
+              email : this.loginForm.email,
+              password : this.loginForm.password
+            }
+            loginByEmailMessage (loginInfo).then(response => {
+              if(response.data.code == 200){
+                //this.token = response.data.token;
+                localStorage.setItem('token',response.data.token);
+                //this.$refs[formName].resetFields();
+                //alert(localStorage.getItem('token'))
+              } else {
+                this.$message({
+                  message: '账号或密码错误',
+                  type: 'error'
+                });
+              }
             });
           } else {
             console.log('error submit!!');

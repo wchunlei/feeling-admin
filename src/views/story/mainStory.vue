@@ -1075,17 +1075,17 @@
                     if (valid) {
                         this.listLoading = true;
                         let data = {
-                            type: parseInt(this.form.type),
-                            title: this.form.title,
-                            actorid: parseInt(this.form.actor.value),
-                            status: 'published'
-                        };
-                        addstory(data).then(response => {
-                            if (response.data.code == 200) {
-                                this.$message({
-                                    message: '新增成功',
-                                    type: 'success'
-                                });
+                                type: parseInt(this.form.type),
+                                        title: this.form.title,
+                                        actorid: parseInt(this.form.actor.value),
+                                        status: 'published'
+                            };
+                            addstory(data).then(response => {
+                                if (response.data.code == 200) {
+                                    this.$message({
+                                        message: '新增成功',
+                                        type: 'success'
+                                    });
                                 //this.postForm.status = 'published';
                                 //this.$refs[formName].resetFields();
                             }
