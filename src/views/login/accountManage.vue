@@ -108,18 +108,6 @@
                 }
             }
         },
-        created() {
-            if (this.isEdit) {
-                this.fetchData();
-            }
-            this.getRemoteUserList();
-            if(this.$route.params.num && this.$route.params.num != ':num'){
-                let listQuery={};
-                listQuery.id = this.$route.params.num;
-                this.fetchData(listQuery);
-            }
-            this.getStory();
-        },
         methods: {
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {

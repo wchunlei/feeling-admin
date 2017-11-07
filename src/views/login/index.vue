@@ -17,7 +17,7 @@
           登录
         </el-button>
       </el-form-item>
-      <div class='tips'>admin账号为:admin@inveno.com 密码随便填</div>
+      <div class='tips'>admin账号为:admin@inveno.com 密码123456</div>
       <div class='tips'>editor账号:editor@inveno.com 密码随便填</div>
     </el-form>
 
@@ -66,9 +66,26 @@
           ]
         },
         loading: false,
-        showDialog: false
+        showDialog: false,
+        tokenFlag: false
       }
     },
+    mounted () {
+      if (localStorage.getItem('token')) {
+        this.$router.push({ path: '/' });
+        this.tokenFlag = true;
+      } else {
+        this.tokenFlag = false;
+      }
+    },
+    /*watch : {
+      'tokenFlag' (newval,oldval) {
+        if (newval) {
+          alert()
+          this.$router.push({ path: '/' });
+        }
+      }
+    },*/
     methods: {
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
@@ -133,9 +150,6 @@
           //   });
           // }
       }
-    },
-    created() {
-        // window.addEventListener('hashchange', this.afterQRScan);
     },
     destroyed() {
         // window.removeEventListener('hashchange', this.afterQRScan);
