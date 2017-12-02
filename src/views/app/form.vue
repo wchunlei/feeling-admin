@@ -52,6 +52,8 @@
       </el-form-item>
     </el-form>
 
+    <div id="canvas" style="width:200px;height:200px;background: #ccc"></div>
+
     <!--<div class="block">
       <span class="demonstration">带快捷选项</span>
       <el-date-picker v-model="value7" type="daterange" align="right" placeholder="选择日期范围" :picker-options="pickerOptions2" :class="{disabled: isDisabled}">

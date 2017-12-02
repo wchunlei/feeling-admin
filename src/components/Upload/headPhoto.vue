@@ -103,14 +103,14 @@
         .avatar-uploader-icon {
             font-size: 28px;
             color: #8c939d;
-            width: 178px;
-            height: 178px;
-            line-height: 178px;
+            width: 180px;
+            height: 180px;
+            line-height: 180px;
             text-align: center;
         }
         .avatar {
-            width: 178px;
-            height: 178px;
+            width: 180px;
+            height: 180px;
             display: block;
         }
     }

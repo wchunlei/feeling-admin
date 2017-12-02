@@ -70,14 +70,14 @@
         tokenFlag: false
       }
     },
-    mounted () {
+    /*mounted () {
       if (localStorage.getItem('token')) {
         this.$router.push({ path: '/' });
         this.tokenFlag = true;
       } else {
         this.tokenFlag = false;
       }
-    },
+    },*/
     /*watch : {
       'tokenFlag' (newval,oldval) {
         if (newval) {
@@ -117,6 +117,7 @@
               if(response.data.code == 200){
                 //this.token = response.data.token;
                 localStorage.setItem('token',response.data.token);
+                //sessionStorage.setItem('token',response.data.token);
                 //this.$refs[formName].resetFields();
                 //alert(localStorage.getItem('token'))
               } else {

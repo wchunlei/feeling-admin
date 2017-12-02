@@ -84,6 +84,18 @@ const storyPicture = _import('story/picture');
 const storyGame = _import('story/game');
 const storyTv = _import('story/tv');
 
+/* home 房间管理 */
+const homeForm = _import('home/form');
+const homeTable = _import('home/table');
+
+/* home 动态管理 */
+const spaceForm = _import('space/form');
+const spaceTable = _import('space/table');
+
+/* home 动态管理 */
+const whisperForm = _import('whisper/form');
+const whisperTable = _import('whisper/table');
+
 /* app 渠道管理 */
 const appForm = _import('app/form');
 const appTable = _import('app/table');
@@ -189,6 +201,39 @@ export const asyncRouterMap = [
       //{ path: 'mainstoryEdit', component: mainstoryEdit, name: '主线剧情编辑' },
       { path: 'mainStory/:num/:type/:actorid/:actorname/:title', component: storyMain, name: '新增剧情' },
       /*{ path: 'tableall', component: storyTableall, name: '剧情列表详细' },*/
+    ]
+  },
+  {
+    path: '/home',
+    component: Layout,
+    redirect: '/home/index',
+    name: '房间管理',
+    icon: 'zujian',
+    children: [
+      { path: 'table', component: homeTable, name: '房间列表' },
+      { path: 'form', component: homeForm, name: '新增房间' },
+    ]
+  },
+  {
+    path: '/space',
+    component: Layout,
+    redirect: '/space/index',
+    name: '动态管理',
+    icon: 'zujian',
+    children: [
+      { path: 'table', component: spaceTable, name: '动态列表' },
+      { path: 'form', component: spaceForm, name: '新增动态' },
+    ]
+  },
+  {
+    path: '/whisper',
+    component: Layout,
+    redirect: '/whisper/index',
+    name: '女仆FM管理',
+    icon: 'zujian',
+    children: [
+      { path: 'table', component: whisperTable, name: '女仆FM列表' },
+      { path: 'form', component: whisperForm, name: '新增女仆FM' },
     ]
   },
 /*  {
