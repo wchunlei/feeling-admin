@@ -43,11 +43,13 @@
                     </el-checkbox-group>
                 </el-form-item>
 
-                <el-form-item label="状态:" label-width="100px" prop="config" style="margin-bottom: 40px">
-                    <el-select v-model="postForm.config" placeholder="请选择">
+                <el-form-item label="状态:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
+                    <!--<el-select v-model="postForm.config" placeholder="请选择">
                         <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
-                    <span style="font-size:12px">（注：下架状态：该主角不会在App中显示）</span>
+                    <span style="font-size:12px">（注：下架状态：该主角不会在App中显示）</span>-->
+                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm"></el-date-picker>
+                    <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
                 <el-form-item label="房间排序:" label-width="100px" prop="homeSort" style="margin-bottom: 40px">
@@ -154,7 +156,7 @@
                     headurl: '', // 文章图片
                     headSelect: '',
                     backImg: '',
-                    config: '',
+                    configTime: '',
                     homeSort: '',
                     timeNum: '',
                     time: '',

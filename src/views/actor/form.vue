@@ -288,9 +288,51 @@
         </template>
       </div>-->
       <div class="createPost-main-container">
-        <el-form-item label="昵称:" label-width="100px" prop="name" style="margin-bottom: 40px">
+        <!--<el-form-item label="昵称:" label-width="100px" prop="name" style="margin-bottom: 40px">
           <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :disabled="disable" maxlength="10"></el-input>
-        </el-form-item>
+        </el-form-item>-->
+
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="昵称:" label-width="100px" prop="name" style="margin-bottom: 40px">
+              <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :disabled="disable" maxlength="10"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label-width="50px" label="身高:" class="postInfo-container-item" prop="height">
+              <el-input placeholder="" style='width:220px;' v-model.number="postForm.height" :disabled="disable">
+              </el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="8">
+            <el-form-item label-width="50px" label="体重:" class="postInfo-container-item" prop="weight">
+              <el-input placeholder="" style='width:220px;' v-model.number="postForm.weight" :disabled="disable">
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="年龄:" label-width="100px" prop="age" style="margin-bottom: 40px">
+              <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.age" :disabled="disable" maxlength="10"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label-width="50px" label="胸围:" class="postInfo-container-item" prop="bust">
+              <el-input placeholder="" style='width:220px;' v-model.number="postForm.bust" :disabled="disable">
+              </el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="8">
+            <el-form-item label-width="50px" label="标签:" class="postInfo-container-item" prop="style">
+              <el-input placeholder="" style='width:220px;' v-model.number="postForm.style" :disabled="disable">
+              </el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
         <el-form-item label="简介:" label-width="100px" prop="nature" style="margin-bottom: 40px">
           <el-input type="textarea" placeholder="最多输入70个字" style='width:280px;' v-model="postForm.nature  " :disabled="disable" maxlength="70" rows="3"></el-input>
@@ -316,11 +358,12 @@
           </div>
         </el-form-item>
 
-        <el-form-item label="配置状态:" label-width="100px" prop="config" style="margin-bottom: 40px">
-          <el-select v-model="postForm.config" placeholder="请选择">
+        <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
+          <!--<el-select v-model="postForm.config" placeholder="请选择">
             <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-          </el-select>
-          <span style="font-size:12px">（注：下架状态：该主角不会在App中显示）</span>
+          </el-select>-->
+          <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm"></el-date-picker>
+          <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
         </el-form-item>
 
         <el-form-item label="私密圈排序:" label-width="100px" prop="private" style="margin-bottom: 40px">
@@ -339,9 +382,20 @@
           <span>钻石</span>
         </el-form-item>
 
-        <el-form-item label="配置工作时间:" label-width="100px" prop="" >
+        <el-form-item label="配置工作时间:" label-width="100px" prop="workTimes" >
           <div v-for="workTime in postForm.workTimes" style="margin-bottom: 40px">
-            <el-date-picker v-model="workTime.value" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+            <!--<el-date-picker v-model="workTime.value" type="week" format="周 ww"></el-date-picker>-->
+            <span>星期</span>
+            <el-select v-model="workTime.time" placeholder="请选择" style="width:80px">
+              <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+            <el-time-select v-model="workTime.value" :picker-options="{start: '08:30',step: '00:15',end: '18:30'}" placeholder="选择时间" style="width: 110px"></el-time-select>
+            <span style="display: inline-block;margin: 0 20px 0 20px">至</span>
+            <span>星期</span>
+            <el-select v-model="workTime.time1" placeholder="请选择" style="width:80px">
+              <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+            <el-time-select v-model="workTime.value1" :picker-options="{start: '08:30',step: '00:15',end: '18:30'}" placeholder="选择时间" style="width: 110px"></el-time-select>
             <el-button @click.prevent="addWork">新增工作时间</el-button>
             <el-button @click.prevent="removeWork(workTime)">删除</el-button>
           </div>
@@ -441,17 +495,42 @@
           headurl: '', // 文章图片
           headSelect: '',
           backImg: '',
-          config: '',
+          configTime: '',
           private: '',
           timeNum: '',
           time: '',
           price: '',
           workTimes: [{
-            value: ''
+            time: '',
+            value: '',
+            time1: '',
+            value1: ''
           }],
           //id: '',
           status: 'published',
         },
+        weekOptions: [{
+          value: '1',
+          label: '一'
+        },{
+          value: '2',
+          label: '二'
+        },{
+          value: '3',
+          label: '三'
+        },{
+          value: '4',
+          label: '四'
+        },{
+          value: '5',
+          label: '五'
+        },{
+          value: '6',
+          label: '六'
+        },{
+          value: '7',
+          label: '日'
+        }],
         configOptions: [{
           value: '0',
           label: '下架'
@@ -582,7 +661,10 @@
       },
       addWork () {
         this.postForm.workTimes.push({
-          value: ''
+          time: '',
+          value: '',
+          time1: '',
+          value1: ''
         });
       },
       removeWork(item) {

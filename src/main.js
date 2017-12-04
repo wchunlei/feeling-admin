@@ -19,6 +19,7 @@ import IconSvg from 'components/Icon-svg';// svg 组件
 import vueWaves from './directive/waves';// 水波纹指令
 import errLog from 'store/errLog';// error log组件
 import './mock/index.js';  // 该项目所有请求使用mockjs模拟
+import echarts from 'echarts';
 
 // register globally
 Vue.component('multiselect', Multiselect);
@@ -26,6 +27,7 @@ Vue.component('Sticky', Sticky);
 Vue.component('icon-svg', IconSvg)
 Vue.use(ElementUI);
 Vue.use(vueWaves);
+Vue.prototype.$echarts = echarts
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {

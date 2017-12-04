@@ -183,6 +183,7 @@
                                 <span @click="showPictureContent"><el-radio v-model="radioContent" label="0">图片</el-radio></span>
                                 <span @click="showVideoContent"><el-radio v-model="radioContent" label="1">视频</el-radio></span>
                                 <span @click="showAudioContent"><el-radio v-model="radioContent" label="2">音频</el-radio></span>
+                                <span @click="showCrowdContent"><el-radio v-model="radioContent" label="3">众筹</el-radio></span>
                             </template>
                             <!--<template>
                                 <el-radio-group v-model="radioContent">
@@ -240,6 +241,26 @@
                                 </div>
                             </el-form-item>
                         </el-form-item>
+                        <el-form-item v-show="showPicContent" label="收费设置:" label-width="90px" prop="priceSet" style="margin-bottom: 20px">
+                            <span @click="showPrice"><el-radio v-model="radioPrice" label="0">收费</el-radio></span>
+                            <span @click="hidePrice"><el-radio v-model="radioPrice" label="1">免费</el-radio></span>
+                        </el-form-item>
+                        <div v-show="showPri" style="display: inline-block;margin-bottom: 20px">
+                            <el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px">
+                                <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                                <div style="margin: 15px 0;"></div>
+                                <el-checkbox-group v-model="diaryContent.selectPic" @change="handleCheckedCitiesChange">
+                                    <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
+                                </el-checkbox-group>-->
+                                <el-checkbox-group v-model="diaryContent.selectPic">
+                                    <el-checkbox v-for="pic in selectPics" :label="pic" :key="pic">{{pic}}</el-checkbox>
+                                </el-checkbox-group>
+                            </el-form-item>
+                            <el-form-item v-show="showPicContent" label="收费价格:" label-width="90px" prop="price" style="margin-bottom: 40px">
+                                <el-input v-model="diaryContent.price" style="width:150px" placeholder="请输入整数金额"></el-input>
+                                <span>钻石</span>
+                            </el-form-item>
+                        </div>
                         <!--<el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
 
                             <el-form-item label="" label-width="60px" prop="photourl">
@@ -266,7 +287,7 @@
                         </el-form>-->
 
                         <el-form-item v-show="showVidContent" label-width="90px" prop="video">
-                            <div style="margin: -170px 0 20px 0">
+                            <div style="margin-top: -160px">
                                 <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
                                 <Uploadvideo v-model="diaryContent.video" :progresses="progressesData"></Uploadvideo>
                             </div>
@@ -278,9 +299,19 @@
                         </el-form-item>
 
                         <el-form-item v-show="showAudContent" label-width="90px" prop="sound">
-                            <div style="margin: -160px 0 20px 0">
+                            <div style="margin-top: -160px">
                                 <Uploadaudio v-model="diaryContent.sound"></Uploadaudio>
                             </div>
+                        </el-form-item>
+
+                        <el-form-item v-show="showCroContent" label-width="90px" prop="crowd">
+                            <div style="display: inline-block;margin-top: -160px">
+                                <Upload v-model="diaryContent.crowd"></Upload>
+                            </div>
+                        </el-form-item>
+                        <el-form-item v-show="showCroContent" label="众筹价格:" label-width="90px" prop="crowdfunding">
+                            <el-input v-model="diaryContent.crowdfunding" style="width:150px" placeholder="请输入整数金额"></el-input>
+                            <span>钻石</span>
                         </el-form-item>
 
                         <el-form-item style="margin-bottom: 40px;" label-width="90px" label="动态内容:" prop="words">
@@ -300,11 +331,17 @@
                                 </el-time-select>
                             </el-form-item>
                         </el-form-item>-->
-                        <el-form-item label-width="90px" label="发布时间:" prop="time">
+                        <el-form-item label-width="90px" label="发布时间:" prop="time"style="margin-bottom: 40px">
                             <div class="block">
                                 <!--<span class="demonstration">默认</span>-->
-                                <el-date-picker v-model="diaryContent.time" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                                <el-date-picker v-model="diaryContent.time" type="datetime" format="yyyy-mm-dd hh:mm" placeholder="选择日期时间"></el-date-picker>
                             </div>
+                        </el-form-item>
+                        <el-form-item label="动态排序:" label-width="90px" prop="spaceSort" style="margin-bottom: 40px">
+                            <el-select v-model="diaryContent.spaceSort" placeholder="请选择">
+                                <el-option v-for="item in spaceSortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
+                            <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                         </el-form-item>
 
                     </el-form>
@@ -539,11 +576,17 @@
                     pic7: '', // 图片
                     pic8: '', // 图片
                     pic9: '', // 图片
+                    priceSet: '',
+                    selectPic: [],
+                    price: '',
                     day: '',
                     time: '',
-                    sound: ''
+                    sound: '',
+                    crowd: '',
+                    spaceSort: ''
                     //status: 'draft'
                 },
+                selectPics: [ "第一张","第二张","第三张","第四张","第五张","第六张","第七张","第八张","第九张" ],
                 progressesData: {
                     percentage: 25,
                     progress: false
@@ -603,6 +646,13 @@
                     //day: '',
                     time: '',
                 },
+                spaceSortOptions: [{
+                    value: '0',
+                    label: '默认'
+                },{
+                    value: '1',
+                    label: '1'
+                }],
                 disableActor: false,
                 disableTitle: false,
                 showButton: false,
@@ -638,6 +688,7 @@
                 },
                 //radio: '0',
                 types: '',
+                radioPrice: '0',
                 radioContent: '0',
                 radioContentEdit: '0',
                 selectTime: new Date(2017, 8, 14, 12, 10),
@@ -645,7 +696,9 @@
                 showVid: false,
                 showPicContent: true,
                 showVidContent: false,
-                showAudContent: false
+                showAudContent: false,
+                showCroContent: false,
+                showPri: true,
             }
         },
         computed: {
@@ -996,9 +1049,11 @@
                     this.showPicContent=true;
                     this.showVidContent=false;
                     this.showAudContent = false;
+                    this.showCroContent = false;
                 } else {
                     this.showVidContent=false;
                     this.showAudContent = false;
+                    this.showCroContent = false;
                 }
             },
             showVideoContent () {
@@ -1006,20 +1061,42 @@
                     this.showVidContent=true;
                     this.showPicContent=false;
                     this.showAudContent = false;
+                    this.showCroContent = false;
                 } else {
                     this.showPicContent=false;
                     this.showAudContent = false;
+                    this.showCroContent = false;
                 }
             },
             showAudioContent () {
-                if(!this.showVidContent){
+                if(!this.showAudContent){
                     this.showAudContent = true;
+                    this.showVidContent=false;
+                    this.showPicContent=false;
+                    this.showCroContent = false;
+                } else {
+                    this.showPicContent=false;
+                    this.showVidContent=false;
+                    this.showCroContent = false;
+                }
+            },
+            showCrowdContent () {
+                if(!this.showCroContent){
+                    this.showCroContent = true;
+                    this.showAudContent = false;
                     this.showVidContent=false;
                     this.showPicContent=false;
                 } else {
                     this.showPicContent=false;
                     this.showVidContent=false;
+                    this.showAudContent = false;
                 }
+            },
+            showPrice () {
+                this.showPri = true;
+            },
+            hidePrice () {
+                this.showPri = false;
             },
             succ () {
                 this.$notify({

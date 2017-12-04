@@ -1,8 +1,8 @@
 <template>
   <div class="createPost-container">
-    <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm" label-width="150px">
+    <!--<el-form class="form-container" :model="postForm" :rules="rules" ref="postForm" label-width="150px">
 
-      <!--<Sticky :className="'sub-navbar '+postForm.status">
+      &lt;!&ndash;<Sticky :className="'sub-navbar '+postForm.status">
         <template v-if="fetchSuccess">
           
 
@@ -14,17 +14,17 @@
           <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
         </template>
 
-      </Sticky>-->
+      </Sticky>&ndash;&gt;
 
       <el-form-item label="渠道名称:" style="margin-top:30px;width:300px" prop="name">
         <el-input v-model="postForm.name"></el-input>
       </el-form-item>
 
       <el-form-item label="主角:" prop="actor" style="margin-top:40px;">
-        <!--<multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+        &lt;!&ndash;<multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
           <span slot='noResult'>无结果</span>
-        </multiselect>-->
+        </multiselect>&ndash;&gt;
         <el-checkbox-group v-model="postForm.actor">
           <el-checkbox v-for="act in userLIstOptions" :label="act.key" :key="act.key">{{act.key}}</el-checkbox>
         </el-checkbox-group>
@@ -37,8 +37,8 @@
       </el-form-item>
 
       <el-form-item label="主线剧情:" prop="checkStory" style="margin-top:40px;">
-        <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-        <div style="margin: 15px 0;"></div>-->
+        &lt;!&ndash;<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+        <div style="margin: 15px 0;"></div>&ndash;&gt;
         <el-checkbox-group v-model="postForm.checkStory">
           <el-checkbox v-for="(story,index) in storys" :label="story.id" :key="story.id">{{story.name}}</el-checkbox>
         </el-checkbox-group>
@@ -50,9 +50,10 @@
       <el-form-item>
         <el-button v-loading="loading"  type="primary" @click="submitForm()">新增渠道</el-button>
       </el-form-item>
-    </el-form>
+    </el-form>-->
 
-    <div id="canvas" style="width:200px;height:200px;background: #ccc"></div>
+    <!--<div id="canvas" style="width:200px;height:200px;background: #ccc"></div>-->
+    <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
 
     <!--<div class="block">
       <span class="demonstration">带快捷选项</span>
@@ -194,7 +195,7 @@
       }
     },*/
     created() {
-      if (this.isEdit) {
+      /*if (this.isEdit) {
         this.fetchData();
       }
       this.getRemoteUserList();
@@ -203,10 +204,145 @@
         listQuery.id = this.$route.params.num;
         this.fetchData(listQuery);
       }
-      this.getStory();
+      this.getStory();*/
+    },
+    mounted(){
+      this.drawLine();
     },
     methods: {
-      fetchData(listQuery) {
+      drawLine(){
+        // 基于准备好的dom，初始化echarts实例
+        let myChart = this.$echarts.init(document.getElementById('myChart'))
+        // 绘制图表
+        /*myChart.setOption({
+          title: { text: '在Vue中使用echarts' },
+          tooltip: {},
+          xAxis: {
+            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+          },
+          yAxis: {},
+          series: [{
+            name: '销量',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+          }]
+        });*/
+        var data2 = {
+          "name": "flare",
+          "children": [
+            {
+              "name": "flex",
+              "children": [
+                {"name": "FlareVis", "value": 4116}
+              ]
+            },
+            {
+              "name": "scale",
+              "children": [
+                {"name": "IScaleMap", "value": 2105},
+                {"name": "LinearScale", "value": 1316},
+                {"name": "LogScale", "value": 3151},
+                {"name": "OrdinalScale", "value": 3770},
+                {"name": "QuantileScale", "value": 2435},
+                {"name": "QuantitativeScale", "value": 4839},
+                {"name": "RootScale", "value": 1756},
+                {"name": "Scale", "value": 4268},
+                {"name": "ScaleType", "value": 1821},
+                {"name": "TimeScale", "value": 5833}
+              ]
+            },
+            {
+              "name": "display",
+              "children": [
+                {"name": "DirtySprite", "value": 8833}
+              ]
+            }
+          ]
+        };
+        myChart.setOption({
+          tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove'
+          },
+          series:[
+            {
+              type: 'tree',
+
+              data: [data2],
+
+              left: '2%',
+              right: '2%',
+              top: '8%',
+              bottom: '20%',
+
+              symbol: 'emptyCircle',
+
+              orient: 'vertical',
+
+              expandAndCollapse: true,
+
+              label: {
+                normal: {
+                  position: 'top',
+                  rotate: -90,
+                  verticalAlign: 'middle',
+                  align: 'right',
+                  fontSize: 9
+                }
+              },
+
+              leaves: {
+                label: {
+                  normal: {
+                    position: 'bottom',
+                    rotate: -90,
+                    verticalAlign: 'middle',
+                    align: 'left'
+                  }
+                }
+              },
+
+              animationDurationUpdate: 750
+            },
+           /* {
+              type: 'tree',
+              name: 'tree2',
+              data: [data2],
+
+              top: '20%',
+              left: '60%',
+              bottom: '22%',
+              right: '18%',
+
+              symbolSize: 7,
+
+              label: {
+                normal: {
+                  position: 'left',
+                  verticalAlign: 'middle',
+                  align: 'right'
+                }
+              },
+
+              leaves: {
+                label: {
+                  normal: {
+                    position: 'right',
+                    verticalAlign: 'middle',
+                    align: 'left'
+                  }
+                }
+              },
+
+              expandAndCollapse: true,
+
+              animationDuration: 550,
+              animationDurationUpdate: 750
+            }*/
+          ]
+        });
+      }
+      /*fetchData(listQuery) {
         applist(listQuery).then(response => {
           this.postForm.name = response.data.content[0].name;
           this.postForm.amount = response.data.content[0].amount;
@@ -336,7 +472,7 @@
                   value: v.id
                 }));
       })
-      }
+      }*/
     }
   }
 </script>

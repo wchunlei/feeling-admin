@@ -88,13 +88,17 @@ const storyTv = _import('story/tv');
 const homeForm = _import('home/form');
 const homeTable = _import('home/table');
 
-/* home 动态管理 */
+/* space 动态管理 */
 const spaceForm = _import('space/form');
 const spaceTable = _import('space/table');
 
-/* home 动态管理 */
+/* whisper 动态管理 */
 const whisperForm = _import('whisper/form');
 const whisperTable = _import('whisper/table');
+
+/* banner 动态管理 */
+const bannerForm = _import('banner/form');
+const bannerTable = _import('banner/table');
 
 /* app 渠道管理 */
 const appForm = _import('app/form');
@@ -234,6 +238,17 @@ export const asyncRouterMap = [
     children: [
       { path: 'table', component: whisperTable, name: '女仆FM列表' },
       { path: 'form', component: whisperForm, name: '新增女仆FM' },
+    ]
+  },
+  {
+    path: '/banner',
+    component: Layout,
+    redirect: '/banner/index',
+    name: 'banner管理',
+    icon: 'zujian',
+    children: [
+      { path: 'table', component: bannerTable, name: 'banner列表' },
+      { path: 'form', component: bannerForm, name: '新增banner' },
     ]
   },
 /*  {
