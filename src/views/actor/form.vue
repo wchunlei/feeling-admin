@@ -299,14 +299,14 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label-width="50px" label="身高:" class="postInfo-container-item" prop="height">
+            <el-form-item label-width="100px" label="身高:" class="postInfo-container-item" prop="height">
               <el-input placeholder="" style='width:220px;' v-model.number="postForm.height" :disabled="disable">
               </el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label-width="50px" label="体重:" class="postInfo-container-item" prop="weight">
+            <el-form-item label-width="100px" label="体重:" class="postInfo-container-item" prop="weight">
               <el-input placeholder="" style='width:220px;' v-model.number="postForm.weight" :disabled="disable">
               </el-input>
             </el-form-item>
@@ -320,23 +320,33 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label-width="50px" label="胸围:" class="postInfo-container-item" prop="bust">
+            <el-form-item label-width="100px" label="胸围:" class="postInfo-container-item" prop="bust">
               <el-input placeholder="" style='width:220px;' v-model.number="postForm.bust" :disabled="disable">
               </el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label-width="50px" label="标签:" class="postInfo-container-item" prop="style">
+            <el-form-item label-width="100px" label="标签:" class="postInfo-container-item" prop="style">
               <el-input placeholder="" style='width:220px;' v-model.number="postForm.style" :disabled="disable">
               </el-input>
             </el-form-item>
           </el-col>
         </el-row>
 
-        <el-form-item label="简介:" label-width="100px" prop="nature" style="margin-bottom: 40px">
-          <el-input type="textarea" placeholder="最多输入70个字" style='width:280px;' v-model="postForm.nature  " :disabled="disable" maxlength="70" rows="3"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="内心独白:" label-width="100px" prop="nature" style="margin-bottom: 40px">
+              <el-input type="textarea" placeholder="最多输入70个字" style='width:280px;' v-model="postForm.nature  " :disabled="disable" maxlength="70" rows="3"></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="8">
+            <el-form-item label="主人评价:" label-width="100px" prop="nature" style="margin-bottom: 40px">
+              <el-input type="textarea" placeholder="最多输入30个字" style='width:280px;' v-model="postForm.nature  " :disabled="disable" maxlength="70" rows="3"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
         <el-form-item label="头像:" label-width="100px" prop="headurl" style="margin-bottom: 40px">
           <div style="margin-bottom: 20px;width:800px">
@@ -351,7 +361,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="背景图:" label-width="100px" prop="backImg" style="margin-bottom: 40px">
+        <el-form-item label="个人页背景图:" label-width="100px" prop="backImg" style="margin-bottom: 40px">
           <div style="margin-bottom: 20px;width:800px">
             <Uploadhead v-model="postForm.backImg" v-on:input="picInput"></Uploadhead>
             <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>

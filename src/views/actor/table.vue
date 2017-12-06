@@ -95,7 +95,7 @@
         <template scope="scope">
           <!--<span>{{scope.row.sort}}</span>-->
           <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-          <el-select v-model="scope.row.selectSort" placeholder="请选择" :disabled="disable">
+          <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="disable">
             <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </template>
@@ -226,7 +226,7 @@
     data() {
       return {
         isColor: true,
-        selectSort: '0',
+        sort: '0',
         disable: true,
         list1: [{
           id: '1',
@@ -340,11 +340,11 @@
         return calendarTypeKeyValue[type]
       }
     },
-    watch: {
+    /*watch: {
       "scope.row.selectSort" () {
         scope.row.sort = scope.row.selectSort;
       }
-    },
+    },*/
     methods: {
       deleteRow(index, rows) {
         rows.splice(index, 1);
@@ -358,7 +358,6 @@
         }
       },
       handleSort (index, rows) {
-        rows.sort = this.selectSort;
         if (this.disable) {
           this.disable = false;
         } else {
