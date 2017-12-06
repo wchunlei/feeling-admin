@@ -389,13 +389,13 @@
             <el-select v-model="workTime.time" placeholder="请选择" style="width:80px">
               <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
-            <el-time-select v-model="workTime.value" :picker-options="{start: '08:30',step: '00:15',end: '18:30'}" placeholder="选择时间" style="width: 110px"></el-time-select>
+            <el-time-select v-model="workTime.value" :picker-options="{start: '00:00',step: '00:15',end: '23:45'}" placeholder="选择时间" style="width: 110px"></el-time-select>
             <span style="display: inline-block;margin: 0 20px 0 20px">至</span>
             <span>星期</span>
             <el-select v-model="workTime.time1" placeholder="请选择" style="width:80px">
               <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
-            <el-time-select v-model="workTime.value1" :picker-options="{start: '08:30',step: '00:15',end: '18:30'}" placeholder="选择时间" style="width: 110px"></el-time-select>
+            <el-time-select v-model="workTime.value1" :picker-options="{start: '00:00',step: '00:15',end: '23:45'}" placeholder="选择时间" style="width: 110px"></el-time-select>
             <el-button @click.prevent="addWork">新增工作时间</el-button>
             <el-button @click.prevent="removeWork(workTime)">删除</el-button>
           </div>

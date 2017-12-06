@@ -18,30 +18,63 @@
             </Sticky>-->
 
             <div class="createPost-main-container">
-                <el-form-item label="房间名:" label-width="100px" prop="name" style="margin-bottom: 40px">
+                <el-form-item v-if="showChart" label="剧情逻辑图:" label-width="100px" style="margin-bottom: 40px">
+                    <div id="myChart" :style="{width: '1200px', height: '800px'}"></div>
+                </el-form-item>
+
+                <el-form-item label="剧情标题:" label-width="100px" prop="name" style="margin-bottom: 40px">
                     <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" maxlength="10"></el-input>
                 </el-form-item>
 
-                <el-form-item label="主角:" label-width="100px" prop="checkedActor" style="margin-bottom: 40px">
-                    <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                    <div style="margin: 15px 0;"></div>
-                    <el-checkbox-group v-model="postForm.checkedActor" @change="handleCheckedCitiesChange">
-                        <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
-                    </el-checkbox-group>-->
-                    <el-checkbox-group v-model="postForm.checkedActor">
-                        <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
-                    </el-checkbox-group>
+                <el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;">
+                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;" :disabled="disableActor">
+                        <span slot='noResult'>无结果</span>
+                    </multiselect>
                 </el-form-item>
-                <el-form-item label="剧情:" label-width="100px" prop="checkedStory" style="margin-bottom: 40px">
-                    <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                    <div style="margin: 15px 0;"></div>
-                    <el-checkbox-group v-model="postForm.checkedActor" @change="handleCheckedCitiesChange">
-                        <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
-                    </el-checkbox-group>-->
-                    <el-checkbox-group v-model="postForm.checkedStory">
-                        <el-checkbox v-for="story in storys" :label="story" :key="story">{{story}}</el-checkbox>
-                    </el-checkbox-group>
+                <el-form-item label="上传剧情配置:" label-width="100px" prop="uploadTxt" style="margin-bottom: 40px">
+                    <el-upload
+                            v-model="postForm.uploadTxt"
+                            class="upload-demo"
+                            action="http://192.168.1.43:3000/system/upload"
+                            :on-preview="handlePreview"
+                            :on-success="handleImageScucess"
+                            :on-remove="handleRemove" style="width:200px">
+                        <el-button size="small" type="primary">选择txt文件</el-button>
+                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                    </el-upload>
                 </el-form-item>
+                <el-form-item label="上传视频包:" label-width="100px" prop="uploadVideo" style="margin-bottom: 40px">
+                    <el-upload
+                            v-model="postForm.uploadVideo"
+                            class="upload-demo"
+                            action="http://192.168.1.43:3000/system/upload"
+                            :on-preview="handlePreview"
+                            :on-success="handleImageScucess"
+                            :on-remove="handleRemove" style="width:200px">
+                        <el-button size="small" type="primary">选择压缩文件</el-button>
+                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                    </el-upload>
+                </el-form-item>
+                <el-form-item label="剧情阶段:" label-width="100px" prop="stage" style="margin-bottom: 40px">
+                    <el-select v-model="postForm.stage" placeholder="请选择">
+                        <el-option v-for="item in stageOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="剧情收费设置:" label-width="100px" prop="priceSet" style="margin-bottom: 40px">
+                    <span @click="showPrice"><el-radio v-model="radioPrice" label="0">收费</el-radio></span>
+                    <span @click="hidePrice"><el-radio v-model="radioPrice" label="1">免费</el-radio></span>
+                </el-form-item>
+                <div v-show="showPri" style="display: inline-block;margin-bottom: 20px">
+                    <el-form-item label="剧情价格:" label-width="100px" prop="storyPrice" style="margin-bottom: 40px">
+                        <el-input v-model="postForm.storyPrice" style="width:150px" placeholder="请输入整数金额"></el-input>
+                        <span>钻石</span>
+                    </el-form-item>
+                    <el-form-item label="选项价格:" label-width="100px" prop="optionPrice" style="margin-bottom: 40px">
+                        <el-input v-model="postForm.optionPrice" style="width:150px" placeholder="请输入整数金额"></el-input>
+                        <span>钻石</span>
+                    </el-form-item>
+                </div>
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
                     <!--<el-select v-model="postForm.config" placeholder="请选择">
@@ -52,12 +85,13 @@
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="房间排序:" label-width="100px" prop="homeSort" style="margin-bottom: 40px">
-                    <el-select v-model="postForm.homeSort" placeholder="请选择">
-                        <el-option v-for="item in homeSortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-form-item label="主角剧本排序:" label-width="100px" prop="storySort" style="margin-bottom: 40px">
+                    <el-select v-model="postForm.storySort" placeholder="请选择">
+                        <el-option v-for="item in storySortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                 </el-form-item>
+
                 <el-form-item label-width="100px">
                     <el-button type="primary" @click.prevent="add">新增</el-button>
                 </el-form-item>
@@ -148,28 +182,26 @@
                     style: '', // 文章题目
                     name: '', // 文章内容
                     actor: '',
-                    checkedActor: [],
-                    checkedStory: [],
-                    weight: '',
-                    height: '',
-                    bust: '',
-                    age: '',
-                    job: '',
-                    nature: '',
-                    headurl: '', // 文章图片
-                    headSelect: '',
-                    backImg: '',
+                    uploadTxt: '',
+                    uploadVideo: '',
+                    stage: '',
+                    priceSet: '',
+                    storyPrice: '',
+                    optionPrice: '',
                     configTime: '',
-                    homeSort: '',
-                    timeNum: '',
-                    time: '',
-                    price: '',
-                    workTimes: [{
-                        value: ''
-                    }],
-                    //id: '',
-                    status: 'published',
+                    storySort: ''
                 },
+                radioPrice: '0',
+                stageOptions: [{
+                    value: '1',
+                    label: '1'
+                },{
+                    value: '2',
+                    label: '2'
+                },{
+                    value: '3',
+                    label: '3'
+                }],
                 configOptions: [{
                     value: '0',
                     label: '下架'
@@ -177,7 +209,7 @@
                     value: '1',
                     label: '上架'
                 }],
-                homeSortOptions: [{
+                storySortOptions: [{
                     value: '0',
                     label: '默认'
                 },{
@@ -218,6 +250,8 @@
                     name: '',
                     amount: ''
                 },
+                showPri: true,
+                showChart: true,
                 mvs: [],
                 showPhoto: true,
                 showHr: true,
@@ -271,6 +305,8 @@
          }
          },*/
         created() {
+            let Query = {};
+            this.getRemoteUserList(Query);
             if(this.$route.params && this.$route.params.actor != ':actor') {
                 this.listQuery.actorid = parseInt(this.$route.params.actor);
                 this.getDetail(this.listQuery);
@@ -286,7 +322,147 @@
              this.fetchData();
              }*/
         },
+        mounted(){
+            this.drawLine();
+        },
         methods: {
+            showPrice () {
+                this.showPri = true;
+            },
+            hidePrice () {
+                this.showPri = false;
+            },
+            drawLine(){
+                // 基于准备好的dom，初始化echarts实例
+                let myChart = this.$echarts.init(document.getElementById('myChart'));
+                // 绘制图表
+                var data2 = {
+                    "name": "0 打招呼",
+                    "value": 'http://192.168.1.43:8000/upload/27/297d3fdedd2c8981ec7aa15981b06df2.jpg',
+                    "children": [
+                        {
+                            "name": "1 洗内裤",
+                            "children": [
+                                {
+                                    "name": "11白天洗",
+                                    "children": [
+                                        {
+                                            "name": "111厕所洗",
+                                            "children": [
+                                                {"name": "IScaleMap", "value": 'http://192.168.1.43:8000/upload/27/297d3fdedd2c8981ec7aa15981b06df2.jpg'}
+                                            ]
+                                        },
+                                        {
+                                            "name": "112在厨房洗",
+                                            "children": [
+                                                {"name": "IScaleMap", "value": 2105}
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "12晚上洗",
+                                    "children": [
+                                        {
+                                            "name": "121在客厅洗",
+                                            "children": [
+                                                {"name": "IScaleMap", "value": 2105}
+                                            ]
+                                        },
+                                        {
+                                            "name": "112在厨房洗",
+                                            "children": [
+                                                {"name": "IScaleMap", "value": 2105}
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                };
+                myChart.setOption({
+                    tooltip: {
+                        trigger: 'item',
+                        triggerOn: 'mousemove'
+                    },
+                    series:[
+                        {
+                            type: 'tree',
+                            data: [data2],
+                            left: '2%',
+                            right: '2%',
+                            top: '8%',
+                            bottom: '20%',
+                            symbol: 'emptyCircle',
+                            orient: 'vertical',//树图中 正交布局 的方向 ，对应有 水平 和 垂直 两个方向，取值分别为 horizontal , vertical
+                            expandAndCollapse: true,//子树折叠和展开的交互，默认打开
+                            initialTreeDepth: -1,  //树图初始展开的层级（深度）
+                            label: {
+                                normal: {
+                                    position: 'top',
+                                    //rotate: 90, //字体展示方向
+                                    verticalAlign: 'middle',
+                                    align: 'right',
+                                    fontSize: 14
+                                }
+                            },
+                            leaves: {
+                                label: {
+                                    normal: {
+                                        position: 'bottom',
+                                        //rotate: -90,
+                                        verticalAlign: 'middle',
+                                        align: 'left'
+                                    }
+                                }
+                            },
+                            animationDurationUpdate: 750
+                        },
+                        /* {
+                         type: 'tree',
+                         name: 'tree2',
+                         data: [data2],
+
+                         top: '20%',
+                         left: '60%',
+                         bottom: '22%',
+                         right: '18%',
+
+                         symbolSize: 7,
+
+                         label: {
+                         normal: {
+                         position: 'left',
+                         verticalAlign: 'middle',
+                         align: 'right'
+                         }
+                         },
+
+                         leaves: {
+                         label: {
+                         normal: {
+                         position: 'right',
+                         verticalAlign: 'middle',
+                         align: 'left'
+                         }
+                         }
+                         },
+
+                         expandAndCollapse: true,
+
+                         animationDuration: 550,
+                         animationDurationUpdate: 750
+                         }*/
+                    ]
+                });
+                myChart.on('click', function (params) {
+                    // 控制台打印数据的名称
+                    console.log(params.value);
+                    //window.location.href = params.value;
+                    window.open(params.value);
+                });
+            },
             handleCheckAllChange(val) {
                 console.log(val)
                 this.postForm.checkedActor = val ? this.actors : [];
@@ -311,15 +487,15 @@
                     this.postForm.workTimes.splice(index, 1)
                 }
             },
-            /*getRemoteUserList(query) {
-                userSearch(query).then(response => {
-                    if (!response.data.items) return;
-                    console.log(response)
-                    this.userLIstOptions = response.data.items.map(v => ({
-                        key: v.name
-                    }));
-                })
-            }*/
+            getRemoteUserList(query) {
+             userSearch(query).then(response => {
+             if (!response.data.items) return;
+             console.log(response)
+             this.userLIstOptions = response.data.items.map(v => ({
+             key: v.name
+             }));
+             })
+             }
         }
     }
 </script>

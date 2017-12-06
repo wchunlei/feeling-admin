@@ -69,7 +69,7 @@ const actorForm = _import('actor/form');
 const actorTable = _import('actor/table');
 
 /* story 剧情管理 */
-const storyForm = _import('story/form');
+/*const storyForm = _import('story/form');
 const storyTable = _import('story/table');
 const storyTableall = _import('story/tableall');
 const storyMain = _import('story/mainStory');
@@ -82,7 +82,11 @@ const storyTalk = _import('story/talk');
 const storyRadio = _import('story/radio');
 const storyPicture = _import('story/picture');
 const storyGame = _import('story/game');
-const storyTv = _import('story/tv');
+const storyTv = _import('story/tv');*/
+
+/* storynew 剧情管理 */
+const storynewForm = _import('storynew/form');
+const storynewTable = _import('storynew/table');
 
 /* home 房间管理 */
 const homeForm = _import('home/form');
@@ -186,24 +190,45 @@ export const asyncRouterMap = [
       { path: 'form/:actor', component: actorForm, name: '新增主角' },
     ]
   },
-  {
+ /* {
     path: '/story',
     component: Layout,
     redirect: '/story/index',
     name: '剧情管理',
     icon: 'zujian',
     children: [
-      /*{ path: 'story/form/video', component: storyVideo, name: '普通视频' },
+      /!*{ path: 'story/form/video', component: storyVideo, name: '普通视频' },
       { path: 'story/form/video_interactive', component: storyVideo_interactive, name: '交互视频' },
       { path: 'story/form/tel', component: storyTel, name: '电话' },
       { path: 'story/form/talk', component: storyTalk, name: '文字聊天' },
       { path: 'story/form/radio', component: storyRadio, name: '语音聊天' },
       { path: 'story/form/picture', component: storyPicture, name: '图片聊天' },
       { path: 'story/form/game', component: storyGame, name: '小游戏' },
-      { path: 'story/form/tv', component: storyTv, name: '小视频' },*/
+      { path: 'story/form/tv', component: storyTv, name: '小视频' },*!/
       { path: 'table', component: storyTable, name: '剧情列表' },
       //{ path: 'mainstoryEdit', component: mainstoryEdit, name: '主线剧情编辑' },
       { path: 'mainStory/:num/:type/:actorid/:actorname/:title', component: storyMain, name: '新增剧情' },
+      /!*{ path: 'tableall', component: storyTableall, name: '剧情列表详细' },*!/
+    ]
+  },*/
+  {
+    path: '/storynew',
+    component: Layout,
+    redirect: '/storynew/index',
+    name: '剧情管理',
+    icon: 'zujian',
+    children: [
+      /*{ path: 'story/form/video', component: storyVideo, name: '普通视频' },
+       { path: 'story/form/video_interactive', component: storyVideo_interactive, name: '交互视频' },
+       { path: 'story/form/tel', component: storyTel, name: '电话' },
+       { path: 'story/form/talk', component: storyTalk, name: '文字聊天' },
+       { path: 'story/form/radio', component: storyRadio, name: '语音聊天' },
+       { path: 'story/form/picture', component: storyPicture, name: '图片聊天' },
+       { path: 'story/form/game', component: storyGame, name: '小游戏' },
+       { path: 'story/form/tv', component: storyTv, name: '小视频' },*/
+      { path: 'table', component: storynewTable, name: '剧情列表' },
+      //{ path: 'mainstoryEdit', component: mainstoryEdit, name: '主线剧情编辑' },
+      { path: 'form/:new', component: storynewForm, name: '新增剧情' },
       /*{ path: 'tableall', component: storyTableall, name: '剧情列表详细' },*/
     ]
   },

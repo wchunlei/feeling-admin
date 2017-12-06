@@ -5,6 +5,12 @@
 		<tabs-view></tabs-view>
 		<error-log v-if="log.length>0" class="errLog-container" :logsList="log"></error-log>
 		<screenfull class='screenfull'></screenfull>
+		<div class="avatar-container" style="display: inline-block; margin-right: 100px">
+			<el-select v-model="homeSort" placeholder="选择渠道">
+				<el-option v-for="item in homeSortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+			</el-select>
+			<el-button type="primary">新增渠道</el-button>
+		</div>
 		<el-dropdown class="avatar-container" trigger="click">
 			<div class="avatar-wrapper">
 				<img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
@@ -27,7 +33,7 @@
 	</el-menu>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
   import { mapGetters } from 'vuex';
   import Levelbar from './Levelbar';
   import TabsView from './TabsView';
@@ -46,7 +52,15 @@
     },
     data() {
       return {
-        log: errLogStore.state.errLog
+		  log: errLogStore.state.errLog,
+		  homeSort: '',
+		  homeSortOptions: [{
+			  value: '0',
+			  label: '默认'
+		  },{
+			  value: '1',
+			  label: '1'
+		  }]
       }
     },
     computed: {

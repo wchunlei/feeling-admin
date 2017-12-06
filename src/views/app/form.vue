@@ -53,7 +53,17 @@
     </el-form>-->
 
     <!--<div id="canvas" style="width:200px;height:200px;background: #ccc"></div>-->
-    <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
+    <div id="myChart" :style="{width: '1200px', height: '800px'}"></div>
+    <!--<el-dialog title="提示" :visible.sync="dialogVisible">
+      <div style="margin-bottom: 10px;display: inline-block">
+        &lt;!&ndash;<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>&ndash;&gt;
+        <Upload v-model="pic"></Upload>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>-->
 
     <!--<div class="block">
       <span class="demonstration">带快捷选项</span>
@@ -67,6 +77,7 @@
 <script type="text/ECMAScript-6">
   import Tinymce from 'components/Tinymce'
   //import Upload from 'components/Upload/singleImage3'
+  import Upload from 'components/Upload/picture';
   import MDinput from 'components/MDinput';
   import { validateURL } from 'utils/validate';
   import { getArticle } from 'api/article';
@@ -77,7 +88,7 @@
 
   export default {
     name: 'articleDetail',
-    components: { Tinymce, MDinput, },
+    components: { Tinymce, MDinput, Upload },
     data() {
       const checkNum = (rule, value, callback) => {
         if (!value) {
@@ -129,6 +140,8 @@
         }
       };
       return {
+        pic: '',
+        dialogVisible: false,
         value7: new Date(),
         start: null,
         end: null,
@@ -212,7 +225,7 @@
     methods: {
       drawLine(){
         // 基于准备好的dom，初始化echarts实例
-        let myChart = this.$echarts.init(document.getElementById('myChart'))
+        let myChart = this.$echarts.init(document.getElementById('myChart'));
         // 绘制图表
         /*myChart.setOption({
           title: { text: '在Vue中使用echarts' },
@@ -228,33 +241,46 @@
           }]
         });*/
         var data2 = {
-          "name": "flare",
+          "name": "0 打招呼",
+          "value": 'http://192.168.1.43:8000/upload/27/297d3fdedd2c8981ec7aa15981b06df2.jpg',
           "children": [
             {
-              "name": "flex",
+              "name": "1 洗内裤",
               "children": [
-                {"name": "FlareVis", "value": 4116}
-              ]
-            },
-            {
-              "name": "scale",
-              "children": [
-                {"name": "IScaleMap", "value": 2105},
-                {"name": "LinearScale", "value": 1316},
-                {"name": "LogScale", "value": 3151},
-                {"name": "OrdinalScale", "value": 3770},
-                {"name": "QuantileScale", "value": 2435},
-                {"name": "QuantitativeScale", "value": 4839},
-                {"name": "RootScale", "value": 1756},
-                {"name": "Scale", "value": 4268},
-                {"name": "ScaleType", "value": 1821},
-                {"name": "TimeScale", "value": 5833}
-              ]
-            },
-            {
-              "name": "display",
-              "children": [
-                {"name": "DirtySprite", "value": 8833}
+                {
+                  "name": "11白天洗",
+                  "children": [
+                    {
+                      "name": "111厕所洗",
+                      "children": [
+                        {"name": "IScaleMap", "value": 'http://192.168.1.43:8000/upload/27/297d3fdedd2c8981ec7aa15981b06df2.jpg'}
+                      ]
+                    },
+                    {
+                      "name": "112在厨房洗",
+                      "children": [
+                        {"name": "IScaleMap", "value": 2105}
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "12晚上洗",
+                  "children": [
+                    {
+                      "name": "121在客厅洗",
+                      "children": [
+                        {"name": "IScaleMap", "value": 2105}
+                      ]
+                    },
+                    {
+                      "name": "112在厨房洗",
+                      "children": [
+                        {"name": "IScaleMap", "value": 2105}
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           ]
@@ -267,41 +293,34 @@
           series:[
             {
               type: 'tree',
-
               data: [data2],
-
               left: '2%',
               right: '2%',
               top: '8%',
               bottom: '20%',
-
               symbol: 'emptyCircle',
-
-              orient: 'vertical',
-
-              expandAndCollapse: true,
-
+              orient: 'vertical',//树图中 正交布局 的方向 ，对应有 水平 和 垂直 两个方向，取值分别为 horizontal , vertical
+              expandAndCollapse: true,//子树折叠和展开的交互，默认打开
+              initialTreeDepth: -1,  //树图初始展开的层级（深度）
               label: {
                 normal: {
                   position: 'top',
-                  rotate: -90,
+                  //rotate: 90, //字体展示方向
                   verticalAlign: 'middle',
                   align: 'right',
-                  fontSize: 9
+                  fontSize: 14
                 }
               },
-
               leaves: {
                 label: {
                   normal: {
                     position: 'bottom',
-                    rotate: -90,
+                    //rotate: -90,
                     verticalAlign: 'middle',
                     align: 'left'
                   }
                 }
               },
-
               animationDurationUpdate: 750
             },
            /* {
@@ -340,6 +359,12 @@
               animationDurationUpdate: 750
             }*/
           ]
+        });
+        myChart.on('click', function (params) {
+          // 控制台打印数据的名称
+          console.log(params.value);
+          //window.location.href = params.value;
+          window.open(params.value);
         });
       }
       /*fetchData(listQuery) {
