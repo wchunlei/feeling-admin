@@ -65,16 +65,16 @@
                     <span @click="showPrice"><el-radio v-model="radioPrice" label="0">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="radioPrice" label="1">免费</el-radio></span>
                 </el-form-item>
-                <div v-show="showPri" style="display: inline-block;margin-bottom: 20px">
+                <div v-show="showPri" style="display: inline-block;margin-bottom: 0px">
                     <el-form-item label="剧情价格:" label-width="100px" prop="storyPrice" style="margin-bottom: 40px">
                         <el-input v-model="postForm.storyPrice" style="width:150px" placeholder="请输入整数金额"></el-input>
                         <span>钻石</span>
                     </el-form-item>
-                    <el-form-item label="选项价格:" label-width="100px" prop="optionPrice" style="margin-bottom: 40px">
-                        <el-input v-model="postForm.optionPrice" style="width:150px" placeholder="请输入整数金额"></el-input>
-                        <span>钻石</span>
-                    </el-form-item>
                 </div>
+                <el-form-item label="选项价格:" label-width="100px" prop="optionPrice" style="margin-bottom: 40px">
+                    <el-input v-model="postForm.optionPrice" style="width:150px" placeholder="请输入整数金额"></el-input>
+                    <span>钻石</span>
+                </el-form-item>
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
                     <!--<el-select v-model="postForm.config" placeholder="请选择">

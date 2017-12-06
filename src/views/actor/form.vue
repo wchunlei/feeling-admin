@@ -357,15 +357,35 @@
 
         <el-form-item label="头像框:" label-width="100px" prop="headSelect" style="margin-bottom: 40px">
           <el-select v-model="postForm.headSelect" placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            <el-option v-for="item in headOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="个人页背景图:" label-width="100px" prop="backImg" style="margin-bottom: 40px">
-          <div style="margin-bottom: 20px;width:800px">
-            <Uploadhead v-model="postForm.backImg" v-on:input="picInput"></Uploadhead>
-            <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
+        <el-form-item label="个人页背景图:" label-width="100px" prop="backImg1" style="margin-bottom: 40px">
+          <div style="margin-right: 20px;display: inline-block">
+            <Upload v-model="postForm.backImg1" v-on:input="picInput"></Upload>
           </div>
+          <el-form-item prop="backImg2" style="margin-right: 20px;display: inline-block">
+            <div>
+              <Upload v-model="postForm.backImg2" v-on:input="picInput"></Upload>
+            </div>
+          </el-form-item>
+          <el-form-item prop="backImg3" style="margin-right: 20px;display: inline-block">
+            <div>
+              <Upload v-model="postForm.backImg3" v-on:input="picInput"></Upload>
+            </div>
+          </el-form-item>
+          <el-form-item prop="backImg4" style="margin-right: 20px;display: inline-block">
+            <div>
+              <Upload v-model="postForm.backImg4" v-on:input="picInput"></Upload>
+            </div>
+          </el-form-item>
+          <el-form-item prop="backImg5" style="margin-right: 20px;display: inline-block">
+            <div>
+              <Upload v-model="postForm.backImg5" v-on:input="picInput"></Upload>
+            </div>
+          </el-form-item>
+          <span style="font-size:12px;display: block">（注：请上传比例4：3，不小于100Kb的图片）</span>
         </el-form-item>
 
         <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
@@ -423,7 +443,7 @@
 
 <script type="text/ECMAScript-6">
   import Tinymce from 'components/Tinymce';
-  import Upload from 'components/Upload/singleImage3';
+  import Upload from 'components/Upload/picture';
   import Uploadhead from 'components/Upload/headPhoto'
   import Uploadvideo from 'components/Upload/video';
   import MDinput from 'components/MDinput';
@@ -504,7 +524,11 @@
           nature: '',
           headurl: '', // 文章图片
           headSelect: '',
-          backImg: '',
+          backImg1: '',
+          backImg2: '',
+          backImg3: '',
+          backImg4: '',
+          backImg5: '',
           configTime: '',
           private: '',
           timeNum: '',
@@ -519,6 +543,10 @@
           //id: '',
           status: 'published',
         },
+        headOptions: [{
+            value: '1',
+            label: '贴心护士'
+          }],
         weekOptions: [{
           value: '1',
           label: '一'
@@ -554,6 +582,18 @@
         },{
           value: '1',
           label: '1'
+        },{
+          value: '2',
+          label: '2'
+        },{
+          value: '3',
+          label: '3'
+        },{
+          value: '4',
+          label: '4'
+        },{
+          value: '5',
+          label: '5'
         }],
         timeOptions: [{
           value: '0',

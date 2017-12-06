@@ -287,7 +287,7 @@ export const asyncRouterMap = [
       { path: 'tinymce', component: eventApp, name: '渠道事件' }
     ]
   },*/
-  {
+  /*{
     path: '/diary',
     component: Layout,
     redirect: '/diary/index',
@@ -334,7 +334,7 @@ export const asyncRouterMap = [
       { path: 'form/:num', component: appForm, name: '新增渠道' },
       { path: 'table', component: appTable, name: '渠道列表' }
     ]
-  },
+  },*/
 /*  {
     path: '/components',
     component: Layout,

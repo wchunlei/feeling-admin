@@ -180,10 +180,10 @@
 
                         <el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type">
                             <template>
-                                <span @click="showPictureContent"><el-radio v-model="radioContent" label="0">图片</el-radio></span>
-                                <span @click="showVideoContent"><el-radio v-model="radioContent" label="1">视频</el-radio></span>
-                                <span @click="showAudioContent"><el-radio v-model="radioContent" label="2">音频</el-radio></span>
-                                <span @click="showCrowdContent"><el-radio v-model="radioContent" label="3">众筹</el-radio></span>
+                                <span @click="showPictureContent"><el-radio v-model="diaryContent.type" label="0">图片</el-radio></span>
+                                <span @click="showVideoContent"><el-radio v-model="diaryContent.type" label="1">视频</el-radio></span>
+                                <span @click="showAudioContent"><el-radio v-model="diaryContent.type" label="2">音频</el-radio></span>
+                                <span @click="showCrowdContent"><el-radio v-model="diaryContent.type" label="3">众筹</el-radio></span>
                             </template>
                             <!--<template>
                                 <el-radio-group v-model="radioContent">

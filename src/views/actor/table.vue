@@ -1,7 +1,7 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="listQuery.title">
+      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="昵称" v-model="listQuery.name">
       </el-input>
 
       <!--<el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.gender" placeholder="性别">
@@ -16,7 +16,7 @@
 
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
-      <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
+      <!--<el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>-->
       <!--<el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>-->
     </div>
 
@@ -84,7 +84,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="200px" align="center" label="上架时间" prop="configTime">
+      <el-table-column min-width="150px" align="center" label="上架时间" prop="configTime">
         <template scope="scope">
           <span>{{scope.row.configTime}}</span>
           <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
@@ -95,13 +95,13 @@
         <template scope="scope">
           <!--<span>{{scope.row.sort}}</span>-->
           <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-          <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="disable">
+          <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="scope.row.disable">
             <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" label="操作" min-width="150px">
+      <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
         <template scope="scope">
           <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
           <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
@@ -227,7 +227,6 @@
       return {
         isColor: true,
         sort: '0',
-        disable: true,
         list1: [{
           id: '1',
           name: 'test',
@@ -238,7 +237,8 @@
           workTime: '周一 00:00-周二00:00；周三 15:30 至 周四15:30；周六 15:30 至 周日 15:30',
           status: '上架',
           configTime: '2017-12-2 00:00',
-          sort: '默认'
+          sort: '默认',
+          disable: true,
         },{
           id: '1',
           name: 'test',
@@ -249,7 +249,8 @@
           workTime: '周一 15:30 至 周二15:30',
           status: '上架',
           configTime: '2017-12-2 00:00',
-          sort: '默认'
+          sort: '默认',
+          disable: true,
         },{
           id: '1',
           name: 'test',
@@ -260,7 +261,8 @@
           workTime: '周一 15:30 至 周二15:30',
           status: '上架',
           configTime: '2017-12-2 00:00',
-          sort: '默认'
+          sort: '默认',
+          disable: true,
         }],
         privateOptions: [{
           value: '0',
@@ -268,6 +270,18 @@
         },{
           value: '1',
           label: '1'
+        },{
+          value: '2',
+          label: '2'
+        },{
+          value: '3',
+          label: '3'
+        },{
+          value: '4',
+          label: '4'
+        },{
+          value: '5',
+          label: '5'
         }],
         total: null,
         listLoading: true,
@@ -275,7 +289,7 @@
           page: 1,
           limit: 20,
           importance: undefined,
-          title: undefined,
+          name: undefined,
           gender: undefined,
           status: undefined,
           //sort: '+id'
@@ -292,7 +306,7 @@
         importanceOptions: [1, 2, 3],
         calendarTypeOptions,
         sortOptions: [{ label: '按ID升序列', key: '+id' }, { label: '按ID降序', key: '-id' }],
-        statusOptions: ['published', 'draft', 'deleted'],
+        //statusOptions: ['0', '1', ''],
         sexOptions: [{
           value: '1',
           label: '男'
@@ -301,11 +315,11 @@
           label: '女'
         }],
         statusOptions: [{
-          value: 'published',
-          label: '发布'
+          value: '0',
+          label: '上架'
         }, {
-          value: 'draft',
-          label: '草稿'
+          value: '1',
+          label: '下架'
         }, {
           value: '',
           label: '全部'
@@ -346,22 +360,86 @@
       }
     },*/
     methods: {
+      /*handleModifyStatus(row, status) {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let deleteitem={
+            id: parseInt(row.id)
+          };
+          channelDelete(deleteitem).then(response => {
+            //this.list = response.data.content;
+            if(response.data.code==200){
+              this.getList();
+            }
+          });
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },*/
       deleteRow(index, rows) {
-        rows.splice(index, 1);
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let deleteitem={
+            id: parseInt(rows.id)
+          };
+          rows.splice(index, 1);
+          channelDelete(deleteitem).then(response => {
+            //this.list = response.data.content;
+            if(response.data.code==200){
+              this.getList();
+            }
+          });
+          this.$message({
+            message: '操作成功',
+            type: 'success'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       editRow (row, list1) {
-        //alert(row.status)
+        let date = new Date();
+        let year=date.getFullYear(),
+            month=date.getMonth()+ 1,
+            day=date.getDate(),
+            hour=date.getHours(),
+            minutes=date.getMinutes();
+            //seconds=date.getSeconds();
+        let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
         if (row.status == '上架') {
-          row.status = '下架'
+          row.status = '下架';
+          row.configTime = "未设置";
         } else {
-          row.status = '上架'
+          row.status = '上架';
+          row.configTime = dateString;
         }
       },
       handleSort (index, rows) {
-        if (this.disable) {
+        /*if (this.disable) {
           this.disable = false;
         } else {
           this.disable = true;
+        }*/
+        if (rows.disable) {
+          rows.disable = false;
+        } else {
+          rows.disable = true;
         }
       },
       getList() {

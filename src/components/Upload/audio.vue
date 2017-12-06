@@ -8,7 +8,7 @@
 		<div class="image-preview image-app-preview">
 			<div class="image-preview-wrapper" v-show="imageUrl.length>1">
 				<div class='app-fake-conver'>&nbsp&nbsp</div>
-				<audio :src="imageUrl" width="" height="180" controls style="margin-top:140px"></audio>
+				<audio :src="imageUrl" width="180" height="180" controls style="margin-top:140px"></audio>
 				<!--<div class="image-preview-action">
 					<i @click="rmImage" class="el-icon-delete"></i>
 				</div>-->

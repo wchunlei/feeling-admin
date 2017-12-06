@@ -4,67 +4,91 @@
 
             <div class="createPost-main-container">
 
-                <el-form-item label-width="100px" label="主角:" prop="actor" style="margin-bottom: 40px;">
-                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
-                        <span slot='noResult'>无结果</span>
-                    </multiselect>
+                <el-form-item label="banner标题:" label-width="100px" prop="title" style="margin-bottom: 40px">
+                    <el-input placeholder="最多输入10个字" style='width:200px;' v-model="postForm.title"  maxlength="15"></el-input>
                 </el-form-item>
 
-                <el-form-item label="问题:" label-width="100px" prop="nature" style="margin-bottom: 40px">
-                    <el-input type="textarea" placeholder="最多输入15个字" style='width:280px;' v-model="postForm.nature"  maxlength="15" rows="3"></el-input>
-                </el-form-item>
-
-                <el-form-item label="回答:" label-width="100px" prop="headurl" style="margin-bottom: 40px">
-                    <div style="margin-bottom: 20px;width:800px">
-                        <Uploadaudio v-model="postForm.headurl"></Uploadaudio>
-                        <span style="font-size:12px">（注：请mp3等音频格式的文件）</span>
+                <el-form-item label="banner图:" label-width="100px" prop="pic" style="margin-bottom: 40px">
+                    <div style="margin-bottom: 20px;">
+                        <Upload v-model="postForm.pic"></Upload>
+                        <span style="font-size:12px">（注：请上传比例16：9，不小于100Kb的图片）</span>
                     </div>
                 </el-form-item>
 
-                <el-form-item label="头像框:" label-width="100px" prop="headSelect" style="margin-bottom: 40px">
-                    <el-select v-model="postForm.headSelect" placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
+                <el-form-item label="跳转设置:" label-width="100px" prop="type" style="margin-bottom: 40px">
+                    <!--<el-select v-model="postForm.top" placeholder="请选择">
+                        <el-option v-for="item in topOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select>-->
+                    <template>
+                        <span @click="showH5"><el-radio v-model="postForm.type" label="0">H5页面</el-radio></span>
+                        <span @click="showPerHome"><el-radio v-model="postForm.type" label="1">个人主页</el-radio></span>
+                        <span @click="showStory"><el-radio v-model="postForm.type" label="2">剧情选择页</el-radio></span>
+                    </template>
                 </el-form-item>
 
-                <el-form-item label="背景图:" label-width="100px" prop="backImg" style="margin-bottom: 40px">
-                    <div style="margin-bottom: 20px;width:800px">
-                        <Uploadhead v-model="postForm.backImg" v-on:input="picInput"></Uploadhead>
+                <div v-show="showH" style="display: inline-block;margin-bottom: 20px">
+                    <el-form-item label="跳转地址:" label-width="100px" prop="address" style="margin-bottom: 40px">
+                        <el-input placeholder="请输入链接" style='width:190px;' v-model="postForm.address" maxlength="10"></el-input>
+                        <!--<span>钻石</span>-->
+                    </el-form-item>
+                    <el-form-item label="用户信息:" label-width="100px" prop="message" style="margin-bottom: 20px">
+                        <el-select v-model="postForm.message" placeholder="请选择">
+                            <el-option v-for="item in userMessOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                        <!--<span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>-->
+                    </el-form-item>
+                </div>
+
+                <el-form-item v-show="showPer" label="选择主角:" label-width="100px" prop="selectActor" style="margin-bottom: 40px">
+                    <!--<div style="margin-bottom: 20px;width:800px">
+                        <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
                         <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
-                    </div>
-                </el-form-item>
-
-                <el-form-item label="配置状态:" label-width="100px" prop="config" style="margin-bottom: 40px">
-                    <el-select v-model="postForm.config" placeholder="请选择">
-                        <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </div>-->
+                    <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.selectActor" placeholder="选择主角">
+                        <el-option v-for="item in  nameOptions" :key="item.label" :label="item.label" :value="item.value">
+                        </el-option>
                     </el-select>
-                    <span style="font-size:12px">（注：下架状态：该主角不会在App中显示）</span>
                 </el-form-item>
 
-                <el-form-item label="私密圈排序:" label-width="100px" prop="private" style="margin-bottom: 40px">
-                    <el-select v-model="postForm.private" placeholder="请选择">
-                        <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <div v-show="showSto" style="display: inline-block;margin-bottom: 0px">
+                    <el-form-item label="选择主角:" label-width="100px" prop="selectActor" style="margin-bottom: 40px">
+                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.selectActor" placeholder="选择主角">
+                            <el-option v-for="item in  nameOptions" :key="item.label" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="选择剧情:" label-width="100px" prop="selectStory" style="margin-bottom: 40px">
+                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.selectStory" placeholder="选择剧情">
+                            <el-option v-for="item in  storyOptions" :key="item.label" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </div>
+
+                <el-form-item label="房间排序:" label-width="100px" prop="home" style="margin-bottom: 40px">
+                    <el-select v-model="postForm.home" placeholder="请选择">
+                        <el-option v-for="item in homeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                 </el-form-item>
 
-                <el-form-item label="加速价格:" label-width="100px" prop="timeNum" style="margin-bottom: 40px">
-                    <el-input placeholder="" style='width:60px;' v-model="postForm.timeNum" :disabled="disable" maxlength="10"></el-input>
-                    <el-select v-model="postForm.time" placeholder="请选择" style="width:80px">
-                        <el-option v-for="item in timeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
-                    <el-input placeholder="" style='width:50px;' v-model="postForm.price" :disabled="disable" maxlength="10"></el-input>
-                    <span>钻石</span>
+                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
+                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="选择时间"></el-date-picker>
+                    <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
+                </el-form-item>
+                <el-form-item label="下架时间:" label-width="100px" prop="configDownTime" style="margin-bottom: 40px">
+                    <el-date-picker v-model="postForm.configDownTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="选择时间"></el-date-picker>
+                    <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="配置工作时间:" label-width="100px" prop="" >
-                    <div v-for="workTime in postForm.workTimes" style="margin-bottom: 40px">
-                        <el-date-picker v-model="workTime.value" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
-                        <el-button @click.prevent="addWork">新增工作时间</el-button>
-                        <el-button @click.prevent="removeWork(workTime)">删除</el-button>
+                <!--<el-form-item label="评论内容:" label-width="100px" prop="" >
+                    <div v-for="comment in postForm.comments" style="margin-bottom: 40px">
+                        &lt;!&ndash;<el-date-picker v-model="workTime.value" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>&ndash;&gt;
+                        <el-input placeholder="最多输入15个字" style='width:220px;' v-model="comment.value" maxlength="15"></el-input>
+                        <el-button @click.prevent="addWork">新增评论</el-button>
+                        <el-button @click.prevent="removeWork(comment)">删除</el-button>
                     </div>
-                </el-form-item>
+                </el-form-item>-->
 
                 <el-form-item label-width="100px">
                     <el-button type="primary" @click.prevent="add">新增</el-button>
@@ -78,7 +102,7 @@
 
 <script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce';
-    import Upload from 'components/Upload/singleImage3';
+    import Upload from 'components/Upload/picture';
     import Uploadhead from 'components/Upload/headPhoto'
     import Uploadvideo from 'components/Upload/video';
     import Uploadaudio from 'components/Upload/audio'
@@ -149,30 +173,35 @@
                     progress: false
                 },
                 progressStatus: '',
+                radioContent: '0',
+                showH: true,
+                showPer: false,
+                showSto: false,
                 postForm: {
-                    actor: '', // 文章题目
-                    name: '', // 文章内容
-                    gender: '2',
-                    weight: '',
-                    height: '',
-                    bust: '',
-                    age: '',
-                    job: '',
-                    nature: '',
-                    headurl: '', // 文章图片
-                    headSelect: '',
-                    backImg: '',
-                    config: '',
-                    private: '',
-                    timeNum: '',
-                    time: '',
-                    price: '',
-                    workTimes: [{
+                    title: '',
+                    pic: '',
+                    type: '0',
+                    address: '',
+                    message: '',
+                    selectActor: '',
+                    selectStory: '',
+                    home: '',
+                    configTime: '',
+                    configDownTime: '',
+                    //time: '',
+                    comments: [{
                         value: ''
                     }],
                     //id: '',
                     status: 'published',
                 },
+                /*topOptions: [{
+                 value: '0',
+                 label: '置顶'
+                 },{
+                 value: '1',
+                 label: '不置顶'
+                 }],*/
                 configOptions: [{
                     value: '0',
                     label: '下架'
@@ -180,28 +209,42 @@
                     value: '1',
                     label: '上架'
                 }],
-                privateOptions: [{
+                userMessOptions: [{
+                    value: '0',
+                    label: '带复杂用户信息'
+                },{
+                    value: '1',
+                    label: '带简单用户信息'
+                },{
+                    value: '2',
+                    label: '不带用户信息'
+                }],
+                homeOptions: [{
                     value: '0',
                     label: '默认'
                 },{
                     value: '1',
                     label: '1'
-                }],
-                timeOptions: [{
-                    value: '0',
-                    label: '小时'
-                },{
-                    value: '1',
-                    label: '秒'
                 },{
                     value: '2',
-                    label: '分钟'
+                    label: '2'
                 },{
                     value: '3',
-                    label: '天'
-                },{
-                    value: '4',
-                    label: '周'
+                    label: '3'
+                }],
+                nameOptions: [{
+                    value: '1',
+                    label: '佳佳'
+                }, {
+                    value: '2',
+                    label: '娜美'
+                }],
+                storyOptions: [{
+                    value: '1',
+                    label: '佳佳1'
+                }, {
+                    value: '2',
+                    label: '娜美1'
                 }],
                 photos: [],
                 photosList: {
@@ -304,130 +347,160 @@
                 alert(data)
             },
             addWork () {
-                this.postForm.workTimes.push({
+                this.postForm.comments.push({
                     value: ''
                 });
             },
             removeWork(item) {
-                var index = this.postForm.workTimes.indexOf(item)
+                var index = this.postForm.comments.indexOf(item)
                 if (index !== -1) {
-                    this.postForm.workTimes.splice(index, 1)
+                    this.postForm.comments.splice(index, 1)
                 }
             },
-            getDetail () {
-                actorListAll (this.listQuery).then(response => {
-                    this.postForm = response.data.content;
-                    if (response.data.content.gender == 1) {
-                        this.postForm.gender = '男'
-                    }
-                    if (response.data.content.gender == 2) {
-                        this.postForm.gender = '女'
-                    }
-                    this.photos = response.data.content.photo;
-                    this.mvs = response.data.content.mv;
-                    if (this.photos == '') {
-                        this.showHr =false;
-                    }
-                    /*for(let i=0;i<this.postForm.nature.length;i++){
-                     this.postForm.nature[i].name = response.data.content.nature[i].name;
-                     this.postForm.nature = this.postForm.nature + this.postForm.nature[i].name + ',';
-                     alert(this.postForm.nature)
-                     }
-                     this.postForm.nature = this.postForm.nature.replace("undefined",'');*/
-                    /*for(let i=0;i<response.data.content.photo.length;i++){
-                     this.photos.amount =this.photos[i].amount;
-                     this.photos.url = this.photos[i].url;
-                     }*/
-                    //this.photos.amount =this.photos[0].amount;
-                    //this.photos.url = this.photos[0].url;
-                }).catch(err => {
-                    this.fetchSuccess = false;
-                    console.log(err);
-                });
-            },
-            fetchData() {
-                getArticle().then(response => {
-                    this.postForm = response.data;
-                }).catch(err => {
-                    this.fetchSuccess = false;
-                    console.log(err);
-                });
-            },
-            submitForm(formName) {
-                //this.postForm.display_time = parseInt(this.display_time / 1000);
-                console.log(this.postForm)
-                var actorinfo;
-                actorinfo = this.postForm;
-                this.$refs.postForm.validate(valid => {
-                    if (valid) {
-                        this.loading = true;
-                        actorUpdate(actorinfo).then(response => {
-                            /*if (!response.data.items) return;
-                             console.log(response)
-                             this.userLIstOptions = response.data.items.map(v => ({
-                             key: v.name
-                             }));*/
-                            if(response.data.code == 200) {
-                                this.$message({
-                                    message: '发布成功',
-                                    type: 'success'
-                                });
-                                this.$refs[formName].resetFields();
-                                this.postForm.status = 'published';
-                            }
-                        });
-                        this.loading = false;
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },
-            draftForm() {
-                if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
-                    this.$message({
-                        message: '请填写必要的标题和内容',
-                        type: 'warning'
-                    });
-                    return;
+            showH5 () {
+                if(!this.showH){
+                    this.showH=true;
+                    this.showPer=false;
+                    this.showSto = false;
+                } else {
+                    this.showPer=false;
+                    this.showSto = false;
                 }
-                this.$message({
-                    message: '保存成功',
-                    type: 'success',
-                    showClose: true,
-                    duration: 1000
-                });
-                this.postForm.status = 'draft';
             },
-            addPhotos (photosList) {
-                //this.photoData.name = this.postForm.photo;
-                this.photoData.amount = parseInt(this.photosList.amount);
-                this.photoData.url = this.photosList.url;
-                this.photoData.name = this.photosList.name;
-                this.$refs.photosList.validate(valid => {
-                    if (valid) {
-                        addPhotos(this.photoData).then(response => {
-                            //this.postForm = response.data;
-                            this.photoid = response.data.photoid;
-                            if (response.data.code == 200) {
-                                this.$message({
-                                    message: '新增成功',
-                                    type: 'success'
-                                });
-                                this.$refs[photosList].resetFields();
-                            }
-                            this.getDetail(this.listQuery);
-                        }).catch(err => {
-                            this.fetchSuccess = false;
-                            console.log(err);
-                        });
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+            showPerHome () {
+                if(!this.showPer){
+                    this.showPer=true;
+                    this.showH=false;
+                    this.showSto = false;
+                } else {
+                    this.showH=false;
+                    this.showSto = false;
+                }
             },
-            /*surePhoto (id) {
+            showStory () {
+                if(!this.showSto){
+                    this.showSto = true;
+                    this.showPer = false;
+                    this.showH = false;
+                } else {
+                    this.showPer = false;
+                    this.showH=false;
+                }
+            },
+            /*getDetail () {
+             actorListAll (this.listQuery).then(response => {
+             this.postForm = response.data.content;
+             if (response.data.content.gender == 1) {
+             this.postForm.gender = '男'
+             }
+             if (response.data.content.gender == 2) {
+             this.postForm.gender = '女'
+             }
+             this.photos = response.data.content.photo;
+             this.mvs = response.data.content.mv;
+             if (this.photos == '') {
+             this.showHr =false;
+             }
+             /!*for(let i=0;i<this.postForm.nature.length;i++){
+             this.postForm.nature[i].name = response.data.content.nature[i].name;
+             this.postForm.nature = this.postForm.nature + this.postForm.nature[i].name + ',';
+             alert(this.postForm.nature)
+             }
+             this.postForm.nature = this.postForm.nature.replace("undefined",'');*!/
+             /!*for(let i=0;i<response.data.content.photo.length;i++){
+             this.photos.amount =this.photos[i].amount;
+             this.photos.url = this.photos[i].url;
+             }*!/
+             //this.photos.amount =this.photos[0].amount;
+             //this.photos.url = this.photos[0].url;
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             },
+             fetchData() {
+             getArticle().then(response => {
+             this.postForm = response.data;
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             },
+             submitForm(formName) {
+             //this.postForm.display_time = parseInt(this.display_time / 1000);
+             console.log(this.postForm)
+             var actorinfo;
+             actorinfo = this.postForm;
+             this.$refs.postForm.validate(valid => {
+             if (valid) {
+             this.loading = true;
+             actorUpdate(actorinfo).then(response => {
+             /!*if (!response.data.items) return;
+             console.log(response)
+             this.userLIstOptions = response.data.items.map(v => ({
+             key: v.name
+             }));*!/
+             if(response.data.code == 200) {
+             this.$message({
+             message: '发布成功',
+             type: 'success'
+             });
+             this.$refs[formName].resetFields();
+             this.postForm.status = 'published';
+             }
+             });
+             this.loading = false;
+             } else {
+             console.log('error submit!!');
+             return false;
+             }
+             });
+             },
+             draftForm() {
+             if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
+             this.$message({
+             message: '请填写必要的标题和内容',
+             type: 'warning'
+             });
+             return;
+             }
+             this.$message({
+             message: '保存成功',
+             type: 'success',
+             showClose: true,
+             duration: 1000
+             });
+             this.postForm.status = 'draft';
+             },
+             addPhotos (photosList) {
+             //this.photoData.name = this.postForm.photo;
+             this.photoData.amount = parseInt(this.photosList.amount);
+             this.photoData.url = this.photosList.url;
+             this.photoData.name = this.photosList.name;
+             this.$refs.photosList.validate(valid => {
+             if (valid) {
+             addPhotos(this.photoData).then(response => {
+             //this.postForm = response.data;
+             this.photoid = response.data.photoid;
+             if (response.data.code == 200) {
+             this.$message({
+             message: '新增成功',
+             type: 'success'
+             });
+             this.$refs[photosList].resetFields();
+             }
+             this.getDetail(this.listQuery);
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             } else {
+             console.log('error submit!!');
+             return false;
+             }
+             });
+             },
+             /!*surePhoto (id) {
              this.dialogPhoto = false;
              this.flagPhoto = true;
              let photoid={
@@ -444,101 +517,101 @@
              console.log(err);
              });
              }
-             },*/
-            delPhoto (id) {
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    let photoid={
-                        id: id
-                    };
-                    delPhotos (photoid).then(response => {
-                        //this.postForm = response.data;
-                        this.flagPhoto = false;
-                        this.getDetail(this.listQuery);
-                        console.log()
-                    }).catch(err => {
-                        this.fetchSuccess = false;
-                        console.log(err);
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                });
-                //this.dialogPhoto = true;
-                /*let photoid={
-                 id: id
-                 };
-                 if(this.flagPhoto){
-                 delPhotos (photoid).then(response => {
-                 //this.postForm = response.data;
-                 console.log()
-                 }).catch(err => {
-                 this.fetchSuccess = false;
-                 console.log(err);
-                 });
-                 }*/
-            },
-            delPicture (id,url) {
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    let photoinfo={
-                        id: id,
-                        url: url
-                    };
-                    delPhotos (photoinfo).then(response => {
-                        //this.postForm = response.data;
-                        this.thumbnaillist(id);
-                        console.log()
-                    }).catch(err => {
-                        this.fetchSuccess = false;
-                        console.log(err);
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                });
-            },
-            addMv (addmvs) {
-                let mvlist = {
-                    id: parseInt(this.$route.params.actor),
-                    mvname: this.addmvs.mvname,
-                    mvurl: this.addmvs.mvurl,
-                    mvpicture: this.addmvs.thumbnail,
-                    amount: parseInt(this.addmvs.amount)
-                };
-                this.$refs.addmvs.validate(valid => {
-                    if (valid) {
-                        addMvs (mvlist).then(response => {
-                            //this.postForm = response.data;
-                            if(response.data.code==200){
-                                this.$message({
-                                    message: '新增成功',
-                                    type: 'success'
-                                });
-                                this.$refs[addmvs].resetFields();
-                            }
-                            this.getDetail(this.listQuery);
-                        }).catch(err => {
-                            this.fetchSuccess = false;
-                            console.log(err);
-                        });
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },
-            /*sureMv (id) {
+             },*!/
+             delPhoto (id) {
+             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+             confirmButtonText: '确定',
+             cancelButtonText: '取消',
+             type: 'warning'
+             }).then(() => {
+             let photoid={
+             id: id
+             };
+             delPhotos (photoid).then(response => {
+             //this.postForm = response.data;
+             this.flagPhoto = false;
+             this.getDetail(this.listQuery);
+             console.log()
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             }).catch(() => {
+             this.$message({
+             type: 'info',
+             message: '已取消删除'
+             });
+             });
+             //this.dialogPhoto = true;
+             /!*let photoid={
+             id: id
+             };
+             if(this.flagPhoto){
+             delPhotos (photoid).then(response => {
+             //this.postForm = response.data;
+             console.log()
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             }*!/
+             },
+             delPicture (id,url) {
+             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+             confirmButtonText: '确定',
+             cancelButtonText: '取消',
+             type: 'warning'
+             }).then(() => {
+             let photoinfo={
+             id: id,
+             url: url
+             };
+             delPhotos (photoinfo).then(response => {
+             //this.postForm = response.data;
+             this.thumbnaillist(id);
+             console.log()
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             }).catch(() => {
+             this.$message({
+             type: 'info',
+             message: '已取消删除'
+             });
+             });
+             },
+             addMv (addmvs) {
+             let mvlist = {
+             id: parseInt(this.$route.params.actor),
+             mvname: this.addmvs.mvname,
+             mvurl: this.addmvs.mvurl,
+             mvpicture: this.addmvs.thumbnail,
+             amount: parseInt(this.addmvs.amount)
+             };
+             this.$refs.addmvs.validate(valid => {
+             if (valid) {
+             addMvs (mvlist).then(response => {
+             //this.postForm = response.data;
+             if(response.data.code==200){
+             this.$message({
+             message: '新增成功',
+             type: 'success'
+             });
+             this.$refs[addmvs].resetFields();
+             }
+             this.getDetail(this.listQuery);
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             } else {
+             console.log('error submit!!');
+             return false;
+             }
+             });
+             },
+             /!*sureMv (id) {
              this.dialogMv = false;
              this.flagMv = true;
              let mvid={
@@ -552,100 +625,100 @@
              this.fetchSuccess = false;
              console.log(err);
              });
-             },*/
-            delMv (id) {
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    let mvid={
-                        id: id
-                    };
-                    delMv (mvid).then(response => {
-                        //this.postForm = response.data;
-                        this.getDetail(this.listQuery);
-                        console.log()
-                    }).catch(err => {
-                        this.fetchSuccess = false;
-                        console.log(err);
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                });
-                //this.dialogMv = true;
-                /*let mvid={
-                 id: id
-                 };
-                 delMv (mvid).then(response => {
-                 //this.postForm = response.data;
-                 console.log()
-                 }).catch(err => {
-                 this.fetchSuccess = false;
-                 console.log(err);
-                 });*/
-            },
-            thumbnaillist (id) {
-                this.photoid = id;
-                this.dialogVisible = true;
-                let list = {
-                    id: parseInt(this.$route.params.actor),
-                    photoid: id
-                };
-                thumbnaillist (list).then(response => {
-                    this.upPhotos = response.data.content;
-                    //this.photos.photoNum = response.data.content.length;
-                    for(let i=0;i<this.photos.length;i++){
-                        if(this.photos[i].id == id){
-                            this.photos[i].photoNum = response.data.content.length;
-                        }
-                    }
-                    console.log();
-                }).catch(err => {
-                    this.fetchSuccess = false;
-                    console.log(err);
-                });
-            },
-            picInput (data) {
-                if (data) {
-                    this.watcher = data;
-                }
-            },
-            picList (id) {
-                let photoList={
-                    id: parseInt(this.$route.params.actor),
-                    photoid: id,
-                    photourl: this.upPhotos.photourl
-                };
-                //photoList.photourl = this.upPhotos.photourl;
-                //this.$refs.upPhotos.validate(valid => {
-                //if (valid) {
+             },*!/
+             delMv (id) {
+             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+             confirmButtonText: '确定',
+             cancelButtonText: '取消',
+             type: 'warning'
+             }).then(() => {
+             let mvid={
+             id: id
+             };
+             delMv (mvid).then(response => {
+             //this.postForm = response.data;
+             this.getDetail(this.listQuery);
+             console.log()
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             }).catch(() => {
+             this.$message({
+             type: 'info',
+             message: '已取消删除'
+             });
+             });
+             //this.dialogMv = true;
+             /!*let mvid={
+             id: id
+             };
+             delMv (mvid).then(response => {
+             //this.postForm = response.data;
+             console.log()
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });*!/
+             },
+             thumbnaillist (id) {
+             this.photoid = id;
+             this.dialogVisible = true;
+             let list = {
+             id: parseInt(this.$route.params.actor),
+             photoid: id
+             };
+             thumbnaillist (list).then(response => {
+             this.upPhotos = response.data.content;
+             //this.photos.photoNum = response.data.content.length;
+             for(let i=0;i<this.photos.length;i++){
+             if(this.photos[i].id == id){
+             this.photos[i].photoNum = response.data.content.length;
+             }
+             }
+             console.log();
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             },
+             picInput (data) {
+             if (data) {
+             this.watcher = data;
+             }
+             },
+             picList (id) {
+             let photoList={
+             id: parseInt(this.$route.params.actor),
+             photoid: id,
+             photourl: this.upPhotos.photourl
+             };
+             //photoList.photourl = this.upPhotos.photourl;
+             //this.$refs.upPhotos.validate(valid => {
+             //if (valid) {
 
-                /*} else {
-                 console.log('error submit!!');
-                 return false;
-                 }
-                 });*/
-                if (photoList.photourl) {
-                    addPhoto (photoList).then(response => {
-                        console.log();
-                        this.upPhotos.photourl = '';
-                        this.thumbnaillist(id);
-                    }).catch(err => {
-                        this.fetchSuccess = false;
-                        console.log(err);
-                    });
-                }/* else {
-                 this.$message({
-                 message: '上传失败',
-                 type: 'error'
-                 });
-                 }*/
-                //this.dialogVisible = false;
-            },
+             /!*} else {
+             console.log('error submit!!');
+             return false;
+             }
+             });*!/
+             if (photoList.photourl) {
+             addPhoto (photoList).then(response => {
+             console.log();
+             this.upPhotos.photourl = '';
+             this.thumbnaillist(id);
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             }/!* else {
+             this.$message({
+             message: '上传失败',
+             type: 'error'
+             });
+             }*!/
+             //this.dialogVisible = false;
+             },*/
             getRemoteUserList(query) {
                 userSearch(query).then(response => {
                     console.log("getRemoteUserList")

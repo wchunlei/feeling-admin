@@ -1,34 +1,51 @@
 <template>
     <div class="app-container calendar-list-container">
         <div class="filter-container">
-            <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名" v-model="listQuery.title">
-            </el-input>
+            <!--<el-input @keyup.enter.native="handleFilter" style="width: 130px;" class="filter-item" placeholder="昵称" v-model="listQuery.title">
+            </el-input>-->
 
-            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.gender" placeholder="性别">
-                <el-option v-for="item in  sexOptions" :key="item.label" :label="item.label" :value="item.value">
+            <!--<el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.gender" placeholder="性别">
+              <el-option v-for="item in  sexOptions" :key="item.label" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>-->
+            <!--<multiselect v-model="listQuery.name" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                         deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:130px;height: 20px;display: inline-block;" >
+                <span slot='noResult'>无结果</span>
+            </multiselect>-->
+            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.name" placeholder="主角">
+                <el-option v-for="item in  nameOptions" :key="item.label" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
-
             <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.status" placeholder="状态">
                 <el-option v-for="item in  statusOptions" :key="item.label" :label="item.label" :value="item.value">
+                </el-option>
+            </el-select>
+            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.priceType" placeholder="剧情收费类型">
+                <el-option v-for="item in  priceTypeOptions" :key="item.label" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
 
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
             <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
-            <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
+            <!--<el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>-->
             <!--<el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>-->
         </div>
 
-        <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
+        <el-table :key='tableKey' :data="list1" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="100" column-key="id">
+            <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
                 <template scope="scope">
                     <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
                 </template>
             </el-table-column>
 
-            <el-table-column width="200px" align="center" label="主角">
+            <el-table-column width="220px" align="center" label="剧情标题" prop="title">
+                <template scope="scope">
+                    <span>{{scope.row.title}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column width="150px" align="center" label="主角" prop="name">
                 <!--<template scope="scope">
                   <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
                 </template>-->
@@ -44,54 +61,88 @@
               </template>
             </el-table-column>-->
 
-            <el-table-column width="200px" align="center" label="职业">
+            <el-table-column width="150px" align="center" label="剧情阶段" prop="stage">
                 <template scope="scope">
-                    <span>{{scope.row.job}}</span>
+                    <span>{{scope.row.stage}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column class-name="status-col" label="类型" width="200px">
+            <el-table-column class-name="status-col" label="剧情价格（钻石）" width="150px" prop="storyPrice">
                 <template scope="scope">
-                    <span>{{scope.row.style}}</span>
+                    <span>{{scope.row.storyPrice}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="200px" align="center" label="性格">
+            <el-table-column min-width="150px" align="center" label="选项价格（钻石）" prop="optionPrice">
                 <template scope="scope">
-                    <span>{{scope.row.nature}}</span>
+                    <span>{{scope.row.optionPrice}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                 </template>
             </el-table-column>
 
-            <el-table-column width="200px" align="center" label="修改时间">
+            <!--<el-table-column width="180px" align="center" label="加速雇佣价格（钻石）" prop="price">
                 <template scope="scope">
-                    <span>{{scope.row.modify_time}}</span>
+                    <span>{{scope.row.price}}</span>
+                </template>
+            </el-table-column>-->
+
+            <el-table-column label="状态" width="100" align="center" prop="status">
+                <template scope="scope">
+                    <!--<el-tag :type="scope.row.status | statusFilter" :class="{activeColor: isColor}">{{scope.row.status}}</el-tag>-->
+                    <span>{{scope.row.status}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column width="100px" align="center" label="性别">
+            <el-table-column min-width="150px" align="center" label="上架时间" prop="configTime">
                 <template scope="scope">
-                    <span v-if="scope.row.gender==1">男</span>
-                    <span v-if="scope.row.gender==2">女</span>
+                    <span>{{scope.row.configTime}}</span>
+                    <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                 </template>
             </el-table-column>
 
-            <el-table-column class-name="status-col" label="状态" width="100">
+            <el-table-column label="剧情配置状态" width="160" align="center" prop="configStatus">
                 <template scope="scope">
-                    <el-tag :type="scope.row.status | statusFilter" :class="{activeColor: isColor}">{{scope.row.status}}</el-tag>
+                    <span>{{scope.row.configStatus}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column align="center" label="操作" width="200px">
+            <!--<el-table-column width="300px" align="center" label="工作时间" prop="workTime">
                 <template scope="scope">
-                    <el-button v-if="scope.row.status!='发布'" size="small" @click="handleModifyStatusPublish(scope.row,'published')">发布
-                    </el-button>
-                    <el-button v-if="scope.row.status!='草稿'" size="small" @click="handleModifyStatusDraft(scope.row,'draft')">草稿
-                    </el-button>
-                    <!--<el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
-                    </el-button>-->
+                    &lt;!&ndash;<span v-if="scope.row.gender==1">男</span>
+                    <span v-if="scope.row.gender==2">女</span>&ndash;&gt;
+                    <span>{{scope.row.workTime}}</span>
+                </template>
+            </el-table-column>-->
+
+            <el-table-column min-width="150px" align="center" label="排序" prop="sort">
+                <template scope="scope">
+                    <!--<span>{{scope.row.sort}}</span>-->
+                    <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
+                    <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="scope.row.disable">
+                        <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select>
                 </template>
             </el-table-column>
+
+            <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
+                <template scope="scope">
+                    <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
+                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
+                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>
+                    <el-button @click.native.prevent="deleteRow(scope.$index, list1)" type="text" size="small">删除</el-button>
+                </template>
+            </el-table-column>
+
+            <!--<el-table-column align="center" label="操作" width="200px">
+              <template scope="scope">
+                <el-button v-if="scope.row.status!='发布'" size="small" @click="handleModifyStatusPublish(scope.row,'published')">发布
+                </el-button>
+                <el-button v-if="scope.row.status!='草稿'" size="small" @click="handleModifyStatusDraft(scope.row,'draft')">草稿
+                </el-button>
+                &lt;!&ndash;<el-button v-if="scope.row.status!='deleted'" size="small" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除
+                </el-button>&ndash;&gt;
+              </template>
+            </el-table-column>-->
 
         </el-table>
 
@@ -178,6 +229,7 @@
     import { actorUpdate } from 'api/actor';
     import { actorstatus } from 'api/actor';
     import { actordel } from 'api/actor';
+    import { userSearch } from 'api/story';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -198,16 +250,74 @@
         data() {
             return {
                 isColor: true,
-                list: null,
+                userLIstOptions: [],
+                sort: '0',
+                list1: [{
+                    id: '1',
+                    title: '佳佳洗衣服',
+                    name: 'test',
+                    stage: '1',
+                    storyPrice: '枫叶',
+                    optionPrice: '贴心护士',
+                    configStatus: '配置成功',
+                    status: '上架',
+                    configTime: '2017-12-2 00:00',
+                    sort: '默认',
+                    disable: true,
+                },{
+                    id: '1',
+                    title: '佳佳洗衣服',
+                    name: 'test',
+                    stage: '2',
+                    storyPrice: '枫叶',
+                    optionPrice: '贴心护士',
+                    configStatus: '配置成功',
+                    status: '上架',
+                    configTime: '2017-12-2 00:00',
+                    sort: '默认',
+                    disable: true,
+                },{
+                    id: '1',
+                    title: '佳佳洗衣服',
+                    name: 'test',
+                    stage: '3',
+                    storyPrice: '枫叶',
+                    optionPrice: '贴心护士',
+                    configStatus: '配置成功',
+                    status: '上架',
+                    configTime: '2017-12-2 00:00',
+                    sort: '默认',
+                    disable: true,
+                }],
+                privateOptions: [{
+                    value: '0',
+                    label: '默认'
+                },{
+                    value: '1',
+                    label: '1'
+                },{
+                    value: '2',
+                    label: '2'
+                },{
+                    value: '3',
+                    label: '3'
+                },{
+                    value: '4',
+                    label: '4'
+                },{
+                    value: '5',
+                    label: '5'
+                }],
                 total: null,
                 listLoading: true,
                 listQuery: {
                     page: 1,
                     limit: 20,
                     importance: undefined,
-                    title: undefined,
+                    name: undefined,
                     gender: undefined,
                     status: undefined,
+                    priceType: undefined,
                     //sort: '+id'
                 },
                 temp: {
@@ -222,7 +332,14 @@
                 importanceOptions: [1, 2, 3],
                 calendarTypeOptions,
                 sortOptions: [{ label: '按ID升序列', key: '+id' }, { label: '按ID降序', key: '-id' }],
-                statusOptions: ['published', 'draft', 'deleted'],
+                //statusOptions: ['0', '1', ''],
+                nameOptions: [{
+                    value: '1',
+                    label: '佳佳'
+                }, {
+                    value: '2',
+                    label: '娜美'
+                }],
                 sexOptions: [{
                     value: '1',
                     label: '男'
@@ -231,11 +348,21 @@
                     label: '女'
                 }],
                 statusOptions: [{
-                    value: 'published',
-                    label: '发布'
+                    value: '0',
+                    label: '上架'
                 }, {
-                    value: 'draft',
-                    label: '草稿'
+                    value: '1',
+                    label: '下架'
+                }, {
+                    value: '',
+                    label: '全部'
+                }],
+                priceTypeOptions: [{
+                    value: '0',
+                    label: '付费'
+                }, {
+                    value: '1',
+                    label: '免费'
                 }, {
                     value: '',
                     label: '全部'
@@ -255,6 +382,8 @@
             }
         },
         created() {
+            let Query = {};
+            this.getRemoteUserList(Query);
             this.getList();
         },
         filters: {
@@ -270,7 +399,106 @@
                 return calendarTypeKeyValue[type]
             }
         },
+        /*watch: {
+         "scope.row.selectSort" () {
+         scope.row.sort = scope.row.selectSort;
+         }
+         },*/
         methods: {
+            /*handleModifyStatus(row, status) {
+             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+             confirmButtonText: '确定',
+             cancelButtonText: '取消',
+             type: 'warning'
+             }).then(() => {
+             let deleteitem={
+             id: parseInt(row.id)
+             };
+             channelDelete(deleteitem).then(response => {
+             //this.list = response.data.content;
+             if(response.data.code==200){
+             this.getList();
+             }
+             });
+             this.$message({
+             message: '操作成功',
+             type: 'success'
+             });
+             }).catch(() => {
+             this.$message({
+             type: 'info',
+             message: '已取消删除'
+             });
+             });
+             },*/
+            getRemoteUserList(query) {
+                console.log("getRemoteUserList")
+                userSearch(query).then(response => {
+                    console.log("getRemoteUserList")
+                    if (!response.data.content) return;
+                    console.log(response)
+                    this.userLIstOptions = response.data.content.map(v => ({
+                        key: v.name,
+                        value: v.id
+                    }));
+                })
+            },
+            deleteRow(index, rows) {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let deleteitem={
+                        id: parseInt(rows.id)
+                    };
+                    rows.splice(index, 1);
+                    channelDelete(deleteitem).then(response => {
+                        //this.list = response.data.content;
+                        if(response.data.code==200){
+                            this.getList();
+                        }
+                    });
+                    this.$message({
+                        message: '操作成功',
+                        type: 'success'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            editRow (row, list1) {
+                let date = new Date();
+                let year=date.getFullYear(),
+                        month=date.getMonth()+ 1,
+                        day=date.getDate(),
+                        hour=date.getHours(),
+                        minutes=date.getMinutes();
+                //seconds=date.getSeconds();
+                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
+                if (row.status == '上架') {
+                    row.status = '下架';
+                    row.configTime = "未设置";
+                } else {
+                    row.status = '上架';
+                    row.configTime = dateString;
+                }
+            },
+            handleSort (index, rows) {
+                /*if (this.disable) {
+                 this.disable = false;
+                 } else {
+                 this.disable = true;
+                 }*/
+                if (rows.disable) {
+                    rows.disable = false;
+                } else {
+                    rows.disable = true;
+                }
+            },
             getList() {
                 this.listLoading = true;
                 actorList(this.listQuery).then(response => {
