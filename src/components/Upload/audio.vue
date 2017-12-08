@@ -1,6 +1,6 @@
 <template>
 	<div class="upload-container">
-		<el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="http://192.168.1.43:3000/system/vod"
+		<el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="http://192.168.1.43:3000/system/vod" :before-upload="beforeAvatarUpload"
 		  :on-success="handleImageScucess">
 			<i class="el-icon-upload"></i>
 			<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -51,6 +51,17 @@
 		  handleImageScucess(res, file) {
 			  this.emitInput(res.content.url);
 			  this.imageUrl = URL.createObjectURL(file.raw);
+		  },
+		  beforeAvatarUpload(file) {
+			  //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';
+			  const isLt2M = file.size / 1024 / 1024 < 100;
+			  if (!(file.type === 'audio/mpeg' || file.type === 'audio/wav' || file.type === 'audio/alff' || file.type === 'audio/wma')) {
+				  this.$message.error('音频格式有误!');
+			  }
+			  if (!isLt2M) {
+				  this.$message.error('上传头像图片大小不大于 100M!');
+			  }
+			  return isLt2M;
 		  },
 	    beforeUpload() {
 	      const _self = this;

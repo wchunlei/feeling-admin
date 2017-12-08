@@ -1,4 +1,4 @@
-    <template>
+<template>
     <div class="createPost-container">
         <el-form class="form-container" :model="postForm" ref="postForm" :rules="actorDetail">
 
@@ -184,12 +184,12 @@
                     status: 'published',
                 },
                 /*topOptions: [{
-                    value: '0',
-                    label: '置顶'
-                },{
-                    value: '1',
-                    label: '不置顶'
-                }],*/
+                 value: '0',
+                 label: '置顶'
+                 },{
+                 value: '1',
+                 label: '不置顶'
+                 }],*/
                 configOptions: [{
                     value: '0',
                     label: '下架'
@@ -336,119 +336,119 @@
                 }
             },
             /*getDetail () {
-                actorListAll (this.listQuery).then(response => {
-                    this.postForm = response.data.content;
-                    if (response.data.content.gender == 1) {
-                        this.postForm.gender = '男'
-                    }
-                    if (response.data.content.gender == 2) {
-                        this.postForm.gender = '女'
-                    }
-                    this.photos = response.data.content.photo;
-                    this.mvs = response.data.content.mv;
-                    if (this.photos == '') {
-                        this.showHr =false;
-                    }
-                    /!*for(let i=0;i<this.postForm.nature.length;i++){
-                     this.postForm.nature[i].name = response.data.content.nature[i].name;
-                     this.postForm.nature = this.postForm.nature + this.postForm.nature[i].name + ',';
-                     alert(this.postForm.nature)
-                     }
-                     this.postForm.nature = this.postForm.nature.replace("undefined",'');*!/
-                    /!*for(let i=0;i<response.data.content.photo.length;i++){
-                     this.photos.amount =this.photos[i].amount;
-                     this.photos.url = this.photos[i].url;
-                     }*!/
-                    //this.photos.amount =this.photos[0].amount;
-                    //this.photos.url = this.photos[0].url;
-                }).catch(err => {
-                    this.fetchSuccess = false;
-                    console.log(err);
-                });
-            },
-            fetchData() {
-                getArticle().then(response => {
-                    this.postForm = response.data;
-                }).catch(err => {
-                    this.fetchSuccess = false;
-                    console.log(err);
-                });
-            },
-            submitForm(formName) {
-                //this.postForm.display_time = parseInt(this.display_time / 1000);
-                console.log(this.postForm)
-                var actorinfo;
-                actorinfo = this.postForm;
-                this.$refs.postForm.validate(valid => {
-                    if (valid) {
-                        this.loading = true;
-                        actorUpdate(actorinfo).then(response => {
-                            /!*if (!response.data.items) return;
-                             console.log(response)
-                             this.userLIstOptions = response.data.items.map(v => ({
-                             key: v.name
-                             }));*!/
-                            if(response.data.code == 200) {
-                                this.$message({
-                                    message: '发布成功',
-                                    type: 'success'
-                                });
-                                this.$refs[formName].resetFields();
-                                this.postForm.status = 'published';
-                            }
-                        });
-                        this.loading = false;
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },
-            draftForm() {
-                if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
-                    this.$message({
-                        message: '请填写必要的标题和内容',
-                        type: 'warning'
-                    });
-                    return;
-                }
-                this.$message({
-                    message: '保存成功',
-                    type: 'success',
-                    showClose: true,
-                    duration: 1000
-                });
-                this.postForm.status = 'draft';
-            },
-            addPhotos (photosList) {
-                //this.photoData.name = this.postForm.photo;
-                this.photoData.amount = parseInt(this.photosList.amount);
-                this.photoData.url = this.photosList.url;
-                this.photoData.name = this.photosList.name;
-                this.$refs.photosList.validate(valid => {
-                    if (valid) {
-                        addPhotos(this.photoData).then(response => {
-                            //this.postForm = response.data;
-                            this.photoid = response.data.photoid;
-                            if (response.data.code == 200) {
-                                this.$message({
-                                    message: '新增成功',
-                                    type: 'success'
-                                });
-                                this.$refs[photosList].resetFields();
-                            }
-                            this.getDetail(this.listQuery);
-                        }).catch(err => {
-                            this.fetchSuccess = false;
-                            console.log(err);
-                        });
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },
-            /!*surePhoto (id) {
+             actorListAll (this.listQuery).then(response => {
+             this.postForm = response.data.content;
+             if (response.data.content.gender == 1) {
+             this.postForm.gender = '男'
+             }
+             if (response.data.content.gender == 2) {
+             this.postForm.gender = '女'
+             }
+             this.photos = response.data.content.photo;
+             this.mvs = response.data.content.mv;
+             if (this.photos == '') {
+             this.showHr =false;
+             }
+             /!*for(let i=0;i<this.postForm.nature.length;i++){
+             this.postForm.nature[i].name = response.data.content.nature[i].name;
+             this.postForm.nature = this.postForm.nature + this.postForm.nature[i].name + ',';
+             alert(this.postForm.nature)
+             }
+             this.postForm.nature = this.postForm.nature.replace("undefined",'');*!/
+             /!*for(let i=0;i<response.data.content.photo.length;i++){
+             this.photos.amount =this.photos[i].amount;
+             this.photos.url = this.photos[i].url;
+             }*!/
+             //this.photos.amount =this.photos[0].amount;
+             //this.photos.url = this.photos[0].url;
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             },
+             fetchData() {
+             getArticle().then(response => {
+             this.postForm = response.data;
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             },
+             submitForm(formName) {
+             //this.postForm.display_time = parseInt(this.display_time / 1000);
+             console.log(this.postForm)
+             var actorinfo;
+             actorinfo = this.postForm;
+             this.$refs.postForm.validate(valid => {
+             if (valid) {
+             this.loading = true;
+             actorUpdate(actorinfo).then(response => {
+             /!*if (!response.data.items) return;
+             console.log(response)
+             this.userLIstOptions = response.data.items.map(v => ({
+             key: v.name
+             }));*!/
+             if(response.data.code == 200) {
+             this.$message({
+             message: '发布成功',
+             type: 'success'
+             });
+             this.$refs[formName].resetFields();
+             this.postForm.status = 'published';
+             }
+             });
+             this.loading = false;
+             } else {
+             console.log('error submit!!');
+             return false;
+             }
+             });
+             },
+             draftForm() {
+             if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
+             this.$message({
+             message: '请填写必要的标题和内容',
+             type: 'warning'
+             });
+             return;
+             }
+             this.$message({
+             message: '保存成功',
+             type: 'success',
+             showClose: true,
+             duration: 1000
+             });
+             this.postForm.status = 'draft';
+             },
+             addPhotos (photosList) {
+             //this.photoData.name = this.postForm.photo;
+             this.photoData.amount = parseInt(this.photosList.amount);
+             this.photoData.url = this.photosList.url;
+             this.photoData.name = this.photosList.name;
+             this.$refs.photosList.validate(valid => {
+             if (valid) {
+             addPhotos(this.photoData).then(response => {
+             //this.postForm = response.data;
+             this.photoid = response.data.photoid;
+             if (response.data.code == 200) {
+             this.$message({
+             message: '新增成功',
+             type: 'success'
+             });
+             this.$refs[photosList].resetFields();
+             }
+             this.getDetail(this.listQuery);
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             } else {
+             console.log('error submit!!');
+             return false;
+             }
+             });
+             },
+             /!*surePhoto (id) {
              this.dialogPhoto = false;
              this.flagPhoto = true;
              let photoid={
@@ -466,100 +466,100 @@
              });
              }
              },*!/
-            delPhoto (id) {
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    let photoid={
-                        id: id
-                    };
-                    delPhotos (photoid).then(response => {
-                        //this.postForm = response.data;
-                        this.flagPhoto = false;
-                        this.getDetail(this.listQuery);
-                        console.log()
-                    }).catch(err => {
-                        this.fetchSuccess = false;
-                        console.log(err);
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                });
-                //this.dialogPhoto = true;
-                /!*let photoid={
-                 id: id
-                 };
-                 if(this.flagPhoto){
-                 delPhotos (photoid).then(response => {
-                 //this.postForm = response.data;
-                 console.log()
-                 }).catch(err => {
-                 this.fetchSuccess = false;
-                 console.log(err);
-                 });
-                 }*!/
-            },
-            delPicture (id,url) {
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    let photoinfo={
-                        id: id,
-                        url: url
-                    };
-                    delPhotos (photoinfo).then(response => {
-                        //this.postForm = response.data;
-                        this.thumbnaillist(id);
-                        console.log()
-                    }).catch(err => {
-                        this.fetchSuccess = false;
-                        console.log(err);
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                });
-            },
-            addMv (addmvs) {
-                let mvlist = {
-                    id: parseInt(this.$route.params.actor),
-                    mvname: this.addmvs.mvname,
-                    mvurl: this.addmvs.mvurl,
-                    mvpicture: this.addmvs.thumbnail,
-                    amount: parseInt(this.addmvs.amount)
-                };
-                this.$refs.addmvs.validate(valid => {
-                    if (valid) {
-                        addMvs (mvlist).then(response => {
-                            //this.postForm = response.data;
-                            if(response.data.code==200){
-                                this.$message({
-                                    message: '新增成功',
-                                    type: 'success'
-                                });
-                                this.$refs[addmvs].resetFields();
-                            }
-                            this.getDetail(this.listQuery);
-                        }).catch(err => {
-                            this.fetchSuccess = false;
-                            console.log(err);
-                        });
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },
-            /!*sureMv (id) {
+             delPhoto (id) {
+             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+             confirmButtonText: '确定',
+             cancelButtonText: '取消',
+             type: 'warning'
+             }).then(() => {
+             let photoid={
+             id: id
+             };
+             delPhotos (photoid).then(response => {
+             //this.postForm = response.data;
+             this.flagPhoto = false;
+             this.getDetail(this.listQuery);
+             console.log()
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             }).catch(() => {
+             this.$message({
+             type: 'info',
+             message: '已取消删除'
+             });
+             });
+             //this.dialogPhoto = true;
+             /!*let photoid={
+             id: id
+             };
+             if(this.flagPhoto){
+             delPhotos (photoid).then(response => {
+             //this.postForm = response.data;
+             console.log()
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             }*!/
+             },
+             delPicture (id,url) {
+             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+             confirmButtonText: '确定',
+             cancelButtonText: '取消',
+             type: 'warning'
+             }).then(() => {
+             let photoinfo={
+             id: id,
+             url: url
+             };
+             delPhotos (photoinfo).then(response => {
+             //this.postForm = response.data;
+             this.thumbnaillist(id);
+             console.log()
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             }).catch(() => {
+             this.$message({
+             type: 'info',
+             message: '已取消删除'
+             });
+             });
+             },
+             addMv (addmvs) {
+             let mvlist = {
+             id: parseInt(this.$route.params.actor),
+             mvname: this.addmvs.mvname,
+             mvurl: this.addmvs.mvurl,
+             mvpicture: this.addmvs.thumbnail,
+             amount: parseInt(this.addmvs.amount)
+             };
+             this.$refs.addmvs.validate(valid => {
+             if (valid) {
+             addMvs (mvlist).then(response => {
+             //this.postForm = response.data;
+             if(response.data.code==200){
+             this.$message({
+             message: '新增成功',
+             type: 'success'
+             });
+             this.$refs[addmvs].resetFields();
+             }
+             this.getDetail(this.listQuery);
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             } else {
+             console.log('error submit!!');
+             return false;
+             }
+             });
+             },
+             /!*sureMv (id) {
              this.dialogMv = false;
              this.flagMv = true;
              let mvid={
@@ -574,99 +574,99 @@
              console.log(err);
              });
              },*!/
-            delMv (id) {
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    let mvid={
-                        id: id
-                    };
-                    delMv (mvid).then(response => {
-                        //this.postForm = response.data;
-                        this.getDetail(this.listQuery);
-                        console.log()
-                    }).catch(err => {
-                        this.fetchSuccess = false;
-                        console.log(err);
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                });
-                //this.dialogMv = true;
-                /!*let mvid={
-                 id: id
-                 };
-                 delMv (mvid).then(response => {
-                 //this.postForm = response.data;
-                 console.log()
-                 }).catch(err => {
-                 this.fetchSuccess = false;
-                 console.log(err);
-                 });*!/
-            },
-            thumbnaillist (id) {
-                this.photoid = id;
-                this.dialogVisible = true;
-                let list = {
-                    id: parseInt(this.$route.params.actor),
-                    photoid: id
-                };
-                thumbnaillist (list).then(response => {
-                    this.upPhotos = response.data.content;
-                    //this.photos.photoNum = response.data.content.length;
-                    for(let i=0;i<this.photos.length;i++){
-                        if(this.photos[i].id == id){
-                            this.photos[i].photoNum = response.data.content.length;
-                        }
-                    }
-                    console.log();
-                }).catch(err => {
-                    this.fetchSuccess = false;
-                    console.log(err);
-                });
-            },
-            picInput (data) {
-                if (data) {
-                    this.watcher = data;
-                }
-            },
-            picList (id) {
-                let photoList={
-                    id: parseInt(this.$route.params.actor),
-                    photoid: id,
-                    photourl: this.upPhotos.photourl
-                };
-                //photoList.photourl = this.upPhotos.photourl;
-                //this.$refs.upPhotos.validate(valid => {
-                //if (valid) {
+             delMv (id) {
+             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+             confirmButtonText: '确定',
+             cancelButtonText: '取消',
+             type: 'warning'
+             }).then(() => {
+             let mvid={
+             id: id
+             };
+             delMv (mvid).then(response => {
+             //this.postForm = response.data;
+             this.getDetail(this.listQuery);
+             console.log()
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             }).catch(() => {
+             this.$message({
+             type: 'info',
+             message: '已取消删除'
+             });
+             });
+             //this.dialogMv = true;
+             /!*let mvid={
+             id: id
+             };
+             delMv (mvid).then(response => {
+             //this.postForm = response.data;
+             console.log()
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });*!/
+             },
+             thumbnaillist (id) {
+             this.photoid = id;
+             this.dialogVisible = true;
+             let list = {
+             id: parseInt(this.$route.params.actor),
+             photoid: id
+             };
+             thumbnaillist (list).then(response => {
+             this.upPhotos = response.data.content;
+             //this.photos.photoNum = response.data.content.length;
+             for(let i=0;i<this.photos.length;i++){
+             if(this.photos[i].id == id){
+             this.photos[i].photoNum = response.data.content.length;
+             }
+             }
+             console.log();
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             },
+             picInput (data) {
+             if (data) {
+             this.watcher = data;
+             }
+             },
+             picList (id) {
+             let photoList={
+             id: parseInt(this.$route.params.actor),
+             photoid: id,
+             photourl: this.upPhotos.photourl
+             };
+             //photoList.photourl = this.upPhotos.photourl;
+             //this.$refs.upPhotos.validate(valid => {
+             //if (valid) {
 
-                /!*} else {
-                 console.log('error submit!!');
-                 return false;
-                 }
-                 });*!/
-                if (photoList.photourl) {
-                    addPhoto (photoList).then(response => {
-                        console.log();
-                        this.upPhotos.photourl = '';
-                        this.thumbnaillist(id);
-                    }).catch(err => {
-                        this.fetchSuccess = false;
-                        console.log(err);
-                    });
-                }/!* else {
-                 this.$message({
-                 message: '上传失败',
-                 type: 'error'
-                 });
-                 }*!/
-                //this.dialogVisible = false;
-            },*/
+             /!*} else {
+             console.log('error submit!!');
+             return false;
+             }
+             });*!/
+             if (photoList.photourl) {
+             addPhoto (photoList).then(response => {
+             console.log();
+             this.upPhotos.photourl = '';
+             this.thumbnaillist(id);
+             }).catch(err => {
+             this.fetchSuccess = false;
+             console.log(err);
+             });
+             }/!* else {
+             this.$message({
+             message: '上传失败',
+             type: 'error'
+             });
+             }*!/
+             //this.dialogVisible = false;
+             },*/
             getRemoteUserList(query) {
                 userSearch(query).then(response => {
                     console.log("getRemoteUserList")

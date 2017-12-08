@@ -35,13 +35,14 @@
 
             <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
                 <template scope="scope">
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
                 </template>
             </el-table-column>
 
             <el-table-column width="220px" align="center" label="剧情标题" prop="title">
                 <template scope="scope">
-                    <span>{{scope.row.title}}</span>
+                    <!--<span>{{scope.row.title}}</span>-->
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.name}}</router-link></span>
                 </template>
             </el-table-column>
 
@@ -50,8 +51,8 @@
                   <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
                 </template>-->
                 <template scope="scope">
-                    <!--<span>{{scope.row.name}}</span>-->
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.name}}</router-link></span>
+                    <span>{{scope.row.name}}</span>
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.name}}</router-link></span>-->
                 </template>
             </el-table-column>
 
@@ -265,7 +266,7 @@
                     sort: '默认',
                     disable: true,
                 },{
-                    id: '1',
+                    id: '2',
                     title: '佳佳洗衣服',
                     name: 'test',
                     stage: '2',

@@ -18,11 +18,11 @@
             </Sticky>-->
 
             <div class="createPost-main-container">
-                <el-form-item label="房间名:" label-width="100px" prop="name" style="margin-bottom: 40px">
+                <el-form-item label="房间名:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
                     <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" maxlength="10"></el-input>
                 </el-form-item>
 
-                <el-form-item label="主角:" label-width="100px" prop="checkedActor" style="margin-bottom: 40px">
+                <el-form-item label="主角:" label-width="100px" prop="checkedActor" style="margin-bottom: 40px" required>
                     <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                     <div style="margin: 15px 0;"></div>
                     <el-checkbox-group v-model="postForm.checkedActor" @change="handleCheckedCitiesChange">
@@ -32,7 +32,7 @@
                         <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
-                <el-form-item label="剧情:" label-width="100px" prop="checkedStory" style="margin-bottom: 40px">
+                <el-form-item label="剧情:" label-width="100px" prop="checkedStory" style="margin-bottom: 40px" required>
                     <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                     <div style="margin: 15px 0;"></div>
                     <el-checkbox-group v-model="postForm.checkedActor" @change="handleCheckedCitiesChange">
@@ -43,16 +43,16 @@
                     </el-checkbox-group>
                 </el-form-item>
 
-                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
+                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px" required>
                     <!--<el-select v-model="postForm.config" placeholder="请选择">
                         <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：下架状态：该主角不会在App中显示）</span>-->
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm"></el-date-picker>
+                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="房间排序:" label-width="100px" prop="homeSort" style="margin-bottom: 40px">
+                <el-form-item label="房间排序:" label-width="100px" prop="homeSort" style="margin-bottom: 40px" required>
                     <el-select v-model="postForm.homeSort" placeholder="请选择">
                         <el-option v-for="item in homeSortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
@@ -105,10 +105,24 @@
                     }
                 }, 500);
             };
+            const validateRequireAll = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('输入不能为空'));
+                } else {
+                    callback()
+                }
+            };
             const validateRequire = (rule, value, callback) => {
                 if (!value) {
                     return callback(new Error('输入不能为空'));
                 } else {
+                    let str = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+                    let flg = false;
+                    flg = (value.match(str));
+                    if (flg) {
+                        return callback(new Error('昵称格式有误'));
+                        //alert('昵称格式有误,请勿输入特殊字符');
+                    }
                     callback()
                 }
             };
@@ -145,30 +159,16 @@
                 storys: ["佳佳ss","娜美ss"],
                 /*checkedActor: [],*/
                 postForm: {
-                    style: '', // 文章题目
                     name: '', // 文章内容
-                    actor: '',
                     checkedActor: [],
                     checkedStory: [],
-                    weight: '',
-                    height: '',
-                    bust: '',
-                    age: '',
-                    job: '',
-                    nature: '',
-                    headurl: '', // 文章图片
-                    headSelect: '',
-                    backImg: '',
-                    configTime: '',
-                    homeSort: '',
-                    timeNum: '',
-                    time: '',
-                    price: '',
-                    workTimes: [{
-                        value: ''
-                    }],
-                    //id: '',
-                    status: 'published',
+                    configTime: new Date(),
+                    homeSort: '默认',
+                },
+                pickerOptions1: {
+                    disabledDate(time) {
+                        return time.getTime() + 86400000 < Date.now();
+                    },
                 },
                 configOptions: [{
                     value: '0',
@@ -183,6 +183,18 @@
                 },{
                     value: '1',
                     label: '1'
+                },{
+                    value: '2',
+                    label: '2'
+                },{
+                    value: '3',
+                    label: '3'
+                },{
+                    value: '4',
+                    label: '4'
+                },{
+                    value: '5',
+                    label: '5'
                 }],
                 timeOptions: [{
                     value: '0',
@@ -200,24 +212,6 @@
                     value: '4',
                     label: '周'
                 }],
-                photos: [],
-                photosList: {
-                    url: '',
-                    amount: '',
-                    name: '',
-                    photoNum: ''
-                },
-                upPhotos: {
-                    photourl: '',
-                    thumbnail: ''
-                },
-                addmvs: {
-                    thumbnail: '',
-                    url: '',
-                    mvurl: '',
-                    name: '',
-                    amount: ''
-                },
                 mvs: [],
                 showPhoto: true,
                 showHr: true,
@@ -230,34 +224,8 @@
                 userLIstOptions: [],
                 natureLength: false,
                 disable: true,
-                sexOptions: [{
-                    value: '1',
-                    label: '男'
-                }, {
-                    value: '2',
-                    label: '女'
-                }],
-                addPhotosRules: {
-                    url: [{ validator: validateRequire }],
-                    amount: [{ validator: checkNum }],
-                    name: [{ validator: validateRequire }]
-                },
-                addMvRules: {
-                    thumbnail: [{ validator: validateRequire }],
-                    mvurl: [{ validator: validateRequire }],
-                    amount: [{ validator: checkNum }],
-                    mvname: [{ validator: validateRequire }]
-                },
-                picListRules: {
-                    photourl: [{ validator: validateRequire }]
-                },
                 actorDetail: {
                     name: [{ validator: validateRequire, trigger: 'blur' }],
-                    style: [{ validator: validateRequire, trigger: 'blur' }],
-                    height: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
-                    weight: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
-                    age: [{ validator: checkNum, trigger: 'blur' }],
-                    //bust: [{ validator: checkNum, trigger: 'blur' }],
                 }
             }
         },

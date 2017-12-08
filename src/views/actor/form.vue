@@ -576,7 +576,7 @@
         if (!value) {
           return callback(new Error('输入不能为空'));
         } else {
-          let str = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+          let str = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]");
           let flg = false;
           flg = (value.match(str));
           if (flg) {

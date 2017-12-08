@@ -118,7 +118,7 @@
                 <template scope="scope">
                     <!--<span>{{scope.row.sort}}</span>-->
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-                    <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="scope.row.disable">
+                    <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="scope.row.disable" @change="changeSort(scope.row)">
                         <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </template>
@@ -489,16 +489,20 @@
                 }
             },
             handleSort (index, rows) {
+                rows.disable = false;
                 /*if (this.disable) {
                  this.disable = false;
                  } else {
                  this.disable = true;
                  }*/
-                if (rows.disable) {
+                /*if (rows.disable) {
                     rows.disable = false;
                 } else {
                     rows.disable = true;
-                }
+                }*/
+            },
+            changeSort (rows) {
+                rows.disable = true;
             },
             getList() {
                 this.listLoading = true;

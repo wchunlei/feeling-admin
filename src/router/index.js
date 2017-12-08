@@ -111,6 +111,7 @@ const appTable = _import('app/table');
 /* event 事件管理 */
 const eventStory= _import('event/tablestory');
 const eventApp = _import('event/tableapp');
+const eventTest = _import('event/test/test');
 
 /* diary 日记管理 */
 const diaryForm = _import('diary/form');
@@ -274,6 +275,26 @@ export const asyncRouterMap = [
     children: [
       { path: 'table', component: bannerTable, name: 'banner列表' },
       { path: 'form', component: bannerForm, name: '新增banner' },
+    ]
+  },
+  {
+    path: '/event',
+    component: Layout,
+    redirect: '/event/index',
+    name: '事件管理',
+    icon: 'zujian',
+    children: [
+      { path: 'index', component: eventStory, name: '剧情事件' },
+      {
+      path: '/event/test',
+      component: Layout,
+      redirect: '/event/test/test',
+      name: '事件管理123',
+      icon: 'zujian',
+      children: [
+        { path: 'test', component: eventTest, name: '渠道事件' }
+      ]
+    }
     ]
   },
 /*  {
