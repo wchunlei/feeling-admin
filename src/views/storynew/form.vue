@@ -22,70 +22,70 @@
                     <div id="myChart" :style="{width: '1200px', height: '800px'}"></div>
                 </el-form-item>
 
-                <el-form-item label="剧情标题:" label-width="100px" prop="name" style="margin-bottom: 40px">
+                <el-form-item label="剧情标题:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
                     <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" maxlength="10"></el-input>
                 </el-form-item>
 
-                <el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;">
+                <el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
                     <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;" :disabled="disableActor">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
-                <el-form-item label="上传剧情配置:" label-width="100px" prop="uploadTxt" style="margin-bottom: 40px">
+                <el-form-item label="上传剧情配置:" label-width="110px" prop="uploadTxt" style="margin-bottom: 40px" required>
                     <el-upload
                             v-model="postForm.uploadTxt"
                             class="upload-demo"
                             action="http://192.168.1.43:3000/system/upload"
-                            :on-preview="handlePreview"
+                            :before-upload="beforeAvatarUpload"
                             :on-success="handleImageScucess"
                             :on-remove="handleRemove" style="width:200px">
                         <el-button size="small" type="primary">选择txt文件</el-button>
                         <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="上传视频包:" label-width="100px" prop="uploadVideo" style="margin-bottom: 40px">
+                <el-form-item label="上传视频包:" label-width="100px" prop="uploadVideo" style="margin-bottom: 40px" required>
                     <el-upload
                             v-model="postForm.uploadVideo"
                             class="upload-demo"
                             action="http://192.168.1.43:3000/system/upload"
-                            :on-preview="handlePreview"
+                            :before-upload="beforeAvatarUploadVideo"
                             :on-success="handleImageScucess"
                             :on-remove="handleRemove" style="width:200px">
                         <el-button size="small" type="primary">选择压缩文件</el-button>
                         <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="剧情阶段:" label-width="100px" prop="stage" style="margin-bottom: 40px">
+                <el-form-item label="剧情阶段:" label-width="100px" prop="stage" style="margin-bottom: 40px" required>
                     <el-select v-model="postForm.stage" placeholder="请选择">
                         <el-option v-for="item in stageOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="剧情收费设置:" label-width="100px" prop="priceSet" style="margin-bottom: 40px">
+                <el-form-item label="剧情收费设置:" label-width="110px" prop="priceSet" style="margin-bottom: 40px" required>
                     <span @click="showPrice"><el-radio v-model="radioPrice" label="0">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="radioPrice" label="1">免费</el-radio></span>
                 </el-form-item>
                 <div v-show="showPri" style="display: inline-block;margin-bottom: 0px">
-                    <el-form-item label="剧情价格:" label-width="100px" prop="storyPrice" style="margin-bottom: 40px">
-                        <el-input v-model="postForm.storyPrice" style="width:150px" placeholder="请输入整数金额"></el-input>
+                    <el-form-item label="剧情价格:" label-width="100px" prop="storyPrice" style="margin-bottom: 40px" required>
+                        <el-input v-model.number="postForm.storyPrice" style="width:150px" placeholder="请输入整数金额"></el-input>
                         <span>钻石</span>
                     </el-form-item>
                 </div>
-                <el-form-item label="选项价格:" label-width="100px" prop="optionPrice" style="margin-bottom: 40px">
-                    <el-input v-model="postForm.optionPrice" style="width:150px" placeholder="请输入整数金额"></el-input>
+                <el-form-item label="选项价格:" label-width="100px" prop="optionPrice" style="margin-bottom: 40px" required>
+                    <el-input v-model.number="postForm.optionPrice" style="width:150px" placeholder="请输入整数金额"></el-input>
                     <span>钻石</span>
                 </el-form-item>
 
-                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
+                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px" required>
                     <!--<el-select v-model="postForm.config" placeholder="请选择">
                         <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：下架状态：该主角不会在App中显示）</span>-->
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm"></el-date-picker>
+                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="主角剧本排序:" label-width="100px" prop="storySort" style="margin-bottom: 40px">
+                <el-form-item label="主角剧本排序:" label-width="110px" prop="storySort" style="margin-bottom: 40px" required>
                     <el-select v-model="postForm.storySort" placeholder="请选择">
                         <el-option v-for="item in storySortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
@@ -139,10 +139,24 @@
                     }
                 }, 500);
             };
+            const validateRequireAll = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('输入不能为空'));
+                } else {
+                    callback()
+                }
+            };
             const validateRequire = (rule, value, callback) => {
                 if (!value) {
                     return callback(new Error('输入不能为空'));
                 } else {
+                    let str = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+                    let flg = false;
+                    flg = (value.match(str));
+                    if (flg) {
+                        return callback(new Error('标题格式有误'));
+                        //alert('昵称格式有误,请勿输入特殊字符');
+                    }
                     callback()
                 }
             };
@@ -179,17 +193,21 @@
                 storys: ["佳佳ss","娜美ss"],
                 /*checkedActor: [],*/
                 postForm: {
-                    style: '', // 文章题目
                     name: '', // 文章内容
                     actor: '',
                     uploadTxt: '',
                     uploadVideo: '',
-                    stage: '',
+                    stage: '1',
                     priceSet: '',
                     storyPrice: '',
-                    optionPrice: '',
-                    configTime: '',
-                    storySort: ''
+                    optionPrice: 10,
+                    configTime: new Date(),
+                    storySort: '默认'
+                },
+                pickerOptions1: {
+                    disabledDate(time) {
+                        return time.getTime() + 86400000 < Date.now();
+                    },
                 },
                 radioPrice: '0',
                 stageOptions: [{
@@ -201,6 +219,12 @@
                 },{
                     value: '3',
                     label: '3'
+                },{
+                    value: '4',
+                    label: '4'
+                },{
+                    value: '5',
+                    label: '5'
                 }],
                 configOptions: [{
                     value: '0',
@@ -215,6 +239,18 @@
                 },{
                     value: '1',
                     label: '1'
+                },{
+                    value: '2',
+                    label: '2'
+                },{
+                    value: '3',
+                    label: '3'
+                },{
+                    value: '4',
+                    label: '4'
+                },{
+                    value: '5',
+                    label: '5'
                 }],
                 timeOptions: [{
                     value: '0',
@@ -232,7 +268,7 @@
                     value: '4',
                     label: '周'
                 }],
-                photos: [],
+                /*photos: [],
                 photosList: {
                     url: '',
                     amount: '',
@@ -249,7 +285,7 @@
                     mvurl: '',
                     name: '',
                     amount: ''
-                },
+                },*/
                 showPri: true,
                 showChart: true,
                 mvs: [],
@@ -271,7 +307,7 @@
                     value: '2',
                     label: '女'
                 }],
-                addPhotosRules: {
+                /*addPhotosRules: {
                     url: [{ validator: validateRequire }],
                     amount: [{ validator: checkNum }],
                     name: [{ validator: validateRequire }]
@@ -284,13 +320,13 @@
                 },
                 picListRules: {
                     photourl: [{ validator: validateRequire }]
-                },
+                },*/
                 actorDetail: {
                     name: [{ validator: validateRequire, trigger: 'blur' }],
-                    style: [{ validator: validateRequire, trigger: 'blur' }],
-                    height: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
-                    weight: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
-                    age: [{ validator: checkNum, trigger: 'blur' }],
+                    /*height: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
+                    weight: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],*/
+                    storyPrice: [{ validator: checkNum, trigger: 'blur' }],
+                    optionPrice: [{ validator: checkNum, trigger: 'blur' }],
                     //bust: [{ validator: checkNum, trigger: 'blur' }],
                 }
             }
@@ -487,6 +523,30 @@
                     this.postForm.workTimes.splice(index, 1)
                 }
             },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'text/plain';
+                const isLt2M = file.size / 1024 / 1024 > 0.01;
+                console.log(file);
+                if (!isJPG) {
+                    this.$message.error('上传失败，请检查网络，并上传txt格式的文件!');
+                }
+                /*if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不小于 10kb!');
+                }*/
+                return isJPG;
+            },
+            /*beforeAvatarUploadVideo(file) {
+                const isJPG = file.type === 'text/plain';
+                const isLt2M = file.size / 1024 / 1024 > 0.01;
+                console.log(file);
+                if (!isJPG) {
+                    this.$message.error('上传失败，请检查网络，并上传txt格式的文件!');
+                }
+                /!*if (!isLt2M) {
+                 this.$message.error('上传头像图片大小不小于 10kb!');
+                 }*!/
+                return isJPG;
+            },*/
             getRemoteUserList(query) {
              userSearch(query).then(response => {
              if (!response.data.items) return;

@@ -294,138 +294,177 @@
 
         <el-row>
           <el-col :span="8">
-            <el-form-item label="昵称:" label-width="100px" prop="name" style="margin-bottom: 40px">
+            <el-form-item label="昵称:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
               <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :disabled="disable" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label-width="100px" label="身高:" class="postInfo-container-item" prop="height">
-              <el-input placeholder="" style='width:220px;' v-model.number="postForm.height" :disabled="disable">
+            <el-form-item label-width="100px" label="身高:" class="postInfo-container-item" prop="height" required>
+              <el-input placeholder="请输入身高" style='width:220px;' v-model.number="postForm.height" maxlength="3">
               </el-input>
+              <span>cm</span>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label-width="100px" label="体重:" class="postInfo-container-item" prop="weight">
-              <el-input placeholder="" style='width:220px;' v-model.number="postForm.weight" :disabled="disable">
+            <el-form-item label-width="100px" label="体重:" class="postInfo-container-item" prop="weight" required>
+              <el-input placeholder="请输入体重" style='width:220px;' v-model.number="postForm.weight" maxlength="2">
               </el-input>
+              <span>kg</span>
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row>
           <el-col :span="8">
-            <el-form-item label="年龄:" label-width="100px" prop="age" style="margin-bottom: 40px">
-              <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.age" :disabled="disable" maxlength="10"></el-input>
+            <el-form-item label="年龄:" label-width="100px" prop="age" style="margin-bottom: 40px" required>
+              <el-input placeholder="请输入年龄" style='width:220px;' v-model.number="postForm.age" maxlength="2"></el-input>
+              <span>岁</span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label-width="100px" label="胸围:" class="postInfo-container-item" prop="bust">
-              <el-input placeholder="" style='width:220px;' v-model.number="postForm.bust" :disabled="disable">
-              </el-input>
-            </el-form-item>
+            <el-form-item label-width="100px" label="胸围:" class="postInfo-container-item" prop="bust" required>
+              <!--<el-input placeholder="" style='width:220px;' v-model.number="postForm.bust"></el-input>-->
+              <el-select v-model="postForm.bust" placeholder="请选择">
+                <el-option v-for="item in bustOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+              </el-select>
+              <el-form-item prop="size" style="display: inline-block;width:60px">
+                <el-select v-model="postForm.size" placeholder="请选择">
+                  <el-option v-for="item in sizeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label-width="100px" label="标签:" class="postInfo-container-item" prop="style">
-              <el-input placeholder="" style='width:220px;' v-model.number="postForm.style" :disabled="disable">
-              </el-input>
+            <el-form-item label-width="100px" label="标签:" class="postInfo-container-item" prop="style" required>
+              <!--<el-input placeholder="" style='width:220px;' v-model.number="postForm.style"></el-input>-->
+              <el-select v-model="postForm.style" placeholder="请选择">
+                <el-option v-for="item in styleOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row>
           <el-col :span="8">
-            <el-form-item label="内心独白:" label-width="100px" prop="nature" style="margin-bottom: 40px">
-              <el-input type="textarea" placeholder="最多输入70个字" style='width:280px;' v-model="postForm.nature  " :disabled="disable" maxlength="70" rows="3"></el-input>
+            <el-form-item label="内心独白:" label-width="100px" prop="nature" style="margin-bottom: 40px" required>
+              <el-input type="textarea" placeholder="最多输入15个字" style='width:280px;' v-model="postForm.nature  " :disabled="disable" maxlength="15" rows="3"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="主人评价:" label-width="100px" prop="nature" style="margin-bottom: 40px">
-              <el-input type="textarea" placeholder="最多输入30个字" style='width:280px;' v-model="postForm.nature  " :disabled="disable" maxlength="70" rows="3"></el-input>
+            <el-form-item label="主人评价:" label-width="100px" prop="host" style="margin-bottom: 40px" required>
+              <el-input type="textarea" placeholder="最多输入30个字" style='width:280px;' v-model="postForm.host" :disabled="disable" maxlength="30" rows="3"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
 
-        <el-form-item label="头像:" label-width="100px" prop="headurl" style="margin-bottom: 40px">
-          <div style="margin-bottom: 20px;width:800px">
+        <el-form-item label="头像:" label-width="100px" prop="headurl" style="margin-bottom: 40px" required>
+          <div style="margin-bottom: 0px;width: 180px;height: 180px; border: 1px dashed #d9d9d9;">
             <Uploadhead v-model="postForm.headurl" v-on:input="picInput"></Uploadhead>
-            <span style="font-size:12px">（注：请上传比例1：1的图片，不小于10kb的图片）</span>
           </div>
+          <span style="font-size:12px;display:inline-block; margin-top: -40px">（注：请上传1:1，不小于10kb，jpg、png等格式的文件）</span>
         </el-form-item>
 
-        <el-form-item label="头像框:" label-width="100px" prop="headSelect" style="margin-bottom: 40px">
+        <!--<el-form-item label="头像框:" label-width="100px" prop="headSelect" style="margin-bottom: 40px">
           <el-select v-model="postForm.headSelect" placeholder="请选择">
             <el-option v-for="item in headOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item>-->
 
-        <el-form-item label="个人页背景图:" label-width="100px" prop="backImg1" style="margin-bottom: 40px">
-          <div style="margin-right: 20px;display: inline-block">
+        <el-form-item label="个人页背景图:" label-width="110px" prop="backImg1" style="margin-bottom: 40px" required>
+          <div style="margin-right: 20px;height: 180px;display: inline-block;border: 1px dashed #d9d9d9;">
             <Upload v-model="postForm.backImg1" v-on:input="picInput"></Upload>
           </div>
           <el-form-item prop="backImg2" style="margin-right: 20px;display: inline-block">
-            <div>
+            <div style="height: 180px;border: 1px dashed #d9d9d9;">
               <Upload v-model="postForm.backImg2" v-on:input="picInput"></Upload>
             </div>
           </el-form-item>
           <el-form-item prop="backImg3" style="margin-right: 20px;display: inline-block">
-            <div>
+            <div style="height: 180px;border: 1px dashed #d9d9d9;">
               <Upload v-model="postForm.backImg3" v-on:input="picInput"></Upload>
             </div>
           </el-form-item>
           <el-form-item prop="backImg4" style="margin-right: 20px;display: inline-block">
-            <div>
+            <div style="height: 180px;border: 1px dashed #d9d9d9;">
               <Upload v-model="postForm.backImg4" v-on:input="picInput"></Upload>
             </div>
           </el-form-item>
           <el-form-item prop="backImg5" style="margin-right: 20px;display: inline-block">
-            <div>
+            <div style="height: 180px;border: 1px dashed #d9d9d9;">
               <Upload v-model="postForm.backImg5" v-on:input="picInput"></Upload>
             </div>
           </el-form-item>
-          <span style="font-size:12px;display: block">（注：请上传比例4：3，不小于100Kb的图片）</span>
+          <span style="font-size:12px;display: block">（注：请上传4:3，不小于10kb，jpg、png等格式的文件）</span>
         </el-form-item>
 
-        <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
+        <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px" required>
           <!--<el-select v-model="postForm.config" placeholder="请选择">
             <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>-->
-          <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm"></el-date-picker>
+          <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="请输入上架时间"></el-date-picker>
           <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
         </el-form-item>
 
-        <el-form-item label="私密圈排序:" label-width="100px" prop="private" style="margin-bottom: 40px">
+        <el-form-item label="私密圈排序:" label-width="100px" prop="private" style="margin-bottom: 40px" required>
           <el-select v-model="postForm.private" placeholder="请选择">
             <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
           <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
         </el-form-item>
 
-        <el-form-item label="加速价格:" label-width="100px" prop="timeNum" style="margin-bottom: 40px">
-          <el-input placeholder="" style='width:60px;' v-model="postForm.timeNum" :disabled="disable" maxlength="10"></el-input>
+        <el-form-item label="加速价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
+          <!--<el-input placeholder="" style='width:60px;' v-model="postForm.timeNum" :disabled="disable" maxlength="10"></el-input>-->
+          <el-input placeholder="" style='width:50px;' v-model.number="postForm.price" :disabled="disable" maxlength="10"></el-input>
+          <span>钻石/</span>
           <el-select v-model="postForm.time" placeholder="请选择" style="width:80px">
             <el-option v-for="item in timeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
-          <el-input placeholder="" style='width:50px;' v-model="postForm.price" :disabled="disable" maxlength="10"></el-input>
-          <span>钻石</span>
         </el-form-item>
 
-        <el-form-item label="配置工作时间:" label-width="100px" prop="workTimes" >
+        <el-form-item label="配置工作时间:" label-width="110px" prop="workTimes" required>
+
+          <div style="margin-bottom: 40px">
+            <el-form-item label="" style="display: inline-block" prop="workTimeWeek" required>
+              <span>星期</span>
+              <el-select v-model="postForm.workTimeWeek" placeholder="请选择" style="width:80px">
+                <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="" style="display: inline-block" prop="time3">
+              <el-time-select v-model="postForm.time3" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
+              <span style="display: inline-block;margin: 0 20px 0 20px">至</span>
+            </el-form-item>
+
+            <el-form-item label="" style="display: inline-block" prop="workTimeWeek1">
+              <span>星期</span>
+              <el-select v-model="postForm.workTimeWeek1" placeholder="请选择" style="width:80px">
+                <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="" style="display: inline-block" prop="time2">
+              <el-time-select v-model="postForm.time2" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
+            </el-form-item>
+            <el-button @click.prevent="addWork">新增工作时间</el-button>
+          </div>
+
           <div v-for="workTime in postForm.workTimes" style="margin-bottom: 40px">
             <!--<el-date-picker v-model="workTime.value" type="week" format="周 ww"></el-date-picker>-->
             <span>星期</span>
             <el-select v-model="workTime.time" placeholder="请选择" style="width:80px">
               <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
-            <el-time-select v-model="workTime.value" :picker-options="{start: '00:00',step: '00:15',end: '23:45'}" placeholder="选择时间" style="width: 110px"></el-time-select>
+            <el-time-select v-model="workTime.value" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
             <span style="display: inline-block;margin: 0 20px 0 20px">至</span>
             <span>星期</span>
             <el-select v-model="workTime.time1" placeholder="请选择" style="width:80px">
               <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
-            <el-time-select v-model="workTime.value1" :picker-options="{start: '00:00',step: '00:15',end: '23:45'}" placeholder="选择时间" style="width: 110px"></el-time-select>
+            <el-time-select v-model="workTime.value1" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
             <el-button @click.prevent="addWork">新增工作时间</el-button>
             <el-button @click.prevent="removeWork(workTime)">删除</el-button>
           </div>
@@ -462,7 +501,55 @@
     name: 'articleDetail',
     components: { Tinymce, MDinput, Upload, Uploadvideo, Uploadhead },
     data() {
-      const checkNum = (rule, value, callback) => {
+      const checkNumHeight = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('输入不能为空'));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('请输入正整数'));
+          } else {
+            if (value < 140 || value > 200) {
+              callback(new Error('请输入140~200之间的整数'));
+            } else {
+              callback();
+            }
+          }
+        }, 500);
+      };
+      const checkNumWeight = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('输入不能为空'));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('请输入正整数'));
+          } else {
+            if (value < 30 || value > 90) {
+              callback(new Error('请输入30~90之间的整数'));
+            } else {
+              callback();
+            }
+          }
+        }, 500);
+      };
+      const checkNumAge = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('输入不能为空'));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('请输入正整数'));
+          } else {
+            if (value < 10 || value > 50) {
+              callback(new Error('请输入10~50之间的整数'));
+            } else {
+              callback();
+            }
+          }
+        }, 500);
+      };
+      const checkNumPrice = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('输入不能为空'));
         }
@@ -471,17 +558,31 @@
             callback(new Error('请输入正整数'));
           } else {
             if (value < 0) {
-              callback(new Error('不能小于0'));
+              callback(new Error('请输入正整数'));
             } else {
               callback();
             }
           }
         }, 500);
       };
+      const validateRequireAll = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('输入不能为空'));
+        } else {
+          callback()
+        }
+      };
       const validateRequire = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('输入不能为空'));
         } else {
+          let str = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]");
+          let flg = false;
+          flg = (value.match(str));
+          if (flg) {
+            return callback(new Error('昵称格式有误'));
+            //alert('昵称格式有误,请勿输入特殊字符');
+          }
           callback()
         }
       };
@@ -513,15 +614,17 @@
         },
         progressStatus: '',
         postForm: {
-          style: '', // 文章题目
-          name: '', // 文章内容
+          style: '无',
+          name: '',
           gender: '2',
-          weight: '',
-          height: '',
-          bust: '',
-          age: '',
+          weight: 45,
+          height: 160,
+          bust: '32',
+          size: 'C',
+          age: 20,
           job: '',
           nature: '',
+          host: '',
           headurl: '', // 文章图片
           headSelect: '',
           backImg1: '',
@@ -532,8 +635,12 @@
           configTime: '',
           private: '',
           timeNum: '',
-          time: '',
-          price: '',
+          time: '小时',
+          price: 20,
+          workTimeWeek: '',
+          workTimeWeek1: '',
+          time2: '',
+          time3: '',
           workTimes: [{
             time: '',
             value: '',
@@ -595,6 +702,47 @@
           value: '5',
           label: '5'
         }],
+        bustOptions: [{
+          value: '30',
+          label: '30'
+        },{
+          value: '32',
+          label: '32'
+        },{
+          value: '34',
+          label: '34'
+        },{
+          value: '36',
+          label: '36'
+        },{
+          value: '38',
+          label: '38'
+        },{
+          value: '40',
+          label: '40'
+        }],
+        sizeOptions: [{
+          value: 'A',
+          label: 'A'
+        },{
+          value: 'B',
+          label: 'B'
+        },{
+          value: 'C',
+          label: 'C'
+        },{
+          value: 'D',
+          label: 'D'
+        },{
+          value: 'E',
+          label: 'E'
+        },{
+          value: 'F',
+          label: 'F'
+        },{
+          value: 'G',
+          label: 'G'
+        }],
         timeOptions: [{
           value: '0',
           label: '小时'
@@ -611,7 +759,32 @@
           value: '4',
           label: '周'
         }],
-        photos: [],
+        styleOptions: [{
+          value: '0',
+          label: '无'
+        },{
+          value: '1',
+          label: '护理女仆'
+        },{
+          value: '2',
+          label: '家教女仆'
+        },{
+          value: '3',
+          label: '秘书女仆'
+        },{
+          value: '4',
+          label: '陪练女仆'
+        },{
+          value: '5',
+          label: '成熟女仆'
+        },{
+          value: '6',
+          label: '校花女仆'
+        },{
+          value: '7',
+          label: 'coser女仆'
+        }],
+        /*photos: [],
         photosList: {
           url: '',
           amount: '',
@@ -629,7 +802,7 @@
           name: '',
           amount: ''
         },
-        mvs: [],
+        mvs: [],*/
         showPhoto: true,
         showHr: true,
         dialogPhoto: false,
@@ -648,7 +821,7 @@
           value: '2',
           label: '女'
         }],
-        addPhotosRules: {
+        /*addPhotosRules: {
           url: [{ validator: validateRequire }],
           amount: [{ validator: checkNum }],
           name: [{ validator: validateRequire }]
@@ -661,13 +834,19 @@
         },
         picListRules: {
           photourl: [{ validator: validateRequire }]
-        },
+        },*/
         actorDetail: {
           name: [{ validator: validateRequire, trigger: 'blur' }],
+          nature: [{ validator: validateRequireAll, trigger: 'blur' }],
           style: [{ validator: validateRequire, trigger: 'blur' }],
-          height: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
-          weight: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
-          age: [{ validator: checkNum, trigger: 'blur' }],
+          height: [{ validator: checkNumHeight, trigger: 'blur' }],
+          weight: [{ validator: checkNumWeight, trigger: 'blur' }],
+          age: [{ validator: checkNumAge, trigger: 'blur' }],
+          price: [{ validator: checkNumPrice, trigger: 'blur' }],
+          workTimeWeek: [{ validator: validateRequireAll, trigger: 'blur' }],
+          workTimeWeek1: [{ validator: validateRequireAll, trigger: 'blur' }],
+          time2: [{ validator: validateRequireAll, trigger: 'blur' }],
+          time3: [{ validator: validateRequireAll, trigger: 'blur' }],
           //bust: [{ validator: checkNum, trigger: 'blur' }],
         }
       }
@@ -723,7 +902,7 @@
           this.postForm.workTimes.splice(index, 1)
         }
       },
-      getDetail () {
+      /*getDetail () {
         actorListAll (this.listQuery).then(response => {
           this.postForm = response.data.content;
           if (response.data.content.gender == 1) {
@@ -737,16 +916,16 @@
           if (this.photos == '') {
             this.showHr =false;
           }
-          /*for(let i=0;i<this.postForm.nature.length;i++){
+          /!*for(let i=0;i<this.postForm.nature.length;i++){
             this.postForm.nature[i].name = response.data.content.nature[i].name;
             this.postForm.nature = this.postForm.nature + this.postForm.nature[i].name + ',';
             alert(this.postForm.nature)
           }
-          this.postForm.nature = this.postForm.nature.replace("undefined",'');*/
-            /*for(let i=0;i<response.data.content.photo.length;i++){
+          this.postForm.nature = this.postForm.nature.replace("undefined",'');*!/
+            /!*for(let i=0;i<response.data.content.photo.length;i++){
               this.photos.amount =this.photos[i].amount;
               this.photos.url = this.photos[i].url;
-            }*/
+            }*!/
             //this.photos.amount =this.photos[0].amount;
             //this.photos.url = this.photos[0].url;
         }).catch(err => {
@@ -771,11 +950,11 @@
           if (valid) {
             this.loading = true;
             actorUpdate(actorinfo).then(response => {
-              /*if (!response.data.items) return;
+              /!*if (!response.data.items) return;
               console.log(response)
               this.userLIstOptions = response.data.items.map(v => ({
                 key: v.name
-              }));*/
+              }));*!/
               if(response.data.code == 200) {
                 this.$message({
                   message: '发布成功',
@@ -836,7 +1015,7 @@
           }
         });
       },
-      /*surePhoto (id) {
+      /!*surePhoto (id) {
         this.dialogPhoto = false;
         this.flagPhoto = true;
         let photoid={
@@ -853,7 +1032,7 @@
             console.log(err);
           });
         }
-      },*/
+      },*!/
       delPhoto (id) {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -879,7 +1058,7 @@
           });
         });
         //this.dialogPhoto = true;
-        /*let photoid={
+        /!*let photoid={
           id: id
         };
         if(this.flagPhoto){
@@ -890,7 +1069,7 @@
               this.fetchSuccess = false;
             console.log(err);
           });
-        }*/
+        }*!/
       },
       delPicture (id,url) {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -947,7 +1126,7 @@
           }
         });
       },
-      /*sureMv (id) {
+      /!*sureMv (id) {
         this.dialogMv = false;
         this.flagMv = true;
         let mvid={
@@ -961,7 +1140,7 @@
             this.fetchSuccess = false;
           console.log(err);
         });
-      },*/
+      },*!/
       delMv (id) {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -986,7 +1165,7 @@
           });
         });
         //this.dialogMv = true;
-        /*let mvid={
+        /!*let mvid={
           id: id
         };
         delMv (mvid).then(response => {
@@ -995,7 +1174,7 @@
           }).catch(err => {
             this.fetchSuccess = false;
           console.log(err);
-        });*/
+        });*!/
       },
       thumbnaillist (id) {
         this.photoid = id;
@@ -1033,11 +1212,11 @@
         //this.$refs.upPhotos.validate(valid => {
           //if (valid) {
 
-          /*} else {
+          /!*} else {
             console.log('error submit!!');
             return false;
           }
-        });*/
+        });*!/
         if (photoList.photourl) {
           addPhoto (photoList).then(response => {
             console.log();
@@ -1047,14 +1226,14 @@
             this.fetchSuccess = false;
             console.log(err);
           });
-        }/* else {
+        }/!* else {
           this.$message({
             message: '上传失败',
             type: 'error'
           });
-        }*/
+        }*!/
         //this.dialogVisible = false;
-      },
+      },*/
       getRemoteUserList(query) {
         userSearch(query).then(response => {
           if (!response.data.items) return;

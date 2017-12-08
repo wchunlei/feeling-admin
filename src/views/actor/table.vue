@@ -28,7 +28,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="150px" align="center" label="主角" prop="name">
+      <el-table-column width="100px" align="center" label="主角" prop="name">
         <!--<template scope="scope">
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
         </template>-->
@@ -44,17 +44,17 @@
         </template>
       </el-table-column>-->
 
-      <el-table-column width="300px" align="center" label="简介" prop="nature">
+      <el-table-column width="300px" align="center" label="内心独白" prop="nature">
         <template scope="scope">
           <span>{{scope.row.nature}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" label="头像框" width="150px" prop="headSelect">
+      <!--<el-table-column class-name="status-col" label="头像框" width="150px" prop="headSelect">
         <template scope="scope">
           <span>{{scope.row.headSelect}}</span>
         </template>
-      </el-table-column>
+      </el-table-column>-->
 
       <el-table-column min-width="150px" align="center" label="标签" prop="style">
         <template scope="scope">
@@ -91,11 +91,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" align="center" label="排序" prop="sort">
+      <el-table-column min-width="150px" align="center" label="私密圈排序" prop="sort">
         <template scope="scope">
           <!--<span>{{scope.row.sort}}</span>-->
           <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-          <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="scope.row.disable">
+          <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="scope.row.disable" @change="changeSort(scope.row)">
             <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </template>
@@ -355,8 +355,8 @@
       }
     },
     /*watch: {
-      "scope.row.selectSort" () {
-        scope.row.sort = scope.row.selectSort;
+      "sort" () {
+        this.disable = true;
       }
     },*/
     methods: {
@@ -431,16 +431,20 @@
         }
       },
       handleSort (index, rows) {
+        rows.disable = false;
         /*if (this.disable) {
           this.disable = false;
         } else {
           this.disable = true;
         }*/
-        if (rows.disable) {
+        /*if (rows.disable) {
           rows.disable = false;
         } else {
           rows.disable = true;
-        }
+        }*/
+      },
+      changeSort (rows) {
+        rows.disable = true;
       },
       getList() {
         this.listLoading = true;

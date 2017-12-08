@@ -8,11 +8,19 @@
         <el-upload
                 class="avatar-uploader"
                 action="http://192.168.1.43:3000/system/upload"
+                :data="dataObj"
                 :show-file-list="false"
-                :on-success="handleImageScucess">
+                :before-upload="beforeAvatarUpload"
+                :on-success="handleImageScucess"
+                :on-remove="handleRemove">
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
+        <div class="closeIcon">
+            <i class="el-dialog__close el-icon el-icon-close" style="color: #ccc" @click="rmImage"></i>
+        </div>
+
+        <!--<i class="el-icon-circle-close" @click="rmImage"></i>-->
         <!--<div class="image-preview image-app-preview">
             <div class="image-preview-wrapper" v-show="imageUrl.length>1">
                 <div class='app-fake-conver'>&nbsp&nbsp</div>
@@ -33,7 +41,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/ECMAScript-6">
     // 预览效果见文章
     import { getToken } from 'api/qiniu';
     export default {
@@ -64,6 +72,20 @@
                 this.emitInput(res.content.url);
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
+            beforeAvatarUpload(file) {
+                //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';
+                const isLt2M = file.size / 1024 / 1024 > 0.01;
+                if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
+                    this.$message.error('图片格式有误!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不小于 10kb!');
+                }
+                return isLt2M;
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
             beforeUpload() {
                 const _self = this;
                 return new Promise((resolve, reject) => {
@@ -84,10 +106,10 @@
     };
 </script>
 
-<style rel="stylesheet/scss" lang="scss" >
+<style rel="stylesheet/scss" lang="scss" scoped>
     @import "src/styles/mixin.scss";
     .upload-container {
-        width: 22%;
+        width: 100%;
         position: relative;
     @include clearfix;
         .avatar-uploader .el-upload {
@@ -111,7 +133,14 @@
         .avatar {
             width: 180px;
             height: 180px;
-            display: block;
+            display: inline-block;
+        }
+        .closeIcon {
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            left: 160px;
+            top: -190px;
         }
     }
 </style>
