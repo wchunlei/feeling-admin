@@ -430,7 +430,7 @@
           <div style="margin-bottom: 40px">
             <el-form-item label="" style="display: inline-block" prop="workTimeWeek" required>
               <span>周</span>
-              <el-select v-model="postForm.workTimeWeek" placeholder="请选择" style="width:80px">
+              <el-select v-model="postForm.workTimeWeek" placeholder="请选择" style="width:90px">
                 <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
@@ -442,7 +442,7 @@
 
             <el-form-item label="" style="display: inline-block" prop="workTimeWeek1">
               <span>周</span>
-              <el-select v-model="postForm.workTimeWeek1" placeholder="请选择" style="width:80px">
+              <el-select v-model="postForm.workTimeWeek1" placeholder="请选择" style="width:90px">
                 <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
@@ -456,13 +456,13 @@
           <div v-for="workTime in postForm.workTimes" style="margin-bottom: 40px">
             <!--<el-date-picker v-model="workTime.value" type="week" format="周 ww"></el-date-picker>-->
             <span>周</span>
-            <el-select v-model="workTime.time" placeholder="请选择" style="width:80px">
+            <el-select v-model="workTime.time" placeholder="请选择" style="width:90px">
               <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
             <el-time-select v-model="workTime.value" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
             <span style="display: inline-block;margin: 0 20px 0 20px">至</span>
             <span>周</span>
-            <el-select v-model="workTime.time1" placeholder="请选择" style="width:80px">
+            <el-select v-model="workTime.time1" placeholder="请选择" style="width:90px">
               <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
             <el-time-select v-model="workTime.value1" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>

@@ -1,13 +1,18 @@
 <template>
     <div class="app-container calendar-list-container">
         <div class="filter-container">
-            <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="昵称" v-model="listQuery.name">
+            <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="banner标题" v-model="listQuery.name">
             </el-input>
 
             <!--<el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.gender" placeholder="性别">
               <el-option v-for="item in  sexOptions" :key="item.label" :label="item.label" :value="item.value">
               </el-option>
             </el-select>-->
+
+            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" placeholder="banner类型">
+                <el-option v-for="item in  typeOptions" :key="item.label" :label="item.label" :value="item.value">
+                </el-option>
+            </el-select>
 
             <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.status" placeholder="状态">
                 <el-option v-for="item in  statusOptions" :key="item.label" :label="item.label" :value="item.value">
@@ -29,13 +34,13 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="100px" align="center" label="主角" prop="name">
+            <el-table-column width="300px" align="center" label="banner标题" prop="title">
                 <!--<template scope="scope">
                   <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
                 </template>-->
                 <template scope="scope">
                     <!--<span>{{scope.row.name}}</span>-->
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.name}}</router-link></span>
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.title}}</router-link></span>
                 </template>
             </el-table-column>
 
@@ -45,9 +50,9 @@
               </template>
             </el-table-column>-->
 
-            <el-table-column width="300px" align="center" label="内心独白" prop="nature">
+            <el-table-column width="150px" align="center" label="跳转类型" prop="type">
                 <template scope="scope">
-                    <span>{{scope.row.nature}}</span>
+                    <span>{{scope.row.type}}</span>
                 </template>
             </el-table-column>
 
@@ -57,24 +62,10 @@
               </template>
             </el-table-column>-->
 
-            <el-table-column min-width="150px" align="center" label="标签" prop="style">
+            <el-table-column min-width="300px" align="center" label="链接内容" prop="addressContent">
                 <template scope="scope">
-                    <span>{{scope.row.style}}</span>
+                    <span>{{scope.row.addressContent}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-                </template>
-            </el-table-column>
-
-            <el-table-column width="200px" align="center" label="加速雇佣价格（钻石）" prop="price">
-                <template scope="scope">
-                    <span>{{scope.row.price}}</span>
-                </template>
-            </el-table-column>
-
-            <el-table-column width="300px" align="center" label="工作时间" prop="workTime">
-                <template scope="scope">
-                    <!--<span v-if="scope.row.gender==1">男</span>
-                    <span v-if="scope.row.gender==2">女</span>-->
-                    <span>{{scope.row.workTime}}</span>
                 </template>
             </el-table-column>
 
@@ -92,7 +83,14 @@
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="150px" align="center" label="私密圈排序" prop="sort">
+            <el-table-column min-width="150px" align="center" label="下架时间" prop="configDownTime">
+                <template scope="scope">
+                    <span>{{scope.row.configDownTime}}</span>
+                    <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
+                </template>
+            </el-table-column>
+
+            <el-table-column min-width="150px" align="center" label="排序" prop="sort">
                 <template scope="scope">
                     <!--<span>{{scope.row.sort}}</span>-->
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
@@ -231,19 +229,20 @@
                 list1: [{
                     id: '1',
                     name: 'test',
-                    nature: '邻家大姐姐，善解人意，喜欢拍照、旅游',
+                    title: '邻家大姐姐，善解人意，喜欢拍照、旅游',
                     headSelect: '枫叶',
-                    style: '贴心护士',
-                    price: '1小时30钻石',
+                    type: '剧情选择页',
+                    addressContent: 'http://www.baidu.com',
                     workTime: '周一 00:00-周二00:00；周三 15:30 至 周四15:30；周六 15:30 至 周日 15:30',
                     status: '上架',
                     configTime: '2017-12-2 00:00',
+                    configDownTime: '2017-12-2 00:00',
                     sort: '默认',
                     disable: true,
                 },{
                     id: '1',
                     name: 'test',
-                    nature: '邻家大姐姐，善解人意，喜欢拍照、旅游',
+                    title: '邻家大姐姐，善解人意，喜欢拍照、旅游',
                     headSelect: '枫叶',
                     style: '贴心护士',
                     price: '1小时30钻石',
@@ -255,7 +254,7 @@
                 },{
                     id: '1',
                     name: 'test',
-                    nature: '邻家大姐姐，善解人意，喜欢拍照、旅游',
+                    title: '邻家大姐姐，善解人意，喜欢拍照、旅游',
                     headSelect: '枫叶',
                     style: '贴心护士',
                     price: '1小时30钻石',
@@ -291,7 +290,7 @@
                     limit: 20,
                     importance: undefined,
                     name: undefined,
-                    gender: undefined,
+                    type: undefined,
                     status: undefined,
                     //sort: '+id'
                 },
@@ -308,12 +307,24 @@
                 calendarTypeOptions,
                 sortOptions: [{ label: '按ID升序列', key: '+id' }, { label: '按ID降序', key: '-id' }],
                 //statusOptions: ['0', '1', ''],
-                sexOptions: [{
+                typeOptions: [{
+                    value: '0',
+                    label: '全部'
+                },{
                     value: '1',
-                    label: '男'
+                    label: 'H5页面'
                 }, {
                     value: '2',
-                    label: '女'
+                    label: '个人主页'
+                },{
+                    value: '3',
+                    label: '剧情选择页'
+                }, {
+                    value: '4',
+                    label: '视频'
+                }, {
+                    value: '5',
+                    label: '支付页'
                 }],
                 statusOptions: [{
                     value: '0',
@@ -426,9 +437,11 @@
                 if (row.status == '上架') {
                     row.status = '下架';
                     row.configTime = "未设置";
+                    row.configDownTime = dateString
                 } else {
                     row.status = '上架';
                     row.configTime = dateString;
+                    row.configDownTime = "未设置";
                 }
                 row.disable = true;
             },
