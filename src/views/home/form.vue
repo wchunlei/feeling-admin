@@ -48,7 +48,7 @@
                         <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：下架状态：该主角不会在App中显示）</span>-->
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
+                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
@@ -59,7 +59,8 @@
                     <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                 </el-form-item>
                 <el-form-item label-width="100px">
-                    <el-button type="primary" @click.prevent="add">新增</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="add">新增</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="save">保存</el-button>
                 </el-form-item>
 
             </div>
@@ -224,6 +225,8 @@
                 userLIstOptions: [],
                 natureLength: false,
                 disable: true,
+                addBut: true,
+                saveBut: false,
                 actorDetail: {
                     name: [{ validator: validateRequire, trigger: 'blur' }],
                 }
@@ -239,12 +242,14 @@
          }
          },*/
         created() {
-            if(this.$route.params && this.$route.params.actor != ':actor') {
-                this.listQuery.actorid = parseInt(this.$route.params.actor);
+            if(this.$route.params.id && this.$route.params.id != ':id') {
+                this.saveBut = true;
+                this.addBut = false;
+                /*this.listQuery.actorid = parseInt(this.$route.params.actor);
                 this.getDetail(this.listQuery);
                 this.photoData.id = parseInt(this.$route.params.actor);
                 this.mvData.id = parseInt(this.$route.params.actor);
-                this.fetchSuccess = false;
+                this.fetchSuccess = false;*/
             } else {
                 this.showPhoto = false;
                 this.disable = false;

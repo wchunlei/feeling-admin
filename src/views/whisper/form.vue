@@ -12,7 +12,7 @@
                 </el-form-item>
 
                 <el-form-item label="问题:" label-width="100px" prop="question" style="margin-bottom: 40px" required>
-                    <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.question"  maxlength="20" rows="3"></el-input>
+                    <el-input type="textarea" placeholder="最多输入15个字" style='width:280px;' v-model="postForm.question"  maxlength="15" rows="3"></el-input>
                 </el-form-item>
 
                 <el-form-item label="回答:" label-width="100px" prop="answer" style="margin-bottom: 40px" required>
@@ -57,7 +57,7 @@
                 </el-form-item>
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px" required>
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="选择时间" :picker-options="pickerOptions1"></el-date-picker>
+                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
@@ -78,7 +78,8 @@
                 </el-form-item>
 
                 <el-form-item label-width="100px">
-                    <el-button type="primary" @click.prevent="add">新增</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="add">新增</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="save">保存</el-button>
                 </el-form-item>
 
             </div>
@@ -278,6 +279,8 @@
                 userLIstOptions: [],
                 natureLength: false,
                 disable: true,
+                addBut: true,
+                saveBut: false,
                 sexOptions: [{
                     value: '1',
                     label: '男'
@@ -307,12 +310,14 @@
         created() {
             let Query = {};
             this.getRemoteUserList(Query);
-            if(this.$route.params && this.$route.params.actor != ':actor') {
-                this.listQuery.actorid = parseInt(this.$route.params.actor);
-                this.getDetail(this.listQuery);
-                this.photoData.id = parseInt(this.$route.params.actor);
+            if(this.$route.params.id && this.$route.params.id != ':id') {
+                /*this.listQuery.actorid = parseInt(this.$route.params.actor);
+                this.getDetail(this.listQuery);*/
+                this.saveBut = true;
+                this.addBut = false;
+                /*this.photoData.id = parseInt(this.$route.params.actor);
                 this.mvData.id = parseInt(this.$route.params.actor);
-                this.fetchSuccess = false;
+                this.fetchSuccess = false;*/
             } else {
                 this.showPhoto = false;
                 this.disable = false;

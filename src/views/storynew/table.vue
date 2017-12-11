@@ -487,6 +487,7 @@
                     row.status = '上架';
                     row.configTime = dateString;
                 }
+                row.disable = true;
             },
             handleSort (index, rows) {
                 rows.disable = false;

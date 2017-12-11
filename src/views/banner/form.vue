@@ -27,6 +27,8 @@
                         <span @click="showH5"><el-radio v-model="postForm.type" label="0">H5页面</el-radio></span>
                         <span @click="showPerHome"><el-radio v-model="postForm.type" label="1">个人主页</el-radio></span>
                         <span @click="showStory"><el-radio v-model="postForm.type" label="2">剧情选择页</el-radio></span>
+                        <span @click="showVideo"><el-radio v-model="postForm.type" label="3">视频</el-radio></span>
+                        <span @click="showRecharge"><el-radio v-model="postForm.type" label="4">充值页</el-radio></span>
                     </template>
                 </el-form-item>
 
@@ -69,19 +71,26 @@
                     </el-form-item>
                 </div>
 
-                <el-form-item label="房间排序:" label-width="100px" prop="home" style="margin-bottom: 40px">
-                    <el-select v-model="postForm.home" placeholder="请选择">
-                        <el-option v-for="item in homeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-form-item v-show="showVid" label-width="90px" prop="video">
+                    <div style="margin-top: 0px">
+                        <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
+                        <Uploadvideo v-model="postForm.video" :progresses="progressesData"></Uploadvideo>
+                    </div>
+                </el-form-item>
+
+                <el-form-item label="banner排序:" label-width="100px" prop="bannerSort" style="margin-bottom: 40px">
+                    <el-select v-model="postForm.bannerSort" placeholder="请选择">
+                        <el-option v-for="item in bannerOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                 </el-form-item>
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="选择时间"></el-date-picker>
+                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
                 <el-form-item label="下架时间:" label-width="100px" prop="configDownTime" style="margin-bottom: 40px">
-                    <el-date-picker v-model="postForm.configDownTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="选择时间"></el-date-picker>
+                    <el-date-picker v-model="postForm.configDownTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
@@ -181,6 +190,8 @@
                 showH: true,
                 showPer: false,
                 showSto: false,
+                showVid: false,
+                showRe: false,
                 postForm: {
                     title: '',
                     pic: '',
@@ -189,7 +200,8 @@
                     message: '',
                     selectActor: '',
                     selectStory: '',
-                    home: '',
+                    bannerSort: '',
+                    video: '',
                     configTime: '',
                     configDownTime: '',
                     //time: '',
@@ -223,7 +235,7 @@
                     value: '2',
                     label: '不带用户信息'
                 }],
-                homeOptions: [{
+                bannerOptions: [{
                     value: '0',
                     label: '默认'
                 },{
@@ -235,6 +247,12 @@
                 },{
                     value: '3',
                     label: '3'
+                },{
+                    value: '4',
+                    label: '4'
+                },{
+                    value: '5',
+                    label: '5'
                 }],
                 nameOptions: [{
                     value: '1',
@@ -389,6 +407,33 @@
                 } else {
                     this.showPer = false;
                     this.showH=false;
+                }
+            },
+            showVideo () {
+                if(!this.showSto){
+                    this.showVid = true;
+                    this.showSto = false;
+                    this.showPer = false;
+                    this.showH = false;
+                    this.showRe = false;
+                } else {
+                    this.showSto = false;
+                    this.showPer = false;
+                    this.showH=false;
+                    this.showRe = false;
+                }
+            },showRecharge () {
+                if(!this.showSto){
+                    this.showRe = true;
+                    this.showSto = false;
+                    this.showPer = false;
+                    this.showH = false;
+                    this.showVid = false;
+                } else {
+                    this.showSto = false;
+                    this.showPer = false;
+                    this.showH = false;
+                    this.showVid = false;
                 }
             },
             /*getDetail () {

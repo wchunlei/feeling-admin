@@ -181,7 +181,7 @@
                         <el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type" required>
                             <template>
                                 <span @click="showPictureContent"><el-radio v-model="diaryContent.type" label="0">图片</el-radio></span>
-                                <span @click="showVideoContent"><el-radio v-model="diaryContent.type" label="1">视频</el-radio></span>
+                                <span @click="showVideoContent"><el-radio v-model="diaryContent.type" label="1">短视频</el-radio></span>
                                 <span @click="showAudioContent"><el-radio v-model="diaryContent.type" label="2">音频</el-radio></span>
                                 <span @click="showCrowdContent"><el-radio v-model="diaryContent.type" label="3">众筹</el-radio></span>
                             </template>
@@ -343,7 +343,7 @@
                         <el-form-item label-width="90px" label="发布时间:" prop="time"style="margin-bottom: 40px" required>
                             <div class="block">
                                 <!--<span class="demonstration">默认</span>-->
-                                <el-date-picker v-model="diaryContent.time" type="datetime" format="yyyy-mm-dd hh:mm" placeholder="选择日期时间" :picker-options="pickerOptions1"></el-date-picker>
+                                <el-date-picker v-model="diaryContent.time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期时间" :picker-options="pickerOptions1"></el-date-picker>
                             </div>
                         </el-form-item>
                         <el-form-item label="动态排序:" label-width="90px" prop="spaceSort" style="margin-bottom: 40px" required>
@@ -353,7 +353,8 @@
                             <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                         </el-form-item>
                         <el-form-item label-width="100px">
-                            <el-button type="primary" @click.prevent="add">新增</el-button>
+                            <el-button v-show="addBut" type="primary" @click.prevent="add">新增</el-button>
+                            <el-button v-show="saveBut" type="primary" @click.prevent="save">保存</el-button>
                         </el-form-item>
 
                     </el-form>
@@ -731,6 +732,8 @@
                 showAudContent: false,
                 showCroContent: false,
                 showPri: true,
+                addBut: true,
+                saveBut: false
             }
         },
         computed: {
@@ -741,13 +744,15 @@
         },
         created() {
             let Query = {};
-            this.getRemoteUserList(Query);
-            if(this.$route.params.num && this.$route.params.num != ':num'){
-                let listQuery={};
-                listQuery.id = this.$route.params.num;
+            //this.getRemoteUserList(Query);
+            if(this.$route.params.id && this.$route.params.id != ':id'){
+                /*let listQuery={};
+                listQuery.id = this.$route.params.id;
                 listQuery.actorid = this.$route.params.actorid;
-                this.fetchData(listQuery);
-                //this.showDiary = true;
+                //this.fetchData(listQuery);
+                //this.showDiary = true;*/
+                this.saveBut = true;
+                this.addBut = false;
                 this.showButton = false;
                 this.showContentButton = true;
                 this.disableActor = true;

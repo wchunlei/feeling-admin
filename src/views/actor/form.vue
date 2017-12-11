@@ -295,7 +295,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="昵称:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
-              <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :disabled="disable" maxlength="10"></el-input>
+              <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" maxlength="10"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -349,13 +349,13 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="内心独白:" label-width="100px" prop="nature" style="margin-bottom: 40px" required>
-              <el-input type="textarea" placeholder="最多输入15个字" style='width:280px;' v-model="postForm.nature  " :disabled="disable" maxlength="15" rows="3"></el-input>
+              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.nature  " maxlength="20" rows="3"></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
             <el-form-item label="主人评价:" label-width="100px" prop="host" style="margin-bottom: 40px" required>
-              <el-input type="textarea" placeholder="最多输入30个字" style='width:280px;' v-model="postForm.host" :disabled="disable" maxlength="30" rows="3"></el-input>
+              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.host" maxlength="20" rows="3"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -373,7 +373,7 @@
           </el-select>
         </el-form-item>-->
 
-        <el-form-item label="个人页背景图:" label-width="110px" prop="backImg1" style="margin-bottom: 40px" required>
+        <el-form-item label="个人页背景图:" label-width="120px" prop="backImg1" style="margin-bottom: 40px" required>
           <div style="margin-right: 20px;height: 180px;display: inline-block;border: 1px dashed #d9d9d9;">
             <Upload v-model="postForm.backImg1" v-on:input="picInput"></Upload>
           </div>
@@ -404,7 +404,8 @@
           <!--<el-select v-model="postForm.config" placeholder="请选择">
             <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>-->
-          <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
+          <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
+          </el-date-picker>
           <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
         </el-form-item>
 
@@ -417,18 +418,18 @@
 
         <el-form-item label="加速价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
           <!--<el-input placeholder="" style='width:60px;' v-model="postForm.timeNum" :disabled="disable" maxlength="10"></el-input>-->
-          <el-input placeholder="" style='width:50px;' v-model.number="postForm.price" :disabled="disable" maxlength="10"></el-input>
+          <el-input placeholder="" style='width:50px;' v-model.number="postForm.price" maxlength="10"></el-input>
           <span>钻石/</span>
           <el-select v-model="postForm.time" placeholder="请选择" style="width:80px">
             <el-option v-for="item in timeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="配置工作时间:" label-width="110px" prop="workTimes" required>
+        <el-form-item label="配置工作时间:" label-width="120px" prop="workTimes" required>
 
           <div style="margin-bottom: 40px">
             <el-form-item label="" style="display: inline-block" prop="workTimeWeek" required>
-              <span>星期</span>
+              <span>周</span>
               <el-select v-model="postForm.workTimeWeek" placeholder="请选择" style="width:80px">
                 <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
@@ -440,7 +441,7 @@
             </el-form-item>
 
             <el-form-item label="" style="display: inline-block" prop="workTimeWeek1">
-              <span>星期</span>
+              <span>周</span>
               <el-select v-model="postForm.workTimeWeek1" placeholder="请选择" style="width:80px">
                 <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
@@ -454,13 +455,13 @@
 
           <div v-for="workTime in postForm.workTimes" style="margin-bottom: 40px">
             <!--<el-date-picker v-model="workTime.value" type="week" format="周 ww"></el-date-picker>-->
-            <span>星期</span>
+            <span>周</span>
             <el-select v-model="workTime.time" placeholder="请选择" style="width:80px">
               <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
             <el-time-select v-model="workTime.value" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
             <span style="display: inline-block;margin: 0 20px 0 20px">至</span>
-            <span>星期</span>
+            <span>周</span>
             <el-select v-model="workTime.time1" placeholder="请选择" style="width:80px">
               <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
@@ -633,10 +634,10 @@
           backImg4: '',
           backImg5: '',
           configTime: new Date(),
-          private: '',
+          private: '默认',
           timeNum: '',
           time: '小时',
-          price: 20,
+          price: 30,
           workTimeWeek: '',
           workTimeWeek1: '',
           time2: '',

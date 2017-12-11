@@ -32,11 +32,13 @@
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
-                <el-form-item label="上传剧情配置:" label-width="110px" prop="uploadTxt" style="margin-bottom: 40px" required>
+                <el-form-item label="上传剧情配置:" label-width="120px" prop="uploadTxt" style="margin-bottom: 40px" required>
                     <el-upload
                             v-model="postForm.uploadTxt"
                             class="upload-demo"
                             action="http://192.168.1.43:3000/system/upload"
+                            :limit="1"
+                            :on-exceed="handleExceed"
                             :before-upload="beforeAvatarUpload"
                             :on-success="handleImageScucess"
                             :on-remove="handleRemove" style="width:200px">
@@ -49,6 +51,8 @@
                             v-model="postForm.uploadVideo"
                             class="upload-demo"
                             action="http://192.168.1.43:3000/system/upload"
+                            :limit="3"
+                            :on-exceed="handleExceed"
                             :before-upload="beforeAvatarUploadVideo"
                             :on-success="handleImageScucess"
                             :on-remove="handleRemove" style="width:200px">
@@ -61,7 +65,7 @@
                         <el-option v-for="item in stageOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="剧情收费设置:" label-width="110px" prop="priceSet" style="margin-bottom: 40px" required>
+                <el-form-item label="剧情收费设置:" label-width="120px" prop="priceSet" style="margin-bottom: 40px" required>
                     <span @click="showPrice"><el-radio v-model="radioPrice" label="0">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="radioPrice" label="1">免费</el-radio></span>
                 </el-form-item>
@@ -81,11 +85,11 @@
                         <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：下架状态：该主角不会在App中显示）</span>-->
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
+                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="主角剧本排序:" label-width="110px" prop="storySort" style="margin-bottom: 40px" required>
+                <el-form-item label="主角剧本排序:" label-width="120px" prop="storySort" style="margin-bottom: 40px" required>
                     <el-select v-model="postForm.storySort" placeholder="请选择">
                         <el-option v-for="item in storySortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
@@ -535,26 +539,30 @@
                 }*/
                 return isJPG;
             },
-            /*beforeAvatarUploadVideo(file) {
-                const isJPG = file.type === 'text/plain';
+            beforeAvatarUploadVideo(file) {
+                console.log(file)
+                const isJPG = file.type === '';
                 const isLt2M = file.size / 1024 / 1024 > 0.01;
-                console.log(file);
                 if (!isJPG) {
-                    this.$message.error('上传失败，请检查网络，并上传txt格式的文件!');
+                    this.$message.error('上传失败，请检查网络，并上传rar,zip格式的文件!');
                 }
-                /!*if (!isLt2M) {
+                /*if (!isLt2M) {
                  this.$message.error('上传头像图片大小不小于 10kb!');
-                 }*!/
+                 }*/
                 return isJPG;
-            },*/
+            },
+            handleExceed (files, fileList) {
+                alert()
+                this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
             getRemoteUserList(query) {
-             userSearch(query).then(response => {
-             if (!response.data.items) return;
-             console.log(response)
-             this.userLIstOptions = response.data.items.map(v => ({
-             key: v.name
-             }));
-             })
+                 userSearch(query).then(response => {
+                     if (!response.data.items) return;
+                         console.log(response)
+                         this.userLIstOptions = response.data.items.map(v => ({
+                         key: v.name
+                     }));
+                 })
              }
         }
     }

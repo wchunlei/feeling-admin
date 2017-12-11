@@ -35,7 +35,8 @@
 
             <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
                 <template scope="scope">
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                    <span>{{scope.row.id}}</span>
                 </template>
             </el-table-column>
 
@@ -488,6 +489,7 @@
                     row.status = '上架';
                     row.configTime = dateString;
                 }
+                row.disable = true;
             },
             handleSort (index, rows) {
                 rows.disable = false;

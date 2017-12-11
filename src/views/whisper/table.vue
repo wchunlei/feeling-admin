@@ -19,6 +19,11 @@
                 </el-option>
             </el-select>
 
+            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" placeholder="置顶类型">
+                <el-option v-for="item in  typeOptions" :key="item.label" :label="item.label" :value="item.value">
+                </el-option>
+            </el-select>
+
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
             <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
             <!--<el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>-->
@@ -29,7 +34,8 @@
 
             <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
                 <template scope="scope">
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                    <span>{{scope.row.id}}</span>
                 </template>
             </el-table-column>
 
@@ -303,7 +309,7 @@
                     limit: 20,
                     actor: undefined,
                     name: undefined,
-                    gender: undefined,
+                    type: undefined,
                     status: undefined,
                     //sort: '+id'
                 },
@@ -320,12 +326,15 @@
                 calendarTypeOptions,
                 sortOptions: [{ label: '按ID升序列', key: '+id' }, { label: '按ID降序', key: '-id' }],
                 //statusOptions: ['0', '1', ''],
-                sexOptions: [{
+                typeOptions: [{
+                    value: '0',
+                    label: '全部'
+                },{
                     value: '1',
-                    label: '男'
+                    label: '置顶'
                 }, {
                     value: '2',
-                    label: '女'
+                    label: '不置顶'
                 }],
                 statusOptions: [{
                     value: '0',
@@ -442,6 +451,7 @@
                     row.status = '上架';
                     row.configTime = dateString;
                 }
+                row.disable = true;
             },
             handleSort (index, rows) {
                 rows.disable = false;

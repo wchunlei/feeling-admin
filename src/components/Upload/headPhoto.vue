@@ -17,7 +17,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         <div class="closeIcon">
-            <i class="el-dialog__close el-icon el-icon-close" style="color: #ccc" @click="rmImage"></i>
+            <i v-show="showClose" class="el-dialog__close el-icon el-icon-close" style="color: #ccc" @click="rmImage"></i>
         </div>
 
         <!--<i class="el-icon-circle-close" @click="rmImage"></i>-->
@@ -58,12 +58,14 @@
             return {
                 tempUrl: '',
                 dataObj: { token: '', key: '' },
+                showClose: false,
                 //imageUrl: ''
             };
         },
         methods: {
             rmImage() {
                 this.emitInput('');
+                this.showClose = false;
             },
             emitInput(val) {
                 this.$emit('input', val);
@@ -71,6 +73,9 @@
             handleImageScucess(res, file) {
                 this.emitInput(res.content.url);
                 this.imageUrl = URL.createObjectURL(file.raw);
+                if (res.content.url) {
+                    this.showClose = true;
+                }
             },
             beforeAvatarUpload(file) {
                 //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';

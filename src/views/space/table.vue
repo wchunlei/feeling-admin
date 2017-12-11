@@ -14,6 +14,11 @@
               </el-option>
             </el-select>-->
 
+            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" placeholder="类型">
+                <el-option v-for="item in  typeOptions" :key="item.label" :label="item.label" :value="item.value">
+                </el-option>
+            </el-select>
+
             <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.status" placeholder="状态">
                 <el-option v-for="item in  statusOptions" :key="item.label" :label="item.label" :value="item.value">
                 </el-option>
@@ -29,7 +34,8 @@
 
             <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
                 <template scope="scope">
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                    <span>{{scope.row.id}}</span>
                 </template>
             </el-table-column>
 
@@ -277,7 +283,7 @@
                     limit: 20,
                     actor: undefined,
                     name: undefined,
-                    gender: undefined,
+                    type: undefined,
                     status: undefined,
                     //sort: '+id'
                 },
@@ -294,12 +300,21 @@
                 calendarTypeOptions,
                 sortOptions: [{ label: '按ID升序列', key: '+id' }, { label: '按ID降序', key: '-id' }],
                 //statusOptions: ['0', '1', ''],
-                sexOptions: [{
+                typeOptions: [{
+                    value: '0',
+                    label: '全部'
+                },{
                     value: '1',
-                    label: '男'
+                    label: '图片'
                 }, {
                     value: '2',
-                    label: '女'
+                    label: '短视频'
+                }, {
+                    value: '3',
+                    label: '音频'
+                }, {
+                    value: '4',
+                    label: '众筹'
                 }],
                 statusOptions: [{
                     value: '0',
