@@ -241,7 +241,7 @@ export const asyncRouterMap = [
     icon: 'zujian',
     children: [
       { path: 'table', component: homeTable, name: '房间列表' },
-      { path: 'form', component: homeForm, name: '新增房间' },
+      { path: 'form/:id', component: homeForm, name: '新增房间' },
     ]
   },
   {
@@ -252,7 +252,7 @@ export const asyncRouterMap = [
     icon: 'zujian',
     children: [
       { path: 'table', component: spaceTable, name: '动态列表' },
-      { path: 'form', component: spaceForm, name: '新增动态' },
+      { path: 'form/:id', component: spaceForm, name: '新增动态' },
     ]
   },
   {
@@ -263,7 +263,7 @@ export const asyncRouterMap = [
     icon: 'zujian',
     children: [
       { path: 'table', component: whisperTable, name: '女仆FM列表' },
-      { path: 'form', component: whisperForm, name: '新增女仆FM' },
+      { path: 'form/:id', component: whisperForm, name: '新增女仆FM' },
     ]
   },
   {

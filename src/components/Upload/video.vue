@@ -1,14 +1,14 @@
 <template>
 	<div class="upload-container">
 		<el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="http://192.168.1.43:3000/system/vod"
-		  :on-success="handleImageScucess" :before-upload="beforeUpload">
+		  :on-success="handleImageScucess" :before-upload="beforeAvatarUpload" :on-progress="progressUpload">
 			<i class="el-icon-upload"></i>
 			<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 		</el-upload>
 		<div class="image-preview image-app-preview">
 			<div class="image-preview-wrapper" v-show="imageUrl.length>1">
 				<div class='app-fake-conver'>&nbsp&nbsp</div>
-				<video :src="imageUrl" width="200" height="200" controls ></video>
+				<video :src="imageUrl" width="320" height="180" controls ></video>
 				<!--<div class="image-preview-action">
 					<i @click="rmImage" class="el-icon-delete"></i>
 				</div>-->
@@ -60,6 +60,22 @@
 				//alert(this.progresses.percentage)
 			  }
 			  this.imageUrl = URL.createObjectURL(file.raw);
+		  },
+		  beforeAvatarUpload(file) {
+			  //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';
+			  console.log(file)
+			  const isLt2M = file.size / 1024 / 1024 < 100;
+			  if (!(file.type === 'video/mp4' || file.type === 'video/flv' || file.type === 'video/mov' || file.type === 'video/avi' || file.type === 'video/mkv' || file.type === 'video/rmvb')) {
+				  this.$message.error('视频格式有误!');
+			  }
+			  if (!isLt2M) {
+				  this.$message.error('上传头像图片大小不大于 100M!');
+			  }
+			  return isLt2M;
+		  },
+		  progressUpload (event, file, fileList) {
+			  console.log(event)
+			  alert()
 		  },
 	    beforeUpload() {
 			this.progresses.progress = true;

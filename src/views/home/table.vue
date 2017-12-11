@@ -41,7 +41,8 @@
 
             <el-table-column width="220px" align="center" label="房间名" prop="title">
                 <template scope="scope">
-                    <span>{{scope.row.title}}</span>
+                    <!--<span>{{scope.row.title}}</span>-->
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/home/form/' + scope.row.id }">{{scope.row.name}}</router-link></span>
                 </template>
             </el-table-column>
 
@@ -50,8 +51,8 @@
                   <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
                 </template>-->
                 <template scope="scope">
-                    <!--<span>{{scope.row.name}}</span>-->
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.name}}</router-link></span>
+                    <span>{{scope.row.name}}</span>
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.name}}</router-link></span>-->
                 </template>
             </el-table-column>
 

@@ -9,10 +9,14 @@
                 </el-form-item>
 
                 <el-form-item label="banner图:" label-width="100px" prop="pic" style="margin-bottom: 40px">
-                    <div style="margin-bottom: 20px;">
+                    <!--<div style="margin-bottom: 20px;">
                         <Upload v-model="postForm.pic"></Upload>
                         <span style="font-size:12px">（注：请上传比例16：9，不小于100Kb的图片）</span>
+                    </div>-->
+                    <div style="margin-right: 20px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
+                        <Upload v-model="postForm.pic" v-on:input="picInput"></Upload>
                     </div>
+                    <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
 
                 <el-form-item label="跳转设置:" label-width="100px" prop="type" style="margin-bottom: 40px">
@@ -102,7 +106,7 @@
 
 <script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce';
-    import Upload from 'components/Upload/picture';
+    import Upload from 'components/Upload/pictureFm';
     import Uploadhead from 'components/Upload/headPhoto'
     import Uploadvideo from 'components/Upload/video';
     import Uploadaudio from 'components/Upload/audio'
@@ -809,6 +813,12 @@
         position: absolute;
         left: 60px;
         top: 60px;
+    }
+    .pictureStyle {
+        display: inline-block;
+        width: 180px;
+        height: 180px;
+        border: 1px dashed #d9d9d9;
     }
     }
 </style>

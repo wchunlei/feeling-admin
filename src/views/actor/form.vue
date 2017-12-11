@@ -404,7 +404,7 @@
           <!--<el-select v-model="postForm.config" placeholder="请选择">
             <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>-->
-          <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="请输入上架时间"></el-date-picker>
+          <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
           <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
         </el-form-item>
 
@@ -632,7 +632,7 @@
           backImg3: '',
           backImg4: '',
           backImg5: '',
-          configTime: '',
+          configTime: new Date(),
           private: '',
           timeNum: '',
           time: '小时',
@@ -647,8 +647,11 @@
             time1: '',
             value1: ''
           }],
-          //id: '',
-          status: 'published',
+        },
+        pickerOptions1: {
+          disabledDate(time) {
+            return time.getTime() + 86400000 < Date.now();
+          },
         },
         headOptions: [{
             value: '1',

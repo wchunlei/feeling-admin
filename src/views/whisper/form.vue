@@ -4,25 +4,25 @@
 
             <div class="createPost-main-container">
 
-                <el-form-item label-width="100px" label="主角:" prop="actor" style="margin-bottom: 40px;">
+                <el-form-item label-width="100px" label="主角:" prop="actor" style="margin-bottom: 40px;" required>
                     <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
 
-                <el-form-item label="问题:" label-width="100px" prop="question" style="margin-bottom: 40px">
+                <el-form-item label="问题:" label-width="100px" prop="question" style="margin-bottom: 40px" required>
                     <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.question"  maxlength="20" rows="3"></el-input>
                 </el-form-item>
 
-                <el-form-item label="回答:" label-width="100px" prop="answer" style="margin-bottom: 40px">
+                <el-form-item label="回答:" label-width="100px" prop="answer" style="margin-bottom: 40px" required>
                     <div style="margin-bottom: 20px;">
                         <Uploadaudio v-model="postForm.answer"></Uploadaudio>
                         <span style="font-size:12px">（注：请mp3等音频格式的文件）</span>
                     </div>
                 </el-form-item>
 
-                <el-form-item label="置顶设置:" label-width="100px" prop="top" style="margin-bottom: 40px">
+                <el-form-item label="置顶设置:" label-width="100px" prop="top" style="margin-bottom: 40px" required>
                     <!--<el-select v-model="postForm.top" placeholder="请选择">
                         <el-option v-for="item in topOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>-->
@@ -33,11 +33,11 @@
                 </el-form-item>
 
                 <div v-show="showNoTop" style="display: inline-block;margin-bottom: 20px">
-                    <el-form-item label="偷听价格:" label-width="100px" prop="price" style="margin-bottom: 40px">
-                        <el-input placeholder="请输入价格" style='width:190px;' v-model="postForm.price" maxlength="10"></el-input>
+                    <el-form-item label="偷听价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
+                        <el-input placeholder="请输入价格" style='width:190px;' v-model.number="postForm.price" maxlength="10"></el-input>
                         <span>钻石</span>
                     </el-form-item>
-                    <el-form-item label="偷听排序:" label-width="100px" prop="listen" style="margin-bottom: 40px">
+                    <el-form-item label="偷听排序:" label-width="100px" prop="listen" style="margin-bottom: 40px" required>
                         <el-select v-model="postForm.listen" placeholder="请选择">
                             <el-option v-for="item in listenOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
@@ -45,19 +45,30 @@
                     </el-form-item>
                 </div>
 
-                <el-form-item v-show="showYesTop" label="偷听图片:" label-width="100px" prop="backImg" style="margin-bottom: 40px">
-                    <div style="margin-bottom: 20px;width:800px">
+                <el-form-item v-show="showYesTop" label="偷听图片:" label-width="100px" prop="backImg" style="margin-bottom: 40px" required>
+                    <!--<div style="margin-bottom: 20px;">
                         <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
                         <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
+                    </div>-->
+                    <div style="margin-right: 20px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
+                        <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
                     </div>
+                    <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
 
-                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="选择时间"></el-date-picker>
+                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px" required>
+                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd hh:mm" placeholder="选择时间" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="评论内容:" label-width="100px" prop="" >
+                <el-form-item label="评论内容:" label-width="100px" prop="comments" required>
+
+                    <div style="margin-bottom: 40px">
+                        <el-form-item label-width="100px" prop="commentOne">
+                            <el-input placeholder="最多输入20个字" style='width:220px;' v-model="postForm.commentOne" maxlength="20"></el-input>
+                            <el-button @click.prevent="addWork">新增评论</el-button>
+                        </el-form-item>
+                    </div>
                     <div v-for="comment in postForm.comments" style="margin-bottom: 40px">
                         <!--<el-date-picker v-model="workTime.value" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>-->
                         <el-input placeholder="最多输入20个字" style='width:220px;' v-model="comment.value" maxlength="20"></el-input>
@@ -78,7 +89,7 @@
 
 <script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce';
-    import Upload from 'components/Upload/picture';
+    import Upload from 'components/Upload/pictureFm';
     import Uploadhead from 'components/Upload/headPhoto'
     import Uploadvideo from 'components/Upload/video';
     import Uploadaudio from 'components/Upload/audio'
@@ -173,15 +184,20 @@
                     answer: '',
                     top: '',
                     backImg: '',
-                    configTime: '',
-                    listen: '',
-                    time: '',
-                    price: '',
+                    configTime: new Date(),
+                    listen: '默认',
+                    price: 5,
+                    postForm: '',
                     comments: [{
                         value: ''
                     }],
                     //id: '',
                     status: 'published',
+                },
+                pickerOptions1: {
+                    disabledDate(time) {
+                        return time.getTime() + 86400000 < Date.now();
+                    },
                 },
                 /*topOptions: [{
                     value: '0',
@@ -209,6 +225,12 @@
                 },{
                     value: '3',
                     label: '3'
+                },{
+                    value: '4',
+                    label: '4'
+                },{
+                    value: '5',
+                    label: '5'
                 }],
                 timeOptions: [{
                     value: '0',
@@ -264,7 +286,11 @@
                     label: '女'
                 }],
                 actorDetail: {
+                    actor: [{ validator: validateRequireAll, trigger: 'blur' }],
                     question: [{ validator: validateRequire, trigger: 'blur' }],
+                    //comments: [{ validator: validateRequire, trigger: 'blur' }],
+                    commentOne: [{ validator: validateRequire, trigger: 'blur' }],
+                    price: [{ validator: checkNum, trigger: 'blur' }],
                     //bust: [{ validator: checkNum, trigger: 'blur' }],
                 }
             }
