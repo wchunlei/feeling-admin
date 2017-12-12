@@ -246,19 +246,19 @@
                             <span @click="hidePrice"><el-radio v-model="radioPrice" label="1">免费</el-radio></span>
                         </el-form-item>
                         <div v-show="showPri" style="display: inline-block;margin-bottom: 20px">
-                            <el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px" required>
-                                <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                            <!--<el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px" required>
+                                &lt;!&ndash;<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                                 <div style="margin: 15px 0;"></div>
                                 <el-checkbox-group v-model="diaryContent.selectPic" @change="handleCheckedCitiesChange">
                                     <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
-                                </el-checkbox-group>-->
+                                </el-checkbox-group>&ndash;&gt;
                                 <el-checkbox-group v-model="diaryContent.selectPic">
                                     <el-checkbox v-for="pic in selectPics" :label="pic" :key="pic">{{pic}}</el-checkbox>
                                 </el-checkbox-group>
-                            </el-form-item>
+                            </el-form-item>-->
                             <el-form-item v-show="showPicContent" label="收费价格:" label-width="90px" prop="price" style="margin-bottom: 40px" required>
                                 <el-input v-model.number="diaryContent.price" style="width:150px" placeholder="请输入整数金额"></el-input>
-                                <span>钻石</span>
+                                <span>钻石 （注：目前收费功能支持最后一张收费，若选择收费，则上传的最后一张图片自动变为模糊收费状态）</span>
                             </el-form-item>
                         </div>
                         <!--<el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
@@ -324,7 +324,7 @@
                         </el-form-item>
 
                         <el-form-item style="margin-bottom: 40px;" label-width="90px" label="动态内容:" prop="words" required>
-                            <el-input type="textarea" :rows="3" v-model="diaryContent.words" style="width:400px" placeholder="请输入动态内容" maxlength=""></el-input>
+                            <el-input type="textarea" :rows="3" v-model="diaryContent.words" style="width:400px" placeholder="最多输入200个字" maxlength="200"></el-input>
                         </el-form-item>
 
                         <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="发布时间:" prop="day">

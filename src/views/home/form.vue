@@ -38,9 +38,10 @@
                     <el-checkbox-group v-model="postForm.checkedActor" @change="handleCheckedCitiesChange">
                         <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
                     </el-checkbox-group>-->
-                    <el-checkbox-group v-model="postForm.checkedStory">
+                    <!--<el-checkbox-group v-model="postForm.checkedStory">
                         <el-checkbox v-for="story in storys" :label="story" :key="story">{{story}}</el-checkbox>
-                    </el-checkbox-group>
+                    </el-checkbox-group>-->
+                    <el-transfer v-model="postForm.checkedStory" :data="data"></el-transfer>
                 </el-form-item>
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px" required>
@@ -142,7 +143,19 @@
                     callback()
                 }
             };
+            const generateData = _ => {
+                const data = [];
+                for (let i = 1; i <= 15; i++) {
+                    data.push({
+                        key: i,
+                        label: `备选项 ${ i }`,
+                        //disabled: i % 4 === 0
+                    });
+                }
+                return data;
+            };
             return {
+                data: generateData(),
                 phopoid: '',
                 watcher: false,
                 listQuery: {},

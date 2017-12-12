@@ -1,8 +1,8 @@
 <template>
     <div class="app-container calendar-list-container">
         <div class="filter-container">
-            <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="banner标题" v-model="listQuery.name">
-            </el-input>
+            <!--<el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="banner标题" v-model="listQuery.name">
+            </el-input>-->
 
             <!--<el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.gender" placeholder="性别">
               <el-option v-for="item in  sexOptions" :key="item.label" :label="item.label" :value="item.value">
@@ -105,7 +105,7 @@
                     <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
                     <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
                     <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>
-                    <el-button @click.native.prevent="deleteRow(scope.$index, list1)" type="text" size="small">删除</el-button>
+                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="deleteRow(scope.$index, list1)" type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
 
@@ -315,10 +315,10 @@
                     label: 'H5页面'
                 }, {
                     value: '2',
-                    label: '个人主页'
+                    label: '女仆空间'
                 },{
                     value: '3',
-                    label: '剧情选择页'
+                    label: '女仆房间'
                 }, {
                     value: '4',
                     label: '视频'
@@ -435,9 +435,34 @@
                 //seconds=date.getSeconds();
                 let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
                 if (row.status == '上架') {
-                    row.status = '下架';
-                    row.configTime = "未设置";
-                    row.configDownTime = dateString
+                    this.$confirm('确定下架会将和该内容相关的内容均下架？', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        row.status = '下架';
+                        row.configTime = "未设置";
+                        row.configDownTime = dateString;
+                        let deleteitem={
+                            id: parseInt(rows.id)
+                        };
+                        rows.splice(index, 1);
+                        channelDelete(deleteitem).then(response => {
+                            //this.list = response.data.content;
+                            if(response.data.code==200){
+                                this.getList();
+                            }
+                        });
+                        this.$message({
+                            message: '操作成功',
+                            type: 'success'
+                        });
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
                 } else {
                     row.status = '上架';
                     row.configTime = dateString;

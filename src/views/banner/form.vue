@@ -25,8 +25,8 @@
                     </el-select>-->
                     <template>
                         <span @click="showH5"><el-radio v-model="postForm.type" label="0">H5页面</el-radio></span>
-                        <span @click="showPerHome"><el-radio v-model="postForm.type" label="1">个人主页</el-radio></span>
-                        <span @click="showStory"><el-radio v-model="postForm.type" label="2">剧情选择页</el-radio></span>
+                        <span @click="showPerHome"><el-radio v-model="postForm.type" label="1">女仆空间</el-radio></span>
+                        <span @click="showStory"><el-radio v-model="postForm.type" label="2">女仆房间<span style="color:red">（请配置后注意查看该女仆的工作时间，以免用户无法跳转该链接）</span></el-radio></span>
                         <span @click="showVideo"><el-radio v-model="postForm.type" label="3">视频</el-radio></span>
                         <span @click="showRecharge"><el-radio v-model="postForm.type" label="4">充值页</el-radio></span>
                     </template>
@@ -57,6 +57,12 @@
                 </el-form-item>
 
                 <div v-show="showSto" style="display: inline-block;margin-bottom: 0px">
+                    <el-form-item label="选择房间:" label-width="100px" prop="selectHome" style="margin-bottom: 40px">
+                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.selectHome" placeholder="选择房间">
+                            <el-option v-for="item in  homeOptions" :key="item.label" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
                     <el-form-item label="选择主角:" label-width="100px" prop="selectActor" style="margin-bottom: 40px">
                         <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.selectActor" placeholder="选择主角">
                             <el-option v-for="item in  nameOptions" :key="item.label" :label="item.label" :value="item.value">
@@ -197,7 +203,8 @@
                     pic: '',
                     type: '0',
                     address: '',
-                    message: '',
+                    message: '不带登录态和用户信息',
+                    selectHome: '',
                     selectActor: '',
                     selectStory: '',
                     bannerSort: '',
@@ -227,13 +234,13 @@
                 }],
                 userMessOptions: [{
                     value: '0',
-                    label: '带复杂用户信息'
+                    label: '不带登录态和用户信息'
                 },{
                     value: '1',
-                    label: '带简单用户信息'
+                    label: '不带登录态和带用户信息'
                 },{
                     value: '2',
-                    label: '不带用户信息'
+                    label: '带登录态和用户信息'
                 }],
                 bannerOptions: [{
                     value: '0',
@@ -253,6 +260,13 @@
                 },{
                     value: '5',
                     label: '5'
+                }],
+                homeOptions: [{
+                    value: '1',
+                    label: '房间1'
+                }, {
+                    value: '2',
+                    label: '房间2'
                 }],
                 nameOptions: [{
                     value: '1',
@@ -384,9 +398,11 @@
                     this.showH=true;
                     this.showPer=false;
                     this.showSto = false;
+                    this.showVid = false;
                 } else {
                     this.showPer=false;
                     this.showSto = false;
+                    this.showVid = false;
                 }
             },
             showPerHome () {
@@ -394,9 +410,11 @@
                     this.showPer=true;
                     this.showH=false;
                     this.showSto = false;
+                    this.showVid = false;
                 } else {
                     this.showH=false;
                     this.showSto = false;
+                    this.showVid = false;
                 }
             },
             showStory () {
@@ -404,9 +422,11 @@
                     this.showSto = true;
                     this.showPer = false;
                     this.showH = false;
+                    this.showVid = false;
                 } else {
                     this.showPer = false;
                     this.showH=false;
+                    this.showVid = false;
                 }
             },
             showVideo () {

@@ -354,7 +354,7 @@
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="主人评价:" label-width="100px" prop="host" style="margin-bottom: 40px" required>
+            <el-form-item label="女仆特征:" label-width="100px" prop="host" style="margin-bottom: 40px" required>
               <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.host" maxlength="20" rows="3"></el-input>
             </el-form-item>
           </el-col>
@@ -409,7 +409,7 @@
           <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
         </el-form-item>
 
-        <el-form-item label="私密圈排序:" label-width="100px" prop="private" style="margin-bottom: 40px" required>
+        <el-form-item label="女仆空间排序:" label-width="120px" prop="private" style="margin-bottom: 40px" required>
           <el-select v-model="postForm.private" placeholder="请选择">
             <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
@@ -472,7 +472,7 @@
         </el-form-item>
 
         <el-form-item label-width="100px">
-          <el-button type="primary" @click.prevent="add">新增</el-button>
+          <el-button type="primary" @click.prevent="add" size="large">新增主角</el-button>
         </el-form-item>
 
       </div>

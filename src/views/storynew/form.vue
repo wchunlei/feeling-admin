@@ -32,7 +32,7 @@
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
-                <el-form-item label="上传剧情配置:" label-width="120px" prop="uploadTxt" style="margin-bottom: 40px" required>
+                <!--<el-form-item label="上传剧情配置:" label-width="120px" prop="uploadTxt" style="margin-bottom: 40px" required>
                     <el-upload
                             v-model="postForm.uploadTxt"
                             class="upload-demo"
@@ -43,9 +43,9 @@
                             :on-success="handleImageScucess"
                             :on-remove="handleRemove" style="width:200px">
                         <el-button size="small" type="primary">选择txt文件</el-button>
-                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                        &lt;!&ndash;<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>&ndash;&gt;
                     </el-upload>
-                </el-form-item>
+                </el-form-item>-->
                 <el-form-item label="上传视频包:" label-width="100px" prop="uploadVideo" style="margin-bottom: 40px" required>
                     <el-upload
                             v-model="postForm.uploadVideo"

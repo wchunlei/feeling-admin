@@ -9,7 +9,7 @@
 			<el-select v-model="homeSort" placeholder="选择渠道">
 				<el-option v-for="item in homeSortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
 			</el-select>
-			<el-button type="primary">新增渠道</el-button>
+			<el-button type="primary" @click="dialogFormVisible = true">新增渠道</el-button>
 		</div>
 		<el-dropdown class="avatar-container" trigger="click">
 			<div class="avatar-wrapper">
@@ -30,6 +30,24 @@
 				<el-dropdown-item divided><span @click="logout" style="display:block;">退出登录</span></el-dropdown-item>
 			</el-dropdown-menu>
 		</el-dropdown>
+		<div class="size">
+			<el-dialog title="新增渠道" :visible.sync="dialogFormVisible">
+				<el-form :model="postForm" ref="postForm" :rules="rule">
+					<el-form-item label="渠道名称:" label-width="100px" prop="name" required>
+						<el-input v-model="postForm.name" auto-complete="off" placeholder="最多输入10个字" style="width: 190px" maxlength="10"></el-input>
+					</el-form-item>
+					<el-form-item label="复制于:" label-width="100px" prop="region" required>
+						<el-select v-model="postForm.region" placeholder="请选择">
+							<el-option v-for="item in  regionOptions" :key="item.label" :label="item.label" :value="item.value"></el-option>
+						</el-select>
+					</el-form-item>
+				</el-form>
+				<div slot="footer" class="dialog-footer">
+					<el-button @click="dialogFormVisible = false">取 消</el-button>
+					<el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+				</div>
+			</el-dialog>
+		</div>
 	</el-menu>
 </template>
 
@@ -51,6 +69,13 @@
       Screenfull
     },
     data() {
+		const validateRequireAll = (rule, value, callback) => {
+			if (!value) {
+				return callback(new Error('输入不能为空'));
+			} else {
+				callback()
+			}
+		};
       return {
 		  log: errLogStore.state.errLog,
 		  homeSort: '',
@@ -60,7 +85,23 @@
 		  },{
 			  value: '1',
 			  label: '1'
-		  }]
+		  }],
+		  postForm: {
+			  name: '',
+			  region: '女仆团'
+		  },
+		  regionOptions: [{
+			  value: '0',
+			  label: '女仆团'
+		  },{
+			  value: '1',
+			  label: '1'
+		  }],
+		  dialogFormVisible: false,
+		  rule: {
+			  name: [{ validator: validateRequireAll, trigger: 'blur' }],
+			  region: [{ validator: validateRequireAll, trigger: 'blur' }],
+		  }
       }
     },
     computed: {
@@ -83,7 +124,7 @@
   }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
 	.navbar {
 			height: 50px;
 			line-height: 50px;
@@ -126,6 +167,21 @@
 									font-size: 12px;
 							}
 					}
+			}
+			.el-dialog__header {
+				height:40px;
+				padding:0 10px 0 0;
+				text-align:center;
+				line-height:40px;
+				background-color:#1970cf;
+			}
+			.el-dialog__header .el-dialog__title {
+				color:#fff;
+				font-weight:500;
+				font-size:14px;
+			}
+			.size .el-dialog--small {
+				width: 30%;
 			}
 	}
 </style>
