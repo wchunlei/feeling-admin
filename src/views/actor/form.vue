@@ -466,7 +466,7 @@
               <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
             <el-time-select v-model="workTime.value1" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
-            <el-button @click.prevent="addWork">新增工作时间</el-button>
+            <!--<el-button @click.prevent="addWork">新增工作时间</el-button>-->
             <el-button @click.prevent="removeWork(workTime)">删除</el-button>
           </div>
         </el-form-item>

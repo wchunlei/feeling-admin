@@ -72,7 +72,7 @@
                     <div v-for="comment in postForm.comments" style="margin-bottom: 40px">
                         <!--<el-date-picker v-model="workTime.value" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>-->
                         <el-input placeholder="最多输入20个字" style='width:220px;' v-model="comment.value" maxlength="20"></el-input>
-                        <el-button @click.prevent="addWork">新增评论</el-button>
+                        <!--<el-button @click.prevent="addWork">新增评论</el-button>-->
                         <el-button @click.prevent="removeWork(comment)">删除</el-button>
                     </div>
                 </el-form-item>

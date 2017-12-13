@@ -34,7 +34,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="300px" align="center" label="banner标题" prop="title">
+            <el-table-column width="250px" align="center" label="push标题" prop="title">
                 <!--<template scope="scope">
                   <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
                 </template>-->
@@ -50,6 +50,12 @@
               </template>
             </el-table-column>-->
 
+            <el-table-column width="300px" align="center" label="跳转内容" prop="content">
+                <template scope="scope">
+                    <span>{{scope.row.content}}</span>
+                </template>
+            </el-table-column>
+
             <el-table-column width="150px" align="center" label="跳转类型" prop="type">
                 <template scope="scope">
                     <span>{{scope.row.type}}</span>
@@ -62,7 +68,7 @@
               </template>
             </el-table-column>-->
 
-            <el-table-column min-width="300px" align="center" label="链接内容" prop="addressContent">
+            <el-table-column min-width="250px" align="center" label="链接内容" prop="addressContent">
                 <template scope="scope">
                     <span>{{scope.row.addressContent}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
@@ -76,35 +82,35 @@
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="150px" align="center" label="上架时间" prop="configTime">
+            <el-table-column min-width="150px" align="center" label="push时间类型" prop="timeType">
                 <template scope="scope">
-                    <span>{{scope.row.configTime}}</span>
+                    <span>{{scope.row.timeType}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="150px" align="center" label="下架时间" prop="configDownTime">
+            <el-table-column min-width="150px" align="center" label="push时间" prop="time">
                 <template scope="scope">
-                    <span>{{scope.row.configDownTime}}</span>
+                    <span>{{scope.row.time}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="150px" align="center" label="排序" prop="sort">
+            <!--<el-table-column min-width="150px" align="center" label="排序" prop="sort">
                 <template scope="scope">
-                    <!--<span>{{scope.row.sort}}</span>-->
-                    <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
+                    &lt;!&ndash;<span>{{scope.row.sort}}</span>&ndash;&gt;
+                    &lt;!&ndash;<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>&ndash;&gt;
                     <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="scope.row.disable" @change="changeSort(scope.row)">
                         <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </template>
-            </el-table-column>
+            </el-table-column>-->
 
-            <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
+            <el-table-column fixed="right" align="center" label="快捷操作" min-width="100px">
                 <template scope="scope">
-                    <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
+                    <!--<el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
                     <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
-                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>
+                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>-->
                     <el-button v-if="scope.row.status!='下架'" @click.native.prevent="deleteRow(scope.$index, list1)" type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
@@ -321,17 +327,17 @@
                     label: '女仆房间'
                 }, {
                     value: '4',
-                    label: '视频'
+                    label: '首页'
                 }, {
                     value: '5',
                     label: '充值页'
                 }],
                 statusOptions: [{
                     value: '0',
-                    label: '上架'
+                    label: '已push'
                 }, {
                     value: '1',
-                    label: '下架'
+                    label: '未push'
                 }, {
                     value: '',
                     label: '全部'

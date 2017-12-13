@@ -5,6 +5,7 @@ const _import = require('./_import_' + process.env.NODE_ENV);
 
 /* layout */
 import Layout from '../views/layout/Layout';
+import AppMain from '../views/layout/AppMain';
 
 /* login */
 const Login = _import('login/index');
@@ -110,8 +111,9 @@ const appTable = _import('app/table');
 
 /* event 事件管理 */
 const eventStory= _import('event/tablestory');
-const eventApp = _import('event/tableapp');
-const eventTest = _import('event/test/test');
+const rechargeForm = _import('help/recharge');
+const helpPushForm = _import('help/push_msg/form');
+const helpPushTable = _import('help/push_msg/table');
 
 /* diary 日记管理 */
 const diaryForm = _import('diary/form');
@@ -278,21 +280,22 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/event',
+    path: '/help',
     component: Layout,
-    redirect: '/event/index',
-    name: '事件管理',
+    redirect: '/help/index',
+    name: '辅助内容管理',
     icon: 'zujian',
     children: [
-      { path: 'index', component: eventStory, name: '剧情事件' },
+      { path: 'form', component: rechargeForm, name: '充值管理' },
       {
-      path: '/event/test',
-      component: Layout,
-      redirect: '/event/test/test',
-      name: '事件管理123',
+      path: '/help/push_msg',
+      component: AppMain,
+      redirect: '/help/push_msg/index',
+      name: 'push消息管理',
       icon: 'zujian',
       children: [
-        { path: 'test', component: eventTest, name: '渠道事件' }
+        { path: 'table', component: helpPushTable, name: 'push消息列表' },
+        { path: 'form', component: helpPushForm, name: '新增push消息' }
       ]
     }
     ]
