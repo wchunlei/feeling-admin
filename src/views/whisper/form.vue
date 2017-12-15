@@ -78,8 +78,8 @@
                 </el-form-item>
 
                 <el-form-item label-width="100px">
-                    <el-button v-show="addBut" type="primary" @click.prevent="add">新增</el-button>
-                    <el-button v-show="saveBut" type="primary" @click.prevent="save">保存</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增女仆FM</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存女仆FM</el-button>
                 </el-form-item>
 
             </div>

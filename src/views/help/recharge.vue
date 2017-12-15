@@ -288,191 +288,203 @@
               </template>
             </div>-->
             <div class="createPost-main-container">
-                <!--<el-form-item label="昵称:" label-width="100px" prop="name" style="margin-bottom: 40px">
-                  <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :disabled="disable" maxlength="10"></el-input>
-                </el-form-item>-->
-
-                <el-row>
-                    <el-col :span="8">
-                        <el-form-item label="昵称:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
-                            <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" maxlength="10"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label-width="100px" label="身高:" class="postInfo-container-item" prop="height" required>
-                            <el-input placeholder="请输入身高" style='width:220px;' v-model.number="postForm.height" maxlength="3">
-                            </el-input>
-                            <span>cm</span>
-                        </el-form-item>
-                    </el-col>
-
-                    <el-col :span="8">
-                        <el-form-item label-width="100px" label="体重:" class="postInfo-container-item" prop="weight" required>
-                            <el-input placeholder="请输入体重" style='width:220px;' v-model.number="postForm.weight" maxlength="2">
-                            </el-input>
-                            <span>kg</span>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-
-                <el-row>
-                    <el-col :span="8">
-                        <el-form-item label="年龄:" label-width="100px" prop="age" style="margin-bottom: 40px" required>
-                            <el-input placeholder="请输入年龄" style='width:220px;' v-model.number="postForm.age" maxlength="2"></el-input>
-                            <span>岁</span>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label-width="100px" label="胸围:" class="postInfo-container-item" prop="bust" required>
-                            <!--<el-input placeholder="" style='width:220px;' v-model.number="postForm.bust"></el-input>-->
-                            <el-select v-model="postForm.bust" placeholder="请选择">
-                                <el-option v-for="item in bustOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
-                            <el-form-item prop="size" style="display: inline-block;width:60px">
-                                <el-select v-model="postForm.size" placeholder="请选择">
-                                    <el-option v-for="item in sizeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-form-item>
-                    </el-col>
-
-                    <el-col :span="8">
-                        <el-form-item label-width="100px" label="标签:" class="postInfo-container-item" prop="style" required>
-                            <!--<el-input placeholder="" style='width:220px;' v-model.number="postForm.style"></el-input>-->
-                            <el-select v-model="postForm.style" placeholder="请选择">
-                                <el-option v-for="item in styleOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-
-                <el-row>
-                    <el-col :span="8">
-                        <el-form-item label="内心独白:" label-width="100px" prop="nature" style="margin-bottom: 40px" required>
-                            <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.nature  " maxlength="20" rows="3"></el-input>
-                        </el-form-item>
-                    </el-col>
-
-                    <el-col :span="8">
-                        <el-form-item label="女仆特征:" label-width="100px" prop="host" style="margin-bottom: 40px" required>
-                            <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.host" maxlength="20" rows="3"></el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-
-                <el-form-item label="头像:" label-width="100px" prop="headurl" style="margin-bottom: 40px" required>
-                    <div style="margin-bottom: 0px;width: 180px;height: 180px; border: 1px dashed #d9d9d9;">
-                        <Uploadhead v-model="postForm.headurl" v-on:input="picInput"></Uploadhead>
-                    </div>
-                    <span style="font-size:12px;display:inline-block; margin-top: -40px">（注：请上传1:1，不小于10kb，jpg、png等格式的文件）</span>
-                </el-form-item>
-
-                <!--<el-form-item label="头像框:" label-width="100px" prop="headSelect" style="margin-bottom: 40px">
-                  <el-select v-model="postForm.headSelect" placeholder="请选择">
-                    <el-option v-for="item in headOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                  </el-select>
-                </el-form-item>-->
-
-                <el-form-item label="个人页背景图:" label-width="120px" prop="backImg1" style="margin-bottom: 40px" required>
-                    <div style="margin-right: 20px;height: 180px;display: inline-block;border: 1px dashed #d9d9d9;">
-                        <Upload v-model="postForm.backImg1" v-on:input="picInput"></Upload>
-                    </div>
-                    <el-form-item prop="backImg2" style="margin-right: 20px;display: inline-block">
-                        <div style="height: 180px;border: 1px dashed #d9d9d9;">
-                            <Upload v-model="postForm.backImg2" v-on:input="picInput"></Upload>
-                        </div>
-                    </el-form-item>
-                    <el-form-item prop="backImg3" style="margin-right: 20px;display: inline-block">
-                        <div style="height: 180px;border: 1px dashed #d9d9d9;">
-                            <Upload v-model="postForm.backImg3" v-on:input="picInput"></Upload>
-                        </div>
-                    </el-form-item>
-                    <el-form-item prop="backImg4" style="margin-right: 20px;display: inline-block">
-                        <div style="height: 180px;border: 1px dashed #d9d9d9;">
-                            <Upload v-model="postForm.backImg4" v-on:input="picInput"></Upload>
-                        </div>
-                    </el-form-item>
-                    <el-form-item prop="backImg5" style="margin-right: 20px;display: inline-block">
-                        <div style="height: 180px;border: 1px dashed #d9d9d9;">
-                            <Upload v-model="postForm.backImg5" v-on:input="picInput"></Upload>
-                        </div>
-                    </el-form-item>
-                    <span style="font-size:12px;display: block">（注：请上传4:3，不小于10kb，jpg、png等格式的文件）</span>
-                </el-form-item>
-
-                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px" required>
-                    <!--<el-select v-model="postForm.config" placeholder="请选择">
-                      <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>-->
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
-                    </el-date-picker>
-                    <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
-                </el-form-item>
-
-                <el-form-item label="女仆空间排序:" label-width="120px" prop="private" style="margin-bottom: 40px" required>
-                    <el-select v-model="postForm.private" placeholder="请选择">
-                        <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
-                    <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
-                </el-form-item>
-
-                <el-form-item label="加速价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
-                    <!--<el-input placeholder="" style='width:60px;' v-model="postForm.timeNum" :disabled="disable" maxlength="10"></el-input>-->
-                    <el-input placeholder="" style='width:50px;' v-model.number="postForm.price" maxlength="10"></el-input>
-                    <span>钻石/</span>
-                    <el-select v-model="postForm.time" placeholder="请选择" style="width:80px">
-                        <el-option v-for="item in timeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
-                </el-form-item>
-
                 <el-form-item label="配置工作时间:" label-width="120px" prop="workTimes" required>
 
                     <div style="margin-bottom: 40px">
-                        <el-form-item label="" style="display: inline-block" prop="workTimeWeek" required>
-                            <span>周</span>
-                            <el-select v-model="postForm.workTimeWeek" placeholder="请选择" style="width:90px">
-                                <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
+                        <el-form-item label="" style="display: inline-block" prop="price" required>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
+                            <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
-
-                        <el-form-item label="" style="display: inline-block" prop="time3">
-                            <el-time-select v-model="postForm.time3" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
-                            <span style="display: inline-block;margin: 0 20px 0 20px">至</span>
+                        <el-form-item label="" style="display: inline-block" prop="amount">
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
-
-                        <el-form-item label="" style="display: inline-block" prop="workTimeWeek1">
-                            <span>周</span>
-                            <el-select v-model="postForm.workTimeWeek1" placeholder="请选择" style="width:90px">
-                                <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
+                        <el-form-item label="" style="display: inline-block" prop="give">
+                            <!--<span>赠送</span>
+                            <el-select v-model="postForm.give" placeholder="请选择" style="width:90px">
+                                <el-option v-for="item in giveOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>-->
+                            <span @click="showGive"><el-radio v-model="postForm.give" label="0">赠送</el-radio></span>
+                            <span @click="hideGive"><el-radio v-model="postForm.give" label="1">不赠送</el-radio></span>
                         </el-form-item>
-
-                        <el-form-item label="" style="display: inline-block" prop="time2">
-                            <el-time-select v-model="postForm.time2" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
+                        <el-form-item v-show="showGi" label="" style="display: inline-block" prop="giveAmount">
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
-                        <el-button @click.prevent="addWork">新增工作时间</el-button>
+                        <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked">
+                            <el-checkbox v-model="postForm.defaultChecked">设置为默认选择</el-checkbox>
+                        </el-form-item>
+                        <el-button @click.prevent="addWork">新增</el-button>
+                    </div>
+                    <div v-show="del" style="margin-bottom: 40px">
+                        <el-form-item label="" style="display: inline-block" prop="price1" required>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price1" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
+                            <span style="display: inline-block;margin-right: 20px">兑换</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="amount1">
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount1" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="give1">
+                            <!--<span>赠送</span>
+                            <el-select v-model="postForm.give" placeholder="请选择" style="width:90px">
+                                <el-option v-for="item in giveOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>-->
+                            <span @click="showGive1"><el-radio v-model="postForm.give1" label="0">赠送</el-radio></span>
+                            <span @click="hideGive1"><el-radio v-model="postForm.give1" label="1">不赠送</el-radio></span>
+                        </el-form-item>
+                        <el-form-item v-show="showGi1" label="" style="display: inline-block" prop="giveAmount1">
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount1" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked1">
+                            <el-checkbox v-model="postForm.defaultChecked1">设置为默认选择</el-checkbox>
+                        </el-form-item>
+                        <el-button @click.prevent="remove">删除</el-button>
+                    </div>
+                    <div style="margin-bottom: 40px">
+                        <el-form-item label="" style="display: inline-block" prop="price2" required>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price2" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
+                            <span style="display: inline-block;margin-right: 20px">兑换</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="amount2">
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount2" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="give2">
+                            <!--<span>赠送</span>
+                            <el-select v-model="postForm.give" placeholder="请选择" style="width:90px">
+                                <el-option v-for="item in giveOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>-->
+                            <span @click="showGive2"><el-radio v-model="postForm.give2" label="0">赠送</el-radio></span>
+                            <span @click="hideGive2"><el-radio v-model="postForm.give2" label="1">不赠送</el-radio></span>
+                        </el-form-item>
+                        <el-form-item v-show="showGi2" label="" style="display: inline-block" prop="giveAmount2">
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount2" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked2">
+                            <el-checkbox v-model="postForm.defaultChecked2">设置为默认选择</el-checkbox>
+                        </el-form-item>
+                        <el-button @click.prevent="addWork">新增</el-button>
+                    </div>
+                    <div style="margin-bottom: 40px">
+                        <el-form-item label="" style="display: inline-block" prop="price3" required>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price3" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
+                            <span style="display: inline-block;margin-right: 20px">兑换</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="amount3">
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount3" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="give3">
+                            <!--<span>赠送</span>
+                            <el-select v-model="postForm.give" placeholder="请选择" style="width:90px">
+                                <el-option v-for="item in giveOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>-->
+                            <span @click="showGive3"><el-radio v-model="postForm.give3" label="0">赠送</el-radio></span>
+                            <span @click="hideGive3"><el-radio v-model="postForm.give3" label="1">不赠送</el-radio></span>
+                        </el-form-item>
+                        <el-form-item v-show="showGi3" label="" style="display: inline-block" prop="giveAmount3">
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount3" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked3">
+                            <el-checkbox v-model="postForm.defaultChecked3">设置为默认选择</el-checkbox>
+                        </el-form-item>
+                        <el-button @click.prevent="addWork">新增</el-button>
+                    </div>
+                    <div style="margin-bottom: 40px">
+                        <el-form-item label="" style="display: inline-block" prop="price4" required>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price4" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
+                            <span style="display: inline-block;margin-right: 20px">兑换</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="amount4">
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount4" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="give4">
+                            <!--<span>赠送</span>
+                            <el-select v-model="postForm.give" placeholder="请选择" style="width:90px">
+                                <el-option v-for="item in giveOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>-->
+                            <span @click="showGive4"><el-radio v-model="postForm.give4" label="0">赠送</el-radio></span>
+                            <span @click="hideGive4"><el-radio v-model="postForm.give4" label="1">不赠送</el-radio></span>
+                        </el-form-item>
+                        <el-form-item v-show="showGi4" label="" style="display: inline-block" prop="giveAmount4">
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount4" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked4">
+                            <el-checkbox v-model="postForm.defaultChecked4">设置为默认选择</el-checkbox>
+                        </el-form-item>
+                        <el-button @click.prevent="addWork">新增</el-button>
+                    </div>
+                    <div style="margin-bottom: 40px">
+                        <el-form-item label="" style="display: inline-block" prop="price5" required>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price5" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
+                            <span style="display: inline-block;margin-right: 20px">兑换</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="amount5">
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount5" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="give5">
+                            <!--<span>赠送</span>
+                            <el-select v-model="postForm.give" placeholder="请选择" style="width:90px">
+                                <el-option v-for="item in giveOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>-->
+                            <span @click="showGive5"><el-radio v-model="postForm.give5" label="0">赠送</el-radio></span>
+                            <span @click="hideGive5"><el-radio v-model="postForm.give5" label="1">不赠送</el-radio></span>
+                        </el-form-item>
+                        <el-form-item v-show="showGi5" label="" style="display: inline-block" prop="giveAmount5">
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount5" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked5">
+                            <el-checkbox v-model="postForm.defaultChecked5">设置为默认选择</el-checkbox>
+                        </el-form-item>
+                        <el-button @click.prevent="addWork">新增</el-button>
                     </div>
 
                     <div v-for="workTime in postForm.workTimes" style="margin-bottom: 40px">
-                        <!--<el-date-picker v-model="workTime.value" type="week" format="周 ww"></el-date-picker>-->
-                        <span>周</span>
-                        <el-select v-model="workTime.time" placeholder="请选择" style="width:90px">
-                            <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
-                        <el-time-select v-model="workTime.value" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
-                        <span style="display: inline-block;margin: 0 20px 0 20px">至</span>
-                        <span>周</span>
-                        <el-select v-model="workTime.time1" placeholder="请选择" style="width:90px">
-                            <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
-                        <el-time-select v-model="workTime.value1" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
-                        <el-button @click.prevent="addWork">新增工作时间</el-button>
+                        <el-form-item label="" style="display: inline-block" prop="price5" required>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price5" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
+                            <span style="display: inline-block;margin-right: 20px">兑换</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="amount5">
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount5" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block" prop="give5">
+                            <!--<span>赠送</span>
+                            <el-select v-model="postForm.give" placeholder="请选择" style="width:90px">
+                                <el-option v-for="item in giveOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>-->
+                            <span @click="showGive5"><el-radio v-model="postForm.give5" label="0">赠送</el-radio></span>
+                            <span @click="hideGive5"><el-radio v-model="postForm.give5" label="1">不赠送</el-radio></span>
+                        </el-form-item>
+                        <el-form-item v-show="showGi5" label="" style="display: inline-block" prop="giveAmount5">
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount5" maxlength=""></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
+                        </el-form-item>
+                        <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked5">
+                            <el-checkbox v-model="postForm.defaultChecked5">设置为默认选择</el-checkbox>
+                        </el-form-item>
+                        <el-button @click.prevent="addWork">新增</el-button>
                         <el-button @click.prevent="removeWork(workTime)">删除</el-button>
                     </div>
                 </el-form-item>
 
                 <el-form-item label-width="100px">
-                    <el-button type="primary" @click.prevent="add" size="large">新增主角</el-button>
+                    <el-button type="primary" @click.prevent="add" size="large">保存</el-button>
                 </el-form-item>
 
             </div>
@@ -615,29 +627,40 @@
                 },
                 progressStatus: '',
                 postForm: {
-                    style: '无',
-                    name: '',
-                    gender: '2',
-                    weight: 45,
-                    height: 160,
-                    bust: '32',
-                    size: 'C',
-                    age: 20,
-                    job: '',
-                    nature: '',
-                    host: '',
-                    headurl: '', // 文章图片
-                    headSelect: '',
-                    backImg1: '',
-                    backImg2: '',
-                    backImg3: '',
-                    backImg4: '',
-                    backImg5: '',
+                    price: '',
+                    amount: '',
+                    give: '1',
+                    giveAmount: '',
+                    defaultChecked: false,
+                    price1: '',
+                    amount1: '',
+                    give1: '1',
+                    giveAmount1: '',
+                    defaultChecked1: false,
+                    price2: '',
+                    amount2: '',
+                    give2: '1',
+                    giveAmount2: '',
+                    defaultChecked2: false,
+                    price3: '',
+                    amount3: '',
+                    give3: '1',
+                    giveAmount3: '',
+                    defaultChecked3: false,
+                    price4: '',
+                    amount4: '',
+                    give4: '1',
+                    giveAmount4: '',
+                    defaultChecked4: false,
+                    price5: '',
+                    amount5: '',
+                    give5: '1',
+                    giveAmount5: '',
+                    defaultChecked5: false,
                     configTime: new Date(),
                     private: '默认',
                     timeNum: '',
                     time: '小时',
-                    price: 30,
                     workTimeWeek: '',
                     workTimeWeek1: '',
                     time2: '',
@@ -657,6 +680,13 @@
                 headOptions: [{
                     value: '1',
                     label: '贴心护士'
+                }],
+                giveOptions: [{
+                    value: '0',
+                    label: '有'
+                },{
+                    value: '1',
+                    label: '无'
                 }],
                 weekOptions: [{
                     value: '1',
@@ -818,6 +848,13 @@
                 userLIstOptions: [],
                 natureLength: false,
                 disable: true,
+                showGi: false,
+                showGi1: false,
+                showGi2: false,
+                showGi3: false,
+                showGi4: false,
+                showGi5: false,
+                del: true,
                 sexOptions: [{
                     value: '1',
                     label: '男'
@@ -889,8 +926,47 @@
             }
         },
         methods: {
+            showGive () {
+                this.showGi = true;
+            },
+            hideGive () {
+                this.showGi = false;
+            },
+            showGive1 () {
+                this.showGi1 = true;
+            },
+            hideGive1 () {
+                this.showGi1 = false;
+            },
+            showGive2 () {
+                this.showGi2 = true;
+            },
+            hideGive2 () {
+                this.showGi2 = false;
+            },
+            showGive3 () {
+                this.showGi3 = true;
+            },
+            hideGive3 () {
+                this.showGi3 = false;
+            },
+            showGive4 () {
+                this.showGi4 = true;
+            },
+            hideGive4 () {
+                this.showGi4 = false;
+            },
+            showGive5 () {
+                this.showGi5 = true;
+            },
+            hideGive5 () {
+                this.showGi5 = false;
+            },
             uploadListener (data) {
                 alert(data)
+            },
+            remove () {
+                this.del = false;
             },
             addWork () {
                 this.postForm.workTimes.push({

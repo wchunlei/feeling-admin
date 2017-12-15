@@ -295,12 +295,12 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="昵称:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
-              <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" maxlength="10"></el-input>
+              <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" maxlength=10></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label-width="100px" label="身高:" class="postInfo-container-item" prop="height" required>
-              <el-input placeholder="请输入身高" style='width:220px;' v-model.number="postForm.height" maxlength="3">
+              <el-input placeholder="请输入身高" style='width:220px;' v-model.number="postForm.height" maxlength=3>
               </el-input>
               <span>cm</span>
             </el-form-item>
@@ -308,7 +308,7 @@
 
           <el-col :span="8">
             <el-form-item label-width="100px" label="体重:" class="postInfo-container-item" prop="weight" required>
-              <el-input placeholder="请输入体重" style='width:220px;' v-model.number="postForm.weight" maxlength="2">
+              <el-input placeholder="请输入体重" style='width:220px;' v-model.number="postForm.weight" maxlength=2>
               </el-input>
               <span>kg</span>
             </el-form-item>
@@ -318,7 +318,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="年龄:" label-width="100px" prop="age" style="margin-bottom: 40px" required>
-              <el-input placeholder="请输入年龄" style='width:220px;' v-model.number="postForm.age" maxlength="2"></el-input>
+              <el-input placeholder="请输入年龄" style='width:220px;' v-model.number="postForm.age" maxlength=2></el-input>
               <span>岁</span>
             </el-form-item>
           </el-col>
@@ -349,13 +349,13 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="内心独白:" label-width="100px" prop="nature" style="margin-bottom: 40px" required>
-              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.nature  " maxlength="20" rows="3"></el-input>
+              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.nature  " maxlength=20 rows=3></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
             <el-form-item label="女仆特征:" label-width="100px" prop="host" style="margin-bottom: 40px" required>
-              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.host" maxlength="20" rows="3"></el-input>
+              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.host" maxlength=20 rows=3></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -472,7 +472,8 @@
         </el-form-item>
 
         <el-form-item label-width="100px">
-          <el-button type="primary" @click.prevent="add" size="large">新增主角</el-button>
+          <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增主角</el-button>
+          <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存主角</el-button>
         </el-form-item>
 
       </div>
@@ -818,6 +819,8 @@
         userLIstOptions: [],
         natureLength: false,
         disable: true,
+        addBut: true,
+        saveBut: false,
         sexOptions: [{
           value: '1',
           label: '男'
@@ -865,30 +868,38 @@
       }
     },*/
     created() {
-      if(this.$route.params && this.$route.params.actor != ':actor') {
-        this.listQuery.actorid = parseInt(this.$route.params.actor);
+      if(this.$route.params.id && this.$route.params.id != ':id'){
+        this.saveBut = true;
+        this.addBut = false;
+        /*this.listQuery.actorid = parseInt(this.$route.params.actor);
         this.getDetail(this.listQuery);
         this.photoData.id = parseInt(this.$route.params.actor);
         this.mvData.id = parseInt(this.$route.params.actor);
-        this.fetchSuccess = false;
+        this.fetchSuccess = false;*/
       } else {
-        this.showPhoto = false;
+        /*this.showPhoto = false;
         this.disable = false;
-        this.showHr =false;
+        this.showHr =false;*/
       }
       /*if (this.isEdit) {
         this.fetchData();
       }*/
     },
-    watch : {
+    /*watch : {
       "watcher" : {
         handler:function(val,oldval){
           this.picList(this.photoid);
         },
         deep: true
       }
-    },
+    },*/
     methods: {
+      add () {
+        for (let i=0; i < this.postForm.workTimes.length; i++) {
+          console.log(this.postForm.workTimes[i].time)
+        }
+        console.log(this.postForm.workTimes)
+      },
       uploadListener (data) {
         alert(data)
       },
@@ -906,7 +917,7 @@
           this.postForm.workTimes.splice(index, 1)
         }
       },
-      /*getDetail () {
+      getDetail () {
         actorListAll (this.listQuery).then(response => {
           this.postForm = response.data.content;
           if (response.data.content.gender == 1) {
@@ -920,16 +931,16 @@
           if (this.photos == '') {
             this.showHr =false;
           }
-          /!*for(let i=0;i<this.postForm.nature.length;i++){
+          /*for(let i=0;i<this.postForm.nature.length;i++){
             this.postForm.nature[i].name = response.data.content.nature[i].name;
             this.postForm.nature = this.postForm.nature + this.postForm.nature[i].name + ',';
             alert(this.postForm.nature)
           }
-          this.postForm.nature = this.postForm.nature.replace("undefined",'');*!/
-            /!*for(let i=0;i<response.data.content.photo.length;i++){
+          this.postForm.nature = this.postForm.nature.replace("undefined",'');*/
+            /*for(let i=0;i<response.data.content.photo.length;i++){
               this.photos.amount =this.photos[i].amount;
               this.photos.url = this.photos[i].url;
-            }*!/
+            }*/
             //this.photos.amount =this.photos[0].amount;
             //this.photos.url = this.photos[0].url;
         }).catch(err => {
@@ -954,11 +965,11 @@
           if (valid) {
             this.loading = true;
             actorUpdate(actorinfo).then(response => {
-              /!*if (!response.data.items) return;
+              /*if (!response.data.items) return;
               console.log(response)
               this.userLIstOptions = response.data.items.map(v => ({
                 key: v.name
-              }));*!/
+              }));*/
               if(response.data.code == 200) {
                 this.$message({
                   message: '发布成功',
@@ -1019,7 +1030,7 @@
           }
         });
       },
-      /!*surePhoto (id) {
+      /*surePhoto (id) {
         this.dialogPhoto = false;
         this.flagPhoto = true;
         let photoid={
@@ -1036,7 +1047,7 @@
             console.log(err);
           });
         }
-      },*!/
+      },*/
       delPhoto (id) {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -1062,7 +1073,7 @@
           });
         });
         //this.dialogPhoto = true;
-        /!*let photoid={
+        /*let photoid={
           id: id
         };
         if(this.flagPhoto){
@@ -1073,7 +1084,7 @@
               this.fetchSuccess = false;
             console.log(err);
           });
-        }*!/
+        }*/
       },
       delPicture (id,url) {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -1130,7 +1141,7 @@
           }
         });
       },
-      /!*sureMv (id) {
+      /*sureMv (id) {
         this.dialogMv = false;
         this.flagMv = true;
         let mvid={
@@ -1144,7 +1155,7 @@
             this.fetchSuccess = false;
           console.log(err);
         });
-      },*!/
+      },*/
       delMv (id) {
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -1169,7 +1180,7 @@
           });
         });
         //this.dialogMv = true;
-        /!*let mvid={
+        /*let mvid={
           id: id
         };
         delMv (mvid).then(response => {
@@ -1178,7 +1189,7 @@
           }).catch(err => {
             this.fetchSuccess = false;
           console.log(err);
-        });*!/
+        });*/
       },
       thumbnaillist (id) {
         this.photoid = id;
@@ -1216,11 +1227,11 @@
         //this.$refs.upPhotos.validate(valid => {
           //if (valid) {
 
-          /!*} else {
+          /*} else {
             console.log('error submit!!');
             return false;
           }
-        });*!/
+        });*/
         if (photoList.photourl) {
           addPhoto (photoList).then(response => {
             console.log();
@@ -1230,14 +1241,14 @@
             this.fetchSuccess = false;
             console.log(err);
           });
-        }/!* else {
+        }/* else {
           this.$message({
             message: '上传失败',
             type: 'error'
           });
-        }*!/
+        }*/
         //this.dialogVisible = false;
-      },*/
+      },
       getRemoteUserList(query) {
         userSearch(query).then(response => {
           if (!response.data.items) return;

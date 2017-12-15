@@ -242,8 +242,8 @@
                             </el-form-item>
                         </el-form-item>
                         <el-form-item v-show="showPicContent" label="收费设置:" label-width="90px" prop="priceSet" style="margin-bottom: 20px" required>
-                            <span @click="showPrice"><el-radio v-model="radioPrice" label="0">收费</el-radio></span>
-                            <span @click="hidePrice"><el-radio v-model="radioPrice" label="1">免费</el-radio></span>
+                            <span @click="showPrice"><el-radio v-model="diaryContent.priceSet" label="0">收费</el-radio></span>
+                            <span @click="hidePrice"><el-radio v-model="diaryContent.priceSet" label="1">免费</el-radio></span>
                         </el-form-item>
                         <div v-show="showPri" style="display: inline-block;margin-bottom: 20px">
                             <!--<el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px" required>
@@ -353,8 +353,8 @@
                             <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                         </el-form-item>
                         <el-form-item label-width="100px">
-                            <el-button v-show="addBut" type="primary" @click.prevent="add">新增</el-button>
-                            <el-button v-show="saveBut" type="primary" @click.prevent="save">保存</el-button>
+                            <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增动态</el-button>
+                            <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存动态</el-button>
                         </el-form-item>
 
                     </el-form>
@@ -590,7 +590,7 @@
                     pic7: '', // 图片
                     pic8: '', // 图片
                     pic9: '', // 图片
-                    priceSet: '',
+                    priceSet: '0',
                     selectPic: [],
                     price: 5,
                     time: new Date(),

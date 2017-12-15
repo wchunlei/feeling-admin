@@ -40,7 +40,7 @@
                 </template>-->
                 <template scope="scope">
                     <!--<span>{{scope.row.name}}</span>-->
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.title}}</router-link></span>
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/help/push_msg/form/' + scope.row.id }">{{scope.row.title}}</router-link></span>
                 </template>
             </el-table-column>
 

@@ -60,8 +60,8 @@
                     <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                 </el-form-item>
                 <el-form-item label-width="100px">
-                    <el-button v-show="addBut" type="primary" @click.prevent="add">新增</el-button>
-                    <el-button v-show="saveBut" type="primary" @click.prevent="save">保存</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增房间</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存房间</el-button>
                 </el-form-item>
 
             </div>

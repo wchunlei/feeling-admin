@@ -97,7 +97,8 @@
                 </el-form-item>
 
                 <el-form-item label-width="100px">
-                    <el-button type="primary" @click.prevent="add">新增</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增剧情</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存剧情</el-button>
                 </el-form-item>
 
             </div>
@@ -304,6 +305,8 @@
                 userLIstOptions: [],
                 natureLength: false,
                 disable: true,
+                addBut: true,
+                saveBut: false,
                 sexOptions: [{
                     value: '1',
                     label: '男'
@@ -345,14 +348,16 @@
          }
          },*/
         created() {
-            let Query = {};
-            this.getRemoteUserList(Query);
-            if(this.$route.params && this.$route.params.actor != ':actor') {
-                this.listQuery.actorid = parseInt(this.$route.params.actor);
+            /*let Query = {};
+            this.getRemoteUserList(Query);*/
+            if(this.$route.params.id && this.$route.params.id != ':id') {
+                this.saveBut = true;
+                this.addBut = false;
+                /*this.listQuery.actorid = parseInt(this.$route.params.actor);
                 this.getDetail(this.listQuery);
                 this.photoData.id = parseInt(this.$route.params.actor);
                 this.mvData.id = parseInt(this.$route.params.actor);
-                this.fetchSuccess = false;
+                this.fetchSuccess = false;*/
             } else {
                 this.showPhoto = false;
                 this.disable = false;

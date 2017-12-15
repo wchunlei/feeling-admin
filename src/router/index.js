@@ -190,7 +190,7 @@ export const asyncRouterMap = [
     icon: 'zujian',
     children: [
       { path: 'table', component: actorTable, name: '主角列表' },
-      { path: 'form/:actor', component: actorForm, name: '新增主角' },
+      { path: 'form/:id', component: actorForm, name: '新增主角' },
     ]
   },
  /* {
@@ -231,7 +231,7 @@ export const asyncRouterMap = [
        { path: 'story/form/tv', component: storyTv, name: '小视频' },*/
       { path: 'table', component: storynewTable, name: '剧情列表' },
       //{ path: 'mainstoryEdit', component: mainstoryEdit, name: '主线剧情编辑' },
-      { path: 'form/:new', component: storynewForm, name: '新增剧情' },
+      { path: 'form/:id', component: storynewForm, name: '新增剧情' },
       /*{ path: 'tableall', component: storyTableall, name: '剧情列表详细' },*/
     ]
   },
@@ -276,7 +276,7 @@ export const asyncRouterMap = [
     icon: 'zujian',
     children: [
       { path: 'table', component: bannerTable, name: 'banner列表' },
-      { path: 'form', component: bannerForm, name: '新增banner' },
+      { path: 'form/:id', component: bannerForm, name: '新增banner' },
     ]
   },
   {
@@ -295,7 +295,7 @@ export const asyncRouterMap = [
       icon: 'zujian',
       children: [
         { path: 'table', component: helpPushTable, name: 'push消息列表' },
-        { path: 'form', component: helpPushForm, name: '新增push消息' }
+        { path: 'form/:id', component: helpPushForm, name: '新增push消息' }
       ]
     }
     ]

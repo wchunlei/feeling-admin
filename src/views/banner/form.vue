@@ -97,7 +97,7 @@
                 </el-form-item>
                 <el-form-item label="下架时间:" label-width="100px" prop="configDownTime" style="margin-bottom: 40px">
                     <el-date-picker v-model="postForm.configDownTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间"></el-date-picker>
-                    <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
+                    <span style="font-size:12px">（注：不设置下架时间默认为下架状态）</span>
                 </el-form-item>
 
                 <!--<el-form-item label="评论内容:" label-width="100px" prop="" >
@@ -110,7 +110,8 @@
                 </el-form-item>-->
 
                 <el-form-item label-width="100px">
-                    <el-button type="primary" @click.prevent="add">新增</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增banner</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存banner</el-button>
                 </el-form-item>
 
             </div>
@@ -312,6 +313,8 @@
                 userLIstOptions: [],
                 natureLength: false,
                 disable: true,
+                addBut: true,
+                saveBut: false,
                 sexOptions: [{
                     value: '1',
                     label: '男'
@@ -353,14 +356,16 @@
          }
          },*/
         created() {
-            let Query = {};
-            this.getRemoteUserList(Query);
-            if(this.$route.params && this.$route.params.actor != ':actor') {
-                this.listQuery.actorid = parseInt(this.$route.params.actor);
+            /*let Query = {};
+            this.getRemoteUserList(Query);*/
+            if(this.$route.params.id && this.$route.params.id != ':id') {
+                this.saveBut = true;
+                this.addBut = false;
+                /*this.listQuery.actorid = parseInt(this.$route.params.actor);
                 this.getDetail(this.listQuery);
                 this.photoData.id = parseInt(this.$route.params.actor);
                 this.mvData.id = parseInt(this.$route.params.actor);
-                this.fetchSuccess = false;
+                this.fetchSuccess = false;*/
             } else {
                 this.showPhoto = false;
                 this.disable = false;
