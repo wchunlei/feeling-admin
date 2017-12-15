@@ -232,7 +232,7 @@ export const asyncRouterMap = [
       { path: 'table', component: storynewTable, name: '剧情列表' },
       //{ path: 'mainstoryEdit', component: mainstoryEdit, name: '主线剧情编辑' },
       { path: 'form/:id', component: storynewForm, name: '新增剧情' },
-      /*{ path: 'tableall', component: storyTableall, name: '剧情列表详细' },*/
+      //{ path: 'tableall', component: storyTableall, name: '剧情列表详细' },
     ]
   },
   {
