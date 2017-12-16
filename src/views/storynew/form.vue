@@ -18,7 +18,7 @@
             </Sticky>-->
 
             <div class="createPost-main-container">
-                <el-form-item v-if="showChart" label="剧情逻辑图:" label-width="100px" style="margin-bottom: 40px">
+                <el-form-item v-show="showChart" label="剧情逻辑图:" label-width="100px" style="margin-bottom: 40px">
                     <div id="myChart" :style="{width: '1200px', height: '800px'}"></div>
                 </el-form-item>
 
@@ -350,6 +350,7 @@
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
+                this.showChart = false;
                 /*this.listQuery.actorid = parseInt(this.$route.params.actor);
                 this.getDetail(this.listQuery);
                 this.photoData.id = parseInt(this.$route.params.actor);

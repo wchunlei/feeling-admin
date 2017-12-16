@@ -28,9 +28,13 @@
                     <el-checkbox-group v-model="postForm.checkedActor" @change="handleCheckedCitiesChange">
                         <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
                     </el-checkbox-group>-->
-                    <el-checkbox-group v-model="postForm.checkedActor">
+                    <!--<el-checkbox-group v-model="postForm.checkedActor">
                         <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
-                    </el-checkbox-group>
+                    </el-checkbox-group>-->
+                    <multiselect v-model="postForm.checkedActor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                        <span slot='noResult'>无结果</span>
+                    </multiselect>
                 </el-form-item>
                 <el-form-item label="剧情:" label-width="100px" prop="checkedStory" style="margin-bottom: 40px" required>
                     <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
@@ -297,7 +301,7 @@
                     this.postForm.workTimes.splice(index, 1)
                 }
             },
-            /*getRemoteUserList(query) {
+            getRemoteUserList(query) {
                 userSearch(query).then(response => {
                     if (!response.data.items) return;
                     console.log(response)
@@ -305,7 +309,7 @@
                         key: v.name
                     }));
                 })
-            }*/
+            }
         }
     }
 </script>
