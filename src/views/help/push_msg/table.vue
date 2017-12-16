@@ -9,7 +9,7 @@
               </el-option>
             </el-select>-->
 
-            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" placeholder="banner类型">
+            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" placeholder="push类型">
                 <el-option v-for="item in  typeOptions" :key="item.label" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>

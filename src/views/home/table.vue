@@ -1,8 +1,8 @@
 <template>
     <div class="app-container calendar-list-container">
         <div class="filter-container">
-            <el-input @keyup.enter.native="handleFilter" style="width: 130px;" class="filter-item" placeholder="房间名" v-model="listQuery.title">
-            </el-input>
+            <!--<el-input @keyup.enter.native="handleFilter" style="width: 130px;" class="filter-item" placeholder="房间名" v-model="listQuery.title">
+            </el-input>-->
 
             <!--<el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.gender" placeholder="性别">
               <el-option v-for="item in  sexOptions" :key="item.label" :label="item.label" :value="item.value">

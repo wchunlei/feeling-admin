@@ -373,7 +373,7 @@
           </el-select>
         </el-form-item>-->
 
-        <el-form-item label="个人页背景图:" label-width="120px" prop="backImg1" style="margin-bottom: 40px" required>
+        <el-form-item label="空间背景:" label-width="100px" prop="backImg1" style="margin-bottom: 40px" required>
           <div style="margin-right: 20px;height: 180px;display: inline-block;border: 1px dashed #d9d9d9;">
             <Upload v-model="postForm.backImg1" v-on:input="picInput"></Upload>
           </div>
@@ -409,7 +409,7 @@
           <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
         </el-form-item>
 
-        <el-form-item label="女仆空间排序:" label-width="120px" prop="private" style="margin-bottom: 40px" required>
+        <el-form-item label="空间排序:" label-width="100px" prop="private" style="margin-bottom: 40px" required>
           <el-select v-model="postForm.private" placeholder="请选择">
             <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
@@ -425,7 +425,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="配置工作时间:" label-width="120px" prop="workTimes" required>
+        <el-form-item label="工作时间:" label-width="100px" prop="workTimes" required>
 
           <div style="margin-bottom: 40px">
             <el-form-item label="" style="display: inline-block" prop="workTimeWeek" required>

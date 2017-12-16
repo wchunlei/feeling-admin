@@ -18,7 +18,7 @@
             </Sticky>-->
 
             <div class="createPost-main-container">
-                <el-form-item v-show="showChart" label="剧情逻辑图:" label-width="100px" style="margin-bottom: 40px">
+                <el-form-item v-show="showChart" label="剧情图:" label-width="100px" style="margin-bottom: 40px">
                     <div id="myChart" :style="{width: '1200px', height: '800px'}"></div>
                 </el-form-item>
 
@@ -46,7 +46,7 @@
                         &lt;!&ndash;<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>&ndash;&gt;
                     </el-upload>
                 </el-form-item>-->
-                <el-form-item label="上传视频包:" label-width="100px" prop="uploadFile" style="margin-bottom: 40px" required>
+                <el-form-item label="剧情包:" label-width="100px" prop="uploadFile" style="margin-bottom: 40px" required>
                     <el-upload
                             :model="postForm.uploadFile"
                             class="upload-demo"
@@ -62,7 +62,7 @@
                         <el-option v-for="item in stageOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="剧情收费设置:" label-width="120px" prop="priceSet" style="margin-bottom: 40px" required>
+                <el-form-item label="收费设置:" label-width="100px" prop="priceSet" style="margin-bottom: 40px" required>
                     <span @click="showPrice"><el-radio v-model="radioPrice" label="0">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="radioPrice" label="1">免费</el-radio></span>
                 </el-form-item>
@@ -86,7 +86,7 @@
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="主角剧本排序:" label-width="120px" prop="storySort" style="margin-bottom: 40px" required>
+                <el-form-item label="剧本排序:" label-width="100px" prop="storySort" style="margin-bottom: 40px" required>
                     <el-select v-model="postForm.storySort" placeholder="请选择">
                         <el-option v-for="item in storySortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>

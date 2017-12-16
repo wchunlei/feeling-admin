@@ -81,7 +81,7 @@
                     </el-form-item>
                 </div>
 
-                <el-form-item label="push时间设置:" label-width="120px" prop="timeType" style="margin-bottom: 40px" required>
+                <el-form-item label="push时间:" label-width="100px" prop="timeType" style="margin-bottom: 40px" required>
                     <!--<el-select v-model="postForm.top" placeholder="请选择">
                         <el-option v-for="item in topOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>-->
