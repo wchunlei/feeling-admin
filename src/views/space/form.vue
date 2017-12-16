@@ -137,9 +137,13 @@
                     </div>
                 </el-form-item>
                 <el-form-item v-show="showAudContent" label="音频图片:" label-width="90px" prop="soundImg" required>
-                    <div class="pictureStyle">
+                    <!--<div class="pictureStyle">
                         <Uploadbak v-model="diaryContent.soundImg"></Uploadbak>
+                    </div>-->
+                    <div style="margin-top: 0px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
+                        <Uploadimg v-model="diaryContent.soundImg" v-on:input="picInput"></Uploadimg>
                     </div>
+                    <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
 
                 <el-form-item v-show="showCroContent" label-width="90px" prop="crowd">
