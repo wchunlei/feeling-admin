@@ -295,12 +295,12 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="昵称:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
-              <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" maxlength=10></el-input>
+              <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :maxlength=10></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label-width="100px" label="身高:" class="postInfo-container-item" prop="height" required>
-              <el-input placeholder="请输入身高" style='width:220px;' v-model.number="postForm.height" maxlength=3>
+              <el-input placeholder="请输入身高" style='width:220px;' v-model.number="postForm.height" :maxlength=3>
               </el-input>
               <span>cm</span>
             </el-form-item>
@@ -308,7 +308,7 @@
 
           <el-col :span="8">
             <el-form-item label-width="100px" label="体重:" class="postInfo-container-item" prop="weight" required>
-              <el-input placeholder="请输入体重" style='width:220px;' v-model.number="postForm.weight" maxlength=2>
+              <el-input placeholder="请输入体重" style='width:220px;' v-model.number="postForm.weight" :maxlength=2>
               </el-input>
               <span>kg</span>
             </el-form-item>
@@ -318,7 +318,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="年龄:" label-width="100px" prop="age" style="margin-bottom: 40px" required>
-              <el-input placeholder="请输入年龄" style='width:220px;' v-model.number="postForm.age" maxlength=2></el-input>
+              <el-input placeholder="请输入年龄" style='width:220px;' v-model.number="postForm.age" :maxlength=2></el-input>
               <span>岁</span>
             </el-form-item>
           </el-col>
@@ -349,13 +349,13 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="内心独白:" label-width="100px" prop="nature" style="margin-bottom: 40px" required>
-              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.nature  " maxlength=20 rows=3></el-input>
+              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.nature" :maxlength=20 :rows=3></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
             <el-form-item label="女仆特征:" label-width="100px" prop="host" style="margin-bottom: 40px" required>
-              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.host" maxlength=20 rows=3></el-input>
+              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.host" :maxlength=20 :rows=3></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -418,7 +418,7 @@
 
         <el-form-item label="加速价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
           <!--<el-input placeholder="" style='width:60px;' v-model="postForm.timeNum" :disabled="disable" maxlength="10"></el-input>-->
-          <el-input placeholder="" style='width:50px;' v-model.number="postForm.price" maxlength="10"></el-input>
+          <el-input placeholder="" style='width:50px;' v-model.number="postForm.price" :maxlength=10></el-input>
           <span>钻石/</span>
           <el-select v-model="postForm.time" placeholder="请选择" style="width:80px">
             <el-option v-for="item in timeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>

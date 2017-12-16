@@ -2,302 +2,17 @@
     <div class="createPost-container">
         <el-form class="form-container" :model="postForm" ref="postForm" :rules="actorDetail">
 
-            <!--<Sticky :className="'sub-navbar '+postForm.status">
-              <template v-if="fetchSuccess">
-
-
-                <el-button v-if="fetchSuccess" v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm('postForm')">新增主角</el-button>
-                &lt;!&ndash;<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>&ndash;&gt;
-
-              </template>
-              <template v-else>
-                &lt;!&ndash;<el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>&ndash;&gt;
-                <el-tag>用户详情</el-tag>
-              </template>
-
-            </Sticky>-->
-
-            <!--<div class="createPost-main-container">
-              <el-form-item label="头像:" label-width="50px" prop="headurl">
-                <div style="margin-bottom: 20px;width:800px">
-                  <Uploadhead v-model="postForm.headurl" v-on:input="picInput"></Uploadhead>
-                </div>
-              </el-form-item>
-              <el-row>
-                <el-col :span="21">
-
-                  <div class="postInfo-container">
-
-                    <el-row>
-                      <el-col :span="8">
-                        <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name">
-                          <el-input placeholder="" style='min-width:150px;' v-model="postForm.name" :disabled="disable">
-                          </el-input>
-                        </el-form-item>
-                      </el-col>
-
-                      <el-col :span="8">
-                        <el-form-item label-width="50px" label="类型:" class="postInfo-container-item" prop="style">
-                          <el-input placeholder="" style='min-width:150px;' v-model="postForm.style" :disabled="disable">
-                          </el-input>
-                        </el-form-item>
-                      </el-col>
-
-                      <el-col :span="8">
-                        <el-form-item label-width="50px" label="性别:" class="postInfo-container-item" prop="gender">
-                          <el-select class="filter-item" placeholder="请选择" v-model="postForm.gender" style="width: 166px" :disabled="disable">
-                            <el-option v-for="item in  sexOptions" :key="item.label" :label="item.label" :value="item.value">
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
-                  </div>
-
-                  <div class="postInfo-container">
-                    <el-row>
-                      <el-col :span="8">
-                        <el-form-item label-width="50px" label="身高:" class="postInfo-container-item" prop="height">
-                            <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.height" :disabled="disable">
-                            </el-input>
-                        </el-form-item>
-                      </el-col>
-
-                      <el-col :span="8">
-
-                          <el-form-item label-width="50px" label="年龄:" class="postInfo-container-item" prop="age">
-                            <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.age" :disabled="disable">
-                            </el-input>
-                        </el-form-item>
-
-                      </el-col>
-
-                      <el-col :span="8">
-                        <el-form-item label-width="50px" label="体重:" class="postInfo-container-item" prop="weight">
-                            <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.weight" :disabled="disable">
-                            </el-input>
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
-                  </div>
-
-                  <div class="postInfo-container">
-                    <el-row>
-                      <el-col :span="8">
-                        <el-form-item label-width="50px" label="胸围:" class="postInfo-container-item" prop="bust">
-                            <el-input placeholder="" style='min-width:150px;' v-model.number="postForm.bust" :disabled="disable">
-                            </el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                          <el-form-item label-width="50px" label="职业:" class="postInfo-container-item">
-                            <el-input placeholder="" style='min-width:150px;' v-model="postForm.job" :disabled="disable">
-                            </el-input>
-                          </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item style="margin-bottom: 40px;" label-width="50px" label="性格:" class="postInfo-container-item">
-                          <el-input type="textarea" :row="1" placeholder="" v-model="postForm.nature" style="width:170px;" :disabled="disable">
-                          </el-input>
-                          &lt;!&ndash;<span class="word-counter" v-show="natureLength">{{natureLength}}字</span>&ndash;&gt;
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
-                  </div>
-
-                </el-col>
-              </el-row>
-
-              <el-button v-if="fetchSuccess" v-loading="loading" style="margin-left: 10px;" type="primary" @click="submitForm('postForm')">新增主角</el-button>
-              <hr v-if="showPhoto" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
-
-              <el-form v-if="showPhoto" :model="photosList" :rules="addPhotosRules" ref="photosList">
-                <el-form-item label-width="50px" label="首图:" class="postInfo-container-item" prop="url">
-                  <div style="margin-bottom: 20px;">
-                    <Upload v-model="photosList.url"></Upload>
-                  </div>
-                </el-form-item>
-                <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name" style="width:300px">
-                  <el-input placeholder="" style='width:150px;' v-model="photosList.name"></el-input>
-                </el-form-item>
-
-                <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
-                  <el-input placeholder="" style='width:150px;display:inline-block;' v-model.number="photosList.amount"></el-input>
-                  <span>（0金币不锁）</span>
-                </el-form-item>
-                &lt;!&ndash;<el-form-item label-width="50px" label="数量:" class="postInfo-container-item" prop="photoNum" style="width:300px">
-                  <el-input placeholder="" style='min-width:150px;' v-model="photos.photoNum"></el-input>
-                </el-form-item>&ndash;&gt;
-
-              </el-form>
-              <el-form-item v-if="showPhoto" label-width="50px" label="">
-                <el-button type="primary" @click="addPhotos('photosList')">新增写真集</el-button>
-              </el-form-item>
-
-              <hr v-if="showPhoto" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
-
-              <template v-if="showPhoto" v-for="photo in photos">
-                <div style="width: 500px;display:inline-block;margin:0px 10px 20px 10px;border: 1px solid #ccc;padding:10px">
-                  <el-form :model="photo" ref="photo">
-                    <el-form-item label-width="60px" label="写真集:" class="postInfo-container-item" prop="url">
-                      <div style="margin-bottom: 0px;cursor:pointer;" @click="thumbnaillist(photo.id)">
-                        <img :src=photo.url style="width:300px;height:300px" alt="图片不存在"></img>
-                        &lt;!&ndash;<Upload  v-model="photos.url" @click="dialogVisible = true"></Upload>&ndash;&gt;
-                        <i class="el-icon-plus uploader-icon icon-position"></i>
-                      </div>
-                    </el-form-item>
-
-                    <el-form-item>
-                      <template scope="scope">
-                        &lt;!&ndash;<span>{{scope.row.id}}</span>&ndash;&gt;
-                      </template>
-                    </el-form-item>
-
-                    <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name" style="width:300px">
-                      <el-input placeholder="" style='width:150px;' v-model="photo.name"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
-                      <el-input placeholder="" style='width:150px;display:inline-block;' v-model.number="photo.amount"></el-input>
-                      <span>（0金币不锁）</span>
-                    </el-form-item>
-
-                    <el-form-item label-width="50px" label="数量:" class="postInfo-container-item" prop="photoNum" style="width:300px">
-                      <el-input placeholder="" style='width:150px;' v-model="photo.photoNum"></el-input>
-                    </el-form-item>
-
-                    &lt;!&ndash;<el-dialog title="提示" :visible.sync="dialogPhoto" size="tiny" >
-                      <span>确定删除?</span>
-                      <span slot="footer" class="dialog-footer">
-                        <el-button @click="dialogPhoto = false">取 消</el-button>
-                        <el-button type="primary" @click="surePhoto(photo.id)">确 定</el-button>
-                      </span>
-                    </el-dialog>&ndash;&gt;
-
-                    <el-form-item label-width="50px" label="">
-                      <el-button type="primary" @click="delPhoto(photo.id)">删除写真集</el-button>
-                    </el-form-item>
-
-                    <el-dialog title="编辑照片" :visible.sync="dialogVisible">
-
-                        <el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
-
-                          <el-form-item label="" label-width="60px" prop="photourl">
-                            <div style="margin-bottom: 20px;">
-                              <Uploadhead v-model="upPhotos.photourl" v-on:input="picInput"></Uploadhead>
-                            </div>
-                          </el-form-item>
-
-                          <el-form-item style="display:none">
-                            <el-button @click="dialogVisible = false">取 消</el-button>
-                            <el-button type="primary" @click="picList(photo.id)">确 定</el-button>
-                          </el-form-item>
-
-                          <template v-for="upphoto in upPhotos">
-                            <div style="display:inline-block">
-
-                              <el-form-item label="" label-width="60px" prop="thumbnail">
-                                <img :src=upphoto.thumbnail style="width:200px;height:200px" alt="图片不存在"></img>
-                                <button type="button" aria-label="Close" class="el-dialog__headerbtn delButton" @click="delPicture(photo.id,upphoto.thumbnail)">
-                                  <i class="el-dialog__close el-icon el-icon-close"></i>
-                                </button>
-                              </el-form-item>
-                            </div>
-
-                          </template>
-                        </el-form>
-
-                    </el-dialog>
-
-                  </el-form>
-                </div>
-              </template>
-              <hr v-if="showHr" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
-
-              &lt;!&ndash;<hr v-if="showPhoto" width="100%" color="#999" style="margin-bottom:40px" />&ndash;&gt;
-
-              <el-form v-if="showPhoto" :model="addmvs" :rules="addMvRules" ref="addmvs">
-                <el-form-item label-width="68px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
-                  <div style="margin: 20px 0;">
-                    <Uploadvideo v-model="addmvs.thumbnail" :progresses="progressesData"></Uploadvideo>
-                  </div>
-                </el-form-item>
-                <el-form-item label-width="50px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
-                  <div v-show="progressesData.progress" style="">
-                    <el-progress :percentage="progressesData.percentage" :status="progressesData.progressStatus"></el-progress>
-                  </div>
-                </el-form-item>
-
-                &lt;!&ndash;<el-form-item label-width="50px" label="url:" class="postInfo-container-item" prop="mvurl" style="width:300px">
-                  <el-input placeholder="" style='width:150px;' v-model="addmvs.mvurl"></el-input>
-                </el-form-item>&ndash;&gt;
-
-                <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="mvname" style="width:300px">
-                  <el-input placeholder="" style='width:150px;' v-model="addmvs.mvname"></el-input>
-                </el-form-item>
-
-                <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
-                  <el-input placeholder="" style='width:150px;display:inline-block;' v-model.number="addmvs.amount"></el-input>
-                  <span>（0金币不锁）</span>
-                </el-form-item>
-                <el-form-item label-width="70px" label="">
-                  <el-button type="primary" @click="addMv('addmvs')">新增视频</el-button>
-                </el-form-item>
-                <hr style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
-              </el-form>
-
-              <template v-if="showPhoto" v-for="mv in mvs">
-                <div style="display:inline-block;margin-right:80px;border: 1px solid #ccc;padding:10px">
-                  <el-form :model="mv" ref="mv">
-                    <el-form-item label-width="70px" label="MV视频:" class="postInfo-container-item" prop="thumbnail">
-                      <div style="margin-bottom: 0px;">
-                        <a :href="'http://'+mv.url"><video :src=mv.thumbnail style="width:200px;height:280px" controls ></video></a>
-                        &lt;!&ndash;<Upload  v-model="photos.url" @click="dialogVisible = true"></Upload>&ndash;&gt;
-                      </div>
-                    </el-form-item>
-
-                    <el-form-item>
-                      <template scope="scope">
-                        &lt;!&ndash;<span>{{scope.row.id}}</span>&ndash;&gt;
-                      </template>
-                    </el-form-item>
-
-                    <el-form-item label-width="50px" label="名称:" class="postInfo-container-item" prop="name" style="width:300px">
-                      <el-input placeholder="" style='width:150px;' v-model="mv.name"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label-width="50px" label="金币:" class="postInfo-container-item" prop="amount" style="width:300px">
-                      <el-input placeholder="" style='width:150px;display:inline-block;' v-model.number="mv.amount"></el-input>
-                      <span>（0金币不锁）</span>
-                    </el-form-item>
-
-                    &lt;!&ndash;<el-dialog title="提示" :visible.sync="dialogMv" size="tiny" >
-                      <span>确定删除?</span>
-                      <span slot="footer" class="dialog-footer">
-                        <el-button @click="dialogMv = false">取 消</el-button>
-                        <el-button type="primary" @click="sureMv(mv.id)">确 定</el-button>
-                      </span>
-                    </el-dialog>&ndash;&gt;
-
-                    <el-form-item label-width="50px" label="">
-                      <el-button type="primary" @click="delMv(mv.id)">删除视频</el-button>
-                    </el-form-item>
-
-                  </el-form>
-                </div>
-              </template>
-            </div>-->
             <div class="createPost-main-container">
-                <el-form-item label="配置工作时间:" label-width="120px" prop="workTimes" required>
+                <el-form-item label="充值设置:" label-width="120px" prop="workTimes" required>
 
                     <div style="margin-bottom: 40px">
                         <el-form-item label="" style="display: inline-block" prop="price" required>
-                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model.number="postForm.price"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount">
-                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount" maxlength=""></el-input>
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give">
@@ -309,7 +24,7 @@
                             <span @click="hideGive"><el-radio v-model="postForm.give" label="1">不赠送</el-radio></span>
                         </el-form-item>
                         <el-form-item v-show="showGi" label="" style="display: inline-block" prop="giveAmount">
-                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked">
@@ -319,12 +34,12 @@
                     </div>
                     <div v-show="del" style="margin-bottom: 40px">
                         <el-form-item label="" style="display: inline-block" prop="price1" required>
-                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price1" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price1"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount1">
-                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount1" maxlength=""></el-input>
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount1"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give1">
@@ -336,22 +51,22 @@
                             <span @click="hideGive1"><el-radio v-model="postForm.give1" label="1">不赠送</el-radio></span>
                         </el-form-item>
                         <el-form-item v-show="showGi1" label="" style="display: inline-block" prop="giveAmount1">
-                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount1" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount1"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked1">
                             <el-checkbox v-model="postForm.defaultChecked1">设置为默认选择</el-checkbox>
                         </el-form-item>
-                        <el-button @click.prevent="remove">删除</el-button>
+                        <!--<el-button @click.prevent="remove">删除</el-button>-->
                     </div>
                     <div style="margin-bottom: 40px">
                         <el-form-item label="" style="display: inline-block" prop="price2" required>
-                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price2" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price2"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount2">
-                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount2" maxlength=""></el-input>
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount2"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give2">
@@ -363,22 +78,22 @@
                             <span @click="hideGive2"><el-radio v-model="postForm.give2" label="1">不赠送</el-radio></span>
                         </el-form-item>
                         <el-form-item v-show="showGi2" label="" style="display: inline-block" prop="giveAmount2">
-                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount2" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount2"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked2">
                             <el-checkbox v-model="postForm.defaultChecked2">设置为默认选择</el-checkbox>
                         </el-form-item>
-                        <el-button @click.prevent="addWork">新增</el-button>
+                        <!--<el-button @click.prevent="remove">删除</el-button>-->
                     </div>
                     <div style="margin-bottom: 40px">
                         <el-form-item label="" style="display: inline-block" prop="price3" required>
-                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price3" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price3"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount3">
-                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount3" maxlength=""></el-input>
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount3"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give3">
@@ -390,22 +105,22 @@
                             <span @click="hideGive3"><el-radio v-model="postForm.give3" label="1">不赠送</el-radio></span>
                         </el-form-item>
                         <el-form-item v-show="showGi3" label="" style="display: inline-block" prop="giveAmount3">
-                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount3" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount3"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked3">
                             <el-checkbox v-model="postForm.defaultChecked3">设置为默认选择</el-checkbox>
                         </el-form-item>
-                        <el-button @click.prevent="addWork">新增</el-button>
+                        <!--<el-button @click.prevent="remove">删除</el-button>-->
                     </div>
                     <div style="margin-bottom: 40px">
                         <el-form-item label="" style="display: inline-block" prop="price4" required>
-                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price4" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price4"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount4">
-                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount4" maxlength=""></el-input>
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount4"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give4">
@@ -417,22 +132,22 @@
                             <span @click="hideGive4"><el-radio v-model="postForm.give4" label="1">不赠送</el-radio></span>
                         </el-form-item>
                         <el-form-item v-show="showGi4" label="" style="display: inline-block" prop="giveAmount4">
-                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount4" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount4"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked4">
                             <el-checkbox v-model="postForm.defaultChecked4">设置为默认选择</el-checkbox>
                         </el-form-item>
-                        <el-button @click.prevent="addWork">新增</el-button>
+                        <!--<el-button @click.prevent="remove">删除</el-button>-->
                     </div>
                     <div style="margin-bottom: 40px">
                         <el-form-item label="" style="display: inline-block" prop="price5" required>
-                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price5" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price5"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount5">
-                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount5" maxlength=""></el-input>
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount5"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give5">
@@ -444,23 +159,23 @@
                             <span @click="hideGive5"><el-radio v-model="postForm.give5" label="1">不赠送</el-radio></span>
                         </el-form-item>
                         <el-form-item v-show="showGi5" label="" style="display: inline-block" prop="giveAmount5">
-                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount5" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount5"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked5">
                             <el-checkbox v-model="postForm.defaultChecked5">设置为默认选择</el-checkbox>
                         </el-form-item>
-                        <el-button @click.prevent="addWork">新增</el-button>
+                        <!--<el-button @click.prevent="remove">删除</el-button>-->
                     </div>
 
                     <div v-for="workTime in postForm.workTimes" style="margin-bottom: 40px">
                         <el-form-item label="" style="display: inline-block" prop="price5" required>
-                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price5" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;' v-model="postForm.price5"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">元</span>
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount5">
-                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount5" maxlength=""></el-input>
+                            <el-input placeholder="钻石个数" style='width:100px;' v-model="postForm.amount5"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give5">
@@ -472,13 +187,13 @@
                             <span @click="hideGive5"><el-radio v-model="postForm.give5" label="1">不赠送</el-radio></span>
                         </el-form-item>
                         <el-form-item v-show="showGi5" label="" style="display: inline-block" prop="giveAmount5">
-                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount5" maxlength=""></el-input>
+                            <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount5"></el-input>
                             <span style="display: inline-block;margin: 0 20px 0 5px">钻石</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked5">
                             <el-checkbox v-model="postForm.defaultChecked5">设置为默认选择</el-checkbox>
                         </el-form-item>
-                        <el-button @click.prevent="addWork">新增</el-button>
+                        <!--<el-button @click.prevent="addWork">新增</el-button>-->
                         <el-button @click.prevent="removeWork(workTime)">删除</el-button>
                     </div>
                 </el-form-item>
@@ -877,17 +592,8 @@
                  photourl: [{ validator: validateRequire }]
                  },*/
                 actorDetail: {
-                    name: [{ validator: validateRequire, trigger: 'blur' }],
-                    nature: [{ validator: validateRequireAll, trigger: 'blur' }],
-                    style: [{ validator: validateRequire, trigger: 'blur' }],
-                    height: [{ validator: checkNumHeight, trigger: 'blur' }],
-                    weight: [{ validator: checkNumWeight, trigger: 'blur' }],
-                    age: [{ validator: checkNumAge, trigger: 'blur' }],
                     price: [{ validator: checkNumPrice, trigger: 'blur' }],
-                    workTimeWeek: [{ validator: validateRequireAll, trigger: 'blur' }],
-                    workTimeWeek1: [{ validator: validateRequireAll, trigger: 'blur' }],
-                    time2: [{ validator: validateRequireAll, trigger: 'blur' }],
-                    time3: [{ validator: validateRequireAll, trigger: 'blur' }],
+                    amount: [{ validator: checkNumPrice, trigger: 'blur' }],
                     //bust: [{ validator: checkNum, trigger: 'blur' }],
                 }
             }
@@ -903,10 +609,10 @@
          },*/
         created() {
             if(this.$route.params && this.$route.params.actor != ':actor') {
-                this.listQuery.actorid = parseInt(this.$route.params.actor);
+                /*this.listQuery.actorid = parseInt(this.$route.params.actor);
                 this.getDetail(this.listQuery);
                 this.photoData.id = parseInt(this.$route.params.actor);
-                this.mvData.id = parseInt(this.$route.params.actor);
+                this.mvData.id = parseInt(this.$route.params.actor);*/
                 this.fetchSuccess = false;
             } else {
                 this.showPhoto = false;
@@ -965,9 +671,9 @@
             uploadListener (data) {
                 alert(data)
             },
-            remove () {
+            /*remove () {
                 this.del = false;
-            },
+            },*/
             addWork () {
                 this.postForm.workTimes.push({
                     time: '',

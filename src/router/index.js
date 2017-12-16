@@ -291,7 +291,7 @@ export const asyncRouterMap = [
       path: '/help/push_msg',
       component: AppMain,
       redirect: '/help/push_msg/index',
-      name: 'push消息管理',
+      name: 'push消息',
       icon: 'zujian',
       children: [
         { path: 'table', component: helpPushTable, name: 'push消息列表' },

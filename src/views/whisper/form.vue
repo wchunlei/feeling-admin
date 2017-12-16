@@ -12,7 +12,7 @@
                 </el-form-item>
 
                 <el-form-item label="问题:" label-width="100px" prop="question" style="margin-bottom: 40px" required>
-                    <el-input type="textarea" placeholder="最多输入15个字" style='width:280px;' v-model="postForm.question"  maxlength="15" rows="3"></el-input>
+                    <el-input type="textarea" placeholder="最多输入15个字" style='width:280px;' v-model="postForm.question"  :maxlength="15" :rows="3"></el-input>
                 </el-form-item>
 
                 <el-form-item label="回答:" label-width="100px" prop="answer" style="margin-bottom: 40px" required>
@@ -34,7 +34,7 @@
 
                 <div v-show="showNoTop" style="display: inline-block;margin-bottom: 20px">
                     <el-form-item label="偷听价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
-                        <el-input placeholder="请输入价格" style='width:190px;' v-model.number="postForm.price" maxlength="10"></el-input>
+                        <el-input placeholder="请输入价格" style='width:190px;' v-model.number="postForm.price" :maxlength="10"></el-input>
                         <span>钻石</span>
                     </el-form-item>
                     <el-form-item label="偷听排序:" label-width="100px" prop="listen" style="margin-bottom: 40px" required>
@@ -65,13 +65,13 @@
 
                     <div style="margin-bottom: 40px">
                         <el-form-item label-width="100px" prop="commentOne">
-                            <el-input placeholder="最多输入20个字" style='width:220px;' v-model="postForm.commentOne" maxlength="20"></el-input>
+                            <el-input placeholder="最多输入20个字" style='width:220px;' v-model="postForm.commentOne" :maxlength="20"></el-input>
                             <el-button @click.prevent="addWork">新增评论</el-button>
                         </el-form-item>
                     </div>
                     <div v-for="comment in postForm.comments" style="margin-bottom: 40px">
                         <!--<el-date-picker v-model="workTime.value" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>-->
-                        <el-input placeholder="最多输入20个字" style='width:220px;' v-model="comment.value" maxlength="20"></el-input>
+                        <el-input placeholder="最多输入20个字" style='width:220px;' v-model="comment.value" :maxlength="20"></el-input>
                         <!--<el-button @click.prevent="addWork">新增评论</el-button>-->
                         <el-button @click.prevent="removeWork(comment)">删除</el-button>
                     </div>
@@ -698,6 +698,11 @@
                  }*!/
                 //this.dialogVisible = false;
             },*/
+            picInput (data) {
+                if (data) {
+                    this.watcher = data;
+                }
+            },
             getRemoteUserList(query) {
                 userSearch(query).then(response => {
                     console.log("getRemoteUserList")

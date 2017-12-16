@@ -1,507 +1,197 @@
 <template>
     <div class="createPost-container">
-        <el-form class="form-container" :model="postForm" :rules="rule" ref="postForm">
 
-            <!--<Sticky v-if="showButton" :className="'sub-navbar '+postForm.status">
-                <template v-if="fetchSuccess">
-                    <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="addDiary('postForm')">新增日记</el-button>
-                    &lt;!&ndash;<el-button v-loading="loading" type="warning" @click="draftForm">草稿</el-button>&ndash;&gt;
-                </template>
-                <template v-else>
-                    <el-tag>发送异常错误,刷新页面,或者联系程序员</el-tag>
-                </template>
-            </Sticky>-->
-
+        <el-form class="form-container" :model="diaryContent" ref="diaryContent" :rules="rules">
             <div class="createPost-main-container">
-                <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="id:" prop="id">
-                    <el-input v-model="postForm.id" style="width:50px" ></el-input>
-                </el-form-item>-->
-                <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="姓名:" prop="actorid">
-                    <el-input v-model="postForm.actorid" style="width:100px">
-                    </el-input>
-                </el-form-item>-->
-                <!--<el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;">
-                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+
+                <el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
+                    <multiselect v-model="diaryContent.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;" :disabled="disableActor">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
-                </el-form-item>-->
-                <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="日记名称:" prop="title">
-                    <el-input type="text" v-model="postForm.title" style="width:300px" :disabled="disableTitle">
-                    </el-input>
-                </el-form-item>-->
-
-                <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="发布时间:" prop="textarea">
-                    <el-date-picker
-                            v-model="postForm.dt"
-                            type="datetime"
-                            placeholder="选择日期时间">
-                    </el-date-picker>
-                </el-form-item>-->
-
-                <el-button v-if="showButton" type="primary" @click="addDiary('postForm')">新增日记</el-button>
-
-                <template v-if="showDiary" v-for="diary in diarys">
-                    <div>
-                        <el-form :model="diary" ref="diary">
-                            <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type">
-                                <template>
-                                    &lt;!&ndash;<span @click="showPicture"><el-radio v-model="types" label="0">图片</el-radio></span>
-                                    <span @click="showVideo"><el-radio v-model="types" label="1">视频</el-radio></span>&ndash;&gt;
-                                    <el-radio-group v-model="diary.type">
-                                        <span @click="showPicture"><el-radio :label=0>图片</el-radio></span>
-                                        <span @click="showVideo"><el-radio :label=1>视频</el-radio></span>
-                                    </el-radio-group>
-                                </template>
-                            </el-form-item>-->
-                            <!--<el-form-item>
-                                <el-input v-model="diary.id"></el-input>
-                            </el-form-item>-->
-                            <el-form-item label-width="90px" prop="id">
-                                <span style="display: inline-block;margin-left:-70px;margin-right:8px">第</span>{{ diary.index }}<span style="display: inline-block;margin-left:8px;">条：</span>
-                            </el-form-item>
-                            <el-form-item style="margin-bottom: 40px;" label-width="90px" label="文字内容:" prop="words">
-                                <el-input type="textarea" :rows="3" v-model="diary.words" disabled style="width:300px">
-                                </el-input>
-                            </el-form-item>
-                            <el-form-item v-if="diary.pic1" class="uplo">
-                                <div style="margin-bottom: 20px;">
-                                    <!--<el-form-item label-width="90px" label="图片:" prop="pic1">最多9张图片</el-form-item>-->
-                                    <!--<Uploadimg v-model="diary.pic1"></Uploadimg>-->
-                                    <img :src=diary.pic1 style="width:200px;height:200px" alt=""> </img>
-                                </div>
-                                <div style="margin-bottom: 20px;">
-                                    <!--<Uploadimg v-model="diary.pic2"></Uploadimg>-->
-                                    <img :src=diary.pic2 style="width:200px;height:200px" alt=""> </img>
-                                </div>
-                                <div style="margin-bottom: 20px;">
-                                    <!--<Uploadimg v-model="diary.pic3"></Uploadimg>-->
-                                    <img :src=diary.pic3 style="width:200px;height:200px" alt=""> </img>
-                                </div>
-                            </el-form-item>
-
-                            <el-form-item v-if="diary.pic4" class="uplo">
-                                <div style="margin-bottom: 20px;">
-                                    <!--<Uploadimg v-model="diary.pic4"></Uploadimg>-->
-                                    <img :src=diary.pic4 style="width:200px;height:200px" alt=""> </img>
-                                </div>
-                                <div style="margin-bottom: 20px;">
-                                    <!--<Uploadimg v-model="diary.pic5"></Uploadimg>-->
-                                    <img :src=diary.pic5 style="width:200px;height:200px" alt=""> </img>
-                                </div>
-                                <div style="margin-bottom: 20px;">
-                                    <!--<Uploadimg v-model="diary.pic6"></Uploadimg>-->
-                                    <img :src=diary.pic6 style="width:200px;height:200px" alt=""> </img>
-                                </div>
-                            </el-form-item>
-
-                            <el-form-item v-if="diary.pic7"  class="uplo">
-                                <div style="margin-bottom: 20px;">
-                                    <!--<Uploadimg v-model="diary.pic7"></Uploadimg>-->
-                                    <img :src=diary.pic7 style="width:200px;height:200px" alt=""> </img>
-                                </div>
-                                <div style="margin-bottom: 20px;">
-                                    <!--<Uploadimg v-model="diary.pic8"></Uploadimg>-->
-                                    <img :src=diary.pic8 style="width:200px;height:200px" alt=""> </img>
-                                </div>
-                                <div style="margin-bottom: 20px;">
-                                    <!--<Uploadimg v-model="diary.pic9"></Uploadimg>-->
-                                    <img :src=diary.pic9 style="width:200px;height:200px" alt=""> </img>
-                                </div>
-                            </el-form-item>
-
-                            <el-form-item>
-                                <div style="margin-bottom: 20px;">
-                                    <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
-                                    <!--<Uploadvideo v-model="diary.video"></Uploadvideo>-->
-                                    <video v-if="diary.video" :src=diary.video style="width:200px;height:280px" controls ></video>
-                                </div>
-                            </el-form-item>
-
-                            <el-form-item style="margin-bottom: 40px;" label-width="90px" label="发布时间:" prop="day">
-                                <!--<el-date-picker
-                                        v-model="diary.modify_time"
-                                        type="datetime"
-                                        placeholder="选择日期时间">
-                                </el-date-picker>-->
-                                <!--<el-time-picker
-                                        v-model="diary.time"
-                                        :picker-options="{
-                                          selectableRange: '00:00:00 - 23:59:00'
-                                        }"
-                                        placeholder="任意时间点">
-                                </el-time-picker>-->
-                                <span style="display: inline-block;margin-right:8px">第</span>{{ diary.day }}<span style="display: inline-block;margin-left:8px;">天</span>
-                                <span style="display: inline-block;margin-left:8px;">{{ diary.time }}</span>
-                                <!--<el-time-select v-model="diary.time"
-                                        :picker-options="{
-                                            start: '00:00',
-                                            step: '00:05',
-                                            end: '23:59'
-                                          }"
-                                        disabled
-                                        placeholder="选择时间">
-                                </el-time-select>-->
-                            </el-form-item>
-
-                            <!--<el-dialog title="提示" :visible.sync="dialogMv" size="tiny" >
-                                <span>确定删除?</span>
-                                <span slot="footer" class="dialog-footer">
-                                  <el-button @click="dialogMv = false">取 消</el-button>
-                                  <el-button type="primary" @click="sureMv(mv.id)">确 定</el-button>
-                                </span>
-                            </el-dialog>-->
-
-                            <el-form-item label-width="20px" label="" style="display: inline-block">
-                                <el-button type="primary" @click="editDiaryDialog(diary)">编辑日记</el-button>
-                            </el-form-item>
-                            <el-form-item label-width="20px" label="" style="display: inline-block">
-                                <el-button type="primary" @click="delDiary(diary.id)">删除日记</el-button>
-                            </el-form-item>
-
-                        </el-form>
-                        <!--<hr width="100%" color="#999" style="margin-bottom:40px" />-->
-                        <hr width="100%" style=" height:1px;border:none;border-top:1px dotted #185598;margin-bottom:25px" />
-                    </div>
-                </template>
-                <el-form-item>
-                    <el-button v-if="showContentButton" type="primary" @click="addDiaryDialog">新增内容</el-button>
                 </el-form-item>
 
-                <!--<el-dialog title="新增日记内容" :visible.sync="dialogDiaryContent" size="small">-->
-                    <el-form :model="diaryContent" ref="diaryContent" :rules="rules">
+                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type" required>
+                    <template>
+                        <span @click="showPictureContent"><el-radio v-model="diaryContent.type" label="0">图片</el-radio></span>
+                        <span @click="showVideoContent"><el-radio v-model="diaryContent.type" label="1">短视频</el-radio></span>
+                        <span @click="showAudioContent"><el-radio v-model="diaryContent.type" label="2">音频</el-radio></span>
+                        <span @click="showCrowdContent"><el-radio v-model="diaryContent.type" label="3">众筹</el-radio></span>
+                    </template>
+                    <!--<template>
+                        <el-radio-group v-model="radioContent">
+                            <el-radio label="0" change="showPictureContent">图片</el-radio>
+                            <el-radio label="1" change="showVideoContent">视频</el-radio>
+                            <el-radio label="2" change="showAudioContent">音频</el-radio>
+                        </el-radio-group>
+                    </template>-->
+                </el-form-item>
 
-                        <el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
-                            <multiselect v-model="diaryContent.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                         deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;" :disabled="disableActor">
-                                <span slot='noResult'>无结果</span>
-                            </multiselect>
-                        </el-form-item>
+                <el-form-item class="uplo" label-width="90px" prop="pic1">
+                    <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
+                        <!--<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>-->
+                        <Upload v-model="diaryContent.pic1"></Upload>
+                    </div>
+                    <el-form-item label-width="90px" prop="pic2">
+                        <div v-show="showPicContent" class="pictureStyle">
+                            <Upload v-model="diaryContent.pic2"></Upload>
+                        </div>
+                    </el-form-item>
+                    <el-form-item prop="pic3">
+                        <div v-show="showPicContent" class="pictureStyle">
+                            <Upload v-model="diaryContent.pic3"></Upload>
+                        </div>
+                    </el-form-item>
+                </el-form-item>
 
-                        <el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type" required>
-                            <template>
-                                <span @click="showPictureContent"><el-radio v-model="diaryContent.type" label="0">图片</el-radio></span>
-                                <span @click="showVideoContent"><el-radio v-model="diaryContent.type" label="1">短视频</el-radio></span>
-                                <span @click="showAudioContent"><el-radio v-model="diaryContent.type" label="2">音频</el-radio></span>
-                                <span @click="showCrowdContent"><el-radio v-model="diaryContent.type" label="3">众筹</el-radio></span>
-                            </template>
-                            <!--<template>
-                                <el-radio-group v-model="radioContent">
-                                    <el-radio label="0" change="showPictureContent">图片</el-radio>
-                                    <el-radio label="1" change="showVideoContent">视频</el-radio>
-                                    <el-radio label="2" change="showAudioContent">音频</el-radio>
-                                </el-radio-group>
-                            </template>-->
-                        </el-form-item>
+                <el-form-item class="uplo" label-width="90px" prop="pic4">
+                    <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
+                        <Upload v-model="diaryContent.pic4"></Upload>
+                    </div>
+                    <el-form-item prop="pic5">
+                        <div v-show="showPicContent" class="pictureStyle">
+                            <Upload v-model="diaryContent.pic5"></Upload>
+                        </div>
+                    </el-form-item>
+                    <el-form-item prop="pic6">
+                        <div v-show="showPicContent" class="pictureStyle">
+                            <Upload v-model="diaryContent.pic6"></Upload>
+                        </div>
+                    </el-form-item>
+                </el-form-item>
+                <el-form-item class="uplo" label-width="90px" prop="pic7">
+                    <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
+                        <Upload v-model="diaryContent.pic7"></Upload>
+                    </div>
+                    <el-form-item prop="pic8">
+                        <div v-show="showPicContent" class="pictureStyle">
+                            <Upload v-model="diaryContent.pic8"></Upload>
+                        </div>
+                    </el-form-item>
+                    <el-form-item prop="pic9">
+                        <div v-show="showPicContent" class="pictureStyle">
+                            <Upload v-model="diaryContent.pic9"></Upload>
+                        </div>
+                    </el-form-item>
+                </el-form-item>
+                <el-form-item v-show="showPicContent" label="收费设置:" label-width="90px" prop="priceSet" style="margin-bottom: 20px" required>
+                    <span @click="showPrice"><el-radio v-model="diaryContent.priceSet" label="0">收费</el-radio></span>
+                    <span @click="hidePrice"><el-radio v-model="diaryContent.priceSet" label="1">免费</el-radio></span>
+                </el-form-item>
+                <div v-show="showPri" style="display: inline-block;margin-bottom: 20px">
+                    <!--<el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px" required>
+                        &lt;!&ndash;<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                        <div style="margin: 15px 0;"></div>
+                        <el-checkbox-group v-model="diaryContent.selectPic" @change="handleCheckedCitiesChange">
+                            <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
+                        </el-checkbox-group>&ndash;&gt;
+                        <el-checkbox-group v-model="diaryContent.selectPic">
+                            <el-checkbox v-for="pic in selectPics" :label="pic" :key="pic">{{pic}}</el-checkbox>
+                        </el-checkbox-group>
+                    </el-form-item>-->
+                    <el-form-item v-show="showPicContent" label="收费价格:" label-width="90px" prop="price" style="margin-bottom: 40px" required>
+                        <el-input v-model.number="diaryContent.price" style="width:150px" placeholder="请输入整数金额"></el-input>
+                        <span>钻石 （注：目前收费功能支持最后一张收费，若选择收费，则上传的最后一张图片自动变为模糊收费状态）</span>
+                    </el-form-item>
+                </div>
+                <!--<el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
 
-                        <el-form-item class="uplo" label-width="90px" prop="pic1">
-                            <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                                <!--<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>-->
-                                <Upload v-model="diaryContent.pic1"></Upload>
-                            </div>
-                            <el-form-item label-width="90px" prop="pic2">
-                                <div v-show="showPicContent" class="pictureStyle">
-                                    <Upload v-model="diaryContent.pic2"></Upload>
-                                </div>
-                            </el-form-item>
-                            <el-form-item prop="pic3">
-                                <div v-show="showPicContent" class="pictureStyle">
-                                    <Upload v-model="diaryContent.pic3"></Upload>
-                                </div>
-                            </el-form-item>
-                        </el-form-item>
+                    <el-form-item label="" label-width="60px" prop="photourl">
+                        <div style="margin-bottom: 20px;">
+                            <Uploadhead v-model="upPhotos.photourl" v-on:input="picInput"></Uploadhead>
+                        </div>
+                    </el-form-item>
 
-                        <el-form-item class="uplo" label-width="90px" prop="pic4">
-                            <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                                <Upload v-model="diaryContent.pic4"></Upload>
-                            </div>
-                            <el-form-item prop="pic5">
-                                <div v-show="showPicContent" class="pictureStyle">
-                                    <Upload v-model="diaryContent.pic5"></Upload>
-                                </div>
-                            </el-form-item>
-                            <el-form-item prop="pic6">
-                                <div v-show="showPicContent" class="pictureStyle">
-                                    <Upload v-model="diaryContent.pic6"></Upload>
-                                </div>
-                            </el-form-item>
-                        </el-form-item>
-                        <el-form-item class="uplo" label-width="90px" prop="pic7">
-                            <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                                <Upload v-model="diaryContent.pic7"></Upload>
-                            </div>
-                            <el-form-item prop="pic8">
-                                <div v-show="showPicContent" class="pictureStyle">
-                                    <Upload v-model="diaryContent.pic8"></Upload>
-                                </div>
-                            </el-form-item>
-                            <el-form-item prop="pic9">
-                                <div v-show="showPicContent" class="pictureStyle">
-                                    <Upload v-model="diaryContent.pic9"></Upload>
-                                </div>
-                            </el-form-item>
-                        </el-form-item>
-                        <el-form-item v-show="showPicContent" label="收费设置:" label-width="90px" prop="priceSet" style="margin-bottom: 20px" required>
-                            <span @click="showPrice"><el-radio v-model="diaryContent.priceSet" label="0">收费</el-radio></span>
-                            <span @click="hidePrice"><el-radio v-model="diaryContent.priceSet" label="1">免费</el-radio></span>
-                        </el-form-item>
-                        <div v-show="showPri" style="display: inline-block;margin-bottom: 20px">
-                            <!--<el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px" required>
-                                &lt;!&ndash;<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                                <div style="margin: 15px 0;"></div>
-                                <el-checkbox-group v-model="diaryContent.selectPic" @change="handleCheckedCitiesChange">
-                                    <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
-                                </el-checkbox-group>&ndash;&gt;
-                                <el-checkbox-group v-model="diaryContent.selectPic">
-                                    <el-checkbox v-for="pic in selectPics" :label="pic" :key="pic">{{pic}}</el-checkbox>
-                                </el-checkbox-group>
-                            </el-form-item>-->
-                            <el-form-item v-show="showPicContent" label="收费价格:" label-width="90px" prop="price" style="margin-bottom: 40px" required>
-                                <el-input v-model.number="diaryContent.price" style="width:150px" placeholder="请输入整数金额"></el-input>
-                                <span>钻石 （注：目前收费功能支持最后一张收费，若选择收费，则上传的最后一张图片自动变为模糊收费状态）</span>
+                    <el-form-item style="display:none">
+                        <el-button @click="dialogVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="picList(photo.id)">确 定</el-button>
+                    </el-form-item>
+
+                    <template v-for="upphoto in upPhotos">
+                        <div style="display:inline-block">
+                            <el-form-item label="" label-width="60px" prop="thumbnail">
+                                <img :src=upphoto.thumbnail style="width:200px;height:200px" alt="图片不存在"></img>
+                                <button type="button" aria-label="Close" class="el-dialog__headerbtn delButton" @click="delPicture(photo.id,upphoto.thumbnail)">
+                                    <i class="el-dialog__close el-icon el-icon-close"></i>
+                                </button>
                             </el-form-item>
                         </div>
-                        <!--<el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
-
-                            <el-form-item label="" label-width="60px" prop="photourl">
-                                <div style="margin-bottom: 20px;">
-                                    <Uploadhead v-model="upPhotos.photourl" v-on:input="picInput"></Uploadhead>
-                                </div>
-                            </el-form-item>
-
-                            <el-form-item style="display:none">
-                                <el-button @click="dialogVisible = false">取 消</el-button>
-                                <el-button type="primary" @click="picList(photo.id)">确 定</el-button>
-                            </el-form-item>
-
-                            <template v-for="upphoto in upPhotos">
-                                <div style="display:inline-block">
-                                    <el-form-item label="" label-width="60px" prop="thumbnail">
-                                        <img :src=upphoto.thumbnail style="width:200px;height:200px" alt="图片不存在"></img>
-                                        <button type="button" aria-label="Close" class="el-dialog__headerbtn delButton" @click="delPicture(photo.id,upphoto.thumbnail)">
-                                            <i class="el-dialog__close el-icon el-icon-close"></i>
-                                        </button>
-                                    </el-form-item>
-                                </div>
-                            </template>
-                        </el-form>-->
-
-                        <el-form-item v-show="showVidContent" label-width="90px" prop="video">
-                            <div style="margin-top: -180px">
-                                <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
-                                <Uploadvideo v-model="diaryContent.video" :progresses="progressesData"></Uploadvideo>
-                            </div>
-                        </el-form-item>
-                        <el-form-item label-width="50px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
-                            <div v-show="progressesData.progress" style="">
-                                <el-progress :percentage="progressesData.percentage" :status="progressesData.progressStatus"></el-progress>
-                            </div>
-                        </el-form-item>
-
-                        <el-form-item v-show="showAudContent" label-width="90px" prop="sound">
-                            <div style="margin-top: -180px">
-                                <Uploadaudio v-model="diaryContent.sound"></Uploadaudio>
-                            </div>
-                        </el-form-item>
-                        <el-form-item v-show="showAudContent" label="音频图片:" label-width="90px" prop="soundImg" required>
-                            <div class="pictureStyle">
-                                <Uploadbak v-model="diaryContent.soundImg"></Uploadbak>
-                            </div>
-                        </el-form-item>
-
-                        <el-form-item v-show="showCroContent" label-width="90px" prop="crowd">
-                            <!--<div style="display: inline-block;margin-top: -160px">
-                                <Uploadimg v-model="diaryContent.crowd"></Uploadimg>
-                            </div>-->
-                            <div style="margin-top: -180px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                                <Uploadimg v-model="diaryContent.crowd" v-on:input="picInput"></Uploadimg>
-                            </div>
-                            <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
-                        </el-form-item>
-                        <el-form-item v-show="showCroContent" label="众筹价格:" label-width="90px" prop="crowdfunding" required>
-                            <el-input v-model="diaryContent.crowdfunding" style="width:150px" placeholder="请输入整数金额"></el-input>
-                            <span>钻石</span>
-                        </el-form-item>
-
-                        <el-form-item style="margin-bottom: 40px;" label-width="90px" label="动态内容:" prop="words" required>
-                            <el-input type="textarea" :rows="3" v-model="diaryContent.words" style="width:400px" placeholder="最多输入200个字" maxlength="200"></el-input>
-                        </el-form-item>
-
-                        <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="发布时间:" prop="day">
-                            <span style="display: inline-block;margin-:0px;margin-right:8px">第</span><el-input v-model.number="diaryContent.day" style="width:50px"></el-input><span style="display: inline-block;margin-left:8px;">天</span>
-                            <el-form-item prop="time" style="display:inline-block">
-                                <el-time-select v-model="diaryContent.time"
-                                                :picker-options="{
-                                                start: '00:00',
-                                                step: '00:05',
-                                                end: '23:59'
-                                              }"
-                                                placeholder="选择时间">
-                                </el-time-select>
-                            </el-form-item>
-                        </el-form-item>-->
-                        <el-form-item label-width="90px" label="发布时间:" prop="time"style="margin-bottom: 40px" required>
-                            <div class="block">
-                                <!--<span class="demonstration">默认</span>-->
-                                <el-date-picker v-model="diaryContent.time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期时间" :picker-options="pickerOptions1"></el-date-picker>
-                            </div>
-                        </el-form-item>
-                        <el-form-item label="动态排序:" label-width="90px" prop="spaceSort" style="margin-bottom: 40px" required>
-                            <el-select v-model="diaryContent.spaceSort" placeholder="请选择">
-                                <el-option v-for="item in spaceSortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
-                            <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
-                        </el-form-item>
-                        <el-form-item label-width="100px">
-                            <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增动态</el-button>
-                            <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存动态</el-button>
-                        </el-form-item>
-
-                    </el-form>
-                    <!--<span slot="footer" class="dialog-footer">
-                        <el-button @click="dialogDiaryContent = false">取 消</el-button>
-                        <el-button type="primary" @click="addDiaryContent('diaryContent')">确 定</el-button>
-                    </span>-->
-                <!--</el-dialog>-->
-
-                <!--<el-dialog title="编辑日记内容" :visible.sync="dialogDiaryContentEdit" size="small">
-                    <el-form :model="diaryContentEdit" ref="diaryContentEdit" :rules="diary">
-
-                        <el-form-item style="margin-bottom: 40px;" label-width="90px" label="文字内容:" prop="words">
-                            <el-input type="textarea" :rows="3" v-model="diaryContentEdit.words" style="width:400px">
-                            </el-input>
-                        </el-form-item>
-
-                        <el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type">
-                            <template>
-                                <span @click="showPictureContent"><el-radio v-model="radioContentEdit" label="0">图片</el-radio></span>
-                                <span @click="showVideoContent"><el-radio v-model="radioContentEdit" label="1">视频</el-radio></span>
-                            </template>
-                        </el-form-item>
-
-                        <el-form-item class="uplo" label-width="200px" prop="pic1">
-                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
-                                &lt;!&ndash;<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>&ndash;&gt;
-                                <Upload v-model="diaryContentEdit.pic1"></Upload>
-                            </div>
-                            <el-form-item prop="pic2">
-                                <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
-                                    <Upload v-model="diaryContentEdit.pic2"></Upload>
-                                </div>
-                            </el-form-item>
-                            <el-form-item prop="pic3">
-                                <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
-                                    <Upload v-model="diaryContentEdit.pic3"></Upload>
-                                </div>
-                            </el-form-item>
-                        </el-form-item>
-
-                        <el-form-item class="uplo" label-width="200px" prop="pic4">
-                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
-                                <Upload v-model="diaryContentEdit.pic4"></Upload>
-                            </div>
-                            <el-form-item prop="pic5">
-                                <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
-                                    <Upload v-model="diaryContentEdit.pic5"></Upload>
-                                </div>
-                            </el-form-item>
-                            <el-form-item prop="pic6">
-                                <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
-                                    <Upload v-model="diaryContentEdit.pic6"></Upload>
-                                </div>
-                            </el-form-item>
-                        </el-form-item>
-                        <el-form-item class="uplo" label-width="200px" prop="pic7">
-                            <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
-                                <Upload v-model="diaryContentEdit.pic7"></Upload>
-                            </div>
-                            <el-form-item prop="pic8">
-                                <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
-                                    <Upload v-model="diaryContentEdit.pic8"></Upload>
-                                </div>
-                            </el-form-item>
-                            <el-form-item prop="pic9">
-                                <div v-show="showPicContent" style="margin-bottom: 20px;display: inline-block">
-                                    <Upload v-model="diaryContentEdit.pic9"></Upload>
-                                </div>
-                            </el-form-item>
-                        </el-form-item>
-
-                        <el-form-item label-width="40px" prop="video">
-                            <div v-show="showVidContent" style="margin-bottom: 20px;">
-                                &lt;!&ndash;<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>&ndash;&gt;
-                                <Uploadvideo v-model="diaryContentEdit.video"></Uploadvideo>
-                            </div>
-                        </el-form-item>
-
-                        <el-form-item style="margin-bottom: 40px;" label-width="90px" label="发布时间:" prop="day">
-                            <span style="display: inline-block;margin-:0px;margin-right:8px">第</span><el-input v-model.number="diaryContentEdit.day" style="width:50px"></el-input><span style="display: inline-block;margin-left:8px;">天</span>
-                            <el-form-item prop="time" style="display:inline-block">
-                                <el-time-select v-model="diaryContentEdit.time"
-                                                :picker-options="{
-                                                start: '00:00',
-                                                step: '00:05',
-                                                end: '23:59'
-                                              }"
-                                                placeholder="选择时间">
-                                </el-time-select>
-                            </el-form-item>
-                        </el-form-item>
-
-                    </el-form>
-                    <span slot="footer" class="dialog-footer">
-                        <el-button @click="dialogDiaryContentEdit = false">取 消</el-button>
-                        <el-button type="primary" @click="editDiaryContent()">确 定</el-button>
-                    </span>
-                </el-dialog>-->
-
-                <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type">
-                    <template>
-                        <span @click="showPicture"><el-radio class="radio" v-model="radio" label="0">图片</el-radio></span>
-                        <span @click="showVideo"><el-radio class="radio" v-model="radio" label="1">视频</el-radio></span>
                     </template>
+                </el-form>-->
+
+                <el-form-item v-show="showVidContent" label-width="90px" prop="video">
+                    <div style="margin-top: -180px">
+                        <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
+                        <Uploadvideo v-model="diaryContent.video" :progresses="progressesData"></Uploadvideo>
+                    </div>
+                </el-form-item>
+                <el-form-item label-width="50px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
+                    <div v-show="progressesData.progress" style="">
+                        <el-progress :percentage="progressesData.percentage" :status="progressesData.progressStatus"></el-progress>
+                    </div>
+                </el-form-item>
+
+                <el-form-item v-show="showAudContent" label-width="90px" prop="sound">
+                    <div style="margin-top: -180px">
+                        <Uploadaudio v-model="diaryContent.sound"></Uploadaudio>
+                    </div>
+                </el-form-item>
+                <el-form-item v-show="showAudContent" label="音频图片:" label-width="90px" prop="soundImg" required>
+                    <div class="pictureStyle">
+                        <Uploadbak v-model="diaryContent.soundImg"></Uploadbak>
+                    </div>
+                </el-form-item>
+
+                <el-form-item v-show="showCroContent" label-width="90px" prop="crowd">
+                    <!--<div style="display: inline-block;margin-top: -160px">
+                        <Uploadimg v-model="diaryContent.crowd"></Uploadimg>
+                    </div>-->
+                    <div style="margin-top: -180px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
+                        <Uploadimg v-model="diaryContent.crowd" v-on:input="picInput"></Uploadimg>
+                    </div>
+                    <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
+                </el-form-item>
+                <el-form-item v-show="showCroContent" label="众筹价格:" label-width="90px" prop="crowdfunding" required>
+                    <el-input v-model="diaryContent.crowdfunding" style="width:150px" placeholder="请输入整数金额"></el-input>
+                    <span>钻石</span>
+                </el-form-item>
+
+                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="动态内容:" prop="words" required>
+                    <el-input type="textarea" :rows="3" v-model="diaryContent.words" style="width:400px" placeholder="最多输入200个字" :maxlength="200"></el-input>
+                </el-form-item>
+
+                <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="发布时间:" prop="day">
+                    <span style="display: inline-block;margin-:0px;margin-right:8px">第</span><el-input v-model.number="diaryContent.day" style="width:50px"></el-input><span style="display: inline-block;margin-left:8px;">天</span>
+                    <el-form-item prop="time" style="display:inline-block">
+                        <el-time-select v-model="diaryContent.time"
+                                        :picker-options="{
+                                        start: '00:00',
+                                        step: '00:05',
+                                        end: '23:59'
+                                      }"
+                                        placeholder="选择时间">
+                        </el-time-select>
+                    </el-form-item>
                 </el-form-item>-->
-
-                <!--<el-form-item style="margin-bottom: 20px;" label-width="45px" label="">
-                    <span class="word-counter" v-show="natureLength">{{natureLength}}字</span>
-                </el-form-item>-->
-
-                <!--<div v-show="showPic" style="margin-bottom: 20px;">
-                    <el-form-item label-width="90px" label="图片:" prop="pic1">最多9张图片</el-form-item>
-                    <Uploadimg v-model="postForm.pic1"></Uploadimg>
-                </div>
-                <div v-show="showPic" style="margin-bottom: 20px;">
-                    <Uploadimg v-model="postForm.pic2"></Uploadimg>
-                </div>
-                <div v-show="showPic" style="margin-bottom: 20px;">
-                    <Uploadimg v-model="postForm.pic3"></Uploadimg>
-                </div>
-                <div v-show="showPic" style="margin-bottom: 20px;">
-                    <Uploadimg v-model="postForm.pic4"></Uploadimg>
-                </div>
-                <div v-show="showPic" style="margin-bottom: 20px;">
-                    <Uploadimg v-model="postForm.pic5"></Uploadimg>
-                </div>
-                <div v-show="showPic" style="margin-bottom: 20px;">
-                    <Uploadimg v-model="postForm.pic6"></Uploadimg>
-                </div>
-                <div v-show="showPic" style="margin-bottom: 20px;">
-                    <Uploadimg v-model="postForm.pic7"></Uploadimg>
-                </div>
-                <div v-show="showPic" style="margin-bottom: 20px;">
-                    <Uploadimg v-model="postForm.pic8"></Uploadimg>
-                </div>
-                <div v-show="showPic" style="margin-bottom: 20px;">
-                    <Uploadimg v-model="postForm.pic9"></Uploadimg>
-                </div>
-
-                <div v-show="showVid" style="margin-bottom: 20px;">
-                    <el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>
-                    <Uploadvideo v-model="postForm.video"></Uploadvideo>
-                </div>-->
-
+                <el-form-item label-width="90px" label="发布时间:" prop="time"style="margin-bottom: 40px" required>
+                    <div class="block">
+                        <!--<span class="demonstration">默认</span>-->
+                        <el-date-picker v-model="diaryContent.time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期时间" :picker-options="pickerOptions1"></el-date-picker>
+                    </div>
+                </el-form-item>
+                <el-form-item label="动态排序:" label-width="90px" prop="spaceSort" style="margin-bottom: 40px" required>
+                    <el-select v-model="diaryContent.spaceSort" placeholder="请选择">
+                        <el-option v-for="item in spaceSortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select>
+                    <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
+                </el-form-item>
+                <el-form-item label-width="100px">
+                    <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增动态</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存动态</el-button>
+                </el-form-item>
             </div>
         </el-form>
+
     </div>
 </template>
 
@@ -1141,6 +831,11 @@
                     message: '新增日记成功',
                     type: 'success'
                 });
+            },
+            picInput (data) {
+                if (data) {
+                    this.watcher = data;
+                }
             },
             getRemoteUserList(query) {
                 console.log("getRemoteUserList")

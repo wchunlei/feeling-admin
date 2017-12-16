@@ -131,7 +131,7 @@
                     <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
                     <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
                     <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>
-                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="deleteRow(scope.$index, list1)" type="text" size="small">删除</el-button>
+                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, list1)" type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
 

@@ -23,12 +23,12 @@
                 </el-form-item>
 
                 <el-form-item label="剧情标题:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
-                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" maxlength="10"></el-input>
+                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :maxlength="10"></el-input>
                 </el-form-item>
 
                 <el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
                     <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;" :disabled="disableActor">
+                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
@@ -46,16 +46,13 @@
                         &lt;!&ndash;<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>&ndash;&gt;
                     </el-upload>
                 </el-form-item>-->
-                <el-form-item label="上传视频包:" label-width="100px" prop="uploadVideo" style="margin-bottom: 40px" required>
+                <el-form-item label="上传视频包:" label-width="100px" prop="uploadFile" style="margin-bottom: 40px" required>
                     <el-upload
-                            v-model="postForm.uploadVideo"
+                            :model="postForm.uploadFile"
                             class="upload-demo"
                             action="http://192.168.1.43:3000/system/upload"
-                            :limit="3"
-                            :on-exceed="handleExceed"
                             :before-upload="beforeAvatarUploadVideo"
-                            :on-success="handleImageScucess"
-                            :on-remove="handleRemove" style="width:200px">
+                            :on-success="handleImageScucess" style="width:200px">
                         <el-button size="small" type="primary">选择压缩文件</el-button>
                         <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
                     </el-upload>
@@ -201,7 +198,7 @@
                     name: '', // 文章内容
                     actor: '',
                     uploadTxt: '',
-                    uploadVideo: '',
+                    uploadFile: '',
                     stage: '1',
                     priceSet: '',
                     storyPrice: '',
@@ -547,7 +544,7 @@
             beforeAvatarUploadVideo(file) {
                 console.log(file)
                 const isJPG = file.type === '';
-                const isLt2M = file.size / 1024 / 1024 > 0.01;
+                //const isLt2M = file.size / 1024 / 1024 > 0.01;
                 if (!isJPG) {
                     this.$message.error('上传失败，请检查网络，并上传rar,zip格式的文件!');
                 }
@@ -556,9 +553,11 @@
                  }*/
                 return isJPG;
             },
-            handleExceed (files, fileList) {
-                alert()
-                this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            /*handleExceed (files, fileList) {
+                this.$message.warning(`当前限制选择 1 个文件`);
+            },*/
+            handleImageScucess (res,file) {
+                console.log(res,file);
             },
             getRemoteUserList(query) {
                  userSearch(query).then(response => {

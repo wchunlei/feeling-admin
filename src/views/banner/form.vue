@@ -5,7 +5,7 @@
             <div class="createPost-main-container">
 
                 <el-form-item label="banner标题:" label-width="100px" prop="title" style="margin-bottom: 40px">
-                    <el-input placeholder="最多输入10个字" style='width:200px;' v-model="postForm.title"  maxlength="15"></el-input>
+                    <el-input placeholder="最多输入10个字" style='width:200px;' v-model="postForm.title"  :maxlength="10"></el-input>
                 </el-form-item>
 
                 <el-form-item label="banner图:" label-width="100px" prop="pic" style="margin-bottom: 40px">
@@ -34,7 +34,7 @@
 
                 <div v-show="showH" style="display: inline-block;margin-bottom: 20px">
                     <el-form-item label="跳转地址:" label-width="100px" prop="address" style="margin-bottom: 40px">
-                        <el-input placeholder="请输入链接" style='width:190px;' v-model="postForm.address" maxlength="10"></el-input>
+                        <el-input placeholder="请输入链接" style='width:190px;' v-model="postForm.address" :maxlength="10"></el-input>
                         <!--<span>钻石</span>-->
                     </el-form-item>
                     <el-form-item label="用户信息:" label-width="100px" prop="message" style="margin-bottom: 20px">
@@ -384,6 +384,11 @@
             }
         },
         methods: {
+            picInput (data) {
+                if (data) {
+                    this.watcher = data;
+                }
+            },
             uploadListener (data) {
                 alert(data)
             },

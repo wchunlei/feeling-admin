@@ -19,7 +19,7 @@
 
             <div class="createPost-main-container">
                 <el-form-item label="房间名:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
-                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" maxlength="10"></el-input>
+                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :maxlength="10"></el-input>
                 </el-form-item>
 
                 <el-form-item label="主角:" label-width="100px" prop="checkedActor" style="margin-bottom: 40px" required>
