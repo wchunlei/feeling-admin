@@ -4,14 +4,14 @@
         <el-form class="form-container" :model="diaryContent" ref="diaryContent" :rules="rules">
             <div class="createPost-main-container">
 
-                <el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
+                <el-form-item label-width="110px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
                     <multiselect v-model="diaryContent.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;" :disabled="disableActor">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
 
-                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="上传类型:" prop="type" required>
+                <el-form-item style="margin-bottom: 40px;" label-width="110px" label="上传类型:" prop="type" required>
                     <template>
                         <span @click="showPictureContent"><el-radio v-model="diaryContent.type" label="0">图片</el-radio></span>
                         <span @click="showVideoContent"><el-radio v-model="diaryContent.type" label="1">短视频</el-radio></span>
@@ -27,7 +27,7 @@
                     </template>-->
                 </el-form-item>
 
-                <el-form-item class="uplo" label-width="90px" prop="pic1">
+                <el-form-item class="uplo" label-width="110px" prop="pic1">
                     <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
                         <!--<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>-->
                         <Upload v-model="diaryContent.pic1"></Upload>
@@ -44,7 +44,7 @@
                     </el-form-item>
                 </el-form-item>
 
-                <el-form-item class="uplo" label-width="90px" prop="pic4">
+                <el-form-item class="uplo" label-width="110px" prop="pic4">
                     <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
                         <Upload v-model="diaryContent.pic4"></Upload>
                     </div>
@@ -59,7 +59,7 @@
                         </div>
                     </el-form-item>
                 </el-form-item>
-                <el-form-item class="uplo" label-width="90px" prop="pic7">
+                <el-form-item class="uplo" label-width="110px" prop="pic7">
                     <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
                         <Upload v-model="diaryContent.pic7"></Upload>
                     </div>
@@ -74,7 +74,7 @@
                         </div>
                     </el-form-item>
                 </el-form-item>
-                <el-form-item v-show="showPicContent" label="收费设置:" label-width="90px" prop="priceSet" style="margin-bottom: 20px" required>
+                <el-form-item v-show="showPicContent" label="收费设置:" label-width="110px" prop="priceSet" style="margin-bottom: 20px" required>
                     <span @click="showPrice"><el-radio v-model="diaryContent.priceSet" label="0">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="diaryContent.priceSet" label="1">免费</el-radio></span>
                 </el-form-item>
@@ -89,7 +89,7 @@
                             <el-checkbox v-for="pic in selectPics" :label="pic" :key="pic">{{pic}}</el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>-->
-                    <el-form-item v-show="showPicContent" label="收费价格:" label-width="90px" prop="price" style="margin-bottom: 40px" required>
+                    <el-form-item v-show="showPicContent" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 40px" required>
                         <el-input v-model.number="diaryContent.price" style="width:150px" placeholder="请输入整数金额"></el-input>
                         <span>钻石 （注：目前收费功能支持最后一张收费，若选择收费，则上传的最后一张图片自动变为模糊收费状态）</span>
                     </el-form-item>
@@ -119,24 +119,24 @@
                     </template>
                 </el-form>-->
 
-                <el-form-item v-show="showVidContent" label-width="90px" prop="video">
+                <el-form-item v-show="showVidContent" label-width="110px" prop="video">
                     <div style="margin-top: -180px">
                         <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
                         <Uploadvideo v-model="diaryContent.video" :progresses="progressesData"></Uploadvideo>
                     </div>
                 </el-form-item>
-                <el-form-item label-width="50px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
+                <el-form-item label-width="110px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
                     <div v-show="progressesData.progress" style="">
                         <el-progress :percentage="progressesData.percentage" :status="progressesData.progressStatus"></el-progress>
                     </div>
                 </el-form-item>
 
-                <el-form-item v-show="showAudContent" label-width="90px" prop="sound">
+                <el-form-item v-show="showAudContent" label-width="110px" prop="sound">
                     <div style="margin-top: -180px">
                         <Uploadaudio v-model="diaryContent.sound"></Uploadaudio>
                     </div>
                 </el-form-item>
-                <el-form-item v-show="showAudContent" label="音频图片:" label-width="90px" prop="soundImg" required>
+                <el-form-item v-show="showAudContent" label="音频图片:" label-width="110px" prop="soundImg" required>
                     <!--<div class="pictureStyle">
                         <Uploadbak v-model="diaryContent.soundImg"></Uploadbak>
                     </div>-->
@@ -146,7 +146,7 @@
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
 
-                <el-form-item v-show="showCroContent" label-width="90px" prop="crowd">
+                <el-form-item v-show="showCroContent" label-width="110px" prop="crowd">
                     <!--<div style="display: inline-block;margin-top: -160px">
                         <Uploadimg v-model="diaryContent.crowd"></Uploadimg>
                     </div>-->
@@ -155,12 +155,22 @@
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
-                <el-form-item v-show="showCroContent" label="众筹价格:" label-width="90px" prop="crowdfunding" required>
+                <el-form-item v-show="showCroContent" label="众筹价格:" label-width="110px" prop="crowdfunding" required>
                     <el-input v-model="diaryContent.crowdfunding" style="width:150px" placeholder="请输入整数金额"></el-input>
                     <span>钻石</span>
                 </el-form-item>
 
-                <el-form-item style="margin-bottom: 40px;" label-width="90px" label="动态内容:" prop="words" required>
+                <el-form-item v-show="showPayDefault" label="打赏默认值:" label-width="110px" prop="crowdfunding" required>
+                    <el-input v-model="diaryContent.crowdfunding" style="width:150px" placeholder="请输入整数金额"></el-input>
+                    <span>钻石</span>
+                </el-form-item>
+
+                <el-form-item v-show="showCroContent" label="众筹默认值:" label-width="110px" prop="crowdfunding" required>
+                    <el-input v-model="diaryContent.crowdfunding" style="width:150px" placeholder="请输入整数金额"></el-input>
+                    <span>钻石</span>
+                </el-form-item>
+
+                <el-form-item style="margin-bottom: 40px;" label-width="110px" label="动态内容:" prop="words" required>
                     <el-input type="textarea" :rows="3" v-model="diaryContent.words" style="width:400px" placeholder="最多输入200个字" :maxlength="200"></el-input>
                 </el-form-item>
 
@@ -177,19 +187,19 @@
                         </el-time-select>
                     </el-form-item>
                 </el-form-item>-->
-                <el-form-item label-width="90px" label="发布时间:" prop="time"style="margin-bottom: 40px" required>
+                <el-form-item label-width="110px" label="发布时间:" prop="time"style="margin-bottom: 40px" required>
                     <div class="block">
                         <!--<span class="demonstration">默认</span>-->
                         <el-date-picker v-model="diaryContent.time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期时间" :picker-options="pickerOptions1"></el-date-picker>
                     </div>
                 </el-form-item>
-                <el-form-item label="动态排序:" label-width="90px" prop="spaceSort" style="margin-bottom: 40px" required>
+                <el-form-item label="动态排序:" label-width="110px" prop="spaceSort" style="margin-bottom: 40px" required>
                     <el-select v-model="diaryContent.spaceSort" placeholder="请选择">
                         <el-option v-for="item in spaceSortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                 </el-form-item>
-                <el-form-item label-width="100px">
+                <el-form-item label-width="110px">
                     <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增动态</el-button>
                     <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存动态</el-button>
                 </el-form-item>
@@ -427,7 +437,8 @@
                 showCroContent: false,
                 showPri: true,
                 addBut: true,
-                saveBut: false
+                saveBut: false,
+                showPayDefault: true
             }
         },
         computed: {
@@ -781,6 +792,7 @@
                     this.showVidContent=false;
                     this.showAudContent = false;
                     this.showCroContent = false;
+                    this.showPayDefault = true;
                 } else {
                     this.showVidContent=false;
                     this.showAudContent = false;
@@ -793,6 +805,7 @@
                     this.showPicContent=false;
                     this.showAudContent = false;
                     this.showCroContent = false;
+                    this.showPayDefault = true;
                 } else {
                     this.showPicContent=false;
                     this.showAudContent = false;
@@ -805,6 +818,7 @@
                     this.showVidContent=false;
                     this.showPicContent=false;
                     this.showCroContent = false;
+                    this.showPayDefault = true;
                 } else {
                     this.showPicContent=false;
                     this.showVidContent=false;
@@ -817,6 +831,7 @@
                     this.showAudContent = false;
                     this.showVidContent=false;
                     this.showPicContent=false;
+                    this.showPayDefault = false;
                 } else {
                     this.showPicContent=false;
                     this.showVidContent=false;

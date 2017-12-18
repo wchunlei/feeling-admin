@@ -98,6 +98,12 @@
                     <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存剧情</el-button>
                 </el-form-item>
 
+                <el-form-item label="test1:" label-width="100px" prop="pic" style="margin-bottom: 40px" required>
+                    <div id="test" style="width:500px;height: 500px;border: 1px solid red;text-align: center;line-height: 500px">
+                        <img id="image" src="../../../gifs/timg1.gif" style="display: inline-block;vertical-align: middle;width: 300px;height: 300px">
+                    </div>
+                </el-form-item>
+
             </div>
         </el-form>
 
@@ -111,6 +117,7 @@
     import Uploadvideo from 'components/Upload/video';
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
+    import { rgbaster } from 'utils/rgbaster';
     import { getArticle } from 'api/article';
     import { actorUpdate } from 'api/actor';
     import { actorListAll } from 'api/actor';
@@ -367,6 +374,21 @@
         },
         mounted(){
             this.drawLine();
+            var img = document.getElementById('image');
+            var test = document.getElementById('test');
+            RGBaster.colors(img, {
+                success: function(payload) {
+                    // payload.dominant是主色，RGB形式表示
+                    // payload.secondary是次色，RGB形式表示
+                    // payload.palette是调色板，含多个主要颜色，数组
+                    console.log(payload.dominant);
+                    console.log(payload.secondary);
+                    console.log(payload.palette);
+                    let color = payload.dominant;
+                    //test.setAttribute('style', 'background: "color"');
+                    test.style.backgroundColor = payload.dominant;
+                }
+            });
         },
         methods: {
             showPrice () {

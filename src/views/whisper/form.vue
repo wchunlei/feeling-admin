@@ -1,6 +1,18 @@
-    <template>
+<template>
     <div class="createPost-container">
-        <el-form class="form-container" :model="postForm" ref="postForm" :rules="actorDetail">
+
+        <!--<el-tabs v-model="activeTab" type="card" @tab-click="handleClick">
+            <el-tab-pane label="用户管理" name="userInfo">用户管理</el-tab-pane>
+            <el-tab-pane label="配置管理" name="comment">配置管理</el-tab-pane>
+        </el-tabs>-->
+        <div style="position: relative; left :100px;top: 20px;margin-bottom: 40px">
+            <el-radio-group v-model="userInfo" @change="userTab">
+                <el-radio-button label="info">用户信息</el-radio-button>
+                <el-radio-button label="comment">用户评论</el-radio-button>
+            </el-radio-group>
+        </div>
+
+        <el-form v-show="infoForm" class="form-container" :model="postForm" ref="postForm" :rules="actorDetail">
 
             <div class="createPost-main-container">
 
@@ -61,7 +73,7 @@
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="评论内容:" label-width="100px" prop="comments" required>
+                <!--<el-form-item label="评论内容:" label-width="100px" prop="comments" required>
 
                     <div style="margin-bottom: 40px">
                         <el-form-item label-width="100px" prop="commentOne">
@@ -70,12 +82,12 @@
                         </el-form-item>
                     </div>
                     <div v-for="comment in postForm.comments" style="margin-bottom: 40px">
-                        <!--<el-date-picker v-model="workTime.value" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>-->
+                        &lt;!&ndash;<el-date-picker v-model="workTime.value" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>&ndash;&gt;
                         <el-input placeholder="最多输入20个字" style='width:220px;' v-model="comment.value" :maxlength="20"></el-input>
-                        <!--<el-button @click.prevent="addWork">新增评论</el-button>-->
+                        &lt;!&ndash;<el-button @click.prevent="addWork">新增评论</el-button>&ndash;&gt;
                         <el-button @click.prevent="removeWork(comment)">删除</el-button>
                     </div>
-                </el-form-item>
+                </el-form-item>-->
 
                 <el-form-item label-width="100px">
                     <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增女仆FM</el-button>
@@ -84,6 +96,59 @@
 
             </div>
         </el-form>
+
+        <el-form v-show="commentForm" class="form-container" :model="postFormComment" ref="postFormComment" :rules="postFormComment">
+            <div class="createPost-main-container">
+                <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px" required>
+                    <el-input type="textarea" placeholder="最多输入15个字" style='width:280px;' v-model="postFormComment.comment"  :maxlength="15" :rows="3"></el-input>
+                </el-form-item>
+                <el-form-item label-width="100px">
+                    <el-button type="primary" @click.prevent="add" size="large">新增评论</el-button>
+                </el-form-item>
+            </div>
+        </el-form>
+
+        <div style="margin: 0 100px">
+            <el-table :key='tableKey' :data="list1" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
+
+                <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
+                    <template scope="scope">
+                        <span>{{scope.row.id}}</span>
+                        <!-- <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                    </template>
+                </el-table-column>
+
+                <el-table-column width="350px" align="center" label="评论内容" prop="content">
+                    <!--<template scope="scope">
+                      <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
+                    </template>-->
+                    <template scope="scope">
+                        <!--<span>{{scope.row.name}}</span>-->
+                        <span>{{scope.row.content}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column min-width="100px" align="center" label="发布人" prop="publish">
+                    <template scope="scope">
+                        <span>{{scope.row.publish}}</span>
+                        <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
+                    </template>
+                </el-table-column>
+                <el-table-column min-width="300px" align="center" label="发布时间" prop="publishTime">
+                    <template scope="scope">
+                        <span>{{scope.row.publishTime}}</span>
+                        <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
+                    </template>
+                </el-table-column>
+                <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
+                    <template scope="scope">
+                        <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">置顶</el-button>
+                        <!--<el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
+                        <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>-->
+                        <el-button @click.native.prevent="deleteRow(scope.$index, list1)" type="text" size="small">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
 
     </div>
 </template>
@@ -165,6 +230,12 @@
                 }
             };
             return {
+                list1: [{
+                    id: 1,
+                    content: '邻家大姐姐，善解人意，喜欢拍照',
+                    publish: '运营',
+                    publishTime: '2017-12-2 00:00'
+                }],
                 phopoid: '',
                 watcher: false,
                 listQuery: {},
@@ -179,6 +250,9 @@
                 radioContent: '0',
                 showNoTop: true,
                 showYesTop: false,
+                userInfo: 'info',
+                infoForm: true,
+                commentForm: false,
                 postForm: {
                     actor: '',
                     question: '',
@@ -188,12 +262,14 @@
                     configTime: new Date(),
                     listen: '默认',
                     price: 5,
-                    postForm: '',
                     comments: [{
                         value: ''
                     }],
                     //id: '',
                     status: 'published',
+                },
+                postFormComment : {
+                    comment: '',
                 },
                 pickerOptions1: {
                     disabledDate(time) {
@@ -336,6 +412,15 @@
             }
         },
         methods: {
+            userTab () {
+                if (this.userInfo == "info") {
+                    this.infoForm = true;
+                    this.commentForm = false;
+                } else {
+                    this.infoForm = false;
+                    this.commentForm = true;
+                }
+            },
             uploadListener (data) {
                 alert(data)
             },
@@ -702,6 +787,33 @@
                 if (data) {
                     this.watcher = data;
                 }
+            },
+            deleteRow(index, rows) {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let deleteitem={
+                        id: parseInt(rows.id)
+                    };
+                    rows.splice(index, 1);
+                    channelDelete(deleteitem).then(response => {
+                        //this.list = response.data.content;
+                        if(response.data.code==200){
+                            this.getList();
+                        }
+                    });
+                    this.$message({
+                        message: '操作成功',
+                        type: 'success'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             },
             getRemoteUserList(query) {
                 userSearch(query).then(response => {

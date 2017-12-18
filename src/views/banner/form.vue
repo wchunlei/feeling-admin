@@ -236,10 +236,10 @@
                 userMessOptions: [{
                     value: '0',
                     label: '不带登录态和用户信息'
-                },{
+                },/*{
                     value: '1',
                     label: '不带登录态和带用户信息'
-                },{
+                },*/{
                     value: '2',
                     label: '带登录态和用户信息'
                 }],
