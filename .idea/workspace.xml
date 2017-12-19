@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="987e8ac1-5576-4655-a800-030ddade6065" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/storynew/form.vue" afterPath="$PROJECT_DIR$/src/views/storynew/form.vue" />
     </list>
     <ignored path="feeling_admin1.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,8 +36,8 @@
       <file leaf-file-name="form.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/storynew/form.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4025375">
-              <caret line="722" column="83" selection-start-line="722" selection-start-column="83" selection-end-line="722" selection-end-column="83" />
+            <state vertical-scroll-proportion="0.84083045">
+              <caret line="730" column="53" selection-start-line="730" selection-start-column="53" selection-end-line="730" selection-end-column="53" />
               <folding>
                 <element signature="e#158#762#0" expanded="false" />
                 <element signature="n#style#0;n#el-form-item#0;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -494,29 +493,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/views/help/push_msg/form.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="289" column="21" selection-start-line="289" selection-start-column="21" selection-end-line="289" selection-end-column="21" />
-          <folding>
-            <element signature="n#style#0;n#el-form-item#1;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-input#0;n#el-form-item#1;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-form-item#5;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-form-item#0;n#div#2;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-form-item#6;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-form-item#7;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-time-select#0;n#el-form-item#7;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-form-item#8;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-time-select#0;n#el-form-item#8;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#9002#9416#0" expanded="false" />
-            <element signature="e#9434#10631#0" expanded="false" />
-            <element signature="e#10649#11351#0" expanded="false" />
-            <element signature="e#24865#35943#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/space/form.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -982,10 +958,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74509805">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/storynew/form.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4025375">
-          <caret line="722" column="83" selection-start-line="722" selection-start-column="83" selection-end-line="722" selection-end-column="83" />
+        <state vertical-scroll-proportion="0.84083045">
+          <caret line="730" column="53" selection-start-line="730" selection-start-column="53" selection-end-line="730" selection-end-column="53" />
           <folding>
             <element signature="e#158#762#0" expanded="false" />
             <element signature="n#style#0;n#el-form-item#0;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
