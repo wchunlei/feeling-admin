@@ -228,7 +228,7 @@
                     uploadTxt: '',
                     uploadFile: '',
                     uploadPicture: '',
-                    color: '1',
+                    color: '0',
                     stage: '1',
                     priceSet: '',
                     storyPrice: '',
@@ -242,6 +242,7 @@
                     },
                 },
                 radioPrice: '0',
+                defaultColor: '',
                 stageOptions: [{
                     value: '1',
                     label: '1'
@@ -259,6 +260,9 @@
                     label: '5'
                 }],
                 colorOptions: [{
+                    value: '0',
+                    label: '默认'
+                },{
                     value: '1',
                     label: '中性色'
                 },{
@@ -285,6 +289,9 @@
                 },{
                     value: '9',
                     label: '深绿'
+                },{
+                    value: '10',
+                    label: '墨蓝'
                 }],
                 configOptions: [{
                     value: '0',
@@ -347,7 +354,7 @@
                     amount: ''
                 },*/
                 showPri: true,
-                showChart: true,
+                showChart: false,
                 mvs: [],
                 showPhoto: true,
                 showHr: true,
@@ -408,7 +415,7 @@
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
-                this.showChart = false;
+                this.showChart = true;
                 /*this.listQuery.actorid = parseInt(this.$route.params.actor);
                 this.getDetail(this.listQuery);
                 this.photoData.id = parseInt(this.$route.params.actor);
@@ -582,9 +589,28 @@
             selectColor () {
                 //alert(this.postForm.color)
                 let selectBackColor = document.getElementById('showBackColor');
+                if (this.postForm.color == 0) {
+                    let setTime = setTimeout(function () {
+                        let img = document.getElementById('image');
+                        //let showBackColor = document.getElementById('showBackColor');
+                        RGBaster.colors(img, {
+                            success: function(payload) {
+                                // payload.dominant是主色，RGB形式表示
+                                // payload.secondary是次色，RGB形式表示
+                                // payload.palette是调色板，含多个主要颜色，数组
+                                console.log(payload.dominant);
+                                console.log(payload.secondary);
+                                console.log(payload.palette);
+                                this.defaultColor = payload.dominant;
+                                //showBackColor.setAttribute('style', 'background: rgb(7,14,45)');
+                                selectBackColor.style.backgroundColor = payload.dominant;
+                            }
+                        });
+                        //window.clearTimeout(setTime);
+                    },0);
+                }
                 if (this.postForm.color == 1) {
                     selectBackColor.setAttribute('style', 'background: rgb(55,71,79);margin-top: 15px');
-                    //alert(selectBackColor)
                 }
                 if (this.postForm.color == 2) {
                     selectBackColor.setAttribute('style', 'background: rgb(136,14,79);margin-top: 15px');
@@ -609,6 +635,9 @@
                 }
                 if (this.postForm.color == 9) {
                     selectBackColor.setAttribute('style', 'background: rgb(0,77,64);margin-top: 15px');
+                }
+                if (this.postForm.color == 10) {
+                    selectBackColor.setAttribute('style', 'background: #006064;margin-top: 15px');
                 }
             },
             handleCheckAllChange(val) {
@@ -689,7 +718,7 @@
                             console.log(payload.dominant);
                             console.log(payload.secondary);
                             console.log(payload.palette);
-                            let color = payload.dominant;
+                            this.defaultColor = payload.dominant;
                             //showBackColor.setAttribute('style', 'background: rgb(7,14,45)');
                             showBackColor.style.backgroundColor = payload.dominant;
                         }
