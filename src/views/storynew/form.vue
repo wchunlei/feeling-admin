@@ -583,32 +583,32 @@
                 //alert(this.postForm.color)
                 let selectBackColor = document.getElementById('showBackColor');
                 if (this.postForm.color == 1) {
-                    selectBackColor.setAttribute('style', 'background: rgb(55,71,79)');
+                    selectBackColor.setAttribute('style', 'background: rgb(55,71,79);margin-top: 15px');
                     //alert(selectBackColor)
                 }
                 if (this.postForm.color == 2) {
-                    selectBackColor.setAttribute('style', 'background: rgb(136,14,79)');
+                    selectBackColor.setAttribute('style', 'background: rgb(136,14,79);margin-top: 15px');
                 }
                 if (this.postForm.color == 3) {
-                    selectBackColor.setAttribute('style', 'background: rgb(62,39,35)');
+                    selectBackColor.setAttribute('style', 'background: rgb(62,39,35);margin-top: 15px');
                 }
                 if (this.postForm.color == 4) {
-                    selectBackColor.setAttribute('style', 'background: rgb(183,28,28)');
+                    selectBackColor.setAttribute('style', 'background: rgb(183,28,28);margin-top: 15px');
                 }
                 if (this.postForm.color == 5) {
-                    selectBackColor.setAttribute('style', 'background: rgb(13,71,161)');
+                    selectBackColor.setAttribute('style', 'background: rgb(13,71,161);margin-top: 15px');
                 }
                 if (this.postForm.color == 6) {
-                    selectBackColor.setAttribute('style', 'background: rgb(74,20,140)');
+                    selectBackColor.setAttribute('style', 'background: rgb(74,20,140);margin-top: 15px');
                 }
                 if (this.postForm.color == 7) {
-                    selectBackColor.setAttribute('style', 'background: rgb(245,127,23)');
+                    selectBackColor.setAttribute('style', 'background: rgb(245,127,23);margin-top: 15px');
                 }
                 if (this.postForm.color == 8) {
-                    selectBackColor.setAttribute('style', 'background: rgb(27,94,32)');
+                    selectBackColor.setAttribute('style', 'background: rgb(27,94,32);margin-top: 15px');
                 }
                 if (this.postForm.color == 9) {
-                    selectBackColor.setAttribute('style', 'background: rgb(0,77,64)');
+                    selectBackColor.setAttribute('style', 'background: rgb(0,77,64);margin-top: 15px');
                 }
             },
             handleCheckAllChange(val) {
@@ -787,19 +787,19 @@
         top: 60px;
     }
     .backPic {
-        width: 180px;
-        height: 320px;
+        width: 320px;
+        height: 568px;
         text-align: center;
-        line-height: 320px;
+        line-height: 568px;
         display: inline-block;
         .showUploadPic {
-            width: 90px;
-            height: 160px;
+            width: 270px;
+            height: 480px;
             display: inline-block;
             vertical-align: middle;
             img {
-                width: 90px;
-                height: 160px;
+                width: 270px;
+                height: 480px;
             }
         }
     }

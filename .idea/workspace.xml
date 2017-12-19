@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="987e8ac1-5576-4655-a800-030ddade6065" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/storynew/form.vue" afterPath="$PROJECT_DIR$/src/views/storynew/form.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/whisper/form.vue" afterPath="$PROJECT_DIR$/src/views/whisper/form.vue" />
     </list>
     <ignored path="feeling_admin1.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,11 +33,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="form.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="form.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/storynew/form.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.068966">
-              <caret line="69" column="106" selection-start-line="69" selection-start-column="106" selection-end-line="69" selection-end-column="106" />
+            <state vertical-scroll-proportion="0.4318182">
+              <caret line="792" column="24" selection-start-line="792" selection-start-column="24" selection-end-line="792" selection-end-column="24" />
               <folding>
                 <element signature="e#158#762#0" expanded="false" />
                 <element signature="n#style#0;n#el-form-item#0;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -93,10 +92,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="form.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="form.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/whisper/form.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5681818">
+            <state vertical-scroll-proportion="-8.189655">
               <caret line="99" column="89" selection-start-line="99" selection-start-column="89" selection-end-line="99" selection-end-column="89" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -255,8 +254,8 @@
         <option value="$PROJECT_DIR$/src/views/banner/form.vue" />
         <option value="$PROJECT_DIR$/src/views/help/push_msg/form.vue" />
         <option value="$PROJECT_DIR$/src/views/space/form.vue" />
-        <option value="$PROJECT_DIR$/src/views/storynew/form.vue" />
         <option value="$PROJECT_DIR$/src/views/whisper/form.vue" />
+        <option value="$PROJECT_DIR$/src/views/storynew/form.vue" />
       </list>
     </option>
   </component>
@@ -1118,7 +1117,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19072708" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1760,10 +1759,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/whisper/form.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.189655">
+          <caret line="99" column="89" selection-start-line="99" selection-start-column="89" selection-end-line="99" selection-end-column="89" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#el-form-item#2;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#el-form-item#2;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#el-form-item#2;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#el-form-item#3;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#el-input#0;n#el-form-item#0;n#div#0;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#el-form-item#1;n#div#0;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#el-form-item#4;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#el-form-item#4;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#el-form-item#4;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#el-form-item#5;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#el-form-item#5;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#4849#6011#0" expanded="false" />
+            <element signature="n#style#0;n#el-form-item#0;n#div#0;n#el-form#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#el-input#0;n#el-form-item#0;n#div#0;n#el-form#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#el-form-item#0;n#div#0;n#el-form#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#20167#33419#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/storynew/form.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.068966">
-          <caret line="69" column="106" selection-start-line="69" selection-start-column="106" selection-end-line="69" selection-end-column="106" />
+        <state vertical-scroll-proportion="0.4318182">
+          <caret line="792" column="24" selection-start-line="792" selection-start-column="24" selection-end-line="792" selection-end-column="24" />
           <folding>
             <element signature="e#158#762#0" expanded="false" />
             <element signature="n#style#0;n#el-form-item#0;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -1789,34 +1816,6 @@
             <element signature="n#style#0;n#el-form-item#10;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#el-form-item#10;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="e#15142#15646#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/whisper/form.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5681818">
-          <caret line="99" column="89" selection-start-line="99" selection-start-column="89" selection-end-line="99" selection-end-column="89" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-form-item#2;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#el-form-item#2;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#el-form-item#2;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-form-item#3;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-input#0;n#el-form-item#0;n#div#0;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-form-item#1;n#div#0;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-form-item#4;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#el-form-item#4;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#el-form-item#4;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-form-item#5;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#el-form-item#5;n#div#0;n#el-form#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#4849#6011#0" expanded="false" />
-            <element signature="n#style#0;n#el-form-item#0;n#div#0;n#el-form#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-input#0;n#el-form-item#0;n#div#0;n#el-form#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#el-form-item#0;n#div#0;n#el-form#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#20167#33419#0" expanded="false" />
           </folding>
         </state>
       </provider>
