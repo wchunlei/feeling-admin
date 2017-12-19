@@ -716,7 +716,7 @@
                             // payload.secondary是次色，RGB形式表示
                             // payload.palette是调色板，含多个主要颜色，数组
                             console.log(payload.dominant);
-                            console.log(payload.secondary);
+                            //console.log(payload.secondary);
                             console.log(payload.palette);
                             this.defaultColor = payload.dominant;
                             //showBackColor.setAttribute('style', 'background: rgb(7,14,45)');
