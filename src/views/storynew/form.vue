@@ -721,6 +721,7 @@
                             this.defaultColor = payload.dominant;
                             //showBackColor.setAttribute('style', 'background: rgb(7,14,45)');
                             showBackColor.style.backgroundColor = payload.dominant;
+                            alert()
                         }
                     });
                     //window.clearTimeout(setTime);
