@@ -57,6 +57,27 @@
                         <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
                     </el-upload>
                 </el-form-item>
+                <el-form-item class="removeElList" label="背景图:" label-width="100px" prop="uploadPicture" style="margin-bottom: 40px" required>
+                    <el-upload
+                            :model="postForm.uploadPicture"
+                            class="upload-demo"
+                            action="http://192.168.1.43:3000/system/upload"
+                            :before-upload="beforeAvatarUpload"
+                            :on-success="handleBackImageScucess" style="width:200px">
+                        <el-button size="small" type="primary">选择图片文件</el-button>
+                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                    </el-upload>
+                    <div id="showBackColor" class="backPic" style="border: 1px solid red;margin-top: 15px;">
+                        <div class="showUploadPic">
+                            <img id="image" :src="postForm.uploadPicture" />
+                        </div>
+                    </div>
+                </el-form-item>
+                <el-form-item label="背景色:" label-width="100px" prop="color" style="margin-bottom: 40px" required>
+                    <el-select v-model="postForm.color" placeholder="请选择" @change="selectColor">
+                        <el-option v-for="item in colorOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="剧情阶段:" label-width="100px" prop="stage" style="margin-bottom: 40px" required>
                     <el-select v-model="postForm.stage" placeholder="请选择">
                         <el-option v-for="item in stageOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
@@ -98,11 +119,11 @@
                     <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存剧情</el-button>
                 </el-form-item>
 
-                <el-form-item label="test1:" label-width="100px" prop="pic" style="margin-bottom: 40px" required>
+                <!--<el-form-item label="test1:" label-width="100px" prop="pic" style="margin-bottom: 40px" required>
                     <div id="test" style="width:500px;height: 500px;border: 1px solid red;text-align: center;line-height: 500px">
                         <img id="image" src="../../../gifs/timg1.gif" style="display: inline-block;vertical-align: middle;width: 300px;height: 300px">
                     </div>
-                </el-form-item>
+                </el-form-item>-->
 
             </div>
         </el-form>
@@ -206,6 +227,8 @@
                     actor: '',
                     uploadTxt: '',
                     uploadFile: '',
+                    uploadPicture: '',
+                    color: '1',
                     stage: '1',
                     priceSet: '',
                     storyPrice: '',
@@ -234,6 +257,34 @@
                 },{
                     value: '5',
                     label: '5'
+                }],
+                colorOptions: [{
+                    value: '1',
+                    label: '中性色'
+                },{
+                    value: '2',
+                    label: '玫瑰红'
+                },{
+                    value: '3',
+                    label: '咖啡色'
+                },{
+                    value: '4',
+                    label: '大红'
+                },{
+                    value: '5',
+                    label: '深蓝'
+                },{
+                    value: '6',
+                    label: '紫色'
+                },{
+                    value: '7',
+                    label: '黄色'
+                },{
+                    value: '8',
+                    label: '墨绿色'
+                },{
+                    value: '9',
+                    label: '深绿'
                 }],
                 configOptions: [{
                     value: '0',
@@ -374,8 +425,8 @@
         },
         mounted(){
             this.drawLine();
-            var img = document.getElementById('image');
-            var test = document.getElementById('test');
+            /*var img = document.getElementById('image');
+            var showBackColor = document.getElementById('showBackColor');
             RGBaster.colors(img, {
                 success: function(payload) {
                     // payload.dominant是主色，RGB形式表示
@@ -386,9 +437,9 @@
                     console.log(payload.palette);
                     let color = payload.dominant;
                     //test.setAttribute('style', 'background: "color"');
-                    test.style.backgroundColor = payload.dominant;
+                    showBackColor.style.backgroundColor = payload.dominant;
                 }
-            });
+            });*/
         },
         methods: {
             showPrice () {
@@ -528,6 +579,38 @@
                     window.open(params.value);
                 });
             },
+            selectColor () {
+                //alert(this.postForm.color)
+                let selectBackColor = document.getElementById('showBackColor');
+                if (this.postForm.color == 1) {
+                    selectBackColor.setAttribute('style', 'background: rgb(55,71,79)');
+                    //alert(selectBackColor)
+                }
+                if (this.postForm.color == 2) {
+                    selectBackColor.setAttribute('style', 'background: rgb(136,14,79)');
+                }
+                if (this.postForm.color == 3) {
+                    selectBackColor.setAttribute('style', 'background: rgb(62,39,35)');
+                }
+                if (this.postForm.color == 4) {
+                    selectBackColor.setAttribute('style', 'background: rgb(183,28,28)');
+                }
+                if (this.postForm.color == 5) {
+                    selectBackColor.setAttribute('style', 'background: rgb(13,71,161)');
+                }
+                if (this.postForm.color == 6) {
+                    selectBackColor.setAttribute('style', 'background: rgb(74,20,140)');
+                }
+                if (this.postForm.color == 7) {
+                    selectBackColor.setAttribute('style', 'background: rgb(245,127,23)');
+                }
+                if (this.postForm.color == 8) {
+                    selectBackColor.setAttribute('style', 'background: rgb(27,94,32)');
+                }
+                if (this.postForm.color == 9) {
+                    selectBackColor.setAttribute('style', 'background: rgb(0,77,64)');
+                }
+            },
             handleCheckAllChange(val) {
                 console.log(val)
                 this.postForm.checkedActor = val ? this.actors : [];
@@ -552,18 +635,18 @@
                     this.postForm.workTimes.splice(index, 1)
                 }
             },
-            beforeAvatarUpload(file) {
+            /*beforeAvatarUpload(file) {
                 const isJPG = file.type === 'text/plain';
                 const isLt2M = file.size / 1024 / 1024 > 0.01;
                 console.log(file);
                 if (!isJPG) {
                     this.$message.error('上传失败，请检查网络，并上传txt格式的文件!');
                 }
-                /*if (!isLt2M) {
+                /!*if (!isLt2M) {
                     this.$message.error('上传头像图片大小不小于 10kb!');
-                }*/
+                }*!/
                 return isJPG;
-            },
+            },*/
             beforeAvatarUploadVideo(file) {
                 console.log(file)
                 const isJPG = file.type === '';
@@ -576,11 +659,43 @@
                  }*/
                 return isJPG;
             },
+            beforeAvatarUpload(file) {
+                //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';
+                const isLt2M = file.size / 1024 / 1024 > 0.01;
+                if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
+                    this.$message.error('图片格式有误!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不小于 10kb!');
+                }
+                return isLt2M;
+            },
             /*handleExceed (files, fileList) {
                 this.$message.warning(`当前限制选择 1 个文件`);
             },*/
             handleImageScucess (res,file) {
                 console.log(res,file);
+            },
+            handleBackImageScucess (res,file) {
+                this.postForm.uploadPicture = URL.createObjectURL(file.raw);
+                let setTime = setTimeout(function () {
+                    let img = document.getElementById('image');
+                    let showBackColor = document.getElementById('showBackColor');
+                    RGBaster.colors(img, {
+                        success: function(payload) {
+                            // payload.dominant是主色，RGB形式表示
+                            // payload.secondary是次色，RGB形式表示
+                            // payload.palette是调色板，含多个主要颜色，数组
+                            console.log(payload.dominant);
+                            console.log(payload.secondary);
+                            console.log(payload.palette);
+                            let color = payload.dominant;
+                            //showBackColor.setAttribute('style', 'background: rgb(7,14,45)');
+                            showBackColor.style.backgroundColor = payload.dominant;
+                        }
+                    });
+                    //window.clearTimeout(setTime);
+                },0);
             },
             getRemoteUserList(query) {
                  userSearch(query).then(response => {
@@ -670,6 +785,26 @@
         position: absolute;
         left: 60px;
         top: 60px;
+    }
+    .backPic {
+        width: 180px;
+        height: 320px;
+        text-align: center;
+        line-height: 320px;
+        display: inline-block;
+        .showUploadPic {
+            width: 90px;
+            height: 160px;
+            display: inline-block;
+            vertical-align: middle;
+            img {
+                width: 90px;
+                height: 160px;
+            }
+        }
+    }
+    .removeElList .el-upload-list {
+        display: none;
     }
     }
 </style>

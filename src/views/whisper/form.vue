@@ -100,7 +100,8 @@
         <el-form v-show="commentForm" class="form-container" :model="postFormComment" ref="postFormComment" :rules="postFormComment">
             <div class="createPost-main-container">
                 <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px" required>
-                    <el-input type="textarea" placeholder="最多输入15个字" style='width:280px;' v-model="postFormComment.comment"  :maxlength="15" :rows="3"></el-input>
+                    <el-input type="textarea" placeholder="请输入评论" style='width:280px;' v-model="postFormComment.comment"  :maxlength="1000" :rows="3"></el-input>
+                    <span style="display: inline-block;color: red;font-size: 12px">(请以"#"符号为每条评论的分隔符)</span>
                 </el-form-item>
                 <el-form-item label-width="100px">
                     <el-button type="primary" @click.prevent="add" size="large">新增评论</el-button>
