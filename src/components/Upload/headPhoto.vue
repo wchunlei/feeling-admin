@@ -7,8 +7,9 @@
         </el-upload>-->
         <el-upload
                 class="avatar-uploader"
-                action="http://192.168.1.43:3000/system/upload"
+                action="http://192.168.1.234:80/upload"
                 :data="dataObj"
+                :headers="header"
                 :show-file-list="false"
                 :before-upload="beforeAvatarUpload"
                 :on-success="handleImageScucess"
@@ -57,12 +58,54 @@
         data() {
             return {
                 tempUrl: '',
-                dataObj: { token: '', key: '' },
+                dataObj: {
+                    "app": 'test',
+                    "src_domain": 'img',
+                    "src_image_url": 'winner',
+                    //"tk": md5(app+":"+ uid +":" + tm +":"+ key + ":"+ body)
+                },
+                header: {
+                    "Content-type":"multipart/form-data",
+                    "Access-Control-Allow-Origin": '*',
+                    'Access-Control-Allow-Credentials':'true'
+                },
                 showClose: false,
                 //imageUrl: ''
             };
         },
         methods: {
+            uploadfile(input) {
+                //支持chrome IE10
+                //var input = this.postForm.headurl;
+                if (window.FileReader) {
+                    var file = input.files[0];
+                    let filename = file.name.split(".")[0];
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                        console.log(this.result)
+                        alert(this.result);
+                    }
+                    reader.readAsText(file);
+                }
+                //支持IE 7 8 9 10
+                else if (typeof window.ActiveXObject != 'undefined'){
+                    var xmlDoc;
+                    xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+                    xmlDoc.async = false;
+                    xmlDoc.load(input.value);
+                    alert(xmlDoc.xml);
+                }
+                //支持FF
+                else if (document.implementation && document.implementation.createDocument) {
+                    var xmlDoc;
+                    xmlDoc = document.implementation.createDocument("", "", null);
+                    xmlDoc.async = false;
+                    xmlDoc.load(input.value);
+                    alert(xmlDoc.xml);
+                } else {
+                    alert('error');
+                }
+            },
             rmImage() {
                 this.emitInput('');
                 this.showClose = false;
@@ -76,6 +119,17 @@
                 if (res.content.url) {
                     this.showClose = true;
                 }
+                alert(res.content.url)
+                //console.log(file)
+                //console.log(res)
+                /*var file = input.files[0];
+                let filename = file.name.split(".")[0];
+                var reader = new FileReader();
+                reader.onload = function() {
+                    console.log(this.result)
+                    alert(this.result);
+                }
+                reader.readAsText(file);*/
             },
             beforeAvatarUpload(file) {
                 //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';
@@ -86,7 +140,80 @@
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不小于 10kb!');
                 }
+                let filename = file.name.split(".")[0];
+                var reader = new FileReader();
+                let app = 'test';
+                let src_domain = 'img';
+                let src_image_url = 'winner';
+                let key = '34F<S932JF;<,/SF*F56#DSfd+9fw?zF';
+                let uid ='123';
+                let tm = '1280977330000';
+                let appBinary = this.char2buf(app+":"+ uid +":" + tm +":"+ key + ":");
+                let appBinaryTemp = new Buffer(appBinary);
+                console.log(appBinaryTemp)
+                reader.readAsArrayBuffer(file);
+                reader.onload = function() {
+                    let body = new Buffer(this.result);
+                    //alert(md5(body))
+                    var list = [];
+                    list.push(appBinaryTemp);
+                    list.push(body);
+                    var s1 = Buffer.concat(list,body.length+appBinaryTemp.length);
+                    console.log(body)
+                    var formData = new FormData();
+                    formData.append('img', body);
+                    this.url = 'http://192.168.1.234:80/upload?' + 'app=test&src_domain=img&src_image_url=winner&uid=123&tm=1280977330000' + '&tk=' + md5(s1);
+                    //console.log(formData)
+
+                    fetch(this.url, {
+                        method: 'POST',
+                        //mode: "cors",
+                        credentials: 'include',
+                        headers:{
+                            "Content-type":"multipart/form-data",
+                            //"Content-type": "text/plain",
+                            "Access-Control-Allow-Origin": 'http://localhost:9527',
+                            'Access-Control-Allow-Credentials':'true',
+                        },
+                        body: this.result
+                    }).then(function(response){
+                        if(response.status!==200){
+                            console.log("存在一个问题，状态码为："+response.status);
+                            return;
+                        }
+                        //检查响应文本
+                        console.log(response)
+                        response.json().then(function(data){
+                            console.log(data);
+                        });
+                    }).catch(function(err){
+                        console.log("Fetch错误123:"+err);
+                    })
+
+                }
+                //console.log(reader.readAsText(file));
+                //console.log(file)
                 return isLt2M;
+            },
+            readAsBinaryString(){
+                var file = document.getElementById("file").files[0];
+                var reader = new FileReader();
+                //将文件以二进制形式读入页面
+                reader.readAsBinaryString(file);
+                reader.onload=function(f){
+                    var result=document.getElementById("result");
+                    //显示文件
+                    result.innerHTML=this.result;
+                }
+            },
+            char2buf(str){
+                var out = new ArrayBuffer(str.length);
+                var u16a= new Uint8Array(out);
+                var strs = str.split("");
+                for(var i =0 ; i<strs.length;i++){
+                    u16a[i]=strs[i].charCodeAt();
+                }
+                return out;
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);

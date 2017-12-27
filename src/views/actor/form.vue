@@ -328,8 +328,8 @@
               <el-select v-model="postForm.bust" placeholder="请选择">
                 <el-option v-for="item in bustOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
-              <el-form-item prop="size" style="display: inline-block;width:60px">
-                <el-select v-model="postForm.size" placeholder="请选择">
+              <el-form-item prop="cup" style="display: inline-block;width:60px">
+                <el-select v-model="postForm.cup" placeholder="请选择">
                   <el-option v-for="item in sizeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -348,8 +348,8 @@
 
         <el-row>
           <el-col :span="8">
-            <el-form-item label="内心独白:" label-width="100px" prop="nature" style="margin-bottom: 40px" required>
-              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.nature" :maxlength=20 :rows=3></el-input>
+            <el-form-item label="内心独白:" label-width="100px" prop="soliloquy" style="margin-bottom: 40px" required>
+              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.soliloquy" :maxlength=20 :rows=3></el-input>
             </el-form-item>
           </el-col>
 
@@ -365,6 +365,7 @@
             <Uploadhead v-model="postForm.headurl" v-on:input="picInput"></Uploadhead>
           </div>
           <span style="font-size:12px;display:inline-block; margin-top: -40px">（注：请上传1:1，不小于10kb，jpg、png等格式的文件）</span>
+          <!--<input type="file" @change="uploadfile(this)" />-->
         </el-form-item>
 
         <!--<el-form-item label="头像框:" label-width="100px" prop="headSelect" style="margin-bottom: 40px">
@@ -400,11 +401,11 @@
           <span style="font-size:12px;display: block">（注：请上传4:3，不小于10kb，jpg、png等格式的文件）</span>
         </el-form-item>
 
-        <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px" required>
+        <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px" required>
           <!--<el-select v-model="postForm.config" placeholder="请选择">
             <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>-->
-          <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
+          <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
           </el-date-picker>
           <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
         </el-form-item>
@@ -425,18 +426,18 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="工作时间:" label-width="100px" prop="workTimes" required>
+        <el-form-item label="工作时间:" label-width="100px" prop="worktimes" required>
 
           <div style="margin-bottom: 40px">
-            <el-form-item label="" style="display: inline-block" prop="workTimeWeek" required>
+            <!--<el-form-item label="" style="display: inline-block" prop="workTimeWeek" required>
               <span>周</span>
               <el-select v-model="postForm.workTimeWeek" placeholder="请选择" style="width:90px">
                 <el-option v-for="item in weekOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
 
-            <el-form-item label="" style="display: inline-block" prop="time3">
-              <el-time-select v-model="postForm.time3" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
+            <el-form-item label="" style="display: inline-block" prop="time2">
+              <el-time-select v-model="postForm.time2" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
               <span style="display: inline-block;margin: 0 20px 0 20px">至</span>
             </el-form-item>
 
@@ -448,12 +449,12 @@
             </el-form-item>
 
             <el-form-item label="" style="display: inline-block" prop="time2">
-              <el-time-select v-model="postForm.time2" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
-            </el-form-item>
-            <el-button @click.prevent="addWork">新增工作时间</el-button>
+              <el-time-select v-model="postForm.time3" :picker-options="{start: '00:00',step: '02:00',end: '22:00'}" placeholder="选择时间" style="width: 110px"></el-time-select>
+            </el-form-item>-->
+            <el-button @click.prevent="addWork" style="background: #5bcfff;color:#ffffff;">新增工作时间</el-button>
           </div>
 
-          <div v-for="workTime in postForm.workTimes" style="margin-bottom: 40px">
+          <div v-for="workTime in postForm.worktimes" style="margin-bottom: 40px">
             <!--<el-date-picker v-model="workTime.value" type="week" format="周 ww"></el-date-picker>-->
             <span>周</span>
             <el-select v-model="workTime.time" placeholder="请选择" style="width:90px">
@@ -488,8 +489,12 @@
   import Uploadhead from 'components/Upload/headPhoto'
   import Uploadvideo from 'components/Upload/video';
   import MDinput from 'components/MDinput';
+  import md5 from 'js-md5';
   import { validateURL } from 'utils/validate';
   import { getArticle } from 'api/article';
+  import { addactor } from 'api/actor';
+  import { updateactor } from 'api/actor';
+  import { actorInfo } from 'api/actor';
   import { actorUpdate } from 'api/actor';
   import { actorListAll } from 'api/actor';
   import { addPhotos } from 'api/actor';
@@ -503,6 +508,7 @@
     name: 'articleDetail',
     components: { Tinymce, MDinput, Upload, Uploadvideo, Uploadhead },
     data() {
+      let Base64 = require('js-base64').Base64;
       const checkNumHeight = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('输入不能为空'));
@@ -616,34 +622,34 @@
         },
         progressStatus: '',
         postForm: {
-          style: '无',
+          style: '0',
           name: '',
           gender: '2',
           weight: 45,
           height: 160,
           bust: '32',
-          size: 'C',
+          cup: 'C',
           age: 20,
           job: '',
-          nature: '',
+          soliloquy: '',
           host: '',
-          headurl: '', // 文章图片
+          headurl: '',
           headSelect: '',
           backImg1: '',
           backImg2: '',
           backImg3: '',
           backImg4: '',
           backImg5: '',
-          configTime: new Date(),
-          private: '默认',
+          configtime: new Date(),
+          private: '0',
           timeNum: '',
-          time: '小时',
+          time: '0',
           price: 30,
           workTimeWeek: '',
           workTimeWeek1: '',
           time2: '',
           time3: '',
-          workTimes: [{
+          worktimes: [{
             time: '',
             value: '',
             time1: '',
@@ -844,7 +850,7 @@
         },*/
         actorDetail: {
           name: [{ validator: validateRequire, trigger: 'blur' }],
-          nature: [{ validator: validateRequireAll, trigger: 'blur' }],
+          soliloquy: [{ validator: validateRequireAll, trigger: 'blur' }],
           style: [{ validator: validateRequire, trigger: 'blur' }],
           height: [{ validator: checkNumHeight, trigger: 'blur' }],
           weight: [{ validator: checkNumWeight, trigger: 'blur' }],
@@ -871,6 +877,8 @@
       if(this.$route.params.id && this.$route.params.id != ':id'){
         this.saveBut = true;
         this.addBut = false;
+        this.listQuery.id = this.$route.params.id;
+        this.getDetail(this.listQuery);
         /*this.listQuery.actorid = parseInt(this.$route.params.actor);
         this.getDetail(this.listQuery);
         this.photoData.id = parseInt(this.$route.params.actor);
@@ -894,17 +902,148 @@
       }
     },*/
     methods: {
-      add () {
-        for (let i=0; i < this.postForm.workTimes.length; i++) {
-          console.log(this.postForm.workTimes[i].time)
+      uploadfile(input) {
+        //支持chrome IE10
+        //var input = this.postForm.headurl;
+        if (window.FileReader) {
+          var file = input.files[0];
+          filename = file.name.split(".")[0];
+          var reader = new FileReader();
+          reader.onload = function() {
+            console.log(this.result)
+            alert(this.result);
+          }
+          reader.readAsText(file);
         }
-        console.log(this.postForm.workTimes)
+        //支持IE 7 8 9 10
+        else if (typeof window.ActiveXObject != 'undefined'){
+          var xmlDoc;
+          xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+          xmlDoc.async = false;
+          xmlDoc.load(input.value);
+          alert(xmlDoc.xml);
+        }
+        //支持FF
+        else if (document.implementation && document.implementation.createDocument) {
+          var xmlDoc;
+          xmlDoc = document.implementation.createDocument("", "", null);
+          xmlDoc.async = false;
+          xmlDoc.load(input.value);
+          alert(xmlDoc.xml);
+        } else {
+          alert('error');
+        }
+      },
+      add () {
+        let date= this.postForm.configtime;
+        let year=date.getFullYear(),
+                month=date.getMonth()+ 1,
+                day=date.getDate(),
+                hour=date.getHours(),
+                minutes=date.getMinutes(),
+                seconds=date.getSeconds();
+        let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+        let actorinfo = {
+          channel: "女仆团",
+          name: this.postForm.name,
+          soliloquy: this.postForm.soliloquy,
+          height: this.postForm.height.toString(),
+          weight: this.postForm.weight.toString(),
+          age: this.postForm.age.toString(),
+          bust: this.postForm.bust,
+          cup: this.postForm.cup,
+          style: this.postForm.style,
+          headurl: this.postForm.headurl,
+          host: this.postForm.host,
+          configtime: dateString,
+          private: this.postForm.private,
+          price: this.postForm.price.toString(),
+          time: this.postForm.time,
+          worktime: this.postForm.worktimes
+        };
+        /*this.$refs.postForm.validate(valid => {
+          if (valid) {
+            this.loading = true;*/
+            addactor(actorinfo).then(response => {
+              /*if (!response.data.items) return;
+               console.log(response)
+               this.userLIstOptions = response.data.items.map(v => ({
+               key: v.name
+               }));*/
+              if(response.data.code == 200) {
+                this.$message({
+                  message: '发布成功',
+                  type: 'success'
+                });
+                //this.$refs[formName].resetFields();
+                //this.postForm.status = 'published';
+              }
+            });
+            this.loading = false;
+          /*} else {
+            console.log('error submit!!');
+            return false;
+          }
+        });*/
+      },
+      save () {
+        let date= new Date(this.postForm.configtime);
+        let year=date.getFullYear(),
+                month=date.getMonth()+ 1,
+                day=date.getDate(),
+                hour=date.getHours(),
+                minutes=date.getMinutes(),
+                seconds=date.getSeconds();
+        let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+        let actorinfo = {
+          id: this.$route.params.id,
+          channel: "女仆团",
+          name: this.postForm.name,
+          soliloquy: this.postForm.soliloquy,
+          height: this.postForm.height.toString(),
+          weight: this.postForm.weight.toString(),
+          age: this.postForm.age.toString(),
+          bust: this.postForm.bust,
+          cup: this.postForm.cup,
+          style: this.postForm.style,
+          headurl: this.postForm.headurl,
+          host: this.postForm.host,
+          configtime: dateString,
+          private: this.postForm.private,
+          price: this.postForm.price.toString(),
+          time: this.postForm.time,
+          worktime: this.postForm.worktimes
+        };
+        /*this.$refs.postForm.validate(valid => {
+         if (valid) {
+         this.loading = true;*/
+        updateactor(actorinfo).then(response => {
+          /*if (!response.data.items) return;
+           console.log(response)
+           this.userLIstOptions = response.data.items.map(v => ({
+           key: v.name
+           }));*/
+          if(response.data.code == 200) {
+            this.$message({
+              message: '发布成功',
+              type: 'success'
+            });
+            //this.$refs[formName].resetFields();
+            //this.postForm.status = 'published';
+          }
+        });
+        this.loading = false;
+        /*} else {
+         console.log('error submit!!');
+         return false;
+         }
+         });*/
       },
       uploadListener (data) {
         alert(data)
       },
       addWork () {
-        this.postForm.workTimes.push({
+        this.postForm.worktimes.push({
           time: '',
           value: '',
           time1: '',
@@ -912,25 +1051,21 @@
         });
       },
       removeWork(item) {
-        var index = this.postForm.workTimes.indexOf(item)
-        if (index !== -1) {
-          this.postForm.workTimes.splice(index, 1)
+        var index = this.postForm.worktimes.indexOf(item);
+        if (index !== -1 && index != 0) {
+          this.postForm.worktimes.splice(index, 1)
+        } else {
+          this.$message({
+            message: '最少配置一个工作时间',
+            type: 'error'
+          });
         }
       },
       getDetail () {
-        actorListAll (this.listQuery).then(response => {
+        actorInfo (this.listQuery).then(response => {
           this.postForm = response.data.content;
-          if (response.data.content.gender == 1) {
-            this.postForm.gender = '男'
-          }
-          if (response.data.content.gender == 2) {
-            this.postForm.gender = '女'
-          }
-          this.photos = response.data.content.photo;
-          this.mvs = response.data.content.mv;
-          if (this.photos == '') {
-            this.showHr =false;
-          }
+          //console.log(response.data.content.worktime)
+          this.postForm.worktimes = response.data.content.worktime;
           /*for(let i=0;i<this.postForm.nature.length;i++){
             this.postForm.nature[i].name = response.data.content.nature[i].name;
             this.postForm.nature = this.postForm.nature + this.postForm.nature[i].name + ',';

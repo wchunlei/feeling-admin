@@ -167,3 +167,12 @@ export function getInfo(token) {
     //params: { data }
   });
 }
+
+export function addscript(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=addscript',
+    method: 'post',
+    data
+  });
+}

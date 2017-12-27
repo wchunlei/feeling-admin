@@ -1,9 +1,27 @@
 import fetch from 'utils/fetch';
 
+export function addactor(actorinfo) {
+  const data = actorinfo;
+  return fetch({
+    url: '?act=addactor',
+    method: 'post',
+    data
+  });
+}
+
 export function actorUpdate(actorinfo) {
   const data = actorinfo;
   return fetch({
     url: '?act=actorupdate',
+    method: 'post',
+    data
+  });
+}
+
+export function updateactor(actorinfo) {
+  const data = actorinfo;
+  return fetch({
+    url: '?act=updateactor',
     method: 'post',
     data
   });
@@ -26,12 +44,45 @@ export function actordel(actorinfo) {
     data
   });
 }
+export function delactor(actorinfo) {
+  const data = actorinfo;
+  return fetch({
+    url: '?act=delactor',
+    method: 'post',
+    data
+  });
+}
 
 export function actorList(query) {
   return fetch({
     url: '?act=actorlist',
     method: 'get',
     params: query
+  });
+}
+export function actorInfo(query) {
+  return fetch({
+    url: '?act=actorinfo',
+    method: 'get',
+    params: query
+  });
+}
+
+export function sortactor(actorinfo) {
+  const data = actorinfo;
+  return fetch({
+    url: '?act=sortactor',
+    method: 'post',
+    data
+  });
+}
+
+export function upactor(actorinfo) {
+  const data = actorinfo;
+  return fetch({
+    url: '?act=upactor',
+    method: 'post',
+    data
   });
 }
 

@@ -2,7 +2,7 @@
   <div class="login-container">
     <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
       class="card-box login-form">
-      <h3 class="title">欢迎使用情感日历运营平台</h3>
+      <h3 class="title">欢迎使用内容运营平台</h3>
       <el-form-item prop="email">
         <span class="svg-container"><icon-svg icon-class="jiedianyoujian"></icon-svg></span>
         <el-input name="email" type="text" v-model="loginForm.email" autoComplete="on" placeholder="邮箱"></el-input>

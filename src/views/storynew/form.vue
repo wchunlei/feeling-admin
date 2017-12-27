@@ -26,11 +26,14 @@
                     <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :maxlength="10"></el-input>
                 </el-form-item>
 
-                <el-form-item label-width="90px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
-                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                <el-form-item label-width="100px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
+                    <!--<multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
-                    </multiselect>
+                    </multiselect>-->
+                    <el-select v-model="postForm.actor" placeholder="请选择">
+                        <el-option v-for="item in actorOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select>
                 </el-form-item>
                 <!--<el-form-item label="上传剧情配置:" label-width="120px" prop="uploadTxt" style="margin-bottom: 40px" required>
                     <el-upload
@@ -115,8 +118,8 @@
                 </el-form-item>
 
                 <el-form-item label-width="100px">
-                    <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增剧情</el-button>
-                    <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存剧情</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="addStory" size="large">新增剧情</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="saveStory" size="large">保存剧情</el-button>
                 </el-form-item>
 
                 <!--<el-form-item label="test1:" label-width="100px" prop="pic" style="margin-bottom: 40px" required>
@@ -148,6 +151,8 @@
     import { thumbnaillist } from 'api/actor';
     import { addMvs } from 'api/actor';
     import { delMv } from 'api/actor';
+    import { addscript } from 'api/story';
+    import { actorList } from 'api/actor';
 
     export default {
         name: 'articleDetail',
@@ -230,7 +235,7 @@
                     uploadPicture: '',
                     color: '0',
                     stage: '1',
-                    priceSet: '',
+                    priceSet: '0',
                     storyPrice: '',
                     optionPrice: 10,
                     configTime: new Date(),
@@ -243,6 +248,7 @@
                 },
                 radioPrice: '0',
                 defaultColor: '',
+                actorOptions: [],
                 stageOptions: [{
                     value: '1',
                     label: '1'
@@ -412,6 +418,7 @@
         created() {
             /*let Query = {};
             this.getRemoteUserList(Query);*/
+            this.getActor();
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
@@ -449,6 +456,70 @@
             });*/
         },
         methods: {
+            getActor () {
+                actorList(this.listQuery).then(response => {
+                    console.log(response)
+                    /*this.actorOptions = response.data.content.map(v => ({
+                        key: v.name
+                    }));*/
+                    for (let i=0; i<response.data.content.length; i++) {
+                        //alert(response.data.content[i].id)
+                        let temp = {};
+                        temp.value = response.data.content[i].id;
+                        temp.label = response.data.content[i].name;
+                        this.actorOptions.push(temp);
+                    }
+                })
+            },
+            addStory () {
+                //let date= this.postForm.configtime;
+                let date= new Date(this.postForm.configTime)
+                let year=date.getFullYear(),
+                        month=date.getMonth()+ 1,
+                        day=date.getDate(),
+                        hour=date.getHours(),
+                        minutes=date.getMinutes(),
+                        seconds=date.getSeconds();
+                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                let storyinfo = {
+                    //channel: "女仆团",
+                    actorid: this.postForm.actor,
+                    title: this.postForm.name,
+                    video: this.postForm.uploadFile,
+                    picture: this.postForm.uploadPicture,
+                    csolor: this.postForm.color,
+                    stage: this.postForm.stage,
+                    cost: this.postForm.priceSet,
+                    price: this.postForm.storyPrice.toString(),
+                    option: this.postForm.optionPrice.toString(),
+                    configtime: dateString,
+                    sort: this.postForm.storySort
+                };
+                /*this.$refs.postForm.validate(valid => {
+                 if (valid) {
+                 this.loading = true;*/
+                addscript(storyinfo).then(response => {
+                    /*if (!response.data.items) return;
+                     console.log(response)
+                     this.userLIstOptions = response.data.items.map(v => ({
+                     key: v.name
+                     }));*/
+                    if(response.data.code == 200) {
+                        this.$message({
+                            message: '发布成功',
+                            type: 'success'
+                        });
+                        //this.$refs[formName].resetFields();
+                        //this.postForm.status = 'published';
+                    }
+                });
+                this.loading = false;
+                /*} else {
+                 console.log('error submit!!');
+                 return false;
+                 }
+                 });*/
+            },
             showPrice () {
                 this.showPri = true;
             },
@@ -594,6 +665,7 @@
                         let img = document.getElementById('image');
                         //let showBackColor = document.getElementById('showBackColor');
                         RGBaster.colors(img, {
+                            exclude: [ 'rgb(255,255,255)' ],  // 不包括白色
                             success: function(payload) {
                                 // payload.dominant是主色，RGB形式表示
                                 // payload.secondary是次色，RGB形式表示
@@ -711,13 +783,14 @@
                     let img = document.getElementById('image');
                     let showBackColor = document.getElementById('showBackColor');
                     RGBaster.colors(img, {
+                        exclude: [ 'rgb(255,255,255)' ],  // 不包括白色
                         success: function(payload) {
                             // payload.dominant是主色，RGB形式表示
                             // payload.secondary是次色，RGB形式表示
                             // payload.palette是调色板，含多个主要颜色，数组
                             console.log(payload.dominant);
-                            //console.log(payload.secondary);
-                            //console.log(payload.palette);
+                            console.log(payload.secondary);
+                            console.log(payload.palette);
                             this.defaultColor = payload.dominant;
                             //showBackColor.setAttribute('style', 'background: rgb(7,14,45)');
                             showBackColor.style.backgroundColor = payload.dominant;

@@ -20,7 +20,7 @@
       <!--<el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>-->
     </div>
 
-    <el-table :key='tableKey' :data="list1" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
+    <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
       <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
         <template scope="scope">
@@ -45,9 +45,9 @@
         </template>
       </el-table-column>-->
 
-      <el-table-column width="300px" align="center" label="内心独白" prop="nature">
+      <el-table-column width="300px" align="center" label="内心独白" prop="soliloquy">
         <template scope="scope">
-          <span>{{scope.row.nature}}</span>
+          <span>{{scope.row.soliloquy}}</span>
         </template>
       </el-table-column>
 
@@ -64,9 +64,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="200px" align="center" label="加速雇佣价格（钻石）" prop="price">
+      <el-table-column width="200px" align="center" label="加速雇佣价格（钻石）" prop="priceTime">
         <template scope="scope">
-          <span>{{scope.row.price}}</span>
+          <span>{{scope.row.priceTime}}</span>
         </template>
       </el-table-column>
 
@@ -85,18 +85,18 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" align="center" label="上架时间" prop="configTime">
+      <el-table-column min-width="150px" align="center" label="上架时间" prop="configtime">
         <template scope="scope">
-          <span>{{scope.row.configTime}}</span>
+          <span>{{scope.row.configtime}}</span>
           <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" align="center" label="女仆空间排序" prop="sort">
+      <el-table-column min-width="150px" align="center" label="女仆空间排序" prop="private">
         <template scope="scope">
           <!--<span>{{scope.row.sort}}</span>-->
           <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-          <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="scope.row.disable" @change="changeSort(scope.row)">
+          <el-select v-model="scope.row.private" placeholder="请选择" :disabled="scope.row.disable" @change="changeSort(scope.row)">
             <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </template>
@@ -104,10 +104,10 @@
 
       <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
         <template scope="scope">
-          <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
-          <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
-          <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>
-          <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, list1)" type="text" size="small">删除</el-button>
+          <el-button @click.native.prevent="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
+          <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">上架</el-button>
+          <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">下架</el-button>
+          <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, scope.row)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
 
@@ -202,11 +202,14 @@
 
 <script type="text/ECMAScript-6">
   import { actorList } from 'api/actor';
+  import { sortactor } from 'api/actor';
+  import { upactor } from 'api/actor';
   import { parseTime } from 'utils';
   import Upload from 'components/Upload/singleImage3';
   import { actorUpdate } from 'api/actor';
   import { actorstatus } from 'api/actor';
   import { actordel } from 'api/actor';
+  import { delactor } from 'api/actor';
 
   const calendarTypeOptions = [
       { key: 'CN', display_name: '中国' },
@@ -227,8 +230,9 @@
     data() {
       return {
         isColor: true,
-        sort: '0',
-        list1: [{
+        private: '0',
+        list: [],
+        /*list1: [{
           id: '1',
           name: 'test',
           nature: '邻家大姐姐，善解人意，喜欢拍照、旅游',
@@ -264,7 +268,7 @@
           configTime: '2017-12-2 00:00',
           sort: '默认',
           disable: true,
-        }],
+        }],*/
         privateOptions: [{
           value: '0',
           label: '默认'
@@ -394,13 +398,13 @@
           type: 'warning'
         }).then(() => {
           let deleteitem={
-            id: parseInt(rows.id)
+            id: rows.id
           };
-          rows.splice(index, 1);
-          channelDelete(deleteitem).then(response => {
+          delactor(deleteitem).then(response => {
             //this.list = response.data.content;
             if(response.data.code==200){
-              this.getList();
+              this.list.splice(index, 1);
+              //this.getList();
             }
           });
           this.$message({
@@ -414,7 +418,7 @@
           });
         });
       },
-      editRow (row, list1) {
+      editRow (row, list) {
         let date = new Date();
         let year=date.getFullYear(),
             month=date.getMonth()+ 1,
@@ -423,22 +427,31 @@
             minutes=date.getMinutes();
             //seconds=date.getSeconds();
         let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
+        let statusTemp = '';
+        if (row.status == '上架') {
+          statusTemp = '1'
+        }
+        if (row.status == '下架') {
+          statusTemp = '0'
+        }
         if (row.status == '上架') {
           this.$confirm('确定下架会将和该内容相关的内容均下架？', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            row.status = '下架';
-            row.configTime = "未设置";
-            let deleteitem={
-              id: parseInt(rows.id)
+            let upitem={
+              id: row.id,
+              status: statusTemp,
+              configtime: dateString
             };
-            rows.splice(index, 1);
-            channelDelete(deleteitem).then(response => {
+            //row.splice(index, 1);
+            upactor(upitem).then(response => {
               //this.list = response.data.content;
               if(response.data.code==200){
-                this.getList();
+                row.status = '下架';
+                row.configtime = "未设置";
+                //this.getList();
               }
             });
             this.$message({
@@ -452,8 +465,21 @@
             });
           });
         } else {
-          row.status = '上架';
-          row.configTime = dateString;
+          let upitem={
+            id: row.id,
+            status: statusTemp,
+            configtime: dateString
+          };
+          //row.splice(index, 1);
+          upactor(upitem).then(response => {
+            //this.list = response.data.content;
+            if(response.data.code==200){
+              row.status = '上架';
+              row.configtime = dateString;
+            }
+          });
+          /*row.status = '上架';
+          row.configTime = dateString;*/
         }
         row.disable = true;
       },
@@ -472,12 +498,137 @@
       },
       changeSort (rows) {
         rows.disable = true;
+        let sortitem={
+          id: rows.id,
+          sort: rows.private
+        };
+        //row.splice(index, 1);
+        sortactor(sortitem).then(response => {
+          //this.list = response.data.content;
+          if(response.data.code==200){
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            });
+          }
+        });
       },
       getList() {
         this.listLoading = true;
         actorList(this.listQuery).then(response => {
           this.list = response.data.content;
           this.total = response.data.total;
+          for (let i=0; i< response.data.content.length; i++) {
+            this.list[i].disable = false;
+            if (response.data.content[i].status == "1") {
+              this.list[i].configtime = "未设置";
+            }
+          }
+          for (let i=0; i< response.data.content.length; i++) {
+            if(response.data.content[i].style == 0) {
+              this.list[i].style = '无'
+            }
+            if(response.data.content[i].style == 1) {
+              this.list[i].style = '护理女仆'
+            }
+            if(response.data.content[i].style == 2) {
+              this.list[i].style = '家教女仆'
+            }
+            if(response.data.content[i].style == 3) {
+              this.list[i].style = '秘书女仆'
+            }
+            if(response.data.content[i].style == 4) {
+              this.list[i].style = '陪练女仆'
+            }
+            if(response.data.content[i].style == 5) {
+              this.list[i].style = '成熟女仆'
+            }
+            if(response.data.content[i].style == 6) {
+              this.list[i].style = '校花女仆'
+            }
+            if(response.data.content[i].style == 7) {
+              this.list[i].style = 'coser女仆'
+            }
+          }
+          for (let i=0; i<response.data.content.length; i++) {
+            let timeTemp = '';
+            if (response.data.content[i].time == 0) {
+              timeTemp = "小时";
+            }
+            if (response.data.content[i].time == 1) {
+              timeTemp = "秒";
+            }
+            if (response.data.content[i].time == 2) {
+              timeTemp = "分钟";
+            }
+            if (response.data.content[i].time == 3) {
+              timeTemp = "天";
+            }
+            if (response.data.content[i].time == 4) {
+              timeTemp = "周";
+            }
+            this.list[i].priceTime = response.data.content[i].time + timeTemp + response.data.content[i].price + "钻石";
+          }
+          for (let i=0; i<response.data.content.length; i++) {
+            for (let j=0; j<response.data.content[i].worktime.length; j++) {
+              let weekTemp = '';
+              if (response.data.content[i].worktime[j].time == 1) {
+                weekTemp = "一";
+              }
+              if (response.data.content[i].worktime[j].time == 2) {
+                weekTemp = "二";
+              }
+              if (response.data.content[i].worktime[j].time == 3) {
+                weekTemp = "三";
+              }
+              if (response.data.content[i].worktime[j].time == 4) {
+                weekTemp = "四";
+              }
+              if (response.data.content[i].worktime[j].time == 5) {
+                weekTemp = "五";
+              }
+              if (response.data.content[i].worktime[j].time == 6) {
+                weekTemp = "六";
+              }
+              if (response.data.content[i].worktime[j].time == 7) {
+                weekTemp = "日";
+              }
+              let weekTemp1 = '';
+              if (response.data.content[i].worktime[j].time1 == 1) {
+                weekTemp1 = "一";
+              }
+              if (response.data.content[i].worktime[j].time1 == 2) {
+                weekTemp1 = "二";
+              }
+              if (response.data.content[i].worktime[j].time1 == 3) {
+                weekTemp1 = "三";
+              }
+              if (response.data.content[i].worktime[j].time1 == 4) {
+                weekTemp1 = "四";
+              }
+              if (response.data.content[i].worktime[j].time1 == 5) {
+                weekTemp1 = "五";
+              }
+              if (response.data.content[i].worktime[j].time1 == 6) {
+                weekTemp1 = "六";
+              }
+              if (response.data.content[i].worktime[j].time1 == 7) {
+                weekTemp1 = "日";
+              }
+              this.list[i].workTime = "周" + weekTemp + ' ' +response.data.content[i].worktime[j].value + ' ' + '至' + ' ' + "周" + weekTemp1 + ' ' +response.data.content[i].worktime[j].value1 + ',';
+            }
+          }
+          for (let i=0; i<response.data.content.length; i++) {
+            if(response.data.content[i].status == 0) {
+              this.list[i].status = '上架'
+            }
+            if(response.data.content[i].status == 1) {
+              this.list[i].status = '下架'
+            }
+          }
+          /*for (let i=0; i<response.data.content.length; i++) {
+            this.list[i].sort = response.data.content[i].private;
+          }*/
           for (let i=0; i<response.data.content.length; i++) {
             if (response.data.content[i].status == 'published') {
               this.list[i].status = '发布';

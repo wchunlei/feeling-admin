@@ -20,6 +20,7 @@ import vueWaves from './directive/waves';// 水波纹指令
 import errLog from 'store/errLog';// error log组件
 import './mock/index.js';  // 该项目所有请求使用mockjs模拟
 import echarts from 'echarts';
+import md5 from 'js-md5';
 
 // register globally
 Vue.component('multiselect', Multiselect);
