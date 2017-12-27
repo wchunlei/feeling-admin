@@ -44,6 +44,7 @@
 
 <script type="text/ECMAScript-6">
     import { getToken } from 'api/qiniu';
+    import  md5  from 'js-md5';
     export default {
         name: 'singleImageUpload',
         props: {
@@ -66,7 +67,7 @@
                 header: {
                     "Content-type":"multipart/form-data",
                     "Access-Control-Allow-Origin": '*',
-                    'Access-Control-Allow-Credentials':'true'
+                    //'Access-Control-Allow-Credentials':'true'
                 },
                 showClose: false,
                 //imageUrl: ''
@@ -167,12 +168,12 @@
                     fetch(this.url, {
                         method: 'POST',
                         //mode: "cors",
-                        credentials: 'include',
+                        //credentials: 'include',
                         headers:{
                             "Content-type":"multipart/form-data",
                             //"Content-type": "text/plain",
-                            "Access-Control-Allow-Origin": 'http://localhost:9527',
-                            'Access-Control-Allow-Credentials':'true',
+                            "Access-Control-Allow-Origin": '*',
+                            //'Access-Control-Allow-Credentials':'false',
                         },
                         body: this.result
                     }).then(function(response){
@@ -180,7 +181,6 @@
                             console.log("存在一个问题，状态码为："+response.status);
                             return;
                         }
-                        //检查响应文本
                         console.log(response)
                         response.json().then(function(data){
                             console.log(data);

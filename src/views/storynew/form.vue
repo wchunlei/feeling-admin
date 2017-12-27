@@ -776,6 +776,7 @@
             },*/
             handleImageScucess (res,file) {
                 console.log(res,file);
+                console.log(123);
             },
             handleBackImageScucess (res,file) {
                 this.postForm.uploadPicture = URL.createObjectURL(file.raw);
