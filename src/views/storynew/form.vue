@@ -64,7 +64,7 @@
                     <el-upload
                             :model="postForm.uploadPicture"
                             class="upload-demo"
-                            action="http://192.168.1.43:3000/system/upload"
+                            action="http://192.168.1.234:80/upload"
                             :before-upload="beforeAvatarUpload"
                             :on-success="handleBackImageScucess" style="width:200px">
                         <el-button size="small" type="primary">选择图片文件</el-button>
@@ -136,6 +136,7 @@
 
 <script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce';
+    import  md5  from 'js-md5';
     import Upload from 'components/Upload/singleImage3';
     import Uploadhead from 'components/Upload/headPhoto'
     import Uploadvideo from 'components/Upload/video';
@@ -152,6 +153,7 @@
     import { addMvs } from 'api/actor';
     import { delMv } from 'api/actor';
     import { addscript } from 'api/story';
+    import { scriptdetail } from 'api/story';
     import { actorList } from 'api/actor';
 
     export default {
@@ -239,8 +241,12 @@
                     storyPrice: '',
                     optionPrice: 10,
                     configTime: new Date(),
-                    storySort: '默认'
+                    storySort: '0'
                 },
+                video: '',
+                videosize: '',
+                videourl: '',
+                pictureurl: '',
                 pickerOptions1: {
                     disabledDate(time) {
                         return time.getTime() + 86400000 < Date.now();
@@ -423,11 +429,8 @@
                 this.saveBut = true;
                 this.addBut = false;
                 this.showChart = true;
-                /*this.listQuery.actorid = parseInt(this.$route.params.actor);
+                this.listQuery.scriptid = this.$route.params.id;
                 this.getDetail(this.listQuery);
-                this.photoData.id = parseInt(this.$route.params.actor);
-                this.mvData.id = parseInt(this.$route.params.actor);
-                this.fetchSuccess = false;*/
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -471,8 +474,17 @@
                     }
                 })
             },
+            getDetail () {
+                scriptdetail (this.listQuery).then(response => {
+                    this.postForm = response.data.content;
+                }).catch(err => {
+                    this.fetchSuccess = false;
+                    console.log(err);
+                });
+            },
             addStory () {
                 //let date= this.postForm.configtime;
+                //(month>=10?+month:"0"+month+"-"+day>=10? day :'0'+day)
                 let date= new Date(this.postForm.configTime)
                 let year=date.getFullYear(),
                         month=date.getMonth()+ 1,
@@ -480,20 +492,24 @@
                         hour=date.getHours(),
                         minutes=date.getMinutes(),
                         seconds=date.getSeconds();
-                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                //console.log(this.video,this.videosize,this.videourl)
                 let storyinfo = {
                     //channel: "女仆团",
                     actorid: this.postForm.actor,
                     title: this.postForm.name,
-                    video: this.postForm.uploadFile,
-                    picture: this.postForm.uploadPicture,
+                    //video: this.postForm.uploadFile,
+                    picture: this.pictureurl,
                     csolor: this.postForm.color,
                     stage: this.postForm.stage,
                     cost: this.postForm.priceSet,
                     price: this.postForm.storyPrice.toString(),
                     option: this.postForm.optionPrice.toString(),
                     configtime: dateString,
-                    sort: this.postForm.storySort
+                    sort: this.postForm.storySort,
+                    video: this.video,
+                    videosize: this.videosize.toString(),
+                    videourl: this.videourl
                 };
                 /*this.$refs.postForm.validate(valid => {
                  if (valid) {
@@ -750,7 +766,10 @@
             },*/
             beforeAvatarUploadVideo(file) {
                 console.log(file)
-                const isJPG = file.type === '';
+                this.video = file.name;
+                this.videosize = file.size;
+                const isJPG = file.type === 'application/gzip';
+                //const isJPG = file.type === '';
                 //const isLt2M = file.size / 1024 / 1024 > 0.01;
                 if (!isJPG) {
                     this.$message.error('上传失败，请检查网络，并上传rar,zip格式的文件!');
@@ -769,14 +788,93 @@
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不小于 10kb!');
                 }
+                let _this = this;
+                let filename = file.name.split(".")[0];
+                var reader = new FileReader();
+                let app = 'test';
+                let src_domain = 'img';
+                let src_image_url = 'winner';
+                let key = '34F<S932JF;<,/SF*F56#DSfd+9fw?zF';
+                let uid ='123';
+                let tm = '1280977330000';
+                let appBinary = this.char2buf(app+":"+ uid +":" + tm +":"+ key + ":");
+                let appBinaryTemp = new Buffer(appBinary);
+                console.log(appBinaryTemp)
+                reader.readAsArrayBuffer(file);
+                reader.onload = function() {
+                    let body = new Buffer(this.result);
+                    //alert(md5(body))
+                    var list = [];
+                    list.push(appBinaryTemp);
+                    list.push(body);
+                    var s1 = Buffer.concat(list,body.length+appBinaryTemp.length);
+                    console.log(body)
+                    var formData = new FormData();
+                    formData.append('img', body);
+                    this.url = 'http://192.168.1.234:80/upload?' + 'app=test&src_domain=img&src_image_url=winner&uid=123&tm=1280977330000' + '&tk=' + md5(s1);
+                    //console.log(formData)
+                    fetch(this.url, {
+                        method: 'POST',
+                        mode: "cors",
+                        type: 'json',
+                        //credentials: 'include',
+                        /*headers:{
+                         //'Accept': 'application/json',
+                         "Content-Type":"multipart/form-data",
+                         //"Content-Type":"application/x-www-form-urlencoded",
+                         //"Content-type": "text/plain",
+                         "Access-Control-Allow-Origin": '*'
+                         //'Access-Control-Allow-Credentials':'false',
+                         },*/
+                        body: this.result
+                    }).then(function(response){
+
+                        if(response.status!=200){
+                            console.log("存在一个问题，状态码为："+response.status);
+                            return;
+                        }
+                        //console.log(response)
+                        let str = JSON.stringify(response);
+                        response.json().then(function(data){
+                            //alert(_this.pictureurl)
+                            console.log(data.url);
+                            _this.postForm.uploadPicture = data.url;
+                            _this.pictureurl = data.url;
+                        });
+                    }).catch(function(err){
+                        console.log("Fetch错误123aa:"+err);
+                    })
+
+                }
                 return isLt2M;
+            },
+            readAsBinaryString(){
+                var file = document.getElementById("file").files[0];
+                var reader = new FileReader();
+                //将文件以二进制形式读入页面
+                reader.readAsBinaryString(file);
+                reader.onload=function(f){
+                    var result=document.getElementById("result");
+                    //显示文件
+                    result.innerHTML=this.result;
+                }
+            },
+            char2buf(str){
+                var out = new ArrayBuffer(str.length);
+                var u16a= new Uint8Array(out);
+                var strs = str.split("");
+                for(var i =0 ; i<strs.length;i++){
+                    u16a[i]=strs[i].charCodeAt();
+                }
+                return out;
             },
             /*handleExceed (files, fileList) {
                 this.$message.warning(`当前限制选择 1 个文件`);
             },*/
             handleImageScucess (res,file) {
                 console.log(res,file);
-                console.log(123);
+                this.videourl = res.content.url;
+                console.log(this.video,this.videosize,this.videourl)
             },
             handleBackImageScucess (res,file) {
                 this.postForm.uploadPicture = URL.createObjectURL(file.raw);

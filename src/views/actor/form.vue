@@ -893,14 +893,15 @@
         this.fetchData();
       }*/
     },
-    /*watch : {
-      "watcher" : {
+    watch : {
+      "postForm.worktimes" : {
         handler:function(val,oldval){
-          this.picList(this.photoid);
+          //this.picList(this.photoid);
+          this.postForm.worktimes = val;
         },
         deep: true
       }
-    },*/
+    },
     methods: {
       uploadfile(input) {
         //支持chrome IE10
@@ -942,7 +943,24 @@
                 hour=date.getHours(),
                 minutes=date.getMinutes(),
                 seconds=date.getSeconds();
-        let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+        let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+        let backimg = [];
+        if (this.postForm.backImg1) {
+          backimg.push(this.postForm.backImg1)
+        }
+        if (this.postForm.backImg2) {
+          backimg.push(this.postForm.backImg2)
+        }
+        if (this.postForm.backImg3) {
+          backimg.push(this.postForm.backImg3)
+        }
+        if (this.postForm.backImg4) {
+          backimg.push(this.postForm.backImg4)
+        }
+        if (this.postForm.backImg5) {
+          backimg.push(this.postForm.backImg5)
+        }
         let actorinfo = {
           channel: "女仆团",
           name: this.postForm.name,
@@ -954,6 +972,7 @@
           cup: this.postForm.cup,
           style: this.postForm.style,
           headurl: this.postForm.headurl,
+          backimg: backimg,
           host: this.postForm.host,
           configtime: dateString,
           private: this.postForm.private,
@@ -961,9 +980,9 @@
           time: this.postForm.time,
           worktime: this.postForm.worktimes
         };
-        /*this.$refs.postForm.validate(valid => {
+        this.$refs.postForm.validate(valid => {
           if (valid) {
-            this.loading = true;*/
+            this.loading = true;
             addactor(actorinfo).then(response => {
               /*if (!response.data.items) return;
                console.log(response)
@@ -980,11 +999,11 @@
               }
             });
             this.loading = false;
-          /*} else {
+          } else {
             console.log('error submit!!');
             return false;
           }
-        });*/
+        });
       },
       save () {
         let date= new Date(this.postForm.configtime);
@@ -994,7 +1013,8 @@
                 hour=date.getHours(),
                 minutes=date.getMinutes(),
                 seconds=date.getSeconds();
-        let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+        let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
         let actorinfo = {
           id: this.$route.params.id,
           channel: "女仆团",
@@ -1014,9 +1034,9 @@
           time: this.postForm.time,
           worktime: this.postForm.worktimes
         };
-        /*this.$refs.postForm.validate(valid => {
+        this.$refs.postForm.validate(valid => {
          if (valid) {
-         this.loading = true;*/
+         this.loading = true;
         updateactor(actorinfo).then(response => {
           /*if (!response.data.items) return;
            console.log(response)
@@ -1033,26 +1053,42 @@
           }
         });
         this.loading = false;
-        /*} else {
+        } else {
          console.log('error submit!!');
          return false;
          }
-         });*/
+         });
       },
       uploadListener (data) {
         alert(data)
       },
       addWork () {
-        this.postForm.worktimes.push({
-          time: '',
-          value: '',
-          time1: '',
-          value1: ''
-        });
+        if (!this.postForm.worktimes[0].time) {
+          this.postForm.worktimes.push({
+            time: '',
+            value: '',
+            time1: '',
+            value1: ''
+          });
+        } else {
+          let temp = this.postForm.worktimes;
+          temp.push({
+            time: '',
+            value: '',
+            time1: '',
+            value1: ''
+          });
+          this.postForm.worktimes = temp;
+        }
+
+        /*this.$nextTick(() => {
+          this.postForm.worktimes = this.postForm.worktimes;
+        });*/
+        console.log(this.postForm.worktimes[0].time);
       },
       removeWork(item) {
         var index = this.postForm.worktimes.indexOf(item);
-        if (index !== -1 && index != 0) {
+        if (index !== -1 && this.postForm.worktimes.length > 1) {
           this.postForm.worktimes.splice(index, 1)
         } else {
           this.$message({

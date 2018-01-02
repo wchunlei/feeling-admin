@@ -176,3 +176,46 @@ export function addscript(storyinfo) {
     data
   });
 }
+
+export function scriptlist(query) {
+  return fetch({
+    url: '?act=scriptlist',
+    method: 'get',
+    params: query
+  });
+}
+
+export function upscript(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=upscript',
+    method: 'post',
+    data
+  });
+}
+
+export function sortscript(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=sortscript',
+    method: 'post',
+    data
+  });
+}
+
+export function delscript(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=delscript',
+    method: 'post',
+    data
+  });
+}
+
+export function scriptdetail(query) {
+  return fetch({
+    url: '?act=scriptdetail',
+    method: 'get',
+    params: query
+  });
+}

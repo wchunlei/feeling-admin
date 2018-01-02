@@ -45,6 +45,7 @@
 <script type="text/ECMAScript-6">
     import { getToken } from 'api/qiniu';
     import  md5  from 'js-md5';
+    import axios from 'axios'
     export default {
         name: 'singleImageUpload',
         props: {
@@ -140,6 +141,7 @@
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不小于 10kb!');
                 }
+                let _this = this;
                 let filename = file.name.split(".")[0];
                 var reader = new FileReader();
                 let app = 'test';
@@ -164,29 +166,37 @@
                     formData.append('img', body);
                     this.url = 'http://192.168.1.234:80/upload?' + 'app=test&src_domain=img&src_image_url=winner&uid=123&tm=1280977330000' + '&tk=' + md5(s1);
                     //console.log(formData)
-
                     fetch(this.url, {
                         method: 'POST',
-                        //mode: "cors",
+                        mode: "cors",
+                        type: 'json',
                         //credentials: 'include',
-                        headers:{
-                            "Content-type":"multipart/form-data",
+                        /*headers:{
+                            //'Accept': 'application/json',
+                            "Content-Type":"multipart/form-data",
+                            //"Content-Type":"application/x-www-form-urlencoded",
                             //"Content-type": "text/plain",
-                            "Access-Control-Allow-Origin": '*',
+                            "Access-Control-Allow-Origin": '*'
                             //'Access-Control-Allow-Credentials':'false',
-                        },
+                        },*/
                         body: this.result
                     }).then(function(response){
-                        if(response.status!==200){
+
+                        if(response.status!=200){
                             console.log("存在一个问题，状态码为："+response.status);
                             return;
                         }
-                        console.log(response)
+                        //console.log(response)
+                        let str = JSON.stringify(response);
                         response.json().then(function(data){
                             console.log(data);
+                            _this.emitInput(data.url);
+                            if (data.url) {
+                                _this.showClose = true;
+                            }
                         });
                     }).catch(function(err){
-                        console.log("Fetch错误123:"+err);
+                        console.log("Fetch错误123aa:"+err);
                     })
 
                 }

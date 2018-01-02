@@ -45,7 +45,7 @@
         </template>
       </el-table-column>-->
 
-      <el-table-column width="300px" align="center" label="内心独白" prop="soliloquy">
+      <el-table-column width="280px" align="center" label="内心独白" prop="soliloquy">
         <template scope="scope">
           <span>{{scope.row.soliloquy}}</span>
         </template>
@@ -85,7 +85,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" align="center" label="上架时间" prop="configtime">
+      <el-table-column min-width="180px" align="center" label="上架时间" prop="configtime">
         <template scope="scope">
           <span>{{scope.row.configtime}}</span>
           <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
@@ -102,9 +102,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
+      <el-table-column fixed="right" align="center" label="快捷操作" min-width="140px">
         <template scope="scope">
-          <el-button @click.native.prevent="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
+          <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
           <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">上架</el-button>
           <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">下架</el-button>
           <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, scope.row)" type="text" size="small">删除</el-button>
@@ -230,6 +230,7 @@
     data() {
       return {
         isColor: true,
+        disable: true,
         private: '0',
         list: [],
         /*list1: [{
@@ -404,7 +405,7 @@
             //this.list = response.data.content;
             if(response.data.code==200){
               this.list.splice(index, 1);
-              //this.getList();
+              this.getList();
             }
           });
           this.$message({
@@ -426,7 +427,8 @@
             hour=date.getHours(),
             minutes=date.getMinutes();
             //seconds=date.getSeconds();
-        let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
+        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
+        let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes);
         let statusTemp = '';
         if (row.status == '上架') {
           statusTemp = '1'
@@ -451,7 +453,7 @@
               if(response.data.code==200){
                 row.status = '下架';
                 row.configtime = "未设置";
-                //this.getList();
+                this.getList();
               }
             });
             this.$message({
@@ -497,7 +499,6 @@
         }*/
       },
       changeSort (rows) {
-        rows.disable = true;
         let sortitem={
           id: rows.id,
           sort: rows.private
@@ -506,6 +507,7 @@
         sortactor(sortitem).then(response => {
           //this.list = response.data.content;
           if(response.data.code==200){
+            rows.disable = true;
             this.$message({
               message: '操作成功',
               type: 'success'
@@ -519,7 +521,7 @@
           this.list = response.data.content;
           this.total = response.data.total;
           for (let i=0; i< response.data.content.length; i++) {
-            this.list[i].disable = false;
+            this.list[i].disable = true;
             if (response.data.content[i].status == "1") {
               this.list[i].configtime = "未设置";
             }
@@ -570,6 +572,7 @@
             this.list[i].priceTime = response.data.content[i].time + timeTemp + response.data.content[i].price + "钻石";
           }
           for (let i=0; i<response.data.content.length; i++) {
+            let dataTemp = [];
             for (let j=0; j<response.data.content[i].worktime.length; j++) {
               let weekTemp = '';
               if (response.data.content[i].worktime[j].time == 1) {
@@ -615,8 +618,11 @@
               if (response.data.content[i].worktime[j].time1 == 7) {
                 weekTemp1 = "日";
               }
-              this.list[i].workTime = "周" + weekTemp + ' ' +response.data.content[i].worktime[j].value + ' ' + '至' + ' ' + "周" + weekTemp1 + ' ' +response.data.content[i].worktime[j].value1 + ',';
+              //this.list[i].workTime = "周" + weekTemp + ' ' +response.data.content[i].worktime[j].value + ' ' + '至' + ' ' + "周" + weekTemp1 + ' ' +response.data.content[i].worktime[j].value1;
+              dataTemp.push("周" + weekTemp + ' ' +response.data.content[i].worktime[j].value + ' ' + '至' + ' ' + "周" + weekTemp1 + ' ' +response.data.content[i].worktime[j].value1)
             }
+            this.list[i].workTime = dataTemp.join(',')
+            //console.log(dataTemp)
           }
           for (let i=0; i<response.data.content.length; i++) {
             if(response.data.content[i].status == 0) {

@@ -7,8 +7,9 @@
         </el-upload>-->
         <el-upload
                 class="avatar-uploader"
-                action="http://192.168.1.43:3000/system/upload"
+                action="http://192.168.1.234:80/upload"
                 :data="dataObj"
+                :headers="header"
                 :show-file-list="false"
                 :before-upload="beforeAvatarUpload"
                 :on-success="handleImageScucess"
@@ -44,6 +45,7 @@
 <script type="text/ECMAScript-6">
     // 预览效果见文章
     import { getToken } from 'api/qiniu';
+    import  md5  from 'js-md5';
     export default {
         name: 'singleImageUpload',
         props: {
@@ -57,7 +59,18 @@
         data() {
             return {
                 tempUrl: '',
-                dataObj: { token: '', key: '' },
+                //dataObj: { token: '', key: '' },
+                dataObj: {
+                    "app": 'test',
+                    "src_domain": 'img',
+                    "src_image_url": 'winner',
+                    //"tk": md5(app+":"+ uid +":" + tm +":"+ key + ":"+ body)
+                },
+                header: {
+                    "Content-type":"multipart/form-data",
+                    "Access-Control-Allow-Origin": '*',
+                    //'Access-Control-Allow-Credentials':'true'
+                },
                 showClose: false,
                 //imageUrl: ''
             };
@@ -86,7 +99,86 @@
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不小于 10kb!');
                 }
+                let _this = this;
+                let filename = file.name.split(".")[0];
+                var reader = new FileReader();
+                let app = 'test';
+                let src_domain = 'img';
+                let src_image_url = 'winner';
+                let key = '34F<S932JF;<,/SF*F56#DSfd+9fw?zF';
+                let uid ='123';
+                let tm = '1280977330000';
+                let appBinary = this.char2buf(app+":"+ uid +":" + tm +":"+ key + ":");
+                let appBinaryTemp = new Buffer(appBinary);
+                console.log(appBinaryTemp)
+                reader.readAsArrayBuffer(file);
+                reader.onload = function() {
+                    let body = new Buffer(this.result);
+                    //alert(md5(body))
+                    var list = [];
+                    list.push(appBinaryTemp);
+                    list.push(body);
+                    var s1 = Buffer.concat(list,body.length+appBinaryTemp.length);
+                    console.log(body)
+                    var formData = new FormData();
+                    formData.append('img', body);
+                    this.url = 'http://192.168.1.234:80/upload?' + 'app=test&src_domain=img&src_image_url=winner&uid=123&tm=1280977330000' + '&tk=' + md5(s1);
+                    //console.log(formData)
+                    fetch(this.url, {
+                        method: 'POST',
+                        mode: "cors",
+                        type: 'json',
+                        //credentials: 'include',
+                        /*headers:{
+                         //'Accept': 'application/json',
+                         "Content-Type":"multipart/form-data",
+                         //"Content-Type":"application/x-www-form-urlencoded",
+                         //"Content-type": "text/plain",
+                         "Access-Control-Allow-Origin": '*'
+                         //'Access-Control-Allow-Credentials':'false',
+                         },*/
+                        body: this.result
+                    }).then(function(response){
+
+                        if(response.status!=200){
+                            console.log("存在一个问题，状态码为："+response.status);
+                            return;
+                        }
+                        //console.log(response)
+                        let str = JSON.stringify(response);
+                        response.json().then(function(data){
+                            console.log(data);
+                            _this.emitInput(data.url);
+                            if (data.url) {
+                                _this.showClose = true;
+                            }
+                        });
+                    }).catch(function(err){
+                        console.log("Fetch错误123aa:"+err);
+                    })
+
+                }
                 return isLt2M;
+            },
+            readAsBinaryString(){
+                var file = document.getElementById("file").files[0];
+                var reader = new FileReader();
+                //将文件以二进制形式读入页面
+                reader.readAsBinaryString(file);
+                reader.onload=function(f){
+                    var result=document.getElementById("result");
+                    //显示文件
+                    result.innerHTML=this.result;
+                }
+            },
+            char2buf(str){
+                var out = new ArrayBuffer(str.length);
+                var u16a= new Uint8Array(out);
+                var strs = str.split("");
+                for(var i =0 ; i<strs.length;i++){
+                    u16a[i]=strs[i].charCodeAt();
+                }
+                return out;
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
