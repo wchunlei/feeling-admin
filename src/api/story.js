@@ -177,6 +177,15 @@ export function addscript(storyinfo) {
   });
 }
 
+export function updatescript(storyinfo) {
+  const data = storyinfo;
+  return fetch({
+    url: '?act=updatescript',
+    method: 'post',
+    data
+  });
+}
+
 export function scriptlist(query) {
   return fetch({
     url: '?act=scriptlist',

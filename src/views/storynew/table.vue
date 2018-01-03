@@ -120,7 +120,7 @@
                 <template scope="scope">
                     <!--<span>{{scope.row.sort}}</span>-->
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-                    <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="scope.row.disable" @change="changeSort(scope.row)">
+                    <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="disable" @change="changeSort(scope.row)">
                         <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </template>
@@ -260,6 +260,7 @@
                 actorOptions: [],
                 disable: true,
                 sort: '0',
+                list: [],
                 /*list1: [{
                     id: '1',
                     title: '佳佳洗衣服',
@@ -391,7 +392,7 @@
         created() {
             this.getActor();
             let Query = {};
-            this.getRemoteUserList(Query);
+            //this.getRemoteUserList(Query);
             this.getList();
         },
         filters: {
@@ -441,7 +442,7 @@
              },*/
             getActor () {
                 actorList(this.listQuery).then(response => {
-                    console.log(response)
+                    //console.log(response)
                     /*this.actorOptions = response.data.content.map(v => ({
                      key: v.name
                      }));*/
@@ -455,11 +456,11 @@
                 })
             },
             getRemoteUserList(query) {
-                console.log("getRemoteUserList")
+                //console.log("getRemoteUserList")
                 userSearch(query).then(response => {
-                    console.log("getRemoteUserList")
+                    //console.log("getRemoteUserList")
                     if (!response.data.content) return;
-                    console.log(response)
+                    //console.log(response)
                     this.userLIstOptions = response.data.content.map(v => ({
                         key: v.name,
                         value: v.id
@@ -528,11 +529,11 @@
                                 row.status = '下架';
                                 row.configtime = "未设置";
                                 this.getList();
+                                this.$message({
+                                    message: '操作成功',
+                                    type: 'success'
+                                });
                             }
-                        });
-                        this.$message({
-                            message: '操作成功',
-                            type: 'success'
                         });
                     }).catch(() => {
                         this.$message({
@@ -552,13 +553,17 @@
                         if(response.data.code==200){
                             row.status = '上架';
                             row.configtime = dateString;
+                            this.$message({
+                                message: '操作成功',
+                                type: 'success'
+                            });
                         }
                     });
                 }
-                row.disable = true;
+                this.disable = true;
             },
             handleSort (index, rows) {
-                rows.disable = false;
+                this.disable = false;
                 /*if (this.disable) {
                  this.disable = false;
                  } else {
@@ -579,7 +584,7 @@
                 sortscript(sortitem).then(response => {
                     //this.list = response.data.content;
                     if(response.data.code==200){
-                        rows.disable = true;
+                        this.disable = true;
                         this.$message({
                             message: '操作成功',
                             type: 'success'
@@ -594,7 +599,7 @@
                     this.list = response.data.content;
                     this.total = response.data.total;
                     for (let i=0; i< response.data.content.length; i++) {
-                        this.list[i].disable = true;
+                        this.list[i].disable = false;
                         if (response.data.content[i].status == "1") {
                             this.list[i].configtime = "未设置";
                         }

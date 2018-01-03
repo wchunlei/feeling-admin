@@ -22,6 +22,14 @@
                     <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :maxlength="10"></el-input>
                 </el-form-item>
 
+                <el-form-item label="背景图:" label-width="100px" prop="backimg" style="margin-bottom: 40px" required>
+                    <div style="margin-bottom: 0px;width: 180px;height: 240px; border: 1px dashed #d9d9d9;">
+                        <Upload v-model="postForm.backimg" v-on:input="picInput"></Upload>
+                    </div>
+                    <span style="font-size:12px;display:inline-block; margin-top: -40px">（注：请上传1:1，不小于10kb，jpg、png等格式的文件）</span>
+                    <!--<input type="file" @change="uploadfile(this)" />-->
+                </el-form-item>
+
                 <el-form-item label="主角:" label-width="100px" prop="checkedActor" style="margin-bottom: 40px" required>
                     <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                     <div style="margin: 15px 0;"></div>
@@ -45,27 +53,27 @@
                     <!--<el-checkbox-group v-model="postForm.checkedStory">
                         <el-checkbox v-for="story in storys" :label="story" :key="story">{{story}}</el-checkbox>
                     </el-checkbox-group>-->
-                    <el-transfer v-model="postForm.checkedStory" :data="data"></el-transfer>
+                    <el-transfer v-model="postForm.checkedStory" :data="scriptData" :titles="['未选择', '已选择']"></el-transfer>
                 </el-form-item>
 
-                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px" required>
+                <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px" required>
                     <!--<el-select v-model="postForm.config" placeholder="请选择">
                         <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：下架状态：该主角不会在App中显示）</span>-->
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
+                    <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="房间排序:" label-width="100px" prop="homeSort" style="margin-bottom: 40px" required>
-                    <el-select v-model="postForm.homeSort" placeholder="请选择">
+                <el-form-item label="房间排序:" label-width="100px" prop="roomsort" style="margin-bottom: 40px" required>
+                    <el-select v-model="postForm.roomsort" placeholder="请选择">
                         <el-option v-for="item in homeSortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                 </el-form-item>
                 <el-form-item label-width="100px">
-                    <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增房间</el-button>
-                    <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存房间</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="addHome" size="large">新增房间</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="addHome" size="large">保存房间</el-button>
                 </el-form-item>
 
             </div>
@@ -76,7 +84,7 @@
 
 <script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce';
-    import Upload from 'components/Upload/singleImage3';
+    import Upload from 'components/Upload/pictureHome';
     import Uploadhead from 'components/Upload/headPhoto'
     import Uploadvideo from 'components/Upload/video';
     import MDinput from 'components/MDinput';
@@ -90,6 +98,11 @@
     import { thumbnaillist } from 'api/actor';
     import { addMvs } from 'api/actor';
     import { delMv } from 'api/actor';
+    import { addroom } from 'api/room';
+    import { updateroom } from 'api/room';
+    import { roominfo } from 'api/room';
+    import { actorList } from 'api/actor';
+    import { scriptlist } from 'api/story';
 
     export default {
         name: 'articleDetail',
@@ -147,7 +160,7 @@
                     callback()
                 }
             };
-            const generateData = _ => {
+            /*const generateData = _ => {
                 const data = [];
                 for (let i = 1; i <= 15; i++) {
                     data.push({
@@ -157,9 +170,9 @@
                     });
                 }
                 return data;
-            };
+            };*/
             return {
-                data: generateData(),
+                scriptData: [],
                 phopoid: '',
                 watcher: false,
                 listQuery: {},
@@ -180,8 +193,9 @@
                     name: '', // 文章内容
                     checkedActor: [],
                     checkedStory: [],
-                    configTime: new Date(),
-                    homeSort: '默认',
+                    backimg: '',
+                    configtime: new Date(),
+                    roomsort: '0',
                 },
                 pickerOptions1: {
                     disabledDate(time) {
@@ -259,14 +273,14 @@
          }
          },*/
         created() {
+            this.getRemoteUserList(this.listQuery);
+            this.getScriptList();
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
-                /*this.listQuery.actorid = parseInt(this.$route.params.actor);
-                this.getDetail(this.listQuery);
-                this.photoData.id = parseInt(this.$route.params.actor);
-                this.mvData.id = parseInt(this.$route.params.actor);
-                this.fetchSuccess = false;*/
+                let home = {};
+                home.id = this.$route.params.id;
+                this.getDetail(home);
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -276,7 +290,124 @@
              this.fetchData();
              }*/
         },
+        watch : {
+            "postForm.checkedActor.value" (val,oldval) {
+                scriptlist(this.listQuery).then(response => {
+                    console.log(response)
+                    if (this.scriptData) {
+                        this.scriptData = [];
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if (val == response.data.content[i].actorid) {
+                            let temp = {};
+                            temp.key = response.data.content[i].id;
+                            temp.label = response.data.content[i].title;
+                            this.scriptData.push(temp);
+                        }
+                    }
+                    this.listLoading = false;
+                })
+            }
+        },
         methods: {
+            getScriptList () {
+                scriptlist(this.listQuery).then(response => {
+                    console.log(response)
+                    this.listLoading = false;
+                })
+            },
+            addHome () {
+                //let date= this.postForm.configtime;
+                //(month>=10?+month:"0"+month+"-"+day>=10? day :'0'+day)
+                let date= new Date(this.postForm.configtime)
+                let year=date.getFullYear(),
+                        month=date.getMonth()+ 1,
+                        day=date.getDate(),
+                        hour=date.getHours(),
+                        minutes=date.getMinutes(),
+                        seconds=date.getSeconds();
+                let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                //console.log(this.video,this.videosize,this.videourl)
+                /*let scriptid = '';
+                if (this.postForm.checkedStory) {
+                    this.$message({
+                        message: '请选择剧情',
+                        type: 'error'
+                    });
+                } else {
+                    scriptid = this.postForm.checkedStory.join(",");
+                }*/
+                let homeinfo = {
+                    //channel: "女仆团",
+                    name: this.postForm.name,
+                    actorid: this.postForm.checkedActor.value,
+                    scriptid: this.postForm.checkedStory.join(","),
+                    backimg: this.postForm.backimg,
+                    configtime: dateString,
+                    roomsort: this.postForm.roomsort
+                };
+                this.$refs.postForm.validate(valid => {
+                 if (valid) {
+                     this.loading = true;
+                    if (this.$route.params.id && this.$route.params.id == ':id') {
+                        addroom(homeinfo).then(response => {
+                            /*if (!response.data.items) return;
+                             console.log(response)
+                             this.userLIstOptions = response.data.items.map(v => ({
+                             key: v.name
+                             }));*/
+                            if(response.data.code == 200) {
+                                this.$message({
+                                    message: '发布成功',
+                                    type: 'success'
+                                });
+                                //this.$refs[formName].resetFields();
+                                //this.postForm.status = 'published';
+                            }
+                        });
+                    } else {
+                        homeinfo.id = this.$route.params.id;
+                        updateroom(homeinfo).then(response => {
+                            /*if (!response.data.items) return;
+                             console.log(response)
+                             this.userLIstOptions = response.data.items.map(v => ({
+                             key: v.name
+                             }));*/
+                            if(response.data.code == 200) {
+                                this.$message({
+                                    message: '发布成功',
+                                    type: 'success'
+                                });
+                                //this.$refs[formName].resetFields();
+                                //this.postForm.status = 'published';
+                            }
+                        });
+                    }
+                    this.loading = false;
+                } else {
+                 console.log('error submit!!');
+                 return false;
+                 }
+                 });
+            },
+            getDetail (home) {
+                roominfo (home).then(response => {
+                    this.postForm = response.data.content;
+                    for ( let j=0; j<this.userLIstOptions.length; j++) {
+                        if (response.data.content.actorid == this.userLIstOptions[j].value) {
+                            this.postForm.checkedActor = this.userLIstOptions[j];
+                        }
+                    }
+                }).catch(err => {
+                    this.fetchSuccess = false;
+                    console.log(err);
+                });
+            },
+            picInput (data) {
+                if (data) {
+                    this.watcher = data;
+                }
+            },
             handleCheckAllChange(val) {
                 console.log(val)
                 this.postForm.checkedActor = val ? this.actors : [];
@@ -302,11 +433,12 @@
                 }
             },
             getRemoteUserList(query) {
-                userSearch(query).then(response => {
-                    if (!response.data.items) return;
+                actorList(query).then(response => {
+                    if (!response.data.content) return;
                     console.log(response)
-                    this.userLIstOptions = response.data.items.map(v => ({
-                        key: v.name
+                    this.userLIstOptions = response.data.content.map(v => ({
+                        key: v.name,
+                        value: v.id
                     }));
                 })
             }

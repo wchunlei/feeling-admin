@@ -22,18 +22,18 @@
                     <div id="myChart" :style="{width: '1200px', height: '800px'}"></div>
                 </el-form-item>
 
-                <el-form-item label="剧情标题:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
-                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :maxlength="10"></el-input>
+                <el-form-item label="剧情标题:" label-width="100px" prop="title" style="margin-bottom: 40px" required>
+                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.title" :maxlength="10"></el-input>
                 </el-form-item>
 
                 <el-form-item label-width="100px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
-                    <!--<multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
-                    </multiselect>-->
-                    <el-select v-model="postForm.actor" placeholder="请选择">
+                    </multiselect>
+                    <!--<el-select v-model="postForm.actor" placeholder="请选择" @change="changeActor">
                         <el-option v-for="item in actorOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
+                    </el-select>-->
                 </el-form-item>
                 <!--<el-form-item label="上传剧情配置:" label-width="120px" prop="uploadTxt" style="margin-bottom: 40px" required>
                     <el-upload
@@ -60,9 +60,9 @@
                         <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
                     </el-upload>
                 </el-form-item>
-                <el-form-item class="removeElList" label="背景图:" label-width="100px" prop="uploadPicture" style="margin-bottom: 40px" required>
+                <el-form-item class="removeElList" label="背景图:" label-width="100px" prop="picture" style="margin-bottom: 40px" required>
                     <el-upload
-                            :model="postForm.uploadPicture"
+                            :model="postForm.picture"
                             class="upload-demo"
                             action="http://192.168.1.234:80/upload"
                             :before-upload="beforeAvatarUpload"
@@ -72,12 +72,12 @@
                     </el-upload>
                     <div id="showBackColor" class="backPic" style="border: 1px solid red;margin-top: 15px;">
                         <div class="showUploadPic">
-                            <img id="image" :src="postForm.uploadPicture" />
+                            <img id="image" :src="postForm.picture" />
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item label="背景色:" label-width="100px" prop="color" style="margin-bottom: 40px" required>
-                    <el-select v-model="postForm.color" placeholder="请选择" @change="selectColor">
+                <el-form-item label="背景色:" label-width="100px" prop="csolor" style="margin-bottom: 40px" required>
+                    <el-select v-model="postForm.csolor" placeholder="请选择" @change="selectColor">
                         <el-option v-for="item in colorOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
@@ -86,32 +86,32 @@
                         <el-option v-for="item in stageOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="收费设置:" label-width="100px" prop="priceSet" style="margin-bottom: 40px" required>
+                <el-form-item label="收费设置:" label-width="100px" prop="cost" style="margin-bottom: 40px" required>
                     <span @click="showPrice"><el-radio v-model="radioPrice" label="0">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="radioPrice" label="1">免费</el-radio></span>
                 </el-form-item>
                 <div v-show="showPri" style="display: inline-block;margin-bottom: 0px">
-                    <el-form-item label="剧情价格:" label-width="100px" prop="storyPrice" style="margin-bottom: 40px" required>
-                        <el-input v-model.number="postForm.storyPrice" style="width:150px" placeholder="请输入整数金额"></el-input>
+                    <el-form-item label="剧情价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
+                        <el-input v-model.number="postForm.price" style="width:150px" placeholder="请输入整数金额"></el-input>
                         <span>钻石</span>
                     </el-form-item>
                 </div>
-                <el-form-item label="选项价格:" label-width="100px" prop="optionPrice" style="margin-bottom: 40px" required>
-                    <el-input v-model.number="postForm.optionPrice" style="width:150px" placeholder="请输入整数金额"></el-input>
+                <el-form-item label="选项价格:" label-width="100px" prop="option" style="margin-bottom: 40px" required>
+                    <el-input v-model.number="postForm.option" style="width:150px" placeholder="请输入整数金额"></el-input>
                     <span>钻石</span>
                 </el-form-item>
 
-                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px" required>
+                <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px" required>
                     <!--<el-select v-model="postForm.config" placeholder="请选择">
                         <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：下架状态：该主角不会在App中显示）</span>-->
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
+                    <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="剧本排序:" label-width="100px" prop="storySort" style="margin-bottom: 40px" required>
-                    <el-select v-model="postForm.storySort" placeholder="请选择">
+                <el-form-item label="剧本排序:" label-width="100px" prop="sort" style="margin-bottom: 40px" required>
+                    <el-select v-model="postForm.sort" placeholder="请选择">
                         <el-option v-for="item in storySortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
@@ -119,7 +119,7 @@
 
                 <el-form-item label-width="100px">
                     <el-button v-show="addBut" type="primary" @click.prevent="addStory" size="large">新增剧情</el-button>
-                    <el-button v-show="saveBut" type="primary" @click.prevent="saveStory" size="large">保存剧情</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="addStory" size="large">保存剧情</el-button>
                 </el-form-item>
 
                 <!--<el-form-item label="test1:" label-width="100px" prop="pic" style="margin-bottom: 40px" required>
@@ -153,6 +153,7 @@
     import { addMvs } from 'api/actor';
     import { delMv } from 'api/actor';
     import { addscript } from 'api/story';
+    import { updatescript } from 'api/story';
     import { scriptdetail } from 'api/story';
     import { actorList } from 'api/actor';
 
@@ -230,23 +231,24 @@
                 storys: ["佳佳ss","娜美ss"],
                 /*checkedActor: [],*/
                 postForm: {
-                    name: '', // 文章内容
-                    actor: '',
+                    title: '', // 文章内容
+                    actor: [],
                     uploadTxt: '',
                     uploadFile: '',
-                    uploadPicture: '',
-                    color: '0',
+                    picture: '',
+                    csolor: '0',
                     stage: '1',
-                    priceSet: '0',
-                    storyPrice: '',
-                    optionPrice: 10,
-                    configTime: new Date(),
-                    storySort: '0'
+                    cost: '0',
+                    price: '',
+                    option: 10,
+                    configtime: new Date(),
+                    sort: '0'
                 },
                 video: '',
                 videosize: '',
                 videourl: '',
                 pictureurl: '',
+                logicpic: {},
                 pickerOptions1: {
                     disabledDate(time) {
                         return time.getTime() + 86400000 < Date.now();
@@ -422,9 +424,9 @@
          }
          },*/
         created() {
-            /*let Query = {};
-            this.getRemoteUserList(Query);*/
-            this.getActor();
+            let Query = {};
+            this.getRemoteUserList(Query);
+            //this.getActor();
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
@@ -458,10 +460,15 @@
                 }
             });*/
         },
+        watch : {
+            "postForm.actor" (val,oldval) {
+                this.postForm.actor = val
+            }
+        },
         methods: {
             getActor () {
                 actorList(this.listQuery).then(response => {
-                    console.log(response)
+                    console.log(response.data.content)
                     /*this.actorOptions = response.data.content.map(v => ({
                         key: v.name
                     }));*/
@@ -474,9 +481,29 @@
                     }
                 })
             },
+            changeActor () {
+               // alert()
+            },
             getDetail () {
                 scriptdetail (this.listQuery).then(response => {
+                    let logicpicTemp = JSON.stringify(response.data.content.logicpic);
                     this.postForm = response.data.content;
+                    this.pictureurl = response.data.content.picture;
+                    this.video = response.data.content.video;
+                    this.videosize = response.data.content.videosize;
+                    this.videourl = response.data.content.videourl;
+                    //this.postForm.uploadPicture = response.data.content.picture;
+                    //this.logicpic = JSON.stringify(response.data.content.logicpic)
+                    this.logicpic = JSON.parse(logicpicTemp)
+                    //console.log(this.logicpic)
+                    //console.log(JSON.parse(this.logicpic))
+                    this.drawLine();
+                    this.selectColor();
+                    for ( let j=0; j<this.userLIstOptions.length; j++) {
+                        if (response.data.content.actorid == this.userLIstOptions[j].value) {
+                            this.postForm.actor = this.userLIstOptions[j];
+                        }
+                    }
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);
@@ -485,7 +512,7 @@
             addStory () {
                 //let date= this.postForm.configtime;
                 //(month>=10?+month:"0"+month+"-"+day>=10? day :'0'+day)
-                let date= new Date(this.postForm.configTime)
+                let date= new Date(this.postForm.configtime)
                 let year=date.getFullYear(),
                         month=date.getMonth()+ 1,
                         day=date.getDate(),
@@ -496,17 +523,17 @@
                 //console.log(this.video,this.videosize,this.videourl)
                 let storyinfo = {
                     //channel: "女仆团",
-                    actorid: this.postForm.actor,
-                    title: this.postForm.name,
+                    actorid: this.postForm.actor.value,
+                    title: this.postForm.title,
                     //video: this.postForm.uploadFile,
                     picture: this.pictureurl,
-                    csolor: this.postForm.color,
+                    csolor: this.postForm.csolor,
                     stage: this.postForm.stage,
-                    cost: this.postForm.priceSet,
-                    price: this.postForm.storyPrice.toString(),
-                    option: this.postForm.optionPrice.toString(),
+                    cost: this.postForm.cost,
+                    price: this.postForm.price.toString(),
+                    option: this.postForm.option.toString(),
                     configtime: dateString,
-                    sort: this.postForm.storySort,
+                    sort: this.postForm.sort,
                     video: this.video,
                     videosize: this.videosize.toString(),
                     videourl: this.videourl
@@ -514,21 +541,40 @@
                 /*this.$refs.postForm.validate(valid => {
                  if (valid) {
                  this.loading = true;*/
-                addscript(storyinfo).then(response => {
-                    /*if (!response.data.items) return;
-                     console.log(response)
-                     this.userLIstOptions = response.data.items.map(v => ({
-                     key: v.name
-                     }));*/
-                    if(response.data.code == 200) {
-                        this.$message({
-                            message: '发布成功',
-                            type: 'success'
-                        });
-                        //this.$refs[formName].resetFields();
-                        //this.postForm.status = 'published';
-                    }
-                });
+                if (this.$route.params.id && this.$route.params.id == ':id') {
+                    addscript(storyinfo).then(response => {
+                        /*if (!response.data.items) return;
+                         console.log(response)
+                         this.userLIstOptions = response.data.items.map(v => ({
+                         key: v.name
+                         }));*/
+                        if(response.data.code == 200) {
+                            this.$message({
+                                message: '发布成功',
+                                type: 'success'
+                            });
+                            //this.$refs[formName].resetFields();
+                            //this.postForm.status = 'published';
+                        }
+                    });
+                } else {
+                    storyinfo.scriptid = this.$route.params.id;
+                    updatescript(storyinfo).then(response => {
+                        /*if (!response.data.items) return;
+                         console.log(response)
+                         this.userLIstOptions = response.data.items.map(v => ({
+                         key: v.name
+                         }));*/
+                        if(response.data.code == 200) {
+                            this.$message({
+                                message: '发布成功',
+                                type: 'success'
+                            });
+                            //this.$refs[formName].resetFields();
+                            //this.postForm.status = 'published';
+                        }
+                    });
+                }
                 this.loading = false;
                 /*} else {
                  console.log('error submit!!');
@@ -599,7 +645,7 @@
                     series:[
                         {
                             type: 'tree',
-                            data: [data2],
+                            data: [this.logicpic],
                             left: '2%',
                             right: '2%',
                             top: '8%',
@@ -676,7 +722,7 @@
             selectColor () {
                 //alert(this.postForm.color)
                 let selectBackColor = document.getElementById('showBackColor');
-                if (this.postForm.color == 0) {
+                if (this.postForm.csolor == 0) {
                     let setTime = setTimeout(function () {
                         let img = document.getElementById('image');
                         //let showBackColor = document.getElementById('showBackColor');
@@ -697,34 +743,34 @@
                         //window.clearTimeout(setTime);
                     },0);
                 }
-                if (this.postForm.color == 1) {
+                if (this.postForm.csolor == 1) {
                     selectBackColor.setAttribute('style', 'background: rgb(55,71,79);margin-top: 15px');
                 }
-                if (this.postForm.color == 2) {
+                if (this.postForm.csolor == 2) {
                     selectBackColor.setAttribute('style', 'background: rgb(136,14,79);margin-top: 15px');
                 }
-                if (this.postForm.color == 3) {
+                if (this.postForm.csolor == 3) {
                     selectBackColor.setAttribute('style', 'background: rgb(62,39,35);margin-top: 15px');
                 }
-                if (this.postForm.color == 4) {
+                if (this.postForm.csolor == 4) {
                     selectBackColor.setAttribute('style', 'background: rgb(183,28,28);margin-top: 15px');
                 }
-                if (this.postForm.color == 5) {
+                if (this.postForm.csolor == 5) {
                     selectBackColor.setAttribute('style', 'background: rgb(13,71,161);margin-top: 15px');
                 }
-                if (this.postForm.color == 6) {
+                if (this.postForm.csolor == 6) {
                     selectBackColor.setAttribute('style', 'background: rgb(74,20,140);margin-top: 15px');
                 }
-                if (this.postForm.color == 7) {
+                if (this.postForm.csolor == 7) {
                     selectBackColor.setAttribute('style', 'background: rgb(245,127,23);margin-top: 15px');
                 }
-                if (this.postForm.color == 8) {
+                if (this.postForm.csolor == 8) {
                     selectBackColor.setAttribute('style', 'background: rgb(27,94,32);margin-top: 15px');
                 }
-                if (this.postForm.color == 9) {
+                if (this.postForm.csolor == 9) {
                     selectBackColor.setAttribute('style', 'background: rgb(0,77,64);margin-top: 15px');
                 }
-                if (this.postForm.color == 10) {
+                if (this.postForm.csolor == 10) {
                     selectBackColor.setAttribute('style', 'background: #006064;margin-top: 15px');
                 }
             },
@@ -838,7 +884,7 @@
                         response.json().then(function(data){
                             //alert(_this.pictureurl)
                             console.log(data.url);
-                            _this.postForm.uploadPicture = data.url;
+                            _this.postForm.picture = data.url;
                             _this.pictureurl = data.url;
                         });
                     }).catch(function(err){
@@ -877,7 +923,7 @@
                 console.log(this.video,this.videosize,this.videourl)
             },
             handleBackImageScucess (res,file) {
-                this.postForm.uploadPicture = URL.createObjectURL(file.raw);
+                this.postForm.picture = URL.createObjectURL(file.raw);
                 let setTime = setTimeout(function () {
                     let img = document.getElementById('image');
                     let showBackColor = document.getElementById('showBackColor');
@@ -899,14 +945,15 @@
                 },0);
             },
             getRemoteUserList(query) {
-                 userSearch(query).then(response => {
-                     if (!response.data.items) return;
-                         console.log(response)
-                         this.userLIstOptions = response.data.items.map(v => ({
-                         key: v.name
-                     }));
-                 })
-             }
+                actorList(query).then(response => {
+                    if (!response.data.content) return;
+                    console.log(response)
+                    this.userLIstOptions = response.data.content.map(v => ({
+                        key: v.name,
+                        value: v.id
+                    }));
+                })
+            }
         }
     }
 </script>
