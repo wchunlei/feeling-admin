@@ -1,22 +1,22 @@
 <template>
     <div class="createPost-container">
 
-        <el-form class="form-container" :model="diaryContent" ref="diaryContent" :rules="rules">
+        <el-form class="form-container" :model="postForm" ref="postForm" :rules="rules">
             <div class="createPost-main-container">
 
                 <el-form-item label-width="110px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
-                    <multiselect v-model="diaryContent.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;" :disabled="disableActor">
+                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
 
                 <el-form-item style="margin-bottom: 40px;" label-width="110px" label="上传类型:" prop="type" required>
                     <template>
-                        <span @click="showPictureContent"><el-radio v-model="diaryContent.type" label="0">图片</el-radio></span>
-                        <span @click="showVideoContent"><el-radio v-model="diaryContent.type" label="1">短视频</el-radio></span>
-                        <span @click="showAudioContent"><el-radio v-model="diaryContent.type" label="2">音频</el-radio></span>
-                        <span @click="showCrowdContent"><el-radio v-model="diaryContent.type" label="3">众筹</el-radio></span>
+                        <span @click="showPictureContent"><el-radio v-model="postForm.type" label="1">图片</el-radio></span>
+                        <span @click="showVideoContent"><el-radio v-model="postForm.type" label="2">短视频</el-radio></span>
+                        <span @click="showAudioContent"><el-radio v-model="postForm.type" label="3">音频</el-radio></span>
+                        <span @click="showCrowdContent"><el-radio v-model="postForm.type" label="4">众筹</el-radio></span>
                     </template>
                     <!--<template>
                         <el-radio-group v-model="radioContent">
@@ -30,67 +30,67 @@
                 <el-form-item class="uplo" label-width="110px" prop="pic1">
                     <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
                         <!--<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>-->
-                        <Upload v-model="diaryContent.pic1"></Upload>
+                        <Upload v-model="postForm.pic1" v-on:input="picInput"></Upload>
                     </div>
                     <el-form-item label-width="90px" prop="pic2">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="diaryContent.pic2"></Upload>
+                            <Upload v-model="postForm.pic2" v-on:input="picInput"></Upload>
                         </div>
                     </el-form-item>
                     <el-form-item prop="pic3">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="diaryContent.pic3"></Upload>
+                            <Upload v-model="postForm.pic3" v-on:input="picInput"></Upload>
                         </div>
                     </el-form-item>
                 </el-form-item>
 
                 <el-form-item class="uplo" label-width="110px" prop="pic4">
                     <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                        <Upload v-model="diaryContent.pic4"></Upload>
+                        <Upload v-model="postForm.pic4" v-on:input="picInput"></Upload>
                     </div>
                     <el-form-item prop="pic5">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="diaryContent.pic5"></Upload>
+                            <Upload v-model="postForm.pic5" v-on:input="picInput"></Upload>
                         </div>
                     </el-form-item>
                     <el-form-item prop="pic6">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="diaryContent.pic6"></Upload>
+                            <Upload v-model="postForm.pic6" v-on:input="picInput"></Upload>
                         </div>
                     </el-form-item>
                 </el-form-item>
                 <el-form-item class="uplo" label-width="110px" prop="pic7">
                     <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                        <Upload v-model="diaryContent.pic7"></Upload>
+                        <Upload v-model="postForm.pic7" v-on:input="picInput"></Upload>
                     </div>
                     <el-form-item prop="pic8">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="diaryContent.pic8"></Upload>
+                            <Upload v-model="postForm.pic8" v-on:input="picInput"></Upload>
                         </div>
                     </el-form-item>
                     <el-form-item prop="pic9">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="diaryContent.pic9"></Upload>
+                            <Upload v-model="postForm.pic9" v-on:input="picInput"></Upload>
                         </div>
                     </el-form-item>
                 </el-form-item>
-                <el-form-item v-show="showPicContent" label="收费设置:" label-width="110px" prop="priceSet" style="margin-bottom: 20px" required>
-                    <span @click="showPrice"><el-radio v-model="diaryContent.priceSet" label="0">收费</el-radio></span>
-                    <span @click="hidePrice"><el-radio v-model="diaryContent.priceSet" label="1">免费</el-radio></span>
+                <el-form-item v-show="showPicContent" label="收费设置:" label-width="110px" prop="ispay" style="margin-bottom: 20px" required>
+                    <span @click="showPrice"><el-radio v-model="postForm.ispay" label="0">收费</el-radio></span>
+                    <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="1">免费</el-radio></span>
                 </el-form-item>
                 <div v-show="showPri" style="display: inline-block;margin-bottom: 20px">
                     <!--<el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px" required>
                         &lt;!&ndash;<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                         <div style="margin: 15px 0;"></div>
-                        <el-checkbox-group v-model="diaryContent.selectPic" @change="handleCheckedCitiesChange">
+                        <el-checkbox-group v-model="postForm.selectPic" @change="handleCheckedCitiesChange">
                             <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
                         </el-checkbox-group>&ndash;&gt;
-                        <el-checkbox-group v-model="diaryContent.selectPic">
+                        <el-checkbox-group v-model="postForm.selectPic">
                             <el-checkbox v-for="pic in selectPics" :label="pic" :key="pic">{{pic}}</el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>-->
                     <el-form-item v-show="showPicContent" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 40px" required>
-                        <el-input v-model.number="diaryContent.price" style="width:150px" placeholder="请输入整数金额"></el-input>
+                        <el-input v-model.number="postForm.price" style="width:150px" placeholder="请输入整数金额"></el-input>
                         <span>钻石 （注：目前收费功能支持最后一张收费，若选择收费，则上传的最后一张图片自动变为模糊收费状态）</span>
                     </el-form-item>
                 </div>
@@ -122,7 +122,7 @@
                 <el-form-item v-show="showVidContent" label-width="110px" prop="video">
                     <div style="margin-top: -180px">
                         <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
-                        <Uploadvideo v-model="diaryContent.video" :progresses="progressesData"></Uploadvideo>
+                        <Uploadvideo v-model="postForm.video" :progresses="progressesData"></Uploadvideo>
                     </div>
                 </el-form-item>
                 <el-form-item label-width="110px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
@@ -131,17 +131,40 @@
                     </div>
                 </el-form-item>
 
-                <el-form-item v-show="showAudContent" label-width="110px" prop="sound">
+                <el-form-item v-show="showVidContent" label="视频缩略图:" label-width="110px" prop="vtype" style="margin-bottom: 20px" required>
+                    <span @click="hideThumbnail"><el-radio v-model="postForm.vtype" label="2">自动截取</el-radio></span>
+                    <span @click="showThumbnail"><el-radio v-model="postForm.vtype" label="1">主动上传</el-radio></span>
+                </el-form-item>
+
+                <div v-show="showThumb" style="display: inline-block;margin-bottom: 20px">
+                    <el-form-item v-show="showVidContent" label-width="110px" prop="thumbnail">
+                        <div style="margin-top: 10px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
+                            <Uploadimg v-model="postForm.thumbnail" v-on:input="picInput"></Uploadimg>
+                        </div>
+                        <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
+                    </el-form-item>
+                </div>
+
+                <el-form-item v-show="showAudContent" label-width="110px" prop="audio">
                     <div style="margin-top: -180px">
-                        <Uploadaudio v-model="diaryContent.sound"></Uploadaudio>
+                        <Uploadaudio v-model="postForm.audio"></Uploadaudio>
                     </div>
                 </el-form-item>
+
+                <el-form-item v-show="showAudContent" label="音频标题:" label-width="110px" prop="avname" required>
+                    <el-input v-model="postForm.avname" style="width:150px" placeholder="最多输入10个字"></el-input>
+                </el-form-item>
+
+                <el-form-item v-show="showAudContent" label="音频描述:" label-width="110px" prop="avdesc" required>
+                    <el-input v-model="postForm.avdesc" style="width:300px" placeholder="最多输入20个字"></el-input>
+                </el-form-item>
+
                 <el-form-item v-show="showAudContent" label="音频图片:" label-width="110px" prop="soundImg" required>
                     <!--<div class="pictureStyle">
                         <Uploadbak v-model="diaryContent.soundImg"></Uploadbak>
                     </div>-->
                     <div style="margin-top: 0px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                        <Uploadimg v-model="diaryContent.soundImg" v-on:input="picInput"></Uploadimg>
+                        <Uploadimg v-model="postForm.soundImg" v-on:input="picInput"></Uploadimg>
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
@@ -151,27 +174,27 @@
                         <Uploadimg v-model="diaryContent.crowd"></Uploadimg>
                     </div>-->
                     <div style="margin-top: -180px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                        <Uploadimg v-model="diaryContent.crowd" v-on:input="picInput"></Uploadimg>
+                        <Uploadimg v-model="postForm.crowd" v-on:input="picInput"></Uploadimg>
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
-                <el-form-item v-show="showCroContent" label="众筹价格:" label-width="110px" prop="crowdfunding" required>
-                    <el-input v-model="diaryContent.crowdfunding" style="width:150px" placeholder="请输入整数金额"></el-input>
+                <el-form-item v-show="showCroContent" label="众筹价格:" label-width="110px" prop="help" required>
+                    <el-input v-model="postForm.help" style="width:150px" placeholder="请输入整数金额"></el-input>
                     <span>钻石</span>
                 </el-form-item>
 
-                <el-form-item v-show="showPayDefault" label="打赏默认值:" label-width="110px" prop="crowdfunding" required>
-                    <el-input v-model="diaryContent.crowdfunding" style="width:150px" placeholder="请输入整数金额"></el-input>
+                <el-form-item v-show="showPayDefault" label="打赏默认值:" label-width="110px" prop="reward" required>
+                    <el-input v-model="postForm.reward" style="width:150px" placeholder="请输入整数金额"></el-input>
                     <span>钻石</span>
                 </el-form-item>
 
-                <el-form-item v-show="showCroContent" label="众筹默认值:" label-width="110px" prop="crowdfunding" required>
-                    <el-input v-model="diaryContent.crowdfunding" style="width:150px" placeholder="请输入整数金额"></el-input>
+                <el-form-item v-show="showCroContent" label="众筹默认值:" label-width="110px" prop="reward" required>
+                    <el-input v-model="postForm.reward" style="width:150px" placeholder="请输入整数金额"></el-input>
                     <span>钻石</span>
                 </el-form-item>
 
                 <el-form-item style="margin-bottom: 40px;" label-width="110px" label="动态内容:" prop="words" required>
-                    <el-input type="textarea" :rows="3" v-model="diaryContent.words" style="width:400px" placeholder="最多输入200个字" :maxlength="200"></el-input>
+                    <el-input type="textarea" :rows="3" v-model="postForm.words" style="width:400px" placeholder="最多输入200个字" :maxlength="200"></el-input>
                 </el-form-item>
 
                 <!--<el-form-item style="margin-bottom: 40px;" label-width="90px" label="发布时间:" prop="day">
@@ -187,21 +210,21 @@
                         </el-time-select>
                     </el-form-item>
                 </el-form-item>-->
-                <el-form-item label-width="110px" label="发布时间:" prop="time"style="margin-bottom: 40px" required>
+                <el-form-item label-width="110px" label="发布时间:" prop="configtime"style="margin-bottom: 40px" required>
                     <div class="block">
                         <!--<span class="demonstration">默认</span>-->
-                        <el-date-picker v-model="diaryContent.time" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期时间" :picker-options="pickerOptions1"></el-date-picker>
+                        <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptions1"></el-date-picker>
                     </div>
                 </el-form-item>
-                <el-form-item label="动态排序:" label-width="110px" prop="spaceSort" style="margin-bottom: 40px" required>
-                    <el-select v-model="diaryContent.spaceSort" placeholder="请选择">
+                <el-form-item label="动态排序:" label-width="110px" prop="sort" style="margin-bottom: 40px" required>
+                    <el-select v-model="postForm.sort" placeholder="请选择">
                         <el-option v-for="item in spaceSortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                 </el-form-item>
                 <el-form-item label-width="110px">
-                    <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增动态</el-button>
-                    <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存动态</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="addDiary('postForm')" size="large">新增动态</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="addDiary('postForm')" size="large">保存动态</el-button>
                 </el-form-item>
             </div>
         </el-form>
@@ -214,7 +237,7 @@
     //import Uploadvideo from 'components/Upload/video'
     //import Uploadimg from 'components/Upload/singleImage3'
     import Uploadimg from 'components/Upload/pictureFm';
-    import Upload from 'components/Upload/pictureSpace';
+    import Upload from 'components/Upload/headPhoto';
     import Uploadbak from 'components/Upload/pictureSpaceOne';
     import Uploadvideo from 'components/Upload/video';
     import Uploadaudio from 'components/Upload/audio'
@@ -225,6 +248,10 @@
     import { diaryUpdate } from 'api/diary';
     import { userSearch } from 'api/story';
     import { diarydelete } from 'api/diary';
+    import { adddiary } from 'api/diary';
+    import { updatediary } from 'api/diary';
+    import { diaryinfo } from 'api/diary';
+    import { actorList } from 'api/actor';
 
     export default {
         name: 'articleDetail',
@@ -280,11 +307,14 @@
                 }
             };
             return {
-                diaryContent: {
+                watcher: false,
+                postForm: {
                     actor: '',
                     words: '',
-                    type: '0',
+                    type: '1',
                     video: '', // 视频
+                    vtype: '1',
+                    thumbnail: '',
                     pic1: '', // 图片
                     pic2: '', // 图片
                     pic3: '', // 图片
@@ -294,15 +324,18 @@
                     pic7: '', // 图片
                     pic8: '', // 图片
                     pic9: '', // 图片
-                    priceSet: '0',
+                    ispay: '0',
                     selectPic: [],
                     price: 5,
-                    time: new Date(),
-                    sound: '',
+                    configtime: new Date(),
+                    audio: '',
+                    avname: '',
+                    avdesc: '',
                     soundImg: '',
                     crowd: '',
-                    crowdfunding: 20,
-                    spaceSort: '默认'
+                    help: '',
+                    reward: '10',
+                    sort: '0'
                     //status: 'draft'
                 },
                 pickerOptions1: {
@@ -316,26 +349,6 @@
                     progress: false
                 },
                 diaryContentEdit: {},
-                postForm: {
-                    //id: this.$route.params.num,
-                    id: this.$route.params.num,
-                    actorid:'',
-                    actor: '',
-                    title:'',
-                    type: '',
-                    video: '', // 视频
-                    pic1: '', // 图片
-                    pic2: '', // 图片
-                    pic3: '', // 图片
-                    pic4: '', // 图片
-                    pic5: '', // 图片
-                    pic6: '', // 图片
-                    pic7: '', // 图片
-                    pic8: '', // 图片
-                    pic9: '', // 图片
-                    dt: new Date(),
-                    status: 'draft'
-                },
                 diaryInfo: {
                     type: '',
                     video: '', // 视频
@@ -389,7 +402,6 @@
                     value: '5',
                     label: '5'
                 }],
-                disableActor: false,
                 disableTitle: false,
                 showButton: false,
                 showContentButton: false,
@@ -416,7 +428,7 @@
                     actor: [{ validator: validateRequire, trigger: 'change' }],
                     price: [{ validator: checkNum, trigger: 'blur' }],
                     words: [{ validator: validateRequire, trigger: 'blur' }],
-                    crowdfunding: [{ validator: checkNum, trigger: 'blur' }],
+                    //crowdfunding: [{ validator: checkNum, trigger: 'blur' }],
                     //video: [{ validator: validateRequire, trigger: 'blur' }],
                     //dt: [{ validator: validateRequire, trigger: 'blur' }]
                 },
@@ -436,6 +448,7 @@
                 showAudContent: false,
                 showCroContent: false,
                 showPri: true,
+                showThumb: true,
                 addBut: true,
                 saveBut: false,
                 showPayDefault: true
@@ -449,18 +462,16 @@
         },
         created() {
             let Query = {};
-            //this.getRemoteUserList(Query);
+            this.getRemoteUserList(Query);
             if(this.$route.params.id && this.$route.params.id != ':id'){
-                /*let listQuery={};
+                let listQuery={};
                 listQuery.id = this.$route.params.id;
-                listQuery.actorid = this.$route.params.actorid;
-                //this.fetchData(listQuery);
-                //this.showDiary = true;*/
+                //listQuery.actorid = this.$route.params.actorid;
+                this.fetchData(listQuery);
                 this.saveBut = true;
                 this.addBut = false;
                 this.showButton = false;
                 this.showContentButton = true;
-                this.disableActor = true;
                 this.disableTitle = true;
             }
             if(this.$route.params.num && this.$route.params.num == ':num'){
@@ -496,30 +507,46 @@
         },
         methods: {
             fetchData(listQuery) {
-                getDiary(listQuery).then(response => {
+                diaryinfo(listQuery).then(response => {
                     //this.postForm.actor.value = response.data.content.actorid;
-                    this.postForm.actor = { key:response.data.content[0].name, value:response.data.content[0].actorid };
-                    this.postForm.title = response.data.content[0].title;
-                    this.diarys = response.data.content;
-                    let num = 1;
-                    for (let i=0; i<response.data.content.length; i++) {
-                        if (response.data.content[i].type != -1) {
-                            this.showDiary = true;
-                        }
-                        this.diarys[i].index = num++;
+                    //this.postForm.actor = { key:response.data.content[0].name, value:response.data.content[0].actorid };
+                    this.postForm = response.data.content;
+                    this.postForm.price = parseInt(response.data.content.price);
+                    if (response.data.content.price == 0) {
+                        this.postForm.price = 5;
                     }
-                    /*this.postForm.type = response.data.content.type;
-                     this.postForm.pic1 = response.data.content.pic1;
-                     this.postForm.pic2 = response.data.content.pic2;
-                     this.postForm.pic3 = response.data.content.pic3;
-                     this.postForm.pic4 = response.data.content.pic4;
-                     this.postForm.pic5 = response.data.content.pic5;
-                     this.postForm.pic6 = response.data.content.pic6;
-                     this.postForm.pic7 = response.data.content.pic7;
-                     this.postForm.pic8 = response.data.content.pic8;
-                     this.postForm.pic9 = response.data.content.pic9;
-                     this.postForm.id = response.data.content.id;
-                     this.postForm.video = response.data.content.video;*/
+                    for ( let j=0; j<this.userLIstOptions.length; j++) {
+                        if (response.data.content.actorid == this.userLIstOptions[j].value) {
+                            this.postForm.actor = this.userLIstOptions[j];
+                        }
+                    }
+                    if (response.data.content.picture[0]) {
+                        this.postForm.pic1 = response.data.content.picture[0]
+                    }
+                    if (response.data.content.picture[1]) {
+                        this.postForm.pic2 = response.data.content.picture[1]
+                    }
+                    if (response.data.content.picture[2]) {
+                        this.postForm.pic3 = response.data.content.picture[2]
+                    }
+                    if (response.data.content.picture[3]) {
+                        this.postForm.pic4 = response.data.content.picture[3]
+                    }
+                    if (response.data.content.picture[4]) {
+                        this.postForm.pic5 = response.data.content.picture[4]
+                    }
+                    if (response.data.content.picture[5]) {
+                        this.postForm.pic6 = response.data.content.picture[5]
+                    }
+                    if (response.data.content.picture[6]) {
+                        this.postForm.pic7 = response.data.content.picture[6]
+                    }
+                    if (response.data.content.picture[7]) {
+                        this.postForm.pic8 = response.data.content.picture[7]
+                    }
+                    if (response.data.content.picture[8]) {
+                        this.postForm.pic9 = response.data.content.picture[8]
+                    }
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);
@@ -529,42 +556,115 @@
                 this.$refs.postForm.validate(valid => {
                     if (valid) {
                         //var diaryinfo;
-                        let date=this.postForm.dt;
+                        let date=new Date(this.postForm.configtime);
                         let year=date.getFullYear(),
                                 month=date.getMonth()+ 1,
                                 day=date.getDate(),
                                 hour=date.getHours(),
                                 minutes=date.getMinutes(),
                                 seconds=date.getSeconds();
-                        let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                        let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
                         let diaryinfo={
                             //actorid: parseInt(this.postForm.actorid),
-                            actorid: parseInt(this.postForm.actor.value),
-                            title: this.postForm.title,
-                            dt: dateString
+                            actorid: this.postForm.actor.value,
+                            reward: this.postForm.reward,
+                            words: this.postForm.words,
+                            configtime: dateString,
+                            sort: this.postForm.sort,
+                            picture: [],
+                            video: '0',
+                            vtype: '0',
+                            thumbnail: '0',
+                            audio: '0',
+                            avname: '0',
+                            avdesc: '0',
+                            help: '0',
+                            ispay: '0',
+                            price: '0'
                         }
                         //diaryinfo = this.postForm;
-                        this.loading = true;
-                        addmoments (diaryinfo).then(response => {
-                            if(response.data.code==200){
-                                this.$message({
-                                    message: '新增成功',
-                                    type: 'success'
-                                });
-                                this.$refs[formName].resetFields();
+                        if (this.postForm.type == 1) {
+                            let temp = [];
+                            if (this.postForm.pic1) {
+                                temp.push(this.postForm.pic1);
                             }
-                            /*if (!response.data.items) return;
-                             console.log(response)
-                             this.userLIstOptions = response.data.items.map(v => ({
-                             key: v.name
-                             }));*/
-                        });
-                        /*this.$notify({
-                         title: '成功',
-                         message: '发布成功',
-                         type: 'success',
-                         duration: 2000
-                         });*/
+                            if (this.postForm.pic2) {
+                                temp.push(this.postForm.pic2);
+                            }
+                            if (this.postForm.pic3) {
+                                temp.push(this.postForm.pic3);
+                            }
+                            if (this.postForm.pic4) {
+                                temp.push(this.postForm.pic4);
+                            }
+                            if (this.postForm.pic5) {
+                                temp.push(this.postForm.pic5);
+                            }
+                            if (this.postForm.pic6) {
+                                temp.push(this.postForm.pic6);
+                            }
+                            if (this.postForm.pic7) {
+                                temp.push(this.postForm.pic7);
+                            }
+                            if (this.postForm.pic8) {
+                                temp.push(this.postForm.pic8);
+                            }
+                            if (this.postForm.pic9) {
+                                temp.push(this.postForm.pic9);
+                            }
+                            diaryinfo.type = this.postForm.type;
+                            diaryinfo.picture = temp;
+                            diaryinfo.ispay = this.postForm.ispay;
+                            if (this.postForm.ispay == 0) {
+                                diaryinfo.price = this.postForm.price.toString();
+                            }
+                        } else if (this.postForm.type == 2) {
+                            diaryinfo.type = this.postForm.type;
+                            diaryinfo.video = this.postForm.video;
+                            diaryinfo.vtype = this.postForm.vtype;
+                            if (this.postForm.vtype == 1) {
+                                diaryinfo.thumbnail = this.postForm.thumbnail;
+                            }
+                        } else if (this.postForm.type == 3) {
+                            diaryinfo.type = this.postForm.type;
+                            diaryinfo.audio = this.postForm.audio;
+                            diaryinfo.avname = this.postForm.avname;
+                            diaryinfo.avdesc = this.postForm.avdesc;
+                            diaryinfo.thumbnail = this.postForm.soundImg;
+                        } else if (this.postForm.type == 4) {
+                            diaryinfo.type = this.postForm.type;
+                            diaryinfo.help = this.postForm.help;
+                            diaryinfo.thumbnail = this.postForm.crowd;
+                        } else {
+                            this.$message({
+                                message: '请选择类型',
+                                type: 'error'
+                            });
+                        }
+                        this.loading = true;
+                        if (this.$route.params.id && this.$route.params.id == ':id') {
+                            adddiary (diaryinfo).then(response => {
+                                if(response.data.code==200){
+                                    this.$message({
+                                        message: '新增成功',
+                                        type: 'success'
+                                    });
+                                    this.$refs[formName].resetFields();
+                                }
+                            });
+                        } else {
+                            diaryinfo.id = this.$route.params.id;
+                            updatediary (diaryinfo).then(response => {
+                                if(response.data.code==200){
+                                    this.$message({
+                                        message: '新增成功',
+                                        type: 'success'
+                                    });
+                                    this.$refs[formName].resetFields();
+                                }
+                            });
+                        }
                         this.postForm.status = 'published';
                         this.loading = false;
                     } else {
@@ -572,203 +672,6 @@
                         return false;
                     }
                 });
-            },
-            delDiary (id) {
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    let deleteitem={
-                        id: parseInt(id)
-                    };
-                    diarydelete(deleteitem).then(response => {
-                        //this.list = response.data.content;
-                        if(response.data.code==200){
-                            let listQuery={};
-                            listQuery.id = this.$route.params.num;
-                            listQuery.actorid = this.$route.params.actorid;
-                            this.fetchData(listQuery);
-                        }
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                });
-            },
-            addDiaryDialog () {
-                this.dialogDiaryContent = true;
-            },
-            editDiaryDialog (diary) {
-                this.diaryEdit = diary;
-                this.diaryContentEdit = diary;
-                this.diaryContentEdit.index = undefined;
-                this.diaryContentEdit.status = undefined;
-                this.diaryContentEdit.name = undefined;
-                this.diaryContentEdit.modify_time = undefined;
-                this.radioContentEdit = diary.type.toString();
-                this.dialogDiaryContentEdit = true;
-            },
-            addDiaryContent (formName) {
-                //this.$refs.postForm.validate(valid => {
-                //if (valid) {
-                //var diaryinfo;
-                let date=this.postForm.dt;
-                let year=date.getFullYear(),
-                        month=date.getMonth()+ 1,
-                        day=date.getDate(),
-                        hour=date.getHours(),
-                        minutes=date.getMinutes(),
-                        seconds=date.getSeconds();
-                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-                let diaryinfo={
-                    //actorid: parseInt(this.postForm.actorid),
-                    diaryid: parseInt(this.$route.params.num),
-                    actorid: parseInt(this.postForm.actor.value),
-                    title: this.postForm.title,
-                    words: this.diaryContent.words,
-                    type: parseInt(this.radioContent),
-                    pic1: this.diaryContent.pic1,
-                    pic2: this.diaryContent.pic2,
-                    pic3: this.diaryContent.pic3,
-                    pic4: this.diaryContent.pic4,
-                    pic5: this.diaryContent.pic5,
-                    pic6: this.diaryContent.pic6,
-                    pic7: this.diaryContent.pic7,
-                    pic8: this.diaryContent.pic8,
-                    pic9: this.diaryContent.pic9,
-                    video: this.diaryContent.video,
-                    //dt: dateString
-                    //day: this.diaryContent.day,
-                    time: this.diaryContent.time,
-                };
-                /*if(this.$route.params.num && this.$route.params.num != ':num'){
-                 diaryinfo.id=this.postForm.id;
-                 }*/
-                //diaryinfo = this.postForm;
-                this.loading = true;
-                diaryUpdate(diaryinfo).then(response => {
-                    if(response.data.code==200){
-                        this.$message({
-                            message: '新增成功',
-                            type: 'success'
-                        });
-                        let listQuery={};
-                        listQuery.id = this.$route.params.num;
-                        listQuery.actorid = this.$route.params.actorid;
-                        this.fetchData(listQuery);
-                    }
-                    /*if (!response.data.items) return;
-                     console.log(response)
-                     this.userLIstOptions = response.data.items.map(v => ({
-                     key: v.name
-                     }));*/
-                });
-                this.$refs[formName].resetFields();
-                /*this.$notify({
-                 title: '成功',
-                 message: '发布成功',
-                 type: 'success',
-                 duration: 2000
-                 });*/
-                //this.postForm.status = 'published';
-                this.loading = false;
-                this.dialogDiaryContent = false;
-                /*} else {
-                 console.log('error submit!!');
-                 return false;
-                 }
-                 });*/
-                /*let _this=this;
-                 let date=this.postForm.dt;
-                 let year=date.getFullYear(),
-                 month=date.getMonth()+ 1,
-                 day=date.getDate(),
-                 hour=date.getHours(),
-                 minutes=date.getMinutes(),
-                 seconds=date.getSeconds();
-                 let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-                 alert(this.postForm.id)
-                 if(!this.postForm.id){
-                 $.ajax({
-                 "url":"http://192.168.1.43:40000/?act=momentsupdate",
-                 "cache": false,
-                 "async": true,
-                 "type": "post",
-                 "dataType": "json",
-                 "contentType": "application/json; charset=utf-8",
-                 'data': '{"actorid":'+ parseInt(this.postForm.actorid) +', "title":"' +this.postForm.title+ '", "type":'+ parseInt(this.radio)+', "pic1":"'+ this.postForm.pic1+ '", "pic2":"'+ this.postForm.pic2+ '","pic3":"'+ this.postForm.pic3+ '","pic4":"'+ this.postForm.pic4+ '","pic5":"'+ this.postForm.pic5+ '","pic6":"'+ this.postForm.pic6+ '","pic7":"'+ this.postForm.pic7+ '","pic8":"'+ this.postForm.pic8+ '","pic9":"'+ this.postForm.pic9+ '","video":"'+ this.postForm.video+ '","dt":"'+ dateString+ '"}',
-                 success:function(data){
-                 if(data.code==200){
-                 _this.succ();
-                 }
-                 },
-                 error:function () {
-                 console.log('_请求失败_')
-                 }
-                 })
-                 } else {
-                 $.ajax({
-                 "url":"http://192.168.1.43:40000/?act=momentsupdate",
-                 "cache": false,
-                 "async": true,
-                 "type": "post",
-                 "dataType": "json",
-                 "contentType": "application/json; charset=utf-8",
-                 'data': '{"id":'+this.postForm.id+', "actorid":'+ parseInt(this.postForm.actorid) +', "title":"' +this.postForm.title+ '", "type":'+ parseInt(this.radio)+', "pic1":"'+ this.postForm.pic1+ '", "pic2":"'+ this.postForm.pic2+ '","pic3":"'+ this.postForm.pic3+ '","pic4":"'+ this.postForm.pic4+ '","pic5":"'+ this.postForm.pic5+ '","pic6":"'+ this.postForm.pic6+ '","pic7":"'+ this.postForm.pic7+ '","pic8":"'+ this.postForm.pic8+ '","pic9":"'+ this.postForm.pic9+ '","video":"'+ this.postForm.video+ '","dt":"'+ dateString+ '"}',
-                 success:function(data){
-                 if(data.code==200){
-                 _this.succ();
-                 }
-                 },
-                 error:function () {
-                 console.log('_请求失败_')
-                 }
-                 })
-                 }*/
-            },
-            editDiaryContent () {
-                this.loading = true;
-                diaryUpdate(this.diaryEdit).then(response => {
-                    if(response.data.code==200){
-                        this.$message({
-                            message: '修改成功',
-                            type: 'success'
-                        });
-                        let listQuery={};
-                        listQuery.id = this.$route.params.num;
-                        listQuery.actorid = this.$route.params.actorid;
-                        this.fetchData(listQuery);
-                    }
-                });
-                //this.$refs[formName].resetFields();
-                /*this.$notify({
-                 title: '成功',
-                 message: '发布成功',
-                 type: 'success',
-                 duration: 2000
-                 });*/
-                //this.postForm.status = 'published';
-                this.loading = false;
-                this.dialogDiaryContentEdit = false;
-            },
-            draftForm() {
-                if (this.postForm.actorid.length === 0 || this.postForm.title.length === 0) {
-                    this.$message({
-                        message: '请填写必要的标题和内容',
-                        type: 'warning'
-                    });
-                    return;
-                }
-                this.$message({
-                    message: '保存成功',
-                    type: 'success',
-                    showClose: true,
-                    duration: 1000
-                });
-                this.postForm.status = 'draft';
             },
             showVideo () {
                 if(!this.showVid){
@@ -844,6 +747,12 @@
             hidePrice () {
                 this.showPri = false;
             },
+            showThumbnail () {
+                this.showThumb = true;
+            },
+            hideThumbnail () {
+                this.showThumb = false;
+            },
             succ () {
                 this.$notify({
                     title: '成功',
@@ -858,7 +767,7 @@
             },
             getRemoteUserList(query) {
                 console.log("getRemoteUserList")
-                userSearch(query).then(response => {
+                actorList(query).then(response => {
                     console.log("getRemoteUserList")
                     if (!response.data.content) return;
                     console.log(response)

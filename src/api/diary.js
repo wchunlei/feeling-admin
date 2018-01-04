@@ -1,43 +1,52 @@
 import fetch from 'utils/fetch';
 
-export function addmoments(diaryinfo) {
+export function adddiary(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=addmoments',
+        url: '?act=adddiary',
         method: 'post',
         data
     });
 }
 
-export function diaryUpdate(diaryinfo) {
+export function updatediary(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=momentsupdate',
+        url: '?act=updatediary',
         method: 'post',
         data
     });
 }
 
-export function diaryList(query) {
+export function diarylist(query) {
     return fetch({
-        url: '?act=momentslistall',
+        url: '?act=diarylist',
         method: 'get',
         params: query
     });
 }
 
-export function getDiary(query) {
+export function diaryinfo(query) {
     return fetch({
-        url: '?act=momentsinfo',
+        url: '?act=diaryinfo',
         method: 'get',
         params: query
     });
 }
 
-export function diarydelete(diaryinfo) {
+export function deldiary(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=delmoments',
+        url: '?act=deldiary',
+        method: 'post',
+        data
+    });
+}
+
+export function sortdiary(storyinfo) {
+    const data = storyinfo;
+    return fetch({
+        url: '?act=sortdiary',
         method: 'post',
         data
     });

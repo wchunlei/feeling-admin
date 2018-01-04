@@ -26,7 +26,7 @@
                     <div style="margin-bottom: 0px;width: 180px;height: 240px; border: 1px dashed #d9d9d9;">
                         <Upload v-model="postForm.backimg" v-on:input="picInput"></Upload>
                     </div>
-                    <span style="font-size:12px;display:inline-block; margin-top: -40px">（注：请上传1:1，不小于10kb，jpg、png等格式的文件）</span>
+                    <span style="font-size:12px;display:inline-block; margin-top: -40px">（注：请上传3:4，不小于10kb，jpg、png等格式的文件）</span>
                     <!--<input type="file" @change="uploadfile(this)" />-->
                 </el-form-item>
 
@@ -290,6 +290,11 @@
              this.fetchData();
              }*/
         },
+        mounted () {
+            let home = {};
+            home.id = this.$route.params.id;
+            this.getDetail(home);
+        },
         watch : {
             "postForm.checkedActor.value" (val,oldval) {
                 scriptlist(this.listQuery).then(response => {
@@ -297,15 +302,14 @@
                     if (this.scriptData) {
                         this.scriptData = [];
                     }
+                    let temp = {};
                     for (let i=0; i<response.data.content.length; i++) {
                         if (val == response.data.content[i].actorid) {
-                            let temp = {};
                             temp.key = response.data.content[i].id;
                             temp.label = response.data.content[i].title;
                             this.scriptData.push(temp);
                         }
                     }
-                    this.listLoading = false;
                 })
             }
         },
@@ -319,7 +323,7 @@
             addHome () {
                 //let date= this.postForm.configtime;
                 //(month>=10?+month:"0"+month+"-"+day>=10? day :'0'+day)
-                let date= new Date(this.postForm.configtime)
+                let date= new Date(this.postForm.configtime);
                 let year=date.getFullYear(),
                         month=date.getMonth()+ 1,
                         day=date.getDate(),

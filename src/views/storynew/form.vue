@@ -444,6 +444,7 @@
         },
         mounted(){
             this.drawLine();
+            this.selectColor();
             /*var img = document.getElementById('image');
             var showBackColor = document.getElementById('showBackColor');
             RGBaster.colors(img, {
