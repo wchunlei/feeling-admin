@@ -1,5 +1,48 @@
 import fetch from 'utils/fetch';
 
+export function addmoments(diaryinfo) {
+    const data = diaryinfo;
+    return fetch({
+        url: '?act=addmoments',
+        method: 'post',
+        data
+    });
+}
+
+export function diaryUpdate(diaryinfo) {
+    const data = diaryinfo;
+    return fetch({
+        url: '?act=diaryUpdate',
+        method: 'post',
+        data
+    });
+}
+
+export function diarydelete(diaryinfo) {
+    const data = diaryinfo;
+    return fetch({
+        url: '?act=diarydelete',
+        method: 'post',
+        data
+    });
+}
+
+export function diaryList(query) {
+    return fetch({
+        url: '?act=diaryList',
+        method: 'get',
+        params: query
+    });
+}
+
+export function getDiary(query) {
+    return fetch({
+        url: '?act=getDiary',
+        method: 'get',
+        params: query
+    });
+}
+
 export function adddiary(diaryinfo) {
     const data = diaryinfo;
     return fetch({
