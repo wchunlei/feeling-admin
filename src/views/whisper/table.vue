@@ -30,7 +30,7 @@
             <!--<el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>-->
         </div>
 
-        <el-table :key='tableKey' :data="list1" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
+        <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
             <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
                 <template scope="scope">
@@ -39,10 +39,10 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="300px" align="center" label="问题" prop="question">
+            <el-table-column width="300px" align="center" label="问题" prop="title">
                 <template scope="scope">
                     <!--<span>{{scope.row.nature}}</span>-->
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/whisper/form/' + scope.row.id }">{{scope.row.question}}</router-link></span>
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/whisper/form/' + scope.row.id }">{{scope.row.title}}</router-link></span>
                 </template>
             </el-table-column>
 
@@ -68,9 +68,9 @@
               </template>
             </el-table-column>-->
 
-            <el-table-column min-width="150px" align="center" label="评论条数" prop="listen">
+            <el-table-column min-width="150px" align="center" label="评论条数" prop="commentTotal">
                 <template scope="scope">
-                    <span>{{scope.row.listen}}</span>
+                    <span>{{scope.row.commentTotal}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                 </template>
             </el-table-column>
@@ -81,11 +81,11 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="300px" align="center" label="置顶状态" prop="top">
+            <el-table-column width="150px" align="center" label="置顶状态" prop="type">
                 <template scope="scope">
                     <!--<span v-if="scope.row.gender==1">男</span>
                     <span v-if="scope.row.gender==2">女</span>-->
-                    <span>{{scope.row.top}}</span>
+                    <span>{{scope.row.type}}</span>
                 </template>
             </el-table-column>
 
@@ -96,9 +96,9 @@
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="150px" align="center" label="上架时间" prop="configTime">
+            <el-table-column min-width="300px" align="center" label="上架时间" prop="configtime">
                 <template scope="scope">
-                    <span>{{scope.row.configTime}}</span>
+                    <span>{{scope.row.configtime}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                 </template>
             </el-table-column>
@@ -107,7 +107,7 @@
                 <template scope="scope">
                     <!--<span>{{scope.row.sort}}</span>-->
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-                    <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="scope.row.disable" @change="changeSort(scope.row)">
+                    <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="disable" @change="changeSort(scope.row)">
                         <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </template>
@@ -116,9 +116,9 @@
             <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
                 <template scope="scope">
                     <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
-                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
-                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>
-                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, list1)" type="text" size="small">删除</el-button>
+                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">上架</el-button>
+                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">下架</el-button>
+                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, scope.row)" type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
 
@@ -212,12 +212,16 @@
 </template>
 
 <script type="text/ECMAScript-6">
-    import { actorList } from 'api/actor';
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';
     import { actorUpdate } from 'api/actor';
     import { actorstatus } from 'api/actor';
     import { actordel } from 'api/actor';
+    import { maidfmlist } from 'api/fm';
+    import { upmaidfm } from 'api/fm';
+    import { sortmaidfm } from 'api/fm';
+    import { delmaidfm } from 'api/fm';
+    import { actorList } from 'api/actor';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -239,43 +243,9 @@
             return {
                 isColor: true,
                 sort: '0',
-                list1: [{
-                    id: '1',
-                    name: 'test',
-                    question: '邻家大姐姐，善解人意，喜欢拍照、旅游',
-                    headSelect: '枫叶',
-                    listen: '贴心护士',
-                    price: '1小时30钻石',
-                    top: '周一 00:00-周二00:00；周三 15:30 至 周四15:30；周六 15:30 至 周日 15:30',
-                    status: '上架',
-                    configTime: '2017-12-2 00:00',
-                    sort: '默认',
-                    disable: true,
-                },{
-                    id: '1',
-                    name: 'test',
-                    question: '邻家大姐姐，善解人意，喜欢拍照、旅游',
-                    headSelect: '枫叶',
-                    listen: '贴心护士',
-                    price: '1小时30钻石',
-                    top: '周一 00:00-周二00:00；周三 15:30 至 周四15:30；周六 15:30 至 周日 15:30',
-                    status: '上架',
-                    configTime: '2017-12-2 00:00',
-                    sort: '默认',
-                    disable: true,
-                },{
-                    id: '1',
-                    name: 'test',
-                    question: '邻家大姐姐，善解人意，喜欢拍照、旅游',
-                    headSelect: '枫叶',
-                    listen: '贴心护士',
-                    price: '1小时30钻石',
-                    top: '周一 00:00-周二00:00；周三 15:30 至 周四15:30；周六 15:30 至 周日 15:30',
-                    status: '上架',
-                    configTime: '2017-12-2 00:00',
-                    sort: '默认',
-                    disable: true,
-                }],
+                list: [],
+                actorOptions: [],
+                disable: true,
                 nameOptions: [{
                     value: '1',
                     label: '佳佳'
@@ -361,6 +331,7 @@
             }
         },
         created() {
+            this.getActor();
             this.getList();
         },
         filters: {
@@ -408,6 +379,21 @@
              });
              });
              },*/
+            getActor () {
+                actorList(this.listQuery).then(response => {
+                    //console.log(response)
+                    /*this.actorOptions = response.data.content.map(v => ({
+                     key: v.name
+                     }));*/
+                    for (let i=0; i<response.data.content.length; i++) {
+                        //alert(response.data.content[i].id)
+                        let temp = {};
+                        temp.value = response.data.content[i].id;
+                        temp.label = response.data.content[i].name;
+                        this.actorOptions.push(temp);
+                    }
+                })
+            },
             deleteRow(index, rows) {
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                     confirmButtonText: '确定',
@@ -415,12 +401,12 @@
                     type: 'warning'
                 }).then(() => {
                     let deleteitem={
-                        id: parseInt(rows.id)
+                        id: rows.id
                     };
-                    rows.splice(index, 1);
-                    channelDelete(deleteitem).then(response => {
+                    delmaidfm(deleteitem).then(response => {
                         //this.list = response.data.content;
                         if(response.data.code==200){
+                            this.list.splice(index, 1);
                             this.getList();
                         }
                     });
@@ -435,7 +421,7 @@
                     });
                 });
             },
-            editRow (row, list1) {
+            editRow (row, list) {
                 let date = new Date();
                 let year=date.getFullYear(),
                         month=date.getMonth()+ 1,
@@ -443,28 +429,38 @@
                         hour=date.getHours(),
                         minutes=date.getMinutes();
                 //seconds=date.getSeconds();
-                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
+                //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
+                let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes);
+                let statusTemp = '';
+                if (row.status == '上架') {
+                    statusTemp = '1'
+                }
+                if (row.status == '下架') {
+                    statusTemp = '0'
+                }
                 if (row.status == '上架') {
                     this.$confirm('确定下架会将和该内容相关的内容均下架？', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        row.status = '下架';
-                        row.configTime = "未设置";
-                        let deleteitem={
-                            id: parseInt(rows.id)
+                        let upitem={
+                            id: row.id,
+                            status: statusTemp,
+                            configtime: dateString
                         };
-                        rows.splice(index, 1);
-                        channelDelete(deleteitem).then(response => {
+                        //row.splice(index, 1);
+                        upmaidfm(upitem).then(response => {
                             //this.list = response.data.content;
                             if(response.data.code==200){
-                                this.getList();
+                                row.status = '下架';
+                                row.configtime = "未设置";
+                                //this.getList();
+                                this.$message({
+                                    message: '操作成功',
+                                    type: 'success'
+                                });
                             }
-                        });
-                        this.$message({
-                            message: '操作成功',
-                            type: 'success'
                         });
                     }).catch(() => {
                         this.$message({
@@ -473,13 +469,28 @@
                         });
                     });
                 } else {
-                    row.status = '上架';
-                    row.configTime = dateString;
+                    let upitem={
+                        id: row.id,
+                        status: statusTemp,
+                        configtime: dateString
+                    };
+                    //row.splice(index, 1);
+                    upmaidfm(upitem).then(response => {
+                        //this.list = response.data.content;
+                        if(response.data.code==200){
+                            row.status = '上架';
+                            row.configtime = dateString;
+                            this.$message({
+                                message: '操作成功',
+                                type: 'success'
+                            });
+                        }
+                    });
                 }
-                row.disable = true;
+                this.disable = true;
             },
             handleSort (index, rows) {
-                rows.disable = false;
+                this.disable = false;
                 /*if (this.disable) {
                  this.disable = false;
                  } else {
@@ -492,19 +503,51 @@
                  }*/
             },
             changeSort (rows) {
-                rows.disable = true;
+                let sortitem={
+                    id: rows.id,
+                    sort: rows.sort
+                };
+                //row.splice(index, 1);
+                sortmaidfm(sortitem).then(response => {
+                    //this.list = response.data.content;
+                    if(response.data.code==200){
+                        this.disable = true;
+                        this.$message({
+                            message: '操作成功',
+                            type: 'success'
+                        });
+                    }
+                });
             },
             getList() {
                 this.listLoading = true;
-                actorList(this.listQuery).then(response => {
+                maidfmlist(this.listQuery).then(response => {
                     this.list = response.data.content;
+                    for (let i=0; i<response.data.content.length; i++) {
+                        this.list[i].commentTotal = response.data.content[i].comment.length;
+                    }
                     this.total = response.data.total;
                     for (let i=0; i<response.data.content.length; i++) {
-                        if (response.data.content[i].status == 'published') {
-                            this.list[i].status = '发布';
+                        for ( let j=0; j<this.actorOptions.length; j++) {
+                            if (response.data.content[i].actorid == this.actorOptions[j].value) {
+                                this.list[i].name = this.actorOptions[j].label;
+                            }
                         }
-                        if (response.data.content[i].status == 'draft') {
-                            this.list[i].status = '草稿';
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if(response.data.content[i].type == 0) {
+                            this.list[i].type = '不置顶'
+                        }
+                        if(response.data.content[i].type == 1) {
+                            this.list[i].type = '置顶'
+                        }
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if(response.data.content[i].status == 1) {
+                            this.list[i].status = '上架'
+                        }
+                        if(response.data.content[i].status == 0) {
+                            this.list[i].status = '下架'
                         }
                     }
                     this.listLoading = false;

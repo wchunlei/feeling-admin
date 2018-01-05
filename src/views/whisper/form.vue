@@ -8,7 +8,7 @@
         <div style="position: relative; left :100px;top: 20px;margin-bottom: 40px">
             <el-radio-group v-model="userInfo" @change="userTab">
                 <el-radio-button label="info">用户信息</el-radio-button>
-                <el-radio-button label="comment">用户评论</el-radio-button>
+                <el-radio-button label="comment">评论列表</el-radio-button>
             </el-radio-group>
         </div>
 
@@ -23,54 +23,71 @@
                     </multiselect>
                 </el-form-item>
 
-                <el-form-item label="问题:" label-width="100px" prop="question" style="margin-bottom: 40px" required>
-                    <el-input type="textarea" placeholder="最多输入15个字" style='width:280px;' v-model="postForm.question"  :maxlength="15" :rows="3"></el-input>
+                <el-form-item label="问题:" label-width="100px" prop="title" style="margin-bottom: 40px" required>
+                    <el-input type="textarea" placeholder="最多输入15个字" style='width:280px;' v-model="postForm.title"  :maxlength="15" :rows="3"></el-input>
                 </el-form-item>
 
-                <el-form-item label="回答:" label-width="100px" prop="answer" style="margin-bottom: 40px" required>
+                <el-form-item label="回答:" label-width="100px" prop="content" style="margin-bottom: 40px" required>
                     <div style="margin-bottom: 20px;">
-                        <Uploadaudio v-model="postForm.answer"></Uploadaudio>
+                        <Uploadaudio v-model="postForm.content"></Uploadaudio>
                         <span style="font-size:12px">（注：请mp3等音频格式的文件）</span>
                     </div>
                 </el-form-item>
 
-                <el-form-item label="置顶设置:" label-width="100px" prop="top" style="margin-bottom: 40px" required>
+                <el-form-item label="置顶设置:" label-width="100px" prop="type" style="margin-bottom: 40px" required>
                     <!--<el-select v-model="postForm.top" placeholder="请选择">
                         <el-option v-for="item in topOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>-->
                     <template>
-                        <span @click="showNotTop"><el-radio v-model="radioContent" label="0">不置顶</el-radio></span>
-                        <span @click="showTop"><el-radio v-model="radioContent" label="1">置顶</el-radio></span>
+                        <span @click="showNotTop"><el-radio v-model="postForm.type" label="0">不置顶</el-radio></span>
+                        <span @click="showTop"><el-radio v-model="postForm.type" label="1">置顶</el-radio></span>
                     </template>
                 </el-form-item>
 
-                <div v-show="showNoTop" style="display: inline-block;margin-bottom: 20px">
-                    <el-form-item label="偷听价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
-                        <el-input placeholder="请输入价格" style='width:190px;' v-model.number="postForm.price" :maxlength="10"></el-input>
-                        <span>钻石</span>
-                    </el-form-item>
-                    <el-form-item label="偷听排序:" label-width="100px" prop="listen" style="margin-bottom: 40px" required>
-                        <el-select v-model="postForm.listen" placeholder="请选择">
+                <el-form-item v-show="showYesTop" label="偷听图片:" label-width="100px" prop="picture" style="margin-bottom: 40px" required>
+                    <!--<div style="margin-bottom: 20px;">
+                        <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
+                        <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
+                    </div>-->
+                    <div style="margin-right: 20px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
+                        <Upload v-model="postForm.picture" v-on:input="picInput"></Upload>
+                    </div>
+                    <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
+                </el-form-item>
+
+                <div v-show="showNoTop" style="display: block;margin-bottom: 20px">
+                    <el-form-item label="偷听排序:" label-width="100px" prop="sort" style="margin-bottom: 40px" required>
+                        <el-select v-model="postForm.sort" placeholder="请选择">
                             <el-option v-for="item in listenOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
                         <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                     </el-form-item>
                 </div>
 
-                <el-form-item v-show="showYesTop" label="偷听图片:" label-width="100px" prop="backImg" style="margin-bottom: 40px" required>
-                    <!--<div style="margin-bottom: 20px;">
-                        <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
-                        <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
-                    </div>-->
-                    <div style="margin-right: 20px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                        <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
-                    </div>
-                    <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
+                <el-form-item label="收费设置:" label-width="100px" prop="ispay" style="margin-bottom: 40px" required>
+                    <span @click="showPrice"><el-radio v-model="postForm.ispay" label="1">收费</el-radio></span>
+                    <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="0">免费</el-radio></span>
                 </el-form-item>
 
-                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px" required>
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :picker-options="pickerOptions1"></el-date-picker>
+                <div v-show="showPri" style="display: block;margin-bottom: 20px">
+                    <el-form-item label="偷听价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
+                        <el-input placeholder="请输入价格" style='width:190px;' v-model.number="postForm.price" :maxlength="10"></el-input>
+                        <span>钻石</span>
+                    </el-form-item>
+                </div>
+
+                <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px" required>
+                    <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
+                </el-form-item>
+
+                <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px" required>
+                    <el-input type="textarea" placeholder="请输入评论" style='width:280px;' v-model="postForm.comment"  :maxlength="1000" :rows="3"></el-input>
+                    <span style="display: inline-block;color: red;font-size: 12px">(请以"#"符号为每条评论的分隔符)</span>
+                </el-form-item>
+
+                <el-form-item label="偷听人数:" label-width="100px" prop="people" style="margin-bottom: 40px" required>
+                    <el-input type="text" placeholder="最多输入数字" style='width:190px;' v-model="postForm.people"></el-input>
                 </el-form-item>
 
                 <!--<el-form-item label="评论内容:" label-width="100px" prop="comments" required>
@@ -90,27 +107,27 @@
                 </el-form-item>-->
 
                 <el-form-item label-width="100px">
-                    <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增女仆FM</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="addFM('postForm')" size="large">新增女仆FM</el-button>
                     <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存女仆FM</el-button>
                 </el-form-item>
 
             </div>
         </el-form>
 
-        <el-form v-show="commentForm" class="form-container" :model="postFormComment" ref="postFormComment" :rules="postFormComment">
+        <!--<el-form v-show="commentForm" class="form-container" :model="postFormComment" ref="postFormComment" :rules="postFormComment">
             <div class="createPost-main-container">
                 <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px" required>
                     <el-input type="textarea" placeholder="请输入评论" style='width:280px;' v-model="postFormComment.comment"  :maxlength="1000" :rows="3"></el-input>
                     <span style="display: inline-block;color: red;font-size: 12px">(请以"#"符号为每条评论的分隔符)</span>
                 </el-form-item>
                 <el-form-item label-width="100px">
-                    <el-button type="primary" @click.prevent="add" size="large">新增评论</el-button>
+                    <el-button type="primary" @click.prevent="addComment" size="large">新增评论</el-button>
                 </el-form-item>
             </div>
-        </el-form>
+        </el-form>-->
 
-        <div style="margin: 0 100px">
-            <el-table :key='tableKey' :data="list1" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
+        <div v-show="commentForm" style="margin: 0 100px">
+            <el-table :data="list" border fithighlight-current-row style="width: 100%">
 
                 <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
                     <template scope="scope">
@@ -134,9 +151,9 @@
                         <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                     </template>
                 </el-table-column>
-                <el-table-column min-width="300px" align="center" label="发布时间" prop="publishTime">
+                <el-table-column min-width="300px" align="center" label="发布时间" prop="configtime">
                     <template scope="scope">
-                        <span>{{scope.row.publishTime}}</span>
+                        <span>{{scope.row.configtime}}</span>
                         <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                     </template>
                 </el-table-column>
@@ -145,7 +162,7 @@
                         <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">置顶</el-button>
                         <!--<el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
                         <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>-->
-                        <el-button @click.native.prevent="deleteRow(scope.$index, list1)" type="text" size="small">删除</el-button>
+                        <el-button @click.native.prevent="deleteRow(scope.$index, list)" type="text" size="small">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -163,15 +180,9 @@
     import { userSearch } from 'api/story';
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
-    import { getArticle } from 'api/article';
-    import { actorUpdate } from 'api/actor';
-    import { actorListAll } from 'api/actor';
-    import { addPhotos } from 'api/actor';
-    import { delPhotos } from 'api/actor';
-    import { addPhoto } from 'api/actor';
-    import { thumbnaillist } from 'api/actor';
-    import { addMvs } from 'api/actor';
-    import { delMv } from 'api/actor';
+    import { addmaidfm } from 'api/fm';
+    import { maidfminfo } from 'api/fm';
+    import { actorList } from 'api/actor';
 
     export default {
         name: 'articleDetail',
@@ -231,12 +242,7 @@
                 }
             };
             return {
-                list1: [{
-                    id: 1,
-                    content: '邻家大姐姐，善解人意，喜欢拍照',
-                    publish: '运营',
-                    publishTime: '2017-12-2 00:00'
-                }],
+                list: [],
                 phopoid: '',
                 watcher: false,
                 listQuery: {},
@@ -254,20 +260,20 @@
                 userInfo: 'info',
                 infoForm: true,
                 commentForm: false,
+                showPri: true,
                 postForm: {
                     actor: '',
-                    question: '',
-                    answer: '',
-                    top: '',
-                    backImg: '',
-                    configTime: new Date(),
-                    listen: '默认',
+                    title: '',
+                    content: '',
+                    type: '0',
+                    ispay: '1',
+                    picture: '',
+                    configtime: new Date(),
+                    sort: '0',
                     price: 5,
-                    comments: [{
-                        value: ''
-                    }],
+                    comment: '',
+                    people: ''
                     //id: '',
-                    status: 'published',
                 },
                 postFormComment : {
                     comment: '',
@@ -388,13 +394,10 @@
             let Query = {};
             this.getRemoteUserList(Query);
             if(this.$route.params.id && this.$route.params.id != ':id') {
-                /*this.listQuery.actorid = parseInt(this.$route.params.actor);
-                this.getDetail(this.listQuery);*/
                 this.saveBut = true;
                 this.addBut = false;
-                /*this.photoData.id = parseInt(this.$route.params.actor);
-                this.mvData.id = parseInt(this.$route.params.actor);
-                this.fetchSuccess = false;*/
+                this.listQuery.id = this.$route.params.id;
+                this.getDetail(this.listQuery);
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -413,6 +416,83 @@
             }
         },
         methods: {
+            getDetail () {
+                maidfminfo (this.listQuery).then(response => {
+                    let logicpicTemp = JSON.stringify(response.data.content.logicpic);
+                    this.postForm = response.data.content;
+                    let temp = [];
+                    for (let i=0; i<response.data.content.comment.length; i++) {
+                        temp.push(response.data.content.comment[i].content)
+                    }
+                    this.postForm.comment = temp.join('#');
+                    for ( let j=0; j<this.userLIstOptions.length; j++) {
+                        if (response.data.content.actorid == this.userLIstOptions[j].value) {
+                            this.postForm.actor = this.userLIstOptions[j];
+                        }
+                    }
+                    //let tempobj =
+                    console.log(new Array(response.data.content.comment))
+                    for (let i=0; i<response.data.content.comment.length; i++) {
+                        this.list[i].id = response.data.content.comment[i].id;
+                    }
+                }).catch(err => {
+                    this.fetchSuccess = false;
+                    console.log(err);
+                });
+            },
+            addFM (formName) {
+                /*this.$refs.postForm.validate(valid => {
+                    if (valid) {*/
+                        this.loading = true;
+                        let date=new Date(this.postForm.configtime);
+                        let year=date.getFullYear(),
+                                month=date.getMonth()+ 1,
+                                day=date.getDate(),
+                                hour=date.getHours(),
+                                minutes=date.getMinutes(),
+                                seconds=date.getSeconds();
+                        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                        let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                        let fminfo={
+                            //actorid: parseInt(this.postForm.actorid),
+                            actorid: this.postForm.actor.value,
+                            title: this.postForm.title,
+                            content: this.postForm.content,
+                            ispay: this.postForm.ispay,
+                            type: this.postForm.type,
+                            picture: '0',
+                            price: this.postForm.price.toString(),
+                            sort: this.postForm.sort,
+                            configtime: dateString,
+                            comment: this.postForm.comment.split('#'),
+                            people: this.postForm.people
+                        }
+                        if (this.postForm.type == 1) {
+                            fminfo.picture = this.postForm.picture
+                        }
+                        addmaidfm(fminfo).then(response => {
+                            if(response.data.code == 200) {
+                                this.$message({
+                                    message: '发布成功',
+                                    type: 'success'
+                                });
+                                this.$refs[formName].resetFields();
+                                this.postForm.status = 'published';
+                            }
+                        });
+                        this.loading = false;
+                    /*} else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });*/
+            },
+            showPrice () {
+                this.showPri = true;
+            },
+            hidePrice () {
+                this.showPri = false;
+            },
             userTab () {
                 if (this.userInfo == "info") {
                     this.infoForm = true;
@@ -817,7 +897,7 @@
                 });
             },
             getRemoteUserList(query) {
-                userSearch(query).then(response => {
+                actorList(query).then(response => {
                     console.log("getRemoteUserList")
                     if (!response.data.content) return;
                     console.log(response)

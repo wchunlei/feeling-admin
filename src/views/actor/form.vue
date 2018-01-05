@@ -1063,7 +1063,7 @@
         alert(data)
       },
       addWork () {
-        if (!this.postForm.worktimes[0].time) {
+        /*if (!this.postForm.worktimes[0].time) {
           this.postForm.worktimes.push({
             time: '',
             value: '',
@@ -1079,8 +1079,14 @@
             value1: ''
           });
           this.postForm.worktimes = temp;
-        }
-
+        }*/
+        alert(this.postForm.worktimes.length)
+        this.$set(this.postForm.worktimes,this.postForm.worktimes.length,{
+          time: '',
+          value: '',
+          time1: '',
+          value1: ''
+        })
         /*this.$nextTick(() => {
           this.postForm.worktimes = this.postForm.worktimes;
         });*/

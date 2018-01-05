@@ -261,43 +261,6 @@
                 disable: true,
                 sort: '0',
                 list: [],
-                /*list1: [{
-                    id: '1',
-                    title: '佳佳洗衣服',
-                    name: 'test',
-                    stage: '1',
-                    storyPrice: '枫叶',
-                    optionPrice: '贴心护士',
-                    configStatus: '配置成功',
-                    status: '上架',
-                    configTime: '2017-12-2 00:00',
-                    sort: '默认',
-                    disable: true,
-                },{
-                    id: '2',
-                    title: '佳佳洗衣服',
-                    name: 'test',
-                    stage: '2',
-                    storyPrice: '枫叶',
-                    optionPrice: '贴心护士',
-                    configStatus: '配置成功',
-                    status: '上架',
-                    configTime: '2017-12-2 00:00',
-                    sort: '默认',
-                    disable: true,
-                },{
-                    id: '1',
-                    title: '佳佳洗衣服',
-                    name: 'test',
-                    stage: '3',
-                    storyPrice: '枫叶',
-                    optionPrice: '贴心护士',
-                    configStatus: '配置成功',
-                    status: '上架',
-                    configTime: '2017-12-2 00:00',
-                    sort: '默认',
-                    disable: true,
-                }],*/
                 privateOptions: [{
                     value: '0',
                     label: '默认'
@@ -528,7 +491,7 @@
                             if(response.data.code==200){
                                 row.status = '下架';
                                 row.configtime = "未设置";
-                                this.getList();
+                                //this.getList();
                                 this.$message({
                                     message: '操作成功',
                                     type: 'success'

@@ -511,7 +511,7 @@
                             if(response.data.code==200){
                                 row.status = '下架';
                                 row.configtime = "未设置";
-                                this.getList();
+                                //this.getList();
                                 this.$message({
                                     message: '操作成功',
                                     type: 'success'

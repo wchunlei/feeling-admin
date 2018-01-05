@@ -285,11 +285,11 @@
                     label: '众筹'
                 }],
                 statusOptions: [{
-                    value: '0',
-                    label: '上架'
-                }, {
                     value: '1',
-                    label: '下架'
+                    label: '未发布'
+                }, {
+                    value: '0',
+                    label: '已发布'
                 }, {
                     value: '',
                     label: '全部'
@@ -470,6 +470,14 @@
                         }
                         if(response.data.content[i].type == 4) {
                             this.list[i].type = '众筹'
+                        }
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if(response.data.content[i].status == 1) {
+                            this.list[i].status = '未发布'
+                        }
+                        if(response.data.content[i].status == 0) {
+                            this.list[i].status = '已发布'
                         }
                     }
                 })
