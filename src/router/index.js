@@ -97,11 +97,15 @@ const homeTable = _import('home/table');
 const spaceForm = _import('space/form');
 const spaceTable = _import('space/table');
 
-/* whisper 动态管理 */
+/* whisper 问答管理 */
 const whisperForm = _import('whisper/form');
 const whisperTable = _import('whisper/table');
 
-/* banner 动态管理 */
+/* fm 管理 */
+const fmForm = _import('fm/form');
+const fmTable = _import('fm/table');
+
+/* banner banner管理 */
 const bannerForm = _import('banner/form');
 const bannerTable = _import('banner/table');
 
@@ -261,11 +265,22 @@ export const asyncRouterMap = [
     path: '/whisper',
     component: Layout,
     redirect: '/whisper/index',
-    name: '女仆FM管理',
+    name: '问答管理',
     icon: 'zujian',
     children: [
-      { path: 'table', component: whisperTable, name: '女仆FM列表' },
-      { path: 'form/:id', component: whisperForm, name: '新增女仆FM' },
+      { path: 'table', component: whisperTable, name: '问答列表' },
+      { path: 'form/:id', component: whisperForm, name: '新增问答' },
+    ]
+  },
+  {
+    path: '/fm',
+    component: Layout,
+    redirect: '/fm/index',
+    name: '女仆FM',
+    icon: 'zujian',
+    children: [
+      { path: 'table', component: fmTable, name: 'FM列表'},
+      { path: 'form/:id', component: fmForm, name: '问答' },
     ]
   },
   {

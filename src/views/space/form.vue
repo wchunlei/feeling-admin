@@ -31,15 +31,21 @@
                     <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
                         <!--<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>-->
                         <Upload v-model="postForm.pic1" v-on:input="picInput"></Upload>
+                        <img v-show="showMon1" src="../../../gifs/money.png" class="icon_style" @click="payIcon1" />
+                        <img v-show="showMonPay1" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon1" />
                     </div>
                     <el-form-item label-width="90px" prop="pic2">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic2" v-on:input="picInput"></Upload>
+                            <img v-show="showMon2" src="../../../gifs/money.png" class="icon_style" @click="payIcon2" />
+                            <img v-show="showMonPay2" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon2" />
                         </div>
                     </el-form-item>
                     <el-form-item prop="pic3">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic3" v-on:input="picInput"></Upload>
+                            <img v-show="showMon3" src="../../../gifs/money.png" class="icon_style" @click="payIcon3" />
+                            <img v-show="showMonPay3" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon3" />
                         </div>
                     </el-form-item>
                 </el-form-item>
@@ -47,30 +53,42 @@
                 <el-form-item class="uplo" label-width="110px" prop="pic4">
                     <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
                         <Upload v-model="postForm.pic4" v-on:input="picInput"></Upload>
+                        <img v-show="showMon4" src="../../../gifs/money.png" class="icon_style" @click="payIcon4" />
+                        <img v-show="showMonPay4" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon4" />
                     </div>
                     <el-form-item prop="pic5">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic5" v-on:input="picInput"></Upload>
+                            <img v-show="showMon5" src="../../../gifs/money.png" class="icon_style" @click="payIcon5" />
+                            <img v-show="showMonPay5" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon5" />
                         </div>
                     </el-form-item>
                     <el-form-item prop="pic6">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic6" v-on:input="picInput"></Upload>
+                            <img v-show="showMon6" src="../../../gifs/money.png" class="icon_style" @click="payIcon6" />
+                            <img v-show="showMonPay6" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon6" />
                         </div>
                     </el-form-item>
                 </el-form-item>
                 <el-form-item class="uplo" label-width="110px" prop="pic7">
                     <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
                         <Upload v-model="postForm.pic7" v-on:input="picInput"></Upload>
+                        <img v-show="showMon7" src="../../../gifs/money.png" class="icon_style" @click="payIcon7" />
+                        <img v-show="showMonPay7" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon7" />
                     </div>
                     <el-form-item prop="pic8">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic8" v-on:input="picInput"></Upload>
+                            <img v-show="showMon8" src="../../../gifs/money.png" class="icon_style" @click="payIcon8" />
+                            <img v-show="showMonPay8" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon8" />
                         </div>
                     </el-form-item>
                     <el-form-item prop="pic9">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic9" v-on:input="picInput"></Upload>
+                            <img v-show="showMon9" src="../../../gifs/money.png" class="icon_style" @click="payIcon9" />
+                            <img v-show="showMonPay9" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon9" />
                         </div>
                     </el-form-item>
                 </el-form-item>
@@ -451,7 +469,25 @@
                 showThumb: true,
                 addBut: true,
                 saveBut: false,
-                showPayDefault: true
+                showPayDefault: true,
+                showMon1: true,
+                showMonPay1: false,
+                showMon2: true,
+                showMonPay2: false,
+                showMon3: true,
+                showMonPay3: false,
+                showMon4: true,
+                showMonPay4: false,
+                showMon5: true,
+                showMonPay5: false,
+                showMon6: true,
+                showMonPay6: false,
+                showMon7: true,
+                showMonPay7: false,
+                showMon8: true,
+                showMonPay8: false,
+                showMon9: true,
+                showMonPay9: false,
             }
         },
         computed: {
@@ -765,6 +801,87 @@
                     this.watcher = data;
                 }
             },
+            payIcon1 () {
+                if (this.showMon1) {
+                    this.showMon1 = false;
+                    this.showMonPay1 = true;
+                } else {
+                    this.showMon1 = true;
+                    this.showMonPay1 = false;
+                }
+            },
+            payIcon2 () {
+                if (this.showMon2) {
+                    this.showMon2 = false;
+                    this.showMonPay2 = true;
+                } else {
+                    this.showMon2 = true;
+                    this.showMonPay2 = false;
+                }
+            },
+            payIcon3 () {
+                if (this.showMon3) {
+                    this.showMon3 = false;
+                    this.showMonPay3 = true;
+                } else {
+                    this.showMon3 = true;
+                    this.showMonPay3 = false;
+                }
+            },
+            payIcon4 () {
+                if (this.showMon4) {
+                    this.showMon4 = false;
+                    this.showMonPay4 = true;
+                } else {
+                    this.showMon4 = true;
+                    this.showMonPay4 = false;
+                }
+            },
+            payIcon5 () {
+                if (this.showMon5) {
+                    this.showMon5 = false;
+                    this.showMonPay5 = true;
+                } else {
+                    this.showMon5 = true;
+                    this.showMonPay5 = false;
+                }
+            },
+            payIcon6 () {
+                if (this.showMon6) {
+                    this.showMon6 = false;
+                    this.showMonPay6 = true;
+                } else {
+                    this.showMon6 = true;
+                    this.showMonPay6 = false;
+                }
+            },
+            payIcon7 () {
+                if (this.showMon7) {
+                    this.showMon7 = false;
+                    this.showMonPay7 = true;
+                } else {
+                    this.showMon7 = true;
+                    this.showMonPay7 = false;
+                }
+            },
+            payIcon8 () {
+                if (this.showMon8) {
+                    this.showMon8 = false;
+                    this.showMonPay8 = true;
+                } else {
+                    this.showMon8 = true;
+                    this.showMonPay8 = false;
+                }
+            },
+            payIcon9 () {
+                if (this.showMon9) {
+                    this.showMon9 = false;
+                    this.showMonPay9 = true;
+                } else {
+                    this.showMon9 = true;
+                    this.showMonPay9 = false;
+                }
+            },
             getRemoteUserList(query) {
                 console.log("getRemoteUserList")
                 actorList(query).then(response => {
@@ -849,6 +966,22 @@
         width: 180px;
         height: 180px;
         border: 1px dashed #d9d9d9;
+    }
+    .icon_style {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        position: relative;
+        left: 150px;
+        top: -68px;
+    }
+    .icon_style_pay {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        position: relative;
+        left: 150px;
+        top: -68px;
     }
 </style>
 

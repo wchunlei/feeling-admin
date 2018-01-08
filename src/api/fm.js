@@ -9,10 +9,10 @@ export function addmaidfm(diaryinfo) {
     });
 }
 
-export function diaryUpdate(diaryinfo) {
+export function updatemaidfm(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=diaryUpdate',
+        url: '?act=updatemaidfm',
         method: 'post',
         data
     });
