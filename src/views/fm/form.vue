@@ -5,7 +5,7 @@
             <el-tab-pane label="用户管理" name="userInfo">用户管理</el-tab-pane>
             <el-tab-pane label="配置管理" name="comment">配置管理</el-tab-pane>
         </el-tabs>-->
-        <div style="position: relative; left :100px;top: 20px;margin-bottom: 40px">
+        <div style="margin: 20px 0 20px 100px">
             <el-radio-group v-model="userInfo" @change="userTab">
                 <el-radio-button label="info">用户信息</el-radio-button>
                 <el-radio-button label="comment">评论列表</el-radio-button>
@@ -23,28 +23,22 @@
                     </multiselect>
                 </el-form-item>
 
-                <el-form-item label="问题:" label-width="100px" prop="title" style="margin-bottom: 40px" required>
-                    <el-input type="textarea" placeholder="最多输入15个字" style='width:280px;' v-model="postForm.title"  :maxlength="15" :rows="3"></el-input>
-                </el-form-item>
-
-                <el-form-item label="回答:" label-width="100px" prop="content" style="margin-bottom: 40px" required>
+                <el-form-item label="音频:" label-width="100px" prop="content" style="margin-bottom: 40px" required>
                     <div style="margin-bottom: 20px;">
                         <Uploadaudio v-model="postForm.content"></Uploadaudio>
                         <span style="font-size:12px">（注：请mp3等音频格式的文件）</span>
                     </div>
                 </el-form-item>
 
-                <el-form-item label="置顶设置:" label-width="100px" prop="type" style="margin-bottom: 40px" required>
-                    <!--<el-select v-model="postForm.top" placeholder="请选择">
-                        <el-option v-for="item in topOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>-->
-                    <template>
-                        <span @click="showNotTop"><el-radio v-model="postForm.type" label="0">不置顶</el-radio></span>
-                        <span @click="showTop"><el-radio v-model="postForm.type" label="1">置顶</el-radio></span>
-                    </template>
+                <el-form-item label="音频标题:" label-width="100px" prop="avname" required>
+                    <el-input v-model="postForm.avname" style="width:150px" placeholder="最多输入10个字"></el-input>
                 </el-form-item>
 
-                <el-form-item v-show="showYesTop" label="偷听图片:" label-width="100px" prop="picture" style="margin-bottom: 40px" required>
+                <el-form-item label="音频描述:" label-width="100px" prop="avdesc" required>
+                    <el-input v-model="postForm.avdesc" style="width:300px" placeholder="最多输入20个字"></el-input>
+                </el-form-item>
+
+                <el-form-item label="音频图片:" label-width="100px" prop="picture" style="margin-bottom: 40px" required>
                     <!--<div style="margin-bottom: 20px;">
                         <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
                         <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
@@ -55,56 +49,24 @@
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
 
-                <div v-show="showNoTop" style="display: block;margin-bottom: 20px">
-                    <el-form-item label="偷听排序:" label-width="100px" prop="sort" style="margin-bottom: 40px" required>
-                        <el-select v-model="postForm.sort" placeholder="请选择">
-                            <el-option v-for="item in listenOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
-                        <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
-                    </el-form-item>
-                </div>
-
-                <el-form-item label="收费设置:" label-width="100px" prop="ispay" style="margin-bottom: 40px" required>
-                    <span @click="showPrice"><el-radio v-model="postForm.ispay" label="1">收费</el-radio></span>
-                    <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="0">免费</el-radio></span>
+                <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px" required>
+                    <el-input type="textarea" placeholder="请输入评论" style='width:280px;' v-model="postForm.comment"  :maxlength="1000" :rows="3"></el-input>
+                    <span style="display: inline-block;color: red;font-size: 12px">(请以"#"符号为每条评论的分隔符)</span>
                 </el-form-item>
-
-                <div v-show="showPri" style="display: block;margin-bottom: 20px">
-                    <el-form-item label="偷听价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
-                        <el-input placeholder="请输入价格" style='width:190px;' v-model.number="postForm.price" :maxlength="10"></el-input>
-                        <span>钻石</span>
-                    </el-form-item>
-                </div>
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px" required>
                     <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px" required>
-                    <el-input type="textarea" placeholder="请输入评论" style='width:280px;' v-model="postForm.comment"  :maxlength="1000" :rows="3"></el-input>
-                    <span style="display: inline-block;color: red;font-size: 12px">(请以"#"符号为每条评论的分隔符)</span>
-                </el-form-item>
-
-                <el-form-item label="偷听人数:" label-width="100px" prop="people" style="margin-bottom: 40px" required>
-                    <el-input type="text" placeholder="最多输入数字" style='width:190px;' v-model="postForm.people"></el-input>
-                </el-form-item>
-
-                <!--<el-form-item label="评论内容:" label-width="100px" prop="comments" required>
-
-                    <div style="margin-bottom: 40px">
-                        <el-form-item label-width="100px" prop="commentOne">
-                            <el-input placeholder="最多输入20个字" style='width:220px;' v-model="postForm.commentOne" :maxlength="20"></el-input>
-                            <el-button @click.prevent="addWork">新增评论</el-button>
-                        </el-form-item>
-                    </div>
-                    <div v-for="comment in postForm.comments" style="margin-bottom: 40px">
-                        &lt;!&ndash;<el-date-picker v-model="workTime.value" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>&ndash;&gt;
-                        <el-input placeholder="最多输入20个字" style='width:220px;' v-model="comment.value" :maxlength="20"></el-input>
-                        &lt;!&ndash;<el-button @click.prevent="addWork">新增评论</el-button>&ndash;&gt;
-                        <el-button @click.prevent="removeWork(comment)">删除</el-button>
-                    </div>
-                </el-form-item>-->
+                <div style="display: block;margin-bottom: 20px">
+                    <el-form-item label="首页排序:" label-width="100px" prop="sort" style="margin-bottom: 40px" required>
+                        <el-select v-model="postForm.sort" placeholder="请选择">
+                            <el-option v-for="item in listenOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                        <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
+                    </el-form-item>
+                </div>
 
                 <el-form-item label-width="100px">
                     <el-button v-show="addBut" type="primary" @click.prevent="addFM('postForm')" size="large">新增女仆FM</el-button>
@@ -266,6 +228,8 @@
                 postForm: {
                     actor: '',
                     title: '',
+                    avname: '',
+                    avdesc: '',
                     content: '',
                     type: '0',
                     ispay: '1',

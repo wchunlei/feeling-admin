@@ -187,6 +187,27 @@
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
 
+                <el-form-item v-show="showAudContent" label="收费设置:" label-width="110px" prop="ispay" style="margin-bottom: 20px" required>
+                    <span @click="showPrice"><el-radio v-model="postForm.ispay" label="0">收费</el-radio></span>
+                    <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="1">免费</el-radio></span>
+                </el-form-item>
+                <div v-show="showPri" style="display: inline-block;margin-bottom: 20px">
+                    <!--<el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px" required>
+                        &lt;!&ndash;<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                        <div style="margin: 15px 0;"></div>
+                        <el-checkbox-group v-model="postForm.selectPic" @change="handleCheckedCitiesChange">
+                            <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
+                        </el-checkbox-group>&ndash;&gt;
+                        <el-checkbox-group v-model="postForm.selectPic">
+                            <el-checkbox v-for="pic in selectPics" :label="pic" :key="pic">{{pic}}</el-checkbox>
+                        </el-checkbox-group>
+                    </el-form-item>-->
+                    <el-form-item v-show="showAudContent" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 40px" required>
+                        <el-input v-model.number="postForm.price" style="width:150px" placeholder="请输入整数金额"></el-input>
+                        <span>钻石 （注：目前收费功能支持最后一张收费，若选择收费，则上传的最后一张图片自动变为模糊收费状态）</span>
+                    </el-form-item>
+                </div>
+
                 <el-form-item v-show="showCroContent" label-width="110px" prop="crowd">
                     <!--<div style="display: inline-block;margin-top: -160px">
                         <Uploadimg v-model="diaryContent.crowd"></Uploadimg>

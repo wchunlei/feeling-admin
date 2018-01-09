@@ -290,11 +290,11 @@
              this.fetchData();
              }*/
         },
-        mounted () {
+        /*mounted () {
             let home = {};
             home.id = this.$route.params.id;
             this.getDetail(home);
-        },
+        },*/
         watch : {
             "postForm.checkedActor.value" (val,oldval) {
                 scriptlist(this.listQuery).then(response => {

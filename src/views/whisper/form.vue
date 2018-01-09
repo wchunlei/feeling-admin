@@ -5,7 +5,7 @@
             <el-tab-pane label="用户管理" name="userInfo">用户管理</el-tab-pane>
             <el-tab-pane label="配置管理" name="comment">配置管理</el-tab-pane>
         </el-tabs>-->
-        <div style="position: relative; left :100px;top: 20px;margin-bottom: 40px">
+        <div style="margin: 20px 0 20px 100px">
             <el-radio-group v-model="userInfo" @change="userTab">
                 <el-radio-button label="info">用户信息</el-radio-button>
                 <el-radio-button label="comment">评论列表</el-radio-button>
