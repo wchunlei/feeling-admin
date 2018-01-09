@@ -302,8 +302,8 @@
                     if (this.scriptData) {
                         this.scriptData = [];
                     }
-                    let temp = {};
                     for (let i=0; i<response.data.content.length; i++) {
+                        let temp = {};
                         if (val == response.data.content[i].actorid) {
                             temp.key = response.data.content[i].id;
                             temp.label = response.data.content[i].title;

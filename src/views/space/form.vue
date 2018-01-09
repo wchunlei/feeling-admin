@@ -27,76 +27,93 @@
                     </template>-->
                 </el-form-item>
 
-                <el-form-item class="uplo" label-width="110px" prop="pic1">
-                    <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                        <!--<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>-->
-                        <Upload v-model="postForm.pic1" v-on:input="picInput"></Upload>
-                        <img v-show="showMon1" src="../../../gifs/money.png" class="icon_style" @click="payIcon1" />
-                        <img v-show="showMonPay1" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon1" />
-                    </div>
-                    <el-form-item label-width="90px" prop="pic2">
+                <div>
+                    <el-form-item class="uplo" label-width="110px" prop="pic1">
+                        <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
+                            <!--<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>-->
+                            <Upload v-model="postForm.pic1" v-on:input="picInput"></Upload>
+                            <img v-show="showMon1" src="../../../gifs/money.png" class="icon_style" @click="payIcon1" />
+                            <img v-show="showMonPay1" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon1" />
+                            <div class="clear"></div>
+                        </div>
+                    </el-form-item>
+                    <el-form-item class="uplo" label-width="110px" prop="pic2">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic2" v-on:input="picInput"></Upload>
                             <img v-show="showMon2" src="../../../gifs/money.png" class="icon_style" @click="payIcon2" />
                             <img v-show="showMonPay2" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon2" />
+                            <div class="clear"></div>
                         </div>
                     </el-form-item>
-                    <el-form-item prop="pic3">
+                    <el-form-item class="uplo" label-width="110px" prop="pic3">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic3" v-on:input="picInput"></Upload>
                             <img v-show="showMon3" src="../../../gifs/money.png" class="icon_style" @click="payIcon3" />
                             <img v-show="showMonPay3" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon3" />
+                            <div class="clear"></div>
                         </div>
                     </el-form-item>
-                </el-form-item>
+                </div>
 
-                <el-form-item class="uplo" label-width="110px" prop="pic4">
-                    <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                        <Upload v-model="postForm.pic4" v-on:input="picInput"></Upload>
-                        <img v-show="showMon4" src="../../../gifs/money.png" class="icon_style" @click="payIcon4" />
-                        <img v-show="showMonPay4" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon4" />
-                    </div>
-                    <el-form-item prop="pic5">
+                <div>
+                    <el-form-item class="uplo" label-width="110px" prop="pic4">
+                        <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
+                            <Upload v-model="postForm.pic4" v-on:input="picInput"></Upload>
+                            <img v-show="showMon4" src="../../../gifs/money.png" class="icon_style" @click="payIcon4" />
+                            <img v-show="showMonPay4" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon4" />
+                            <div class="clear"></div>
+                        </div>
+                    </el-form-item>
+                    <el-form-item class="uplo" label-width="110px" prop="pic5">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic5" v-on:input="picInput"></Upload>
                             <img v-show="showMon5" src="../../../gifs/money.png" class="icon_style" @click="payIcon5" />
                             <img v-show="showMonPay5" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon5" />
+                            <div class="clear"></div>
                         </div>
                     </el-form-item>
-                    <el-form-item prop="pic6">
+                    <el-form-item class="uplo" label-width="110px" prop="pic6">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic6" v-on:input="picInput"></Upload>
                             <img v-show="showMon6" src="../../../gifs/money.png" class="icon_style" @click="payIcon6" />
                             <img v-show="showMonPay6" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon6" />
+                            <div class="clear"></div>
                         </div>
                     </el-form-item>
-                </el-form-item>
-                <el-form-item class="uplo" label-width="110px" prop="pic7">
-                    <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                        <Upload v-model="postForm.pic7" v-on:input="picInput"></Upload>
-                        <img v-show="showMon7" src="../../../gifs/money.png" class="icon_style" @click="payIcon7" />
-                        <img v-show="showMonPay7" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon7" />
-                    </div>
-                    <el-form-item prop="pic8">
+                </div>
+
+                <div>
+                    <el-form-item class="uplo" label-width="110px" prop="pic7">
+                        <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
+                            <Upload v-model="postForm.pic7" v-on:input="picInput"></Upload>
+                            <img v-show="showMon7" src="../../../gifs/money.png" class="icon_style" @click="payIcon7" />
+                            <img v-show="showMonPay7" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon7" />
+                            <div class="clear"></div>
+                        </div>
+                    </el-form-item>
+                    <el-form-item class="uplo" label-width="110px" prop="pic8">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic8" v-on:input="picInput"></Upload>
                             <img v-show="showMon8" src="../../../gifs/money.png" class="icon_style" @click="payIcon8" />
                             <img v-show="showMonPay8" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon8" />
+                            <div class="clear"></div>
                         </div>
                     </el-form-item>
-                    <el-form-item prop="pic9">
+                    <el-form-item class="uplo" label-width="110px" prop="pic9">
                         <div v-show="showPicContent" class="pictureStyle">
                             <Upload v-model="postForm.pic9" v-on:input="picInput"></Upload>
                             <img v-show="showMon9" src="../../../gifs/money.png" class="icon_style" @click="payIcon9" />
                             <img v-show="showMonPay9" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon9" />
+                            <div class="clear"></div>
                         </div>
                     </el-form-item>
-                </el-form-item>
+                </div>
+
                 <el-form-item v-show="showPicContent" label="收费设置:" label-width="110px" prop="ispay" style="margin-bottom: 20px" required>
                     <span @click="showPrice"><el-radio v-model="postForm.ispay" label="0">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="1">免费</el-radio></span>
                 </el-form-item>
-                <div v-show="showPri" style="display: inline-block;margin-bottom: 20px">
+                <div v-show="showPicContent" style="display: inline-block;margin-bottom: 20px">
                     <!--<el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px" required>
                         &lt;!&ndash;<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                         <div style="margin: 15px 0;"></div>
@@ -107,9 +124,9 @@
                             <el-checkbox v-for="pic in selectPics" :label="pic" :key="pic">{{pic}}</el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>-->
-                    <el-form-item v-show="showPicContent" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 40px" required>
-                        <el-input v-model.number="postForm.price" style="width:150px" placeholder="请输入整数金额"></el-input>
-                        <span>钻石 （注：目前收费功能支持最后一张收费，若选择收费，则上传的最后一张图片自动变为模糊收费状态）</span>
+                    <el-form-item label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 0px" required>
+                        <el-input v-model.number="postForm.price" :disabled="disprice" style="width:150px" placeholder="请输入整数金额"></el-input>
+                        <span>钻石</span>
                     </el-form-item>
                 </div>
                 <!--<el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
@@ -347,6 +364,7 @@
             };
             return {
                 watcher: false,
+                disprice: false,
                 postForm: {
                     actor: '',
                     words: '',
@@ -800,9 +818,12 @@
             },
             showPrice () {
                 this.showPri = true;
+                this.disprice = false;
             },
             hidePrice () {
                 this.showPri = false;
+                this.disprice = true;
+                this.showMonPay4 = false;
             },
             showThumbnail () {
                 this.showThumb = true;
@@ -957,6 +978,9 @@
         right: -10px;
         top: 0px;
     }
+    .uplo {
+        display: inline-block;
+    }
     .uplo div{
         display: inline-block;
     }
@@ -1003,6 +1027,10 @@
         position: relative;
         left: 150px;
         top: -68px;
+        clear: both;
+    }
+    .clear {
+        clear: both;
     }
 </style>
 

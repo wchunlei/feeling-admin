@@ -27,7 +27,7 @@
                 </el-form-item>
 
                 <el-form-item label-width="100px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
-                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="选择主角" selectLabel=""
                                  deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
@@ -239,7 +239,7 @@
                     csolor: '0',
                     stage: '1',
                     cost: '0',
-                    price: '',
+                    price: '10',
                     option: 10,
                     configtime: new Date(),
                     sort: '0'
@@ -408,8 +408,8 @@
                     name: [{ validator: validateRequire, trigger: 'blur' }],
                     /*height: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
                     weight: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],*/
-                    storyPrice: [{ validator: checkNum, trigger: 'blur' }],
-                    optionPrice: [{ validator: checkNum, trigger: 'blur' }],
+                    price: [{ validator: checkNum, trigger: 'blur' }],
+                    option: [{ validator: checkNum, trigger: 'blur' }],
                     //bust: [{ validator: checkNum, trigger: 'blur' }],
                 }
             }
@@ -953,6 +953,8 @@
                         key: v.name,
                         value: v.id
                     }));
+                    let temp = this.userLIstOptions.length-1;
+                    this.postForm.actor = this.userLIstOptions[temp];
                 })
             }
         }
