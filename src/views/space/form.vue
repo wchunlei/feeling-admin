@@ -383,7 +383,7 @@
                     pic9: '', // 图片
                     ispay: '0',
                     selectPic: [],
-                    price: 5,
+                    price: 20,
                     configtime: new Date(),
                     audio: '',
                     avname: '',
@@ -391,7 +391,7 @@
                     soundImg: '',
                     crowd: '',
                     help: '',
-                    reward: '10',
+                    reward: '20',
                     sort: '0'
                     //status: 'draft'
                 },
