@@ -32,10 +32,10 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
+            <el-table-column align="center" label="序号" width="80" column-key="id" prop="ids">
                 <template scope="scope">
                     <!--<span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.id}}</span>
+                    <span>{{scope.row.ids}}</span>
                 </template>
             </el-table-column>
 
@@ -522,7 +522,10 @@
             getList() {
                 this.listLoading = true;
                 maidfmlist(this.listQuery).then(response => {
-                    this.list = response.data.content;
+                    this.list = response.data.content.reverse();
+                    for (let i=0; i<response.data.content.length; i++) {
+                        this.list[i].ids = i+1;
+                    }
                     for (let i=0; i<response.data.content.length; i++) {
                         this.list[i].commentTotal = response.data.content[i].comment.length;
                     }

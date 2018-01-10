@@ -106,7 +106,7 @@
                         <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：下架状态：该主角不会在App中显示）</span>-->
-                    <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
+                    <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="未设置" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
@@ -239,8 +239,8 @@
                     csolor: '0',
                     stage: '1',
                     cost: '0',
-                    price: '10',
-                    option: 10,
+                    price: '20',
+                    option: 20,
                     configtime: new Date(),
                     sort: '0'
                 },

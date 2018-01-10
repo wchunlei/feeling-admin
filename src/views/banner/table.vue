@@ -25,7 +25,7 @@
             <!--<el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>-->
         </div>
 
-        <el-table :key='tableKey' :data="list1" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
+        <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
             <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
                 <template scope="scope">
@@ -103,9 +103,9 @@
             <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
                 <template scope="scope">
                     <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
-                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
-                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>
-                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, list1)" type="text" size="small">删除</el-button>
+                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">上架</el-button>
+                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">下架</el-button>
+                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, list)" type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
 
@@ -199,12 +199,16 @@
 </template>
 
 <script type="text/ECMAScript-6">
-    import { actorList } from 'api/actor';
     import { parseTime } from 'utils';
     import Upload from 'components/Upload/singleImage3';
     import { actorUpdate } from 'api/actor';
     import { actorstatus } from 'api/actor';
-    import { actordel } from 'api/actor';
+    import { bannerlist } from 'api/banner';
+    import { upbanner } from 'api/banner';
+    import { sortbanner } from 'api/banner';
+    import { delbanner } from 'api/banner';
+    import { actorList } from 'api/actor';
+    import { scriptlist } from 'api/story';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -226,44 +230,7 @@
             return {
                 isColor: true,
                 sort: '0',
-                list1: [{
-                    id: '1',
-                    name: 'test',
-                    title: '邻家大姐姐，善解人意，喜欢拍照、旅游',
-                    headSelect: '枫叶',
-                    type: '剧情选择页',
-                    addressContent: 'http://www.baidu.com',
-                    workTime: '周一 00:00-周二00:00；周三 15:30 至 周四15:30；周六 15:30 至 周日 15:30',
-                    status: '上架',
-                    configTime: '2017-12-2 00:00',
-                    configDownTime: '2017-12-2 00:00',
-                    sort: '默认',
-                    disable: true,
-                },{
-                    id: '1',
-                    name: 'test',
-                    title: '邻家大姐姐，善解人意，喜欢拍照、旅游',
-                    headSelect: '枫叶',
-                    style: '贴心护士',
-                    price: '1小时30钻石',
-                    workTime: '周一 15:30 至 周二15:30',
-                    status: '上架',
-                    configTime: '2017-12-2 00:00',
-                    sort: '默认',
-                    disable: true,
-                },{
-                    id: '1',
-                    name: 'test',
-                    title: '邻家大姐姐，善解人意，喜欢拍照、旅游',
-                    headSelect: '枫叶',
-                    style: '贴心护士',
-                    price: '1小时30钻石',
-                    workTime: '周一 15:30 至 周二15:30',
-                    status: '上架',
-                    configTime: '2017-12-2 00:00',
-                    sort: '默认',
-                    disable: true,
-                }],
+                list: [],
                 privateOptions: [{
                     value: '0',
                     label: '默认'
@@ -372,32 +339,6 @@
          }
          },*/
         methods: {
-            /*handleModifyStatus(row, status) {
-             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-             confirmButtonText: '确定',
-             cancelButtonText: '取消',
-             type: 'warning'
-             }).then(() => {
-             let deleteitem={
-             id: parseInt(row.id)
-             };
-             channelDelete(deleteitem).then(response => {
-             //this.list = response.data.content;
-             if(response.data.code==200){
-             this.getList();
-             }
-             });
-             this.$message({
-             message: '操作成功',
-             type: 'success'
-             });
-             }).catch(() => {
-             this.$message({
-             type: 'info',
-             message: '已取消删除'
-             });
-             });
-             },*/
             deleteRow(index, rows) {
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                     confirmButtonText: '确定',
@@ -425,7 +366,7 @@
                     });
                 });
             },
-            editRow (row, list1) {
+            editRow (row, list) {
                 let date = new Date();
                 let year=date.getFullYear(),
                         month=date.getMonth()+ 1,
@@ -488,7 +429,7 @@
             },
             getList() {
                 this.listLoading = true;
-                actorList(this.listQuery).then(response => {
+                bannerlist(this.listQuery).then(response => {
                     this.list = response.data.content;
                     this.total = response.data.total;
                     for (let i=0; i<response.data.content.length; i++) {
@@ -555,29 +496,6 @@
                 this.flag = true;
             },
             handleModifyStatus(row, status) {
-                /*let delId = {
-                 id: parseInt(row.id)
-                 }
-                 this.dialogDel = true;
-                 if (this.flag) {
-                 actordel(delId).then(response => {
-                 //console.log(response);
-                 this.getList();
-                 });
-                 let statusData = {
-                 id : row.id,
-                 status : status
-                 }
-                 actorstatus(statusData).then(response => {
-                 console.log(response)
-                 })
-                 this.$message({
-                 message: '操作成功',
-                 type: 'success'
-                 });
-                 row.status = status;
-                 this.listLoading = false;
-                 }*/
                 let statusData = {
                     id : row.id,
                     status : status

@@ -559,7 +559,8 @@
                 this.listLoading = true;
                 scriptlist(this.listQuery).then(response => {
                     console.log(response)
-                    this.list = response.data.content;
+                    //逆序显示
+                    this.list = response.data.content.reverse();
                     for (let i=0; i<response.data.content.length; i++) {
                         this.list[i].ids = i+1;
                     }

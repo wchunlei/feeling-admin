@@ -33,8 +33,8 @@
                 </el-form-item>
 
                 <div v-show="showH" style="display: inline-block;margin-bottom: 20px">
-                    <el-form-item label="跳转地址:" label-width="100px" prop="address" style="margin-bottom: 40px">
-                        <el-input placeholder="请输入链接" style='width:190px;' v-model="postForm.address" :maxlength="10"></el-input>
+                    <el-form-item label="跳转地址:" label-width="100px" prop="url" style="margin-bottom: 40px">
+                        <el-input placeholder="请输入链接" style='width:190px;' v-model="postForm.url" :maxlength="10"></el-input>
                         <!--<span>钻石</span>-->
                     </el-form-item>
                     <el-form-item label="用户信息:" label-width="100px" prop="message" style="margin-bottom: 20px">
@@ -45,58 +45,66 @@
                     </el-form-item>
                 </div>
 
-                <el-form-item v-show="showPer" label="选择主角:" label-width="100px" prop="selectActor" style="margin-bottom: 40px">
+                <el-form-item v-show="showPer" label="选择主角:" label-width="100px" prop="actor" style="margin-bottom: 40px">
                     <!--<div style="margin-bottom: 20px;width:800px">
                         <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
                         <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
                     </div>-->
-                    <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.selectActor" placeholder="选择主角">
+                    <!--<el-select clearable class="filter-item" style="width: 190px" v-model="postForm.actor" placeholder="选择主角">
                         <el-option v-for="item in  nameOptions" :key="item.label" :label="item.label" :value="item.value">
                         </el-option>
-                    </el-select>
+                    </el-select>-->
+                    <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                        <span slot='noResult'>无结果</span>
+                    </multiselect>
                 </el-form-item>
 
                 <div v-show="showSto" style="display: inline-block;margin-bottom: 0px">
-                    <el-form-item label="选择房间:" label-width="100px" prop="selectHome" style="margin-bottom: 40px">
-                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.selectHome" placeholder="选择房间">
+                    <el-form-item label="选择房间:" label-width="100px" prop="room" style="margin-bottom: 40px">
+                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.room" placeholder="选择房间">
                             <el-option v-for="item in  homeOptions" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="选择主角:" label-width="100px" prop="selectActor" style="margin-bottom: 40px">
-                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.selectActor" placeholder="选择主角">
+                    <el-form-item label="选择主角:" label-width="100px" prop="actor1" style="margin-bottom: 40px">
+                        <!--<el-select clearable class="filter-item" style="width: 190px" v-model="postForm.actor1" placeholder="选择主角">
                             <el-option v-for="item in  nameOptions" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
-                        </el-select>
+                        </el-select>-->
+                        <multiselect v-model="postForm.actor1" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                                     deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                            <span slot='noResult'>无结果</span>
+                        </multiselect>
                     </el-form-item>
-                    <el-form-item label="选择剧情:" label-width="100px" prop="selectStory" style="margin-bottom: 40px">
-                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.selectStory" placeholder="选择剧情">
-                            <el-option v-for="item in  storyOptions" :key="item.label" :label="item.label" :value="item.value">
+                    <el-form-item label="选择剧情:" label-width="100px" prop="script" style="margin-bottom: 40px">
+                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.script" placeholder="选择剧情">
+                            <el-option v-for="item in  scriptData" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
                 </div>
 
-                <el-form-item v-show="showVid" label-width="90px" prop="video">
+                <el-form-item v-show="showVid" label-width="90px" prop="mvurl">
                     <div style="margin-top: 0px">
                         <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
-                        <Uploadvideo v-model="postForm.video" :progresses="progressesData"></Uploadvideo>
+                        <Uploadvideo v-model="postForm.mvurl" :progresses="progressesData"></Uploadvideo>
                     </div>
                 </el-form-item>
 
-                <el-form-item label="banner排序:" label-width="100px" prop="bannerSort" style="margin-bottom: 40px">
-                    <el-select v-model="postForm.bannerSort" placeholder="请选择">
+                <el-form-item label="banner排序:" label-width="100px" prop="sort" style="margin-bottom: 40px">
+                    <el-select v-model="postForm.sort" placeholder="请选择">
                         <el-option v-for="item in bannerOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                 </el-form-item>
 
-                <el-form-item label="上架时间:" label-width="100px" prop="configTime" style="margin-bottom: 40px">
-                    <el-date-picker v-model="postForm.configTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间"></el-date-picker>
+                <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
+                    <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
-                <el-form-item label="下架时间:" label-width="100px" prop="configDownTime" style="margin-bottom: 40px">
-                    <el-date-picker v-model="postForm.configDownTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间"></el-date-picker>
+                <el-form-item label="下架时间:" label-width="100px" prop="configdowntime" style="margin-bottom: 40px">
+                    <el-date-picker v-model="postForm.configdowntime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间"></el-date-picker>
                     <span style="font-size:12px">（注：不设置下架时间默认为下架状态）</span>
                 </el-form-item>
 
@@ -110,7 +118,7 @@
                 </el-form-item>-->
 
                 <el-form-item label-width="100px">
-                    <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增banner</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="addBanner" size="large">新增banner</el-button>
                     <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存banner</el-button>
                 </el-form-item>
 
@@ -129,15 +137,11 @@
     import { userSearch } from 'api/story';
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
-    import { getArticle } from 'api/article';
-    import { actorUpdate } from 'api/actor';
-    import { actorListAll } from 'api/actor';
-    import { addPhotos } from 'api/actor';
-    import { delPhotos } from 'api/actor';
-    import { addPhoto } from 'api/actor';
-    import { thumbnaillist } from 'api/actor';
-    import { addMvs } from 'api/actor';
-    import { delMv } from 'api/actor';
+    import { addbanner } from 'api/banner';
+    import { updatebanner } from 'api/banner';
+    import { bannerinfo } from 'api/banner';
+    import { actorList } from 'api/actor';
+    import { scriptlist } from 'api/story';
 
     export default {
         name: 'articleDetail',
@@ -203,21 +207,16 @@
                     title: '',
                     pic: '',
                     type: '0',
-                    address: '',
-                    message: '不带登录态和用户信息',
-                    selectHome: '',
-                    selectActor: '',
-                    selectStory: '',
-                    bannerSort: '',
-                    video: '',
-                    configTime: '',
-                    configDownTime: '',
-                    //time: '',
-                    comments: [{
-                        value: ''
-                    }],
-                    //id: '',
-                    status: 'published',
+                    url: '',
+                    message: '0',
+                    room: '',
+                    actor: '',
+                    actor1: '',
+                    script: '',
+                    sort: '',
+                    mvurl: '',
+                    configtime: '',
+                    configdowntime: ''
                 },
                 /*topOptions: [{
                  value: '0',
@@ -240,7 +239,7 @@
                     value: '1',
                     label: '不带登录态和带用户信息'
                 },*/{
-                    value: '2',
+                    value: '1',
                     label: '带登录态和用户信息'
                 }],
                 bannerOptions: [{
@@ -269,20 +268,7 @@
                     value: '2',
                     label: '房间2'
                 }],
-                nameOptions: [{
-                    value: '1',
-                    label: '佳佳'
-                }, {
-                    value: '2',
-                    label: '娜美'
-                }],
-                storyOptions: [{
-                    value: '1',
-                    label: '佳佳1'
-                }, {
-                    value: '2',
-                    label: '娜美1'
-                }],
+                scriptData: [],
                 photos: [],
                 photosList: {
                     url: '',
@@ -311,6 +297,7 @@
                 fetchSuccess: true,
                 loading: false,
                 userLIstOptions: [],
+                scriptLIstOptions: [],
                 natureLength: false,
                 disable: true,
                 addBut: true,
@@ -356,8 +343,10 @@
          }
          },*/
         created() {
-            /*let Query = {};
-            this.getRemoteUserList(Query);*/
+            let Query = {};
+            this.getRemoteUserList(Query);
+            //this.getRemoteScriptList();
+            this.getScriptList();
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
@@ -376,14 +365,125 @@
              }*/
         },
         watch : {
-            "watcher" : {
-                handler:function(val,oldval){
-                    this.picList(this.photoid);
-                },
-                deep: true
+            "postForm.actor1.value" (val,oldval) {
+                scriptlist(this.listQuery).then(response => {
+                    console.log(response)
+                    if (this.scriptData) {
+                        this.scriptData = [];
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        let temp = {};
+                        if (val == response.data.content[i].actorid) {
+                            temp.value = response.data.content[i].id;
+                            temp.label = response.data.content[i].title;
+                            this.scriptData.push(temp);
+                        }
+                    }
+                })
             }
         },
         methods: {
+            getScriptList () {
+                scriptlist(this.listQuery).then(response => {
+                    console.log(response)
+                    this.listLoading = false;
+                })
+            },
+            addBanner (formName) {
+                this.$refs.postForm.validate(valid => {
+                    if (valid) {
+                        let date=new Date(this.postForm.configtime);
+                        let year=date.getFullYear(),
+                                month=date.getMonth()+ 1,
+                                day=date.getDate(),
+                                hour=date.getHours(),
+                                minutes=date.getMinutes(),
+                                seconds=date.getSeconds();
+                        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                        let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                        let date1=new Date(this.postForm.configdowntime);
+                        let year1=date1.getFullYear(),
+                                month1=date1.getMonth()+ 1,
+                                day1=date1.getDate(),
+                                hour1=date1.getHours(),
+                                minutes1=date1.getMinutes(),
+                                seconds1=date1.getSeconds();
+                        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                        let dateString1=year1+'-'+(month1>=10?+month1:"0"+month1)+"-"+(day1>=10? day1 :'0'+day1)+' '+(hour1>=10?+hour1:"0"+hour1)+':'+(minutes1>=10?+minutes1:"0"+minutes1)+':'+(seconds1>=10?+seconds1:"0"+seconds1);
+                        let diaryinfo={
+                            //actorid: parseInt(this.postForm.actorid),
+                            //actorid: this.postForm.actor.value,
+                            title: this.postForm.title,
+                            pic: this.postForm.pic,
+                            configtime: dateString,
+                            configdowntime: dateString1,
+                            sort: this.postForm.sort,
+                            url: '0',
+                            message: '0',
+                            actorid: '0',
+                            roomid: '0',
+                            scriptid: '0',
+                            mvurl: '0'
+                        }
+                        //diaryinfo = this.postForm;
+                        if (this.postForm.type == 0) {
+                            diaryinfo.type = this.postForm.type;
+                            diaryinfo.url = this.postForm.url;
+                            diaryinfo.message = this.postForm.message;
+                        } else if (this.postForm.type == 2) {
+                            diaryinfo.type = this.postForm.type;
+                            diaryinfo.video = this.postForm.video;
+                            diaryinfo.vtype = this.postForm.vtype;
+                            if (this.postForm.vtype == 1) {
+                                diaryinfo.thumbnail = this.postForm.thumbnail;
+                            }
+                        } else if (this.postForm.type == 3) {
+                            diaryinfo.type = this.postForm.type;
+                            diaryinfo.audio = this.postForm.audio;
+                            diaryinfo.avname = this.postForm.avname;
+                            diaryinfo.avdesc = this.postForm.avdesc;
+                            diaryinfo.thumbnail = this.postForm.soundImg;
+                        } else if (this.postForm.type == 4) {
+                            diaryinfo.type = this.postForm.type;
+                            diaryinfo.help = this.postForm.help;
+                            diaryinfo.thumbnail = this.postForm.crowd;
+                        } else {
+                            this.$message({
+                                message: '请选择类型',
+                                type: 'error'
+                            });
+                        }
+                        this.loading = true;
+                        if (this.$route.params.id && this.$route.params.id == ':id') {
+                            addbanner (diaryinfo).then(response => {
+                                if(response.data.code==200){
+                                    this.$message({
+                                        message: '新增成功',
+                                        type: 'success'
+                                    });
+                                    this.$refs[formName].resetFields();
+                                }
+                            });
+                        } else {
+                            diaryinfo.id = this.$route.params.id;
+                            updatediary (diaryinfo).then(response => {
+                                if(response.data.code==200){
+                                    this.$message({
+                                        message: '新增成功',
+                                        type: 'success'
+                                    });
+                                    this.$refs[formName].resetFields();
+                                }
+                            });
+                        }
+                        this.postForm.status = 'published';
+                        this.loading = false;
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
             picInput (data) {
                 if (data) {
                     this.watcher = data;
@@ -466,344 +566,23 @@
                     this.showVid = false;
                 }
             },
-            /*getDetail () {
-             actorListAll (this.listQuery).then(response => {
-             this.postForm = response.data.content;
-             if (response.data.content.gender == 1) {
-             this.postForm.gender = '男'
-             }
-             if (response.data.content.gender == 2) {
-             this.postForm.gender = '女'
-             }
-             this.photos = response.data.content.photo;
-             this.mvs = response.data.content.mv;
-             if (this.photos == '') {
-             this.showHr =false;
-             }
-             /!*for(let i=0;i<this.postForm.nature.length;i++){
-             this.postForm.nature[i].name = response.data.content.nature[i].name;
-             this.postForm.nature = this.postForm.nature + this.postForm.nature[i].name + ',';
-             alert(this.postForm.nature)
-             }
-             this.postForm.nature = this.postForm.nature.replace("undefined",'');*!/
-             /!*for(let i=0;i<response.data.content.photo.length;i++){
-             this.photos.amount =this.photos[i].amount;
-             this.photos.url = this.photos[i].url;
-             }*!/
-             //this.photos.amount =this.photos[0].amount;
-             //this.photos.url = this.photos[0].url;
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             },
-             fetchData() {
-             getArticle().then(response => {
-             this.postForm = response.data;
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             },
-             submitForm(formName) {
-             //this.postForm.display_time = parseInt(this.display_time / 1000);
-             console.log(this.postForm)
-             var actorinfo;
-             actorinfo = this.postForm;
-             this.$refs.postForm.validate(valid => {
-             if (valid) {
-             this.loading = true;
-             actorUpdate(actorinfo).then(response => {
-             /!*if (!response.data.items) return;
-             console.log(response)
-             this.userLIstOptions = response.data.items.map(v => ({
-             key: v.name
-             }));*!/
-             if(response.data.code == 200) {
-             this.$message({
-             message: '发布成功',
-             type: 'success'
-             });
-             this.$refs[formName].resetFields();
-             this.postForm.status = 'published';
-             }
-             });
-             this.loading = false;
-             } else {
-             console.log('error submit!!');
-             return false;
-             }
-             });
-             },
-             draftForm() {
-             if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
-             this.$message({
-             message: '请填写必要的标题和内容',
-             type: 'warning'
-             });
-             return;
-             }
-             this.$message({
-             message: '保存成功',
-             type: 'success',
-             showClose: true,
-             duration: 1000
-             });
-             this.postForm.status = 'draft';
-             },
-             addPhotos (photosList) {
-             //this.photoData.name = this.postForm.photo;
-             this.photoData.amount = parseInt(this.photosList.amount);
-             this.photoData.url = this.photosList.url;
-             this.photoData.name = this.photosList.name;
-             this.$refs.photosList.validate(valid => {
-             if (valid) {
-             addPhotos(this.photoData).then(response => {
-             //this.postForm = response.data;
-             this.photoid = response.data.photoid;
-             if (response.data.code == 200) {
-             this.$message({
-             message: '新增成功',
-             type: 'success'
-             });
-             this.$refs[photosList].resetFields();
-             }
-             this.getDetail(this.listQuery);
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             } else {
-             console.log('error submit!!');
-             return false;
-             }
-             });
-             },
-             /!*surePhoto (id) {
-             this.dialogPhoto = false;
-             this.flagPhoto = true;
-             let photoid={
-             id: id
-             };
-             if(this.flagPhoto){
-             delPhotos (photoid).then(response => {
-             //this.postForm = response.data;
-             this.flagPhoto = false;
-             this.getDetail(this.listQuery);
-             console.log()
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             }
-             },*!/
-             delPhoto (id) {
-             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-             confirmButtonText: '确定',
-             cancelButtonText: '取消',
-             type: 'warning'
-             }).then(() => {
-             let photoid={
-             id: id
-             };
-             delPhotos (photoid).then(response => {
-             //this.postForm = response.data;
-             this.flagPhoto = false;
-             this.getDetail(this.listQuery);
-             console.log()
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             }).catch(() => {
-             this.$message({
-             type: 'info',
-             message: '已取消删除'
-             });
-             });
-             //this.dialogPhoto = true;
-             /!*let photoid={
-             id: id
-             };
-             if(this.flagPhoto){
-             delPhotos (photoid).then(response => {
-             //this.postForm = response.data;
-             console.log()
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             }*!/
-             },
-             delPicture (id,url) {
-             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-             confirmButtonText: '确定',
-             cancelButtonText: '取消',
-             type: 'warning'
-             }).then(() => {
-             let photoinfo={
-             id: id,
-             url: url
-             };
-             delPhotos (photoinfo).then(response => {
-             //this.postForm = response.data;
-             this.thumbnaillist(id);
-             console.log()
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             }).catch(() => {
-             this.$message({
-             type: 'info',
-             message: '已取消删除'
-             });
-             });
-             },
-             addMv (addmvs) {
-             let mvlist = {
-             id: parseInt(this.$route.params.actor),
-             mvname: this.addmvs.mvname,
-             mvurl: this.addmvs.mvurl,
-             mvpicture: this.addmvs.thumbnail,
-             amount: parseInt(this.addmvs.amount)
-             };
-             this.$refs.addmvs.validate(valid => {
-             if (valid) {
-             addMvs (mvlist).then(response => {
-             //this.postForm = response.data;
-             if(response.data.code==200){
-             this.$message({
-             message: '新增成功',
-             type: 'success'
-             });
-             this.$refs[addmvs].resetFields();
-             }
-             this.getDetail(this.listQuery);
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             } else {
-             console.log('error submit!!');
-             return false;
-             }
-             });
-             },
-             /!*sureMv (id) {
-             this.dialogMv = false;
-             this.flagMv = true;
-             let mvid={
-             id: id
-             };
-             delMv (mvid).then(response => {
-             //this.postForm = response.data;
-             this.getDetail(this.listQuery);
-             console.log()
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             },*!/
-             delMv (id) {
-             this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-             confirmButtonText: '确定',
-             cancelButtonText: '取消',
-             type: 'warning'
-             }).then(() => {
-             let mvid={
-             id: id
-             };
-             delMv (mvid).then(response => {
-             //this.postForm = response.data;
-             this.getDetail(this.listQuery);
-             console.log()
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             }).catch(() => {
-             this.$message({
-             type: 'info',
-             message: '已取消删除'
-             });
-             });
-             //this.dialogMv = true;
-             /!*let mvid={
-             id: id
-             };
-             delMv (mvid).then(response => {
-             //this.postForm = response.data;
-             console.log()
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });*!/
-             },
-             thumbnaillist (id) {
-             this.photoid = id;
-             this.dialogVisible = true;
-             let list = {
-             id: parseInt(this.$route.params.actor),
-             photoid: id
-             };
-             thumbnaillist (list).then(response => {
-             this.upPhotos = response.data.content;
-             //this.photos.photoNum = response.data.content.length;
-             for(let i=0;i<this.photos.length;i++){
-             if(this.photos[i].id == id){
-             this.photos[i].photoNum = response.data.content.length;
-             }
-             }
-             console.log();
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             },
-             picInput (data) {
-             if (data) {
-             this.watcher = data;
-             }
-             },
-             picList (id) {
-             let photoList={
-             id: parseInt(this.$route.params.actor),
-             photoid: id,
-             photourl: this.upPhotos.photourl
-             };
-             //photoList.photourl = this.upPhotos.photourl;
-             //this.$refs.upPhotos.validate(valid => {
-             //if (valid) {
-
-             /!*} else {
-             console.log('error submit!!');
-             return false;
-             }
-             });*!/
-             if (photoList.photourl) {
-             addPhoto (photoList).then(response => {
-             console.log();
-             this.upPhotos.photourl = '';
-             this.thumbnaillist(id);
-             }).catch(err => {
-             this.fetchSuccess = false;
-             console.log(err);
-             });
-             }/!* else {
-             this.$message({
-             message: '上传失败',
-             type: 'error'
-             });
-             }*!/
-             //this.dialogVisible = false;
-             },*/
             getRemoteUserList(query) {
-                userSearch(query).then(response => {
+                actorList(query).then(response => {
                     console.log("getRemoteUserList")
                     if (!response.data.content) return;
                     console.log(response)
                     this.userLIstOptions = response.data.content.map(v => ({
+                        key: v.name,
+                        value: v.id
+                    }));
+                })
+            },
+            getRemoteScriptList(query) {
+                scriptlist(query).then(response => {
+                    console.log("getRemoteUserList")
+                    if (!response.data.content) return;
+                    console.log(response)
+                    this.scriptLIstOptions = response.data.content.map(v => ({
                         key: v.name,
                         value: v.id
                     }));

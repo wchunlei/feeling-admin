@@ -89,15 +89,6 @@
     import Uploadvideo from 'components/Upload/video';
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
-    import { getArticle } from 'api/article';
-    import { actorUpdate } from 'api/actor';
-    import { actorListAll } from 'api/actor';
-    import { addPhotos } from 'api/actor';
-    import { delPhotos } from 'api/actor';
-    import { addPhoto } from 'api/actor';
-    import { thumbnaillist } from 'api/actor';
-    import { addMvs } from 'api/actor';
-    import { delMv } from 'api/actor';
     import { addroom } from 'api/room';
     import { updateroom } from 'api/room';
     import { roominfo } from 'api/room';
