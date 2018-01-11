@@ -241,7 +241,7 @@
                     cost: '0',
                     price: '20',
                     option: 20,
-                    configtime: new Date(),
+                    configtime: '',
                     sort: '0'
                 },
                 video: '',

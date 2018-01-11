@@ -401,11 +401,23 @@
           <span style="font-size:12px;display: block">（注：请上传4:3，不小于10kb，jpg、png等格式的文件）</span>
         </el-form-item>
 
+        <el-form-item label="剧情包:" label-width="100px" prop="uploadFile" style="margin-bottom: 40px" required>
+          <el-upload
+                  :model="postForm.uploadFile"
+                  class="upload-demo"
+                  action="http://192.168.1.43:3000/system/upload"
+                  :before-upload="beforeAvatarUploadVideo"
+                  :on-success="handleImageScucess" style="width:200px">
+            <el-button size="small" type="primary">选择压缩文件</el-button>
+            <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+          </el-upload>
+        </el-form-item>
+
         <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px" required>
           <!--<el-select v-model="postForm.config" placeholder="请选择">
             <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>-->
-          <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请输入上架时间" :picker-options="pickerOptions1"></el-date-picker>
+          <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="未设置" :picker-options="pickerOptions1"></el-date-picker>
           </el-date-picker>
           <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
         </el-form-item>
@@ -474,7 +486,7 @@
 
         <el-form-item label-width="100px">
           <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增主角</el-button>
-          <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存主角</el-button>
+          <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存</el-button>
         </el-form-item>
 
       </div>
@@ -640,7 +652,8 @@
           backImg3: '',
           backImg4: '',
           backImg5: '',
-          configtime: new Date(),
+          uploadFile: '',
+          configtime: '',
           private: '0',
           timeNum: '',
           time: '0',
@@ -903,48 +916,41 @@
       }
     },
     methods: {
-      uploadfile(input) {
-        //支持chrome IE10
-        //var input = this.postForm.headurl;
-        if (window.FileReader) {
-          var file = input.files[0];
-          filename = file.name.split(".")[0];
-          var reader = new FileReader();
-          reader.onload = function() {
-            console.log(this.result)
-            alert(this.result);
-          }
-          reader.readAsText(file);
+      beforeAvatarUploadVideo(file) {
+        console.log(file)
+        this.video = file.name;
+        this.videosize = file.size;
+        const isJPG = file.type === 'application/gzip';
+        //const isJPG = file.type === '';
+        //const isLt2M = file.size / 1024 / 1024 > 0.01;
+        if (!isJPG) {
+          this.$message.error('上传失败，请检查网络，并上传rar,zip格式的文件!');
         }
-        //支持IE 7 8 9 10
-        else if (typeof window.ActiveXObject != 'undefined'){
-          var xmlDoc;
-          xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-          xmlDoc.async = false;
-          xmlDoc.load(input.value);
-          alert(xmlDoc.xml);
-        }
-        //支持FF
-        else if (document.implementation && document.implementation.createDocument) {
-          var xmlDoc;
-          xmlDoc = document.implementation.createDocument("", "", null);
-          xmlDoc.async = false;
-          xmlDoc.load(input.value);
-          alert(xmlDoc.xml);
-        } else {
-          alert('error');
-        }
+        /*if (!isLt2M) {
+         this.$message.error('上传头像图片大小不小于 10kb!');
+         }*/
+        return isJPG;
       },
+      /*handleImageScucess (res,file) {
+        console.log(res,file);
+        this.videourl = res.content.url;
+        console.log(this.video,this.videosize,this.videourl)
+      },*/
       add () {
-        let date= this.postForm.configtime;
-        let year=date.getFullYear(),
-                month=date.getMonth()+ 1,
-                day=date.getDate(),
-                hour=date.getHours(),
-                minutes=date.getMinutes(),
-                seconds=date.getSeconds();
-        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-        let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+        let dateString;
+        if (this.postForm.configtime) {
+          let date= this.postForm.configtime;
+          let year=date.getFullYear(),
+                  month=date.getMonth()+ 1,
+                  day=date.getDate(),
+                  hour=date.getHours(),
+                  minutes=date.getMinutes(),
+                  seconds=date.getSeconds();
+          //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+          dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+        } else {
+          dateString = '';
+        }
         let backimg = [];
         if (this.postForm.backImg1) {
           backimg.push(this.postForm.backImg1)
@@ -991,7 +997,7 @@
                }));*/
               if(response.data.code == 200) {
                 this.$message({
-                  message: '发布成功',
+                  message: '新增成功',
                   type: 'success'
                 });
                 //this.$refs[formName].resetFields();

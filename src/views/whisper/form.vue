@@ -29,8 +29,12 @@
 
                 <el-form-item label="回答:" label-width="100px" prop="content" style="margin-bottom: 40px" required>
                     <div style="margin-bottom: 20px;">
-                        <Uploadaudio v-model="postForm.content"></Uploadaudio>
-                        <span style="font-size:12px">（注：请mp3等音频格式的文件）</span>
+                        <!--<Uploadaudio v-model="postForm.content"></Uploadaudio>
+                        <span style="font-size:12px">（注：请mp3等音频格式的文件）</span>-->
+                        <el-select v-model="postForm.content" filterable placeholder="请选择">
+                            <el-option v-for="item in contentOptions" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
                     </div>
                 </el-form-item>
 
@@ -77,7 +81,7 @@
                 </div>
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px" required>
-                    <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间" :picker-options="pickerOptions1"></el-date-picker>
+                    <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="未设置" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
@@ -270,7 +274,7 @@
                     type: '0',
                     ispay: '1',
                     picture: '',
-                    configtime: new Date(),
+                    configtime: '',
                     sort: '0',
                     price: 5,
                     comment: '',

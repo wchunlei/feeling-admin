@@ -427,7 +427,8 @@
                             if(response.data.code==200){
                                 row.status = '下架';
                                 row.configtime = "未设置";
-                                //this.getList();
+                                row.configdowntime = dateString;
+                                    //this.getList();
                                 this.$message({
                                     message: '操作成功',
                                     type: 'success'
@@ -449,7 +450,8 @@
                         if(response.data.code==200){
                             row.status = '上架';
                             row.configtime = dateString;
-                            this.$message({
+                            row.configdowntime = "未设置";
+                                    this.$message({
                                 message: '操作成功',
                                 type: 'success'
                             });
@@ -500,6 +502,9 @@
                         this.list[i].disable = false;
                         if (response.data.content[i].status == "1" || response.data.content[i].configtime == '0000-00-00 00:00:00') {
                             this.list[i].configtime = "未设置";
+                        }
+                        if (response.data.content[i].status == "0" || response.data.content[i].configdowntime == '0000-00-00 00:00:00') {
+                            this.list[i].configdowntime = "未设置";
                         }
                     }
                     for (let i=0; i<response.data.content.length; i++) {

@@ -110,8 +110,8 @@
                 </div>
 
                 <el-form-item v-show="showPicContent" label="收费设置:" label-width="110px" prop="ispay" style="margin-bottom: 20px" required>
-                    <span @click="showPrice"><el-radio v-model="postForm.ispay" label="0">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="1">免费</el-radio></span>
+                    <span @click="showPrice"><el-radio v-model="postForm.ispay" label="0">收费</el-radio></span>
                 </el-form-item>
                 <div v-show="showPicContent" style="display: inline-block;margin-bottom: 20px">
                     <!--<el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px" required>
@@ -155,16 +155,20 @@
                 </el-form>-->
 
                 <el-form-item v-show="showVidContent" label-width="110px" prop="video">
-                    <div style="margin-top: -180px">
+                    <div style="margin-top: -100px">
                         <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
-                        <Uploadvideo v-model="postForm.video" :progresses="progressesData"></Uploadvideo>
+                        <!--<Uploadvideo v-model="postForm.video" :progresses="progressesData"></Uploadvideo>-->
+                        <el-select v-model="postForm.video" filterable placeholder="请选择">
+                            <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
                     </div>
                 </el-form-item>
-                <el-form-item label-width="110px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
+                <!--<el-form-item label-width="110px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
                     <div v-show="progressesData.progress" style="">
                         <el-progress :percentage="progressesData.percentage" :status="progressesData.progressStatus"></el-progress>
                     </div>
-                </el-form-item>
+                </el-form-item>-->
 
                 <el-form-item v-show="showVidContent" label="视频缩略图:" label-width="110px" prop="vtype" style="margin-bottom: 20px" required>
                     <span @click="hideThumbnail"><el-radio v-model="postForm.vtype" label="2">自动截取</el-radio></span>
@@ -180,9 +184,34 @@
                     </el-form-item>
                 </div>
 
+                <el-form-item v-show="showVidContent" label="收费设置:" label-width="110px" prop="ispay" style="margin-bottom: 20px" required>
+                    <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="1">免费</el-radio></span>
+                    <span @click="showPrice"><el-radio v-model="postForm.ispay" label="0">收费</el-radio></span>
+                </el-form-item>
+                <div v-show="showVidContent" style="display: inline-block;margin-bottom: 20px">
+                    <!--<el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px" required>
+                        &lt;!&ndash;<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                        <div style="margin: 15px 0;"></div>
+                        <el-checkbox-group v-model="postForm.selectPic" @change="handleCheckedCitiesChange">
+                            <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
+                        </el-checkbox-group>&ndash;&gt;
+                        <el-checkbox-group v-model="postForm.selectPic">
+                            <el-checkbox v-for="pic in selectPics" :label="pic" :key="pic">{{pic}}</el-checkbox>
+                        </el-checkbox-group>
+                    </el-form-item>-->
+                    <el-form-item v-show="showVidContent" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 0px" required>
+                        <el-input v-model.number="postForm.price" :disabled="disprice" style="width:150px" placeholder="请输入整数金额"></el-input>
+                        <span>钻石</span>
+                    </el-form-item>
+                </div>
+
                 <el-form-item v-show="showAudContent" label-width="110px" prop="audio">
-                    <div style="margin-top: -180px">
-                        <Uploadaudio v-model="postForm.audio"></Uploadaudio>
+                    <div style="margin-top: -120px">
+                        <!--<Uploadaudio v-model="postForm.audio"></Uploadaudio>-->
+                        <el-select v-model="postForm.audio" filterable placeholder="请选择">
+                            <el-option v-for="item in audioOptions" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
                     </div>
                 </el-form-item>
 
@@ -205,10 +234,10 @@
                 </el-form-item>
 
                 <el-form-item v-show="showAudContent" label="收费设置:" label-width="110px" prop="ispay" style="margin-bottom: 20px" required>
-                    <span @click="showPrice"><el-radio v-model="postForm.ispay" label="0">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="1">免费</el-radio></span>
+                    <span @click="showPrice"><el-radio v-model="postForm.ispay" label="0">收费</el-radio></span>
                 </el-form-item>
-                <div v-show="showPri" style="display: inline-block;margin-bottom: 20px">
+                <div v-show="showAudContent" style="display: inline-block;margin-bottom: 20px">
                     <!--<el-form-item v-show="showPicContent" label="收费图片:" label-width="90px" prop="selectPic" style="margin-bottom: 20px" required>
                         &lt;!&ndash;<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                         <div style="margin: 15px 0;"></div>
@@ -219,9 +248,9 @@
                             <el-checkbox v-for="pic in selectPics" :label="pic" :key="pic">{{pic}}</el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>-->
-                    <el-form-item v-show="showAudContent" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 40px" required>
-                        <el-input v-model.number="postForm.price" style="width:150px" placeholder="请输入整数金额"></el-input>
-                        <span>钻石 （注：目前收费功能支持最后一张收费，若选择收费，则上传的最后一张图片自动变为模糊收费状态）</span>
+                    <el-form-item v-show="showAudContent" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 0px" required>
+                        <el-input v-model.number="postForm.price" :disabled="disprice" style="width:150px" placeholder="请输入整数金额"></el-input>
+                        <span>钻石</span>
                     </el-form-item>
                 </div>
 
@@ -266,10 +295,10 @@
                         </el-time-select>
                     </el-form-item>
                 </el-form-item>-->
-                <el-form-item label-width="110px" label="发布时间:" prop="configtime"style="margin-bottom: 40px" required>
+                <el-form-item label-width="110px" label="上架时间:" prop="configtime"style="margin-bottom: 40px" required>
                     <div class="block">
                         <!--<span class="demonstration">默认</span>-->
-                        <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" :picker-options="pickerOptions1"></el-date-picker>
+                        <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="未设置" :picker-options="pickerOptions1"></el-date-picker>
                     </div>
                 </el-form-item>
                 <el-form-item label="动态排序:" label-width="110px" prop="sort" style="margin-bottom: 40px" required>
@@ -381,16 +410,16 @@
                     pic7: '', // 图片
                     pic8: '', // 图片
                     pic9: '', // 图片
-                    ispay: '0',
+                    ispay: '1',
                     selectPic: [],
                     price: 20,
-                    configtime: new Date(),
+                    configtime: '',
                     audio: '',
-                    avname: '',
-                    avdesc: '',
-                    soundImg: '',
+                    avname: '0',
+                    avdesc: '0',
+                    soundImg: '0',
                     crowd: '',
-                    help: '',
+                    help: '20',
                     reward: '20',
                     sort: '0'
                     //status: 'draft'

@@ -34,7 +34,7 @@
 
                 <div v-show="showH" style="display: inline-block;margin-bottom: 20px">
                     <el-form-item label="跳转地址:" label-width="100px" prop="url" style="margin-bottom: 40px">
-                        <el-input placeholder="请输入链接" style='width:190px;' v-model="postForm.url" :maxlength="10"></el-input>
+                        <el-input placeholder="请输入链接" style='width:190px;' v-model="postForm.url" :maxlength="1000"></el-input>
                         <!--<span>钻石</span>-->
                     </el-form-item>
                     <el-form-item label="用户信息:" label-width="100px" prop="message" style="margin-bottom: 20px">
@@ -85,26 +85,30 @@
                     </el-form-item>
                 </div>
 
-                <el-form-item v-show="showVid" label-width="90px" prop="mvurl">
+                <el-form-item v-show="showVid" label-width="100px" prop="mvurl">
                     <div style="margin-top: 0px">
                         <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
-                        <Uploadvideo v-model="postForm.mvurl" :progresses="progressesData"></Uploadvideo>
+                        <!--<Uploadvideo v-model="postForm.mvurl" :progresses="progressesData"></Uploadvideo>-->
+                        <el-select v-model="postForm.mvurl" filterable placeholder="请选择">
+                            <el-option v-for="item in mvurlOptions" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
                     </div>
                 </el-form-item>
 
                 <el-form-item label="banner排序:" label-width="100px" prop="sort" style="margin-bottom: 40px">
-                    <el-select v-model="postForm.sort" placeholder="请选择">
+                    <el-select v-model="postForm.sort" placeholder="未设置">
                         <el-option v-for="item in bannerOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                     <span style="font-size:12px">（注：默认排序：按照上架时间逆序排列）</span>
                 </el-form-item>
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
-                    <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间"></el-date-picker>
+                    <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="未设置"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
                 <el-form-item label="下架时间:" label-width="100px" prop="configdowntime" style="margin-bottom: 40px">
-                    <el-date-picker v-model="postForm.configdowntime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择时间"></el-date-picker>
+                    <el-date-picker v-model="postForm.configdowntime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="未设置"></el-date-picker>
                     <span style="font-size:12px">（注：不设置下架时间默认为下架状态）</span>
                 </el-form-item>
 
@@ -119,7 +123,7 @@
 
                 <el-form-item label-width="100px">
                     <el-button v-show="addBut" type="primary" @click.prevent="addBanner('postForm')" size="large">新增banner</el-button>
-                    <el-button v-show="saveBut" type="primary" @click.prevent="addBanner('postForm')" size="large">保存banner</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="addBanner('postForm')" size="large">保存</el-button>
                 </el-form-item>
 
             </div>
@@ -214,7 +218,7 @@
                     actor: '',
                     actor1: '',
                     script: '',
-                    sort: '',
+                    sort: '0',
                     mvurl: '',
                     configtime: '',
                     configdowntime: ''
