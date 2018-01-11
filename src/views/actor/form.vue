@@ -1080,7 +1080,6 @@
           });
           this.postForm.worktimes = temp;
         }*/
-        alert(this.postForm.worktimes.length)
         this.$set(this.postForm.worktimes,this.postForm.worktimes.length,{
           time: '',
           value: '',

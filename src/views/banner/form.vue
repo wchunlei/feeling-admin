@@ -534,9 +534,6 @@
                     this.watcher = data;
                 }
             },
-            uploadListener (data) {
-                alert(data)
-            },
             addWork () {
                 this.postForm.comments.push({
                     value: ''
