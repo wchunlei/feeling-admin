@@ -26,7 +26,7 @@
                     <template>
                         <span @click="showH5"><el-radio v-model="postForm.type" label="0">H5页面</el-radio></span>
                         <span @click="showPerHome"><el-radio v-model="postForm.type" label="1">女仆空间</el-radio></span>
-                        <span @click="showStory"><el-radio v-model="postForm.type" label="2">女仆房间<span style="color:red">（请配置后注意查看该女仆的工作时间，以免用户无法跳转该链接）</span></el-radio></span>
+                        <span @click="showStory"><el-radio v-model="postForm.type" label="2">剧情选择页<span style="color:red">（请配置后注意查看该女仆的工作时间，以免用户无法跳转该链接）</span></el-radio></span>
                         <span @click="showVideo"><el-radio v-model="postForm.type" label="3">视频</el-radio></span>
                         <span @click="showRecharge"><el-radio v-model="postForm.type" label="4">充值页</el-radio></span>
                     </template>
@@ -68,14 +68,14 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="选择主角:" label-width="100px" prop="actor1" style="margin-bottom: 40px">
-                        <!--<el-select clearable class="filter-item" style="width: 190px" v-model="postForm.actor1" placeholder="选择主角">
-                            <el-option v-for="item in  nameOptions" :key="item.label" :label="item.label" :value="item.value">
+                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.actor1" placeholder="选择主角">
+                            <el-option v-for="item in  roomuserLIstOptions" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
-                        </el-select>-->
-                        <multiselect v-model="postForm.actor1" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                        </el-select>
+                        <!--<multiselect v-model="postForm.actor1" required :options="roomuserLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                      deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                             <span slot='noResult'>无结果</span>
-                        </multiselect>
+                        </multiselect>-->
                     </el-form-item>
                     <el-form-item label="选择剧情:" label-width="100px" prop="script" style="margin-bottom: 40px">
                         <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.script" placeholder="选择剧情">
@@ -118,8 +118,8 @@
                 </el-form-item>-->
 
                 <el-form-item label-width="100px">
-                    <el-button v-show="addBut" type="primary" @click.prevent="addBanner" size="large">新增banner</el-button>
-                    <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存banner</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="addBanner('postForm')" size="large">新增banner</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="addBanner('postForm')" size="large">保存banner</el-button>
                 </el-form-item>
 
             </div>
@@ -142,6 +142,7 @@
     import { bannerinfo } from 'api/banner';
     import { actorList } from 'api/actor';
     import { scriptlist } from 'api/story';
+    import { roomlist } from 'api/room';
 
     export default {
         name: 'articleDetail',
@@ -261,13 +262,7 @@
                     value: '5',
                     label: '5'
                 }],
-                homeOptions: [{
-                    value: '1',
-                    label: '房间1'
-                }, {
-                    value: '2',
-                    label: '房间2'
-                }],
+                homeOptions: [],
                 scriptData: [],
                 photos: [],
                 photosList: {
@@ -297,6 +292,7 @@
                 fetchSuccess: true,
                 loading: false,
                 userLIstOptions: [],
+                roomuserLIstOptions: [],
                 scriptLIstOptions: [],
                 natureLength: false,
                 disable: true,
@@ -346,15 +342,13 @@
             let Query = {};
             this.getRemoteUserList(Query);
             //this.getRemoteScriptList();
-            this.getScriptList();
+            this.getList();
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
-                /*this.listQuery.actorid = parseInt(this.$route.params.actor);
-                this.getDetail(this.listQuery);
-                this.photoData.id = parseInt(this.$route.params.actor);
-                this.mvData.id = parseInt(this.$route.params.actor);
-                this.fetchSuccess = false;*/
+                let banner = {};
+                banner.id = this.$route.params.id;
+                this.getDetail(banner);
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -365,7 +359,7 @@
              }*/
         },
         watch : {
-            "postForm.actor1.value" (val,oldval) {
+            "postForm.actor1" (val,oldval) {
                 scriptlist(this.listQuery).then(response => {
                     console.log(response)
                     if (this.scriptData) {
@@ -380,13 +374,55 @@
                         }
                     }
                 })
+            },
+            "postForm.room" (val,oldval) {
+                /*actorList(this.listQuery).then(response => {
+                    console.log(response)
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if (val == response.data.content[i].id) {
+                            alert(val)
+                            this.userLIstOptions = response.data.content.map(v => ({
+                                key: v.name,
+                                value: v.id
+                            }));
+                        }
+                    }
+
+                })*/
+                roomlist(this.listQuery).then(response => {
+                    console.log(response)
+                    if (this.roomuserLIstOptions) {
+                        this.roomuserLIstOptions = [];
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        let temp = {};
+                        if (val == response.data.content[i].id) {
+                            temp.value = response.data.content[i].actorid;
+                            for (let j=0; j<this.userLIstOptions.length; j++) {
+                                if (temp.value == this.userLIstOptions[j].value) {
+                                    temp.label = this.userLIstOptions[j].key;
+                                }
+                            }
+                            this.roomuserLIstOptions.push(temp);
+                        }
+                    }
+                })
             }
         },
         methods: {
-            getScriptList () {
+            getList () {
                 scriptlist(this.listQuery).then(response => {
                     console.log(response)
                     this.listLoading = false;
+                });
+                roomlist(this.listQuery).then(response => {
+                    console.log(response)
+                    for (let i=0; i<response.data.content.length; i++) {
+                        let temp = {};
+                        temp.value = response.data.content[i].id;
+                        temp.label = response.data.content[i].name;
+                        this.homeOptions.push(temp);
+                    }
                 })
             },
             addBanner (formName) {
@@ -430,23 +466,19 @@
                             diaryinfo.type = this.postForm.type;
                             diaryinfo.url = this.postForm.url;
                             diaryinfo.message = this.postForm.message;
+                        } else if (this.postForm.type == 1) {
+                            diaryinfo.type = this.postForm.type;
+                            diaryinfo.actorid = this.postForm.actor.value;
                         } else if (this.postForm.type == 2) {
                             diaryinfo.type = this.postForm.type;
-                            diaryinfo.video = this.postForm.video;
-                            diaryinfo.vtype = this.postForm.vtype;
-                            if (this.postForm.vtype == 1) {
-                                diaryinfo.thumbnail = this.postForm.thumbnail;
-                            }
+                            diaryinfo.roomid = this.postForm.room;
+                            diaryinfo.actorid = this.postForm.actor1;
+                            diaryinfo.scriptid = this.postForm.script;
                         } else if (this.postForm.type == 3) {
                             diaryinfo.type = this.postForm.type;
-                            diaryinfo.audio = this.postForm.audio;
-                            diaryinfo.avname = this.postForm.avname;
-                            diaryinfo.avdesc = this.postForm.avdesc;
-                            diaryinfo.thumbnail = this.postForm.soundImg;
+                            diaryinfo.mvurl = this.postForm.mvurl;
                         } else if (this.postForm.type == 4) {
                             diaryinfo.type = this.postForm.type;
-                            diaryinfo.help = this.postForm.help;
-                            diaryinfo.thumbnail = this.postForm.crowd;
                         } else {
                             this.$message({
                                 message: '请选择类型',
@@ -466,7 +498,7 @@
                             });
                         } else {
                             diaryinfo.id = this.$route.params.id;
-                            updatediary (diaryinfo).then(response => {
+                            updatebanner (diaryinfo).then(response => {
                                 if(response.data.code==200){
                                     this.$message({
                                         message: '新增成功',
@@ -482,6 +514,19 @@
                         console.log('error submit!!');
                         return false;
                     }
+                });
+            },
+            getDetail (home) {
+                bannerinfo (home).then(response => {
+                    this.postForm = response.data.content;
+                    for ( let j=0; j<this.userLIstOptions.length; j++) {
+                        if (response.data.content.actorid == this.userLIstOptions[j].value) {
+                            this.postForm.actor = this.userLIstOptions[j];
+                        }
+                    }
+                }).catch(err => {
+                    this.fetchSuccess = false;
+                    console.log(err);
                 });
             },
             picInput (data) {

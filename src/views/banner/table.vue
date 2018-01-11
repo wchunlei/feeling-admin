@@ -27,9 +27,9 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
+            <el-table-column align="center" label="序号" width="80" column-key="id" prop="ids">
                 <template scope="scope">
-                    <span>{{scope.row.id}}</span>
+                    <span>{{scope.row.ids}}</span>
                     <!-- <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
                 </template>
             </el-table-column>
@@ -62,9 +62,9 @@
               </template>
             </el-table-column>-->
 
-            <el-table-column min-width="300px" align="center" label="链接内容" prop="addressContent">
+            <el-table-column min-width="300px" align="center" label="链接内容" prop="content">
                 <template scope="scope">
-                    <span>{{scope.row.addressContent}}</span>
+                    <span>{{scope.row.content}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                 </template>
             </el-table-column>
@@ -76,16 +76,16 @@
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="150px" align="center" label="上架时间" prop="configTime">
+            <el-table-column min-width="150px" align="center" label="上架时间" prop="configtime">
                 <template scope="scope">
-                    <span>{{scope.row.configTime}}</span>
+                    <span>{{scope.row.configtime}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="150px" align="center" label="下架时间" prop="configDownTime">
+            <el-table-column min-width="150px" align="center" label="下架时间" prop="configdowntime">
                 <template scope="scope">
-                    <span>{{scope.row.configDownTime}}</span>
+                    <span>{{scope.row.configdowntime}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                 </template>
             </el-table-column>
@@ -94,7 +94,7 @@
                 <template scope="scope">
                     <!--<span>{{scope.row.sort}}</span>-->
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-                    <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="scope.row.disable" @change="changeSort(scope.row)">
+                    <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="disable" @change="changeSort(scope.row)">
                         <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </template>
@@ -105,7 +105,7 @@
                     <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
                     <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">上架</el-button>
                     <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">下架</el-button>
-                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, list)" type="text" size="small">删除</el-button>
+                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, scope.row)" type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
 
@@ -231,6 +231,9 @@
                 isColor: true,
                 sort: '0',
                 list: [],
+                actorOptions: [],
+                scriptOptions: [],
+                disable: true,
                 privateOptions: [{
                     value: '0',
                     label: '默认'
@@ -318,6 +321,7 @@
             }
         },
         created() {
+            this.getActor();
             this.getList();
         },
         filters: {
@@ -339,20 +343,46 @@
          }
          },*/
         methods: {
+            getActor () {
+                actorList(this.listQuery).then(response => {
+                    //console.log(response)
+                    /*this.actorOptions = response.data.content.map(v => ({
+                     key: v.name
+                     }));*/
+                    for (let i=0; i<response.data.content.length; i++) {
+                        //alert(response.data.content[i].id)
+                        let temp = {};
+                        temp.value = response.data.content[i].id;
+                        temp.label = response.data.content[i].name;
+                        this.actorOptions.push(temp);
+                    }
+                });
+                scriptlist(this.listQuery).then(response => {
+                    console.log(response)
+                    for (let i=0; i<response.data.content.length; i++) {
+                        //alert(response.data.content[i].id)
+                        let temp = {};
+                        temp.value = response.data.content[i].id;
+                        temp.label = response.data.content[i].title;
+                        this.scriptOptions.push(temp);
+                    }
+                    this.listLoading = false;
+                });
+            },
             deleteRow(index, rows) {
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                this.$confirm('确定要删除该内容吗？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
                     let deleteitem={
-                        id: parseInt(rows.id)
+                        id: rows.id
                     };
-                    rows.splice(index, 1);
-                    channelDelete(deleteitem).then(response => {
+                    delbanner(deleteitem).then(response => {
                         //this.list = response.data.content;
                         if(response.data.code==200){
-                            this.getList();
+                            this.list.splice(index, 1);
+                            //this.getList();
                         }
                     });
                     this.$message({
@@ -360,10 +390,7 @@
                         type: 'success'
                     });
                 }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
+
                 });
             },
             editRow (row, list) {
@@ -374,45 +401,65 @@
                         hour=date.getHours(),
                         minutes=date.getMinutes();
                 //seconds=date.getSeconds();
-                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
+                //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
+                let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes);
+                let statusTemp = '';
+                if (row.status == '上架') {
+                    statusTemp = '1'
+                }
+                if (row.status == '下架') {
+                    statusTemp = '0'
+                }
                 if (row.status == '上架') {
                     this.$confirm('确定下架会将和该内容相关的内容均下架？', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        row.status = '下架';
-                        row.configTime = "未设置";
-                        row.configDownTime = dateString;
-                        let deleteitem={
-                            id: parseInt(rows.id)
+                        let upitem={
+                            id: row.id,
+                            status: statusTemp,
+                            configtime: dateString
                         };
-                        rows.splice(index, 1);
-                        channelDelete(deleteitem).then(response => {
+                        //row.splice(index, 1);
+                        upbanner(upitem).then(response => {
                             //this.list = response.data.content;
                             if(response.data.code==200){
-                                this.getList();
+                                row.status = '下架';
+                                row.configtime = "未设置";
+                                //this.getList();
+                                this.$message({
+                                    message: '操作成功',
+                                    type: 'success'
+                                });
                             }
                         });
-                        this.$message({
-                            message: '操作成功',
-                            type: 'success'
-                        });
                     }).catch(() => {
-                        this.$message({
-                            type: 'info',
-                            message: '已取消删除'
-                        });
+
                     });
                 } else {
-                    row.status = '上架';
-                    row.configTime = dateString;
-                    row.configDownTime = "未设置";
+                    let upitem={
+                        id: row.id,
+                        status: statusTemp,
+                        configtime: dateString
+                    };
+                    //row.splice(index, 1);
+                    upbanner(upitem).then(response => {
+                        //this.list = response.data.content;
+                        if(response.data.code==200){
+                            row.status = '上架';
+                            row.configtime = dateString;
+                            this.$message({
+                                message: '操作成功',
+                                type: 'success'
+                            });
+                        }
+                    });
                 }
-                row.disable = true;
+                this.disable = true;
             },
             handleSort (index, rows) {
-                rows.disable = false;
+                this.disable = false;
                 /*if (this.disable) {
                  this.disable = false;
                  } else {
@@ -425,22 +472,71 @@
                  }*/
             },
             changeSort (rows) {
-                rows.disable = true;
+                let sortitem={
+                    id: rows.id,
+                    sort: rows.sort
+                };
+                //row.splice(index, 1);
+                sortbanner(sortitem).then(response => {
+                    //this.list = response.data.content;
+                    if(response.data.code==200){
+                        this.disable = true;
+                        this.$message({
+                            message: '操作成功',
+                            type: 'success'
+                        });
+                    }
+                });
             },
             getList() {
                 this.listLoading = true;
                 bannerlist(this.listQuery).then(response => {
-                    this.list = response.data.content;
-                    this.total = response.data.total;
+                    this.list = response.data.content.reverse();
                     for (let i=0; i<response.data.content.length; i++) {
-                        if (response.data.content[i].status == 'published') {
-                            this.list[i].status = '发布';
-                        }
-                        if (response.data.content[i].status == 'draft') {
-                            this.list[i].status = '草稿';
+                        this.list[i].ids = i+1;
+                    }
+                    this.total = response.data.total;
+                    for (let i=0; i< response.data.content.length; i++) {
+                        this.list[i].disable = false;
+                        if (response.data.content[i].status == "1" || response.data.content[i].configtime == '0000-00-00 00:00:00') {
+                            this.list[i].configtime = "未设置";
                         }
                     }
-                    this.listLoading = false;
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if(response.data.content[i].status == 0) {
+                            this.list[i].status = '上架';
+                        }
+                        if(response.data.content[i].status == 1) {
+                            this.list[i].status = '下架';
+                        }
+                        if (response.data.content[i].type == 0) {
+                            this.list[i].type = 'H5页面';
+                            this.list[i].content = response.data.content[i].url;
+                        }
+                        if (response.data.content[i].type == 1) {
+                            this.list[i].type = '女仆空间';
+                            for ( let j=0; j<this.actorOptions.length; j++) {
+                                if (response.data.content[i].actorid == this.actorOptions[j].value) {
+                                    this.list[i].content = this.actorOptions[j].label + '的空间';
+                                }
+                            }
+                        }
+                        if (response.data.content[i].type == 2) {
+                            this.list[i].type = '剧情选择页';
+                            for ( let j=0; j<this.scriptOptions.length; j++) {
+                                if (response.data.content[i].scriptid == this.scriptOptions[j].value) {
+                                    this.list[i].content = this.scriptOptions[j].label;
+                                }
+                            }
+                        }
+                        if (response.data.content[i].type == 3) {
+                            this.list[i].type = '视频';
+                        }
+                        if (response.data.content[i].type == 4) {
+                            this.list[i].type = '充值页';
+                            this.list[i].content = '充值页';
+                        }
+                    }
                 })
                 this.listLoading = false;
             },
