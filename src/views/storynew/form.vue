@@ -56,7 +56,7 @@
                             action="http://192.168.1.43:3000/system/upload"
                             :before-upload="beforeAvatarUploadVideo"
                             :on-success="handleImageScucess" style="width:200px">
-                        <el-button size="small" type="primary">选择压缩文件</el-button>
+                        <el-button size="small" type="primary">选择txt文件</el-button>
                         <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
                     </el-upload>
                 </el-form-item>
@@ -444,7 +444,7 @@
         },
         mounted(){
             this.drawLine();
-            this.selectColor();
+            //this.selectColor();
             /*var img = document.getElementById('image');
             var showBackColor = document.getElementById('showBackColor');
             RGBaster.colors(img, {
@@ -463,7 +463,7 @@
         },
         watch : {
             "postForm.actor" (val,oldval) {
-                this.postForm.actor = val
+                this.postForm.actor = val;
             }
         },
         methods: {
@@ -721,12 +721,15 @@
                 });
             },
             selectColor () {
-                //alert(this.postForm.color)
+                //this.postForm.picture = URL.createObjectURL(file.raw);
                 let selectBackColor = document.getElementById('showBackColor');
                 if (this.postForm.csolor == 0) {
+                    let _this = this;
                     let setTime = setTimeout(function () {
-                        let img = document.getElementById('image');
+                        //alert(_this.postForm.picture)
+                        //let img = _this.postForm.picture;
                         //let showBackColor = document.getElementById('showBackColor');
+                        let img = document.getElementById('image');
                         RGBaster.colors(img, {
                             exclude: [ 'rgb(255,255,255)' ],  // 不包括白色
                             success: function(payload) {
@@ -815,7 +818,8 @@
                 console.log(file)
                 this.video = file.name;
                 this.videosize = file.size;
-                const isJPG = file.type === 'application/gzip';
+                //const isJPG = file.type === 'application/gzip';
+                const isJPG = file.type === 'text/plain';
                 //const isJPG = file.type === '';
                 //const isLt2M = file.size / 1024 / 1024 > 0.01;
                 if (!isJPG) {

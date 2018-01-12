@@ -401,7 +401,7 @@
           <span style="font-size:12px;display: block">（注：请上传4:3，不小于10kb，jpg、png等格式的文件）</span>
         </el-form-item>
 
-        <el-form-item label="剧情包:" label-width="100px" prop="uploadFile" style="margin-bottom: 40px" required>
+        <el-form-item label="播放图集:" label-width="100px" prop="uploadFile" style="margin-bottom: 40px" required>
           <el-upload
                   :model="postForm.uploadFile"
                   class="upload-demo"

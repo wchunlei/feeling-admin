@@ -287,21 +287,24 @@
             this.getDetail(home);
         },*/
         watch : {
-            "postForm.checkedActor.value" (val,oldval) {
-                scriptlist(this.listQuery).then(response => {
-                    console.log(response)
-                    if (this.scriptData) {
-                        this.scriptData = [];
-                    }
-                    for (let i=0; i<response.data.content.length; i++) {
-                        let temp = {};
-                        if (val == response.data.content[i].actorid) {
-                            temp.key = response.data.content[i].id;
-                            temp.label = response.data.content[i].title;
-                            this.scriptData.push(temp);
+            "postForm.checkedActor.value": {
+                deep:true,
+                handler:function(val,oldval) {
+                    scriptlist(this.listQuery).then(response => {
+                        console.log(response)
+                        if (this.scriptData) {
+                            this.scriptData = [];
                         }
-                    }
-                })
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            if (val == response.data.content[i].actorid) {
+                                temp.key = response.data.content[i].id;
+                                temp.label = response.data.content[i].title;
+                                this.scriptData.push(temp);
+                            }
+                        }
+                    })
+                }
             }
         },
         methods: {
@@ -392,7 +395,9 @@
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.checkedActor = this.userLIstOptions[j];
                         }
+                        //this.$set(this.postForm.checkedActor, this.userLIstOptions)
                     }
+                    //this.postForm.checkedActor = this.userLIstOptions;
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);
