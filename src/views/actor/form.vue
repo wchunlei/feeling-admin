@@ -407,6 +407,7 @@
                   class="upload-demo"
                   action="http://192.168.1.234:80/upload"
                   :before-upload="beforeAvatarUploadVideo"
+                  :file-list="fileList"
                   style="width:200px">
             <el-button size="small" type="primary">选择压缩文件</el-button>
             <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
@@ -486,7 +487,7 @@
 
         <el-form-item label-width="100px">
           <el-button v-show="addBut" type="primary" @click.prevent="add" size="large">新增主角</el-button>
-          <el-button v-show="saveBut" type="primary" @click.prevent="save" size="large">保存</el-button>
+          <el-button v-show="saveBut" type="primary" @click.prevent="add" size="large">保存</el-button>
         </el-form-item>
 
       </div>
@@ -633,6 +634,7 @@
           progress: false
         },
         progressStatus: '',
+        fileList: [],
         postForm: {
           style: '0',
           name: '',
@@ -917,7 +919,7 @@
     },
     methods: {
       beforeAvatarUploadVideo(file) {
-        const isLt2M = file.size / 1024 / 1024 > 0.01;
+        const isLt2M = file.size / 1024 / 1024 > 0.001;
         if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
           this.$message.error('图片格式有误!');
         }
@@ -1016,7 +1018,7 @@
       add () {
         let dateString;
         if (this.postForm.configtime) {
-          let date= this.postForm.configtime;
+          let date= new Date(this.postForm.configtime);
           let year=date.getFullYear(),
                   month=date.getMonth()+ 1,
                   day=date.getDate(),
@@ -1067,87 +1069,53 @@
         this.$refs.postForm.validate(valid => {
           if (valid) {
             this.loading = true;
-            addactor(actorinfo).then(response => {
-              /*if (!response.data.items) return;
-               console.log(response)
-               this.userLIstOptions = response.data.items.map(v => ({
-               key: v.name
-               }));*/
-              if (response.data.msg == 'name is repeat!') {
-                this.$message({
-                  message: '昵称不能重复',
-                  type: 'error'
-                });
-              }
-              if(response.data.code == 200) {
-                this.$message({
-                  message: '新增成功',
-                  type: 'success'
-                });
-                //this.$refs[formName].resetFields();
-                //this.postForm.status = 'published';
-              }
-            });
+            if (this.$route.params.id && this.$route.params.id == ':id') {
+              addactor(actorinfo).then(response => {
+                /*if (!response.data.items) return;
+                 console.log(response)
+                 this.userLIstOptions = response.data.items.map(v => ({
+                 key: v.name
+                 }));*/
+                if (response.data.msg == 'name is repeat!') {
+                  this.$message({
+                    message: '昵称不能重复',
+                    type: 'error'
+                  });
+                }
+                if(response.data.code == 200) {
+                  this.$message({
+                    message: '新增成功',
+                    type: 'success'
+                  });
+                  //this.$refs[formName].resetFields();
+                  //this.postForm.status = 'published';
+                }
+              });
+            } else {
+              actorinfo.id = this.$route.params.id;
+              updateactor(actorinfo).then(response => {
+                /*if (!response.data.items) return;
+                 console.log(response)
+                 this.userLIstOptions = response.data.items.map(v => ({
+                 key: v.name
+                 }));*/
+                if(response.data.code == 200) {
+                  this.$message({
+                    message: '发布成功',
+                    type: 'success'
+                  });
+                  //this.$refs[formName].resetFields();
+                  //this.postForm.status = 'published';
+                }
+              });
+            }
+
             this.loading = false;
           } else {
             console.log('error submit!!');
             return false;
           }
         });
-      },
-      save () {
-        let date= new Date(this.postForm.configtime);
-        let year=date.getFullYear(),
-                month=date.getMonth()+ 1,
-                day=date.getDate(),
-                hour=date.getHours(),
-                minutes=date.getMinutes(),
-                seconds=date.getSeconds();
-        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-        let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
-        let actorinfo = {
-          id: this.$route.params.id,
-          channel: "女仆团",
-          name: this.postForm.name,
-          soliloquy: this.postForm.soliloquy,
-          height: this.postForm.height.toString(),
-          weight: this.postForm.weight.toString(),
-          age: this.postForm.age.toString(),
-          bust: this.postForm.bust,
-          cup: this.postForm.cup,
-          style: this.postForm.style,
-          headurl: this.postForm.headurl,
-          host: this.postForm.host,
-          configtime: dateString,
-          private: this.postForm.private,
-          price: this.postForm.price.toString(),
-          time: this.postForm.time,
-          worktime: this.postForm.worktimes
-        };
-        this.$refs.postForm.validate(valid => {
-         if (valid) {
-         this.loading = true;
-        updateactor(actorinfo).then(response => {
-          /*if (!response.data.items) return;
-           console.log(response)
-           this.userLIstOptions = response.data.items.map(v => ({
-           key: v.name
-           }));*/
-          if(response.data.code == 200) {
-            this.$message({
-              message: '发布成功',
-              type: 'success'
-            });
-            //this.$refs[formName].resetFields();
-            //this.postForm.status = 'published';
-          }
-        });
-        this.loading = false;
-        } else {
-         console.log('error submit!!');
-         return false;
-         }
-         });
       },
       uploadListener (data) {
         alert(data)
@@ -1195,8 +1163,33 @@
       getDetail () {
         actorInfo (this.listQuery).then(response => {
           this.postForm = response.data.content;
+          this.postForm.height = parseInt(response.data.content.height);
+          this.postForm.weight = parseInt(response.data.content.weight);
+          this.postForm.age = parseInt(response.data.content.age);
+          this.postForm.price = parseInt(response.data.content.price);
+          for (let i=0;i<response.data.content.playimg.length; i++) {
+            let temp = {};
+            temp.name = '图片'+(i+1);
+            temp.url = response.data.content.playimg[i];
+            this.fileList.push(temp);
+          }
           //console.log(response.data.content.worktime)
           this.postForm.worktimes = response.data.content.worktime;
+          if (response.data.content.backimg[0]) {
+            this.postForm.backImg1 = response.data.content.backimg[0];
+          }
+          if (response.data.content.backimg[1]) {
+            this.postForm.backImg2 = response.data.content.backimg[1];
+          }
+          if (response.data.content.backimg[2]) {
+            this.postForm.backImg3 = response.data.content.backimg[2];
+          }
+          if (response.data.content.backimg[3]) {
+            this.postForm.backImg4 = response.data.content.backimg[3];
+          }
+          if (response.data.content.backimg[4]) {
+            this.postForm.backImg5 = response.data.content.backimg[4];
+          }
           /*for(let i=0;i<this.postForm.nature.length;i++){
             this.postForm.nature[i].name = response.data.content.nature[i].name;
             this.postForm.nature = this.postForm.nature + this.postForm.nature[i].name + ',';
