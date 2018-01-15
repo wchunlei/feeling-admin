@@ -1121,29 +1121,22 @@
         alert(data)
       },
       addWork () {
-        /*if (!this.postForm.worktimes[0].time) {
-          this.postForm.worktimes.push({
-            time: '',
-            value: '',
-            time1: '',
-            value1: ''
-          });
-        } else {
-          let temp = this.postForm.worktimes;
-          temp.push({
-            time: '',
-            value: '',
-            time1: '',
-            value1: ''
-          });
-          this.postForm.worktimes = temp;
-        }*/
-        this.$set(this.postForm.worktimes,this.postForm.worktimes.length,{
+        let temp = {
           time: '',
           value: '',
           time1: '',
           value1: ''
-        })
+        }
+        this.postForm.worktimes.push(temp);
+        this.postForm.soliloquy = this.postForm.soliloquy + ' ';
+        /*let sum = this.postForm.worktimes.length;
+        this.postForm.worktimes[sum-1].time = '1';*/
+        /*this.$set(this.postForm.worktimes,this.postForm.worktimes.length,{
+          time: '',
+          value: '',
+          time1: '',
+          value1: ''
+        })*/
         /*this.$nextTick(() => {
           this.postForm.worktimes = this.postForm.worktimes;
         });*/
@@ -1152,7 +1145,8 @@
       removeWork(item) {
         var index = this.postForm.worktimes.indexOf(item);
         if (index !== -1 && this.postForm.worktimes.length > 1) {
-          this.postForm.worktimes.splice(index, 1)
+          this.postForm.worktimes.splice(index, 1);
+          this.postForm.host = this.postForm.host + ' ';
         } else {
           this.$message({
             message: '最少配置一个工作时间',
@@ -1175,6 +1169,12 @@
           }
           //console.log(response.data.content.worktime)
           this.postForm.worktimes = response.data.content.worktime;
+          for (let i=0;i<response.data.content.worktime.length; i++) {
+            this.postForm.worktimes[i].time = response.data.content.worktime[i].time;
+            this.postForm.worktimes[i].value = response.data.content.worktime[i].value;
+            this.postForm.worktimes[i].time1 = response.data.content.worktime[i].time1;
+            this.postForm.worktimes[i].value1 = response.data.content.worktime[i].value1;
+          }
           if (response.data.content.backimg[0]) {
             this.postForm.backImg1 = response.data.content.backimg[0];
           }
