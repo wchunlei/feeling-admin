@@ -1,10 +1,10 @@
 <template>
     <div class="app-container calendar-list-container">
         <div class="filter-container">
-            <!--<el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="问题" v-model="listQuery.name">
+            <!--<el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="动态内容" v-model="listQuery.name">
             </el-input>-->
 
-            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.actor" placeholder="主角">
+            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.name" placeholder="主角">
                 <el-option v-for="item in  nameOptions" :key="item.label" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
@@ -14,17 +14,18 @@
               </el-option>
             </el-select>-->
 
+            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" placeholder="类型">
+                <el-option v-for="item in  typeOptions" :key="item.label" :label="item.label" :value="item.value">
+                </el-option>
+            </el-select>
+
             <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.status" placeholder="状态">
                 <el-option v-for="item in  statusOptions" :key="item.label" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
 
-            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" placeholder="置顶类型">
-                <el-option v-for="item in  typeOptions" :key="item.label" :label="item.label" :value="item.value">
-                </el-option>
-            </el-select>
-
             <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
+            <el-button @click="handleSort" type="primary" style="float: right;margin-right:50px;">排序</el-button>
             <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
             <!--<el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>-->
             <!--<el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>-->
@@ -32,21 +33,28 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
+            <el-table-column align="center" label="序号" width="80" column-key="id" prop="ids">
                 <template scope="scope">
                     <!--<span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.id}}</span>
+                    <span>{{scope.row.ids}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column width="300px" align="center" label="问题" prop="title">
+            <el-table-column width="300px" align="center" label="音频标题" prop="avname">
                 <template scope="scope">
                     <!--<span>{{scope.row.nature}}</span>-->
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/whisper/form/' + scope.row.id }">{{scope.row.title}}</router-link></span>
+                    <span style="color:#337ab7;"><router-link :to="{ path: '/fm/form/' + scope.row.id }">{{scope.row.avname}}</router-link></span>
                 </template>
             </el-table-column>
 
-            <el-table-column width="100px" align="center" label="主角" prop="name">
+            <el-table-column width="150px" align="center" label="音频描述" prop="avdesc">
+                <template scope="scope">
+                    <span>{{scope.row.avdesc}}</span>
+                    <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
+                </template>
+            </el-table-column>
+
+            <el-table-column width="150px" align="center" label="主角" prop="name">
                 <!--<template scope="scope">
                   <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
                 </template>-->
@@ -56,50 +64,17 @@
                 </template>
             </el-table-column>
 
-            <!--<el-table-column width="110px" v-if='showAuditor' align="center" label="审核人">
-              <template scope="scope">
-                <span style='color:red;'>{{scope.row.auditor}}</span>
-              </template>
-            </el-table-column>-->
-
-            <!--<el-table-column class-name="status-col" label="头像框" width="150px" prop="headSelect">
-              <template scope="scope">
-                <span>{{scope.row.headSelect}}</span>
-              </template>
-            </el-table-column>-->
-
-            <el-table-column min-width="150px" align="center" label="评论条数" prop="commentTotal">
-                <template scope="scope">
-                    <span>{{scope.row.commentTotal}}</span>
-                    <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-                </template>
-            </el-table-column>
-
-            <el-table-column width="200px" align="center" label="偷听价格（钻石）" prop="price">
-                <template scope="scope">
-                    <span>{{scope.row.price}}</span>
-                </template>
-            </el-table-column>
-
-            <el-table-column width="150px" align="center" label="置顶状态" prop="type">
-                <template scope="scope">
-                    <!--<span v-if="scope.row.gender==1">男</span>
-                    <span v-if="scope.row.gender==2">女</span>-->
-                    <span>{{scope.row.type}}</span>
-                </template>
-            </el-table-column>
-
-            <el-table-column class-name="status-col" label="状态" width="100" prop="status">
-                <template scope="scope">
-                    <!--<el-tag :type="scope.row.status | statusFilter" :class="{activeColor: isColor}">{{scope.row.status}}</el-tag>-->
-                    <span>{{scope.row.status}}</span>
-                </template>
-            </el-table-column>
-
-            <el-table-column min-width="300px" align="center" label="上架时间" prop="configtime">
+            <el-table-column min-width="150px" align="center" label="上架时间" prop="configtime">
                 <template scope="scope">
                     <span>{{scope.row.configtime}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
+                </template>
+            </el-table-column>
+
+            <el-table-column class-name="status-col" label="状态" width="150" prop="status">
+                <template scope="scope">
+                    <!--<el-tag :type="scope.row.status | statusFilter" :class="{activeColor: isColor}">{{scope.row.status}}</el-tag>-->
+                    <span>{{scope.row.status}}</span>
                 </template>
             </el-table-column>
 
@@ -115,10 +90,10 @@
 
             <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
                 <template scope="scope">
-                    <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
-                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">上架</el-button>
-                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">下架</el-button>
-                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, scope.row)" type="text" size="small">删除</el-button>
+                    <!--<el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>-->
+                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
+                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>
+                    <el-button @click.native.prevent="deleteRow(scope.$index, scope.row)" type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
 
@@ -217,10 +192,10 @@
     import { actorUpdate } from 'api/actor';
     import { actorstatus } from 'api/actor';
     import { actordel } from 'api/actor';
-    import { maidfmlist } from 'api/fm';
-    import { upmaidfm } from 'api/fm';
-    import { sortmaidfm } from 'api/fm';
-    import { delmaidfm } from 'api/fm';
+    import { diarylist } from 'api/diary';
+    import { updiary } from 'api/diary';
+    import { deldiary } from 'api/diary';
+    import { sortdiary } from 'api/diary';
     import { actorList } from 'api/actor';
 
     const calendarTypeOptions = [
@@ -242,10 +217,10 @@
         data() {
             return {
                 isColor: true,
+                disable: true,
                 sort: '0',
                 list: [],
                 actorOptions: [],
-                disable: true,
                 nameOptions: [{
                     value: '1',
                     label: '佳佳'
@@ -277,7 +252,6 @@
                 listQuery: {
                     page: 1,
                     limit: 20,
-                    actor: undefined,
                     name: undefined,
                     type: undefined,
                     status: undefined,
@@ -301,17 +275,23 @@
                     label: '全部'
                 },{
                     value: '1',
-                    label: '置顶'
+                    label: '图片'
                 }, {
                     value: '2',
-                    label: '不置顶'
+                    label: '短视频'
+                }, {
+                    value: '3',
+                    label: '音频'
+                }, {
+                    value: '4',
+                    label: '众筹'
                 }],
                 statusOptions: [{
-                    value: '0',
-                    label: '上架'
-                }, {
                     value: '1',
-                    label: '下架'
+                    label: '未发布'
+                }, {
+                    value: '0',
+                    label: '已发布'
                 }, {
                     value: '',
                     label: '全部'
@@ -403,11 +383,11 @@
                     let deleteitem={
                         id: rows.id
                     };
-                    delmaidfm(deleteitem).then(response => {
+                    deldiary(deleteitem).then(response => {
                         //this.list = response.data.content;
                         if(response.data.code==200){
                             this.list.splice(index, 1);
-                            this.getList();
+                            //this.getList();
                         }
                     });
                     this.$message({
@@ -415,10 +395,7 @@
                         type: 'success'
                     });
                 }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
+
                 });
             },
             editRow (row, list) {
@@ -447,10 +424,11 @@
                         let upitem={
                             id: row.id,
                             status: statusTemp,
-                            configtime: dateString
+                            configtime: dateString,
+                            pos: '2'
                         };
                         //row.splice(index, 1);
-                        upmaidfm(upitem).then(response => {
+                        updiary(upitem).then(response => {
                             //this.list = response.data.content;
                             if(response.data.code==200){
                                 row.status = '下架';
@@ -463,19 +441,17 @@
                             }
                         });
                     }).catch(() => {
-                        this.$message({
-                            type: 'info',
-                            message: '已取消删除'
-                        });
+
                     });
                 } else {
                     let upitem={
                         id: row.id,
                         status: statusTemp,
-                        configtime: dateString
+                        configtime: dateString,
+                        pos: '2'
                     };
                     //row.splice(index, 1);
-                    upmaidfm(upitem).then(response => {
+                    updiary(upitem).then(response => {
                         //this.list = response.data.content;
                         if(response.data.code==200){
                             row.status = '上架';
@@ -508,7 +484,7 @@
                     sort: rows.sort
                 };
                 //row.splice(index, 1);
-                sortmaidfm(sortitem).then(response => {
+                sortdiary(sortitem).then(response => {
                     //this.list = response.data.content;
                     if(response.data.code==200){
                         this.disable = true;
@@ -521,10 +497,11 @@
             },
             getList() {
                 this.listLoading = true;
-                maidfmlist(this.listQuery).then(response => {
+                this.listQuery.pos = '2';
+                diarylist(this.listQuery).then(response => {
                     this.list = response.data.content;
                     for (let i=0; i<response.data.content.length; i++) {
-                        this.list[i].commentTotal = response.data.content[i].comment.length;
+                        this.list[i].ids = i+1;
                     }
                     this.total = response.data.total;
                     for (let i=0; i<response.data.content.length; i++) {
@@ -535,22 +512,27 @@
                         }
                     }
                     for (let i=0; i<response.data.content.length; i++) {
-                        if(response.data.content[i].type == 0) {
-                            this.list[i].type = '不置顶'
-                        }
                         if(response.data.content[i].type == 1) {
-                            this.list[i].type = '置顶'
+                            this.list[i].type = '图片'
+                        }
+                        if(response.data.content[i].type == 2) {
+                            this.list[i].type = '短视频'
+                        }
+                        if(response.data.content[i].type == 3) {
+                            this.list[i].type = '音频'
+                        }
+                        if(response.data.content[i].type == 4) {
+                            this.list[i].type = '众筹'
                         }
                     }
                     for (let i=0; i<response.data.content.length; i++) {
-                        if(response.data.content[i].status == 1) {
+                        if(response.data.content[i].status == 0) {
                             this.list[i].status = '上架'
                         }
-                        if(response.data.content[i].status == 0) {
+                        if(response.data.content[i].status == 1) {
                             this.list[i].status = '下架'
                         }
                     }
-                    this.listLoading = false;
                 })
                 this.listLoading = false;
             },

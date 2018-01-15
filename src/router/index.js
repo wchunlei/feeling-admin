@@ -135,6 +135,9 @@ const channel = _import('push_event/channel');
 const channelTable = _import('push_event/channelTable');
 const story = _import('push_event/story');
 
+/* test */
+const test = _import('test/test');
+
 Vue.use(Router);
 
  /**
@@ -315,6 +318,16 @@ export const asyncRouterMap = [
     }
     ]
   },
+  /*{
+    path: '/test',
+    component: Layout,
+    redirect: '/test/index',
+    name: 'test',
+    icon: 'zujian',
+    children: [
+      { path: 'test', component: test, name: 'test'},
+    ]
+  },*/
 /*  {
     path: '/event',
     component: Layout,

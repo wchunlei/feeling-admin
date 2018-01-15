@@ -64,7 +64,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="150px" align="center" label="发布时间" prop="configtime">
+            <el-table-column min-width="150px" align="center" label="上架时间" prop="configtime">
                 <template scope="scope">
                     <span>{{scope.row.configtime}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
@@ -91,8 +91,8 @@
             <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
                 <template scope="scope">
                     <!--<el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>-->
-                    <!--<el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
-                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>-->
+                    <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
+                    <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>
                     <el-button @click.native.prevent="deleteRow(scope.$index, scope.row)" type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
@@ -193,6 +193,7 @@
     import { actorstatus } from 'api/actor';
     import { actordel } from 'api/actor';
     import { diarylist } from 'api/diary';
+    import { updiary } from 'api/diary';
     import { deldiary } from 'api/diary';
     import { sortdiary } from 'api/diary';
     import { actorList } from 'api/actor';
@@ -405,14 +406,64 @@
                         hour=date.getHours(),
                         minutes=date.getMinutes();
                 //seconds=date.getSeconds();
-                let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
+                //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
+                let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes);
+                let statusTemp = '';
                 if (row.status == '上架') {
-                    row.status = '下架';
-                    row.configTime = "未设置";
-                } else {
-                    row.status = '上架';
-                    row.configTime = dateString;
+                    statusTemp = '1'
                 }
+                if (row.status == '下架') {
+                    statusTemp = '0'
+                }
+                if (row.status == '上架') {
+                    this.$confirm('确定下架会将和该内容相关的内容均下架？', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        let upitem={
+                            id: row.id,
+                            status: statusTemp,
+                            configtime: dateString,
+                            pos: '1'
+                        };
+                        //row.splice(index, 1);
+                        updiary(upitem).then(response => {
+                            //this.list = response.data.content;
+                            if(response.data.code==200){
+                                row.status = '下架';
+                                row.configtime = "未设置";
+                                //this.getList();
+                                this.$message({
+                                    message: '操作成功',
+                                    type: 'success'
+                                });
+                            }
+                        });
+                    }).catch(() => {
+
+                    });
+                } else {
+                    let upitem={
+                        id: row.id,
+                        status: statusTemp,
+                        configtime: dateString,
+                        pos: '1'
+                    };
+                    //row.splice(index, 1);
+                    updiary(upitem).then(response => {
+                        //this.list = response.data.content;
+                        if(response.data.code==200){
+                            row.status = '上架';
+                            row.configtime = dateString;
+                            this.$message({
+                                message: '操作成功',
+                                type: 'success'
+                            });
+                        }
+                    });
+                }
+                this.disable = true;
             },
             handleSort (index, rows) {
                 this.disable = false;
@@ -446,6 +497,7 @@
             },
             getList() {
                 this.listLoading = true;
+                this.listQuery.pos = '1';
                 diarylist(this.listQuery).then(response => {
                     this.list = response.data.content;
                     for (let i=0; i<response.data.content.length; i++) {
@@ -474,11 +526,11 @@
                         }
                     }
                     for (let i=0; i<response.data.content.length; i++) {
-                        if(response.data.content[i].status == 1) {
-                            this.list[i].status = '未发布'
-                        }
                         if(response.data.content[i].status == 0) {
-                            this.list[i].status = '已发布'
+                            this.list[i].status = '上架'
+                        }
+                        if(response.data.content[i].status == 1) {
+                            this.list[i].status = '下架'
                         }
                     }
                 })

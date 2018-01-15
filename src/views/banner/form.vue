@@ -85,12 +85,12 @@
                     </el-form-item>
                 </div>
 
-                <el-form-item v-show="showVid" label-width="100px" prop="mvurl">
+                <el-form-item v-show="showVid" label="选择视频:" label-width="100px" prop="mvurl">
                     <div style="margin-top: 0px">
                         <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
                         <!--<Uploadvideo v-model="postForm.mvurl" :progresses="progressesData"></Uploadvideo>-->
                         <el-select v-model="postForm.mvurl" filterable placeholder="请选择">
-                            <el-option v-for="item in mvurlOptions" :key="item.value" :label="item.label" :value="item.value">
+                            <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
                     </div>
@@ -147,6 +147,7 @@
     import { actorList } from 'api/actor';
     import { scriptlist } from 'api/story';
     import { roomlist } from 'api/room';
+    import { reslist } from 'api/resource';
 
     export default {
         name: 'articleDetail',
@@ -268,6 +269,7 @@
                 }],
                 homeOptions: [],
                 scriptData: [],
+                videoOptions: [],
                 photos: [],
                 photosList: {
                     url: '',
@@ -343,6 +345,7 @@
          }
          },*/
         created() {
+            this.getVideoResource();
             let Query = {};
             this.getRemoteUserList(Query);
             //this.getRemoteScriptList();
@@ -414,6 +417,25 @@
             }
         },
         methods: {
+            getVideoResource () {
+                let typeinfo = {};
+                typeinfo.type = '2';
+                reslist (typeinfo).then(response => {
+                    if(response.data.code==200){
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            temp.value = response.data.content[i].id;
+                            temp.label = response.data.content[i].name;
+                            this.videoOptions.push(temp);
+                        }
+                        console.log(this.videoOptions)
+                        /*this.$message({
+                         message: '新增成功',
+                         type: 'success'
+                         });*/
+                    }
+                });
+            },
             getList () {
                 scriptlist(this.listQuery).then(response => {
                     console.log(response)

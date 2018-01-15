@@ -337,6 +337,7 @@
     import { updatediary } from 'api/diary';
     import { diaryinfo } from 'api/diary';
     import { actorList } from 'api/actor';
+    import { reslist } from 'api/resource';
 
     export default {
         name: 'articleDetail',
@@ -394,6 +395,8 @@
             return {
                 watcher: false,
                 disprice: false,
+                videoOptions: [],
+                audioOptions: [],
                 postForm: {
                     actor: '',
                     words: '',
@@ -410,7 +413,7 @@
                     pic7: '', // 图片
                     pic8: '', // 图片
                     pic9: '', // 图片
-                    ispay: '1',
+                    ispay: '0',
                     selectPic: [],
                     price: 20,
                     configtime: '',
@@ -565,6 +568,8 @@
             }
         },
         created() {
+            this.getVideoResource();
+            this.getAudioResource();
             let Query = {};
             this.getRemoteUserList(Query);
             if(this.$route.params.id && this.$route.params.id != ':id'){
@@ -610,6 +615,44 @@
              }*/
         },
         methods: {
+            getVideoResource () {
+                let typeinfo = {};
+                typeinfo.type = '2';
+                reslist (typeinfo).then(response => {
+                    if(response.data.code==200){
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            temp.value = response.data.content[i].id;
+                            temp.label = response.data.content[i].name;
+                            this.videoOptions.push(temp);
+                        }
+                        console.log(this.videoOptions)
+                        /*this.$message({
+                         message: '新增成功',
+                         type: 'success'
+                         });*/
+                    }
+                });
+            },
+            getAudioResource () {
+                let typeinfo = {};
+                typeinfo.type = '3';
+                reslist (typeinfo).then(response => {
+                    if(response.data.code==200){
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            temp.value = response.data.content[i].id;
+                            temp.label = response.data.content[i].name;
+                            this.audioOptions.push(temp);
+                        }
+                        console.log(this.audioOptions)
+                        /*this.$message({
+                         message: '新增成功',
+                         type: 'success'
+                         });*/
+                    }
+                });
+            },
             fetchData(listQuery) {
                 diaryinfo(listQuery).then(response => {
                     //this.postForm.actor.value = response.data.content.actorid;

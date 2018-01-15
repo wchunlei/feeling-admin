@@ -69,6 +69,15 @@ export function diarylist(query) {
     });
 }
 
+export function updiary(storyinfo) {
+    const data = storyinfo;
+    return fetch({
+        url: '?act=updiary',
+        method: 'post',
+        data
+    });
+}
+
 export function diaryinfo(query) {
     return fetch({
         url: '?act=diaryinfo',

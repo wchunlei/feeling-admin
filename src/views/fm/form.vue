@@ -148,7 +148,7 @@
     import { validateURL } from 'utils/validate';
     import { addmaidfm } from 'api/fm';
     import { updatemaidfm } from 'api/fm';
-    import { maidfminfo } from 'api/fm';
+    import { diaryinfo } from 'api/diary';
     import { maidfmlist } from 'api/fm';
     import { actorList } from 'api/actor';
 
@@ -388,6 +388,7 @@
         },
         methods: {
             getDetail () {
+                this.listQuery.pos = '2';
                 maidfminfo (this.listQuery).then(response => {
                     let logicpicTemp = JSON.stringify(response.data.content.logicpic);
                     this.postForm = response.data.content;

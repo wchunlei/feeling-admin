@@ -395,9 +395,8 @@
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.checkedActor = this.userLIstOptions[j];
                         }
-                        //this.$set(this.postForm.checkedActor, this.userLIstOptions)
                     }
-                    //this.postForm.checkedActor = this.userLIstOptions;
+                    this.$set(this.postForm.checkedActor, 'value', this.userLIstOptions[j].value);
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);

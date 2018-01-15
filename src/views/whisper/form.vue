@@ -32,7 +32,7 @@
                         <!--<Uploadaudio v-model="postForm.content"></Uploadaudio>
                         <span style="font-size:12px">（注：请mp3等音频格式的文件）</span>-->
                         <el-select v-model="postForm.content" filterable placeholder="请选择">
-                            <el-option v-for="item in contentOptions" :key="item.value" :label="item.label" :value="item.value">
+                            <el-option v-for="item in audioOptions" :key="item.value" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
                     </div>
@@ -189,6 +189,7 @@
     import { maidfminfo } from 'api/fm';
     import { maidfmlist } from 'api/fm';
     import { actorList } from 'api/actor';
+    import { reslist } from 'api/resource';
 
     export default {
         name: 'articleDetail',
@@ -249,6 +250,7 @@
             };
             return {
                 list: [],
+                audioOptions: [],
                 phopoid: '',
                 watcher: false,
                 listQuery: {},
@@ -397,6 +399,7 @@
          }
          },*/
         created() {
+            this.getAudioResource();
             let Query = {};
             this.getRemoteUserList(Query);
             if(this.$route.params.id && this.$route.params.id != ':id') {
@@ -423,6 +426,25 @@
             }
         },
         methods: {
+            getAudioResource () {
+                let typeinfo = {};
+                typeinfo.type = '3';
+                reslist (typeinfo).then(response => {
+                    if(response.data.code==200){
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            temp.value = response.data.content[i].id;
+                            temp.label = response.data.content[i].name;
+                            this.audioOptions.push(temp);
+                        }
+                        console.log(this.audioOptions)
+                        /*this.$message({
+                         message: '新增成功',
+                         type: 'success'
+                         });*/
+                    }
+                });
+            },
             getDetail () {
                 maidfminfo (this.listQuery).then(response => {
                     let logicpicTemp = JSON.stringify(response.data.content.logicpic);

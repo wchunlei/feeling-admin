@@ -401,13 +401,13 @@
           <span style="font-size:12px;display: block">（注：请上传4:3，不小于10kb，jpg、png等格式的文件）</span>
         </el-form-item>
 
-        <el-form-item label="播放图集:" label-width="100px" prop="uploadFile" style="margin-bottom: 40px" required>
+        <el-form-item label="播放图集:" label-width="100px" prop="playimg" style="margin-bottom: 40px" required>
           <el-upload
-                  :model="postForm.uploadFile"
+                  :model="postForm.playimg"
                   class="upload-demo"
-                  action="http://192.168.1.43:3000/system/upload"
+                  action="http://192.168.1.234:80/upload"
                   :before-upload="beforeAvatarUploadVideo"
-                  :on-success="handleImageScucess" style="width:200px">
+                  style="width:200px">
             <el-button size="small" type="primary">选择压缩文件</el-button>
             <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
           </el-upload>
@@ -652,7 +652,7 @@
           backImg3: '',
           backImg4: '',
           backImg5: '',
-          uploadFile: '',
+          playimg: [],
           configtime: '',
           private: '0',
           timeNum: '',
@@ -917,19 +917,96 @@
     },
     methods: {
       beforeAvatarUploadVideo(file) {
-        console.log(file)
-        this.video = file.name;
-        this.videosize = file.size;
-        const isJPG = file.type === 'application/gzip';
-        //const isJPG = file.type === '';
-        //const isLt2M = file.size / 1024 / 1024 > 0.01;
-        if (!isJPG) {
-          this.$message.error('上传失败，请检查网络，并上传rar,zip格式的文件!');
+        const isLt2M = file.size / 1024 / 1024 > 0.01;
+        if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
+          this.$message.error('图片格式有误!');
         }
-        /*if (!isLt2M) {
-         this.$message.error('上传头像图片大小不小于 10kb!');
-         }*/
-        return isJPG;
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不小于 10kb!');
+        }
+        let _this = this;
+        let filename = file.name.split(".")[0];
+        var reader = new FileReader();
+        let app = 'test';
+        let src_domain = 'img';
+        let src_image_url = 'winner';
+        let key = '34F<S932JF;<,/SF*F56#DSfd+9fw?zF';
+        let uid ='123';
+        let tm = '1280977330000';
+        let appBinary = this.char2buf(app+":"+ uid +":" + tm +":"+ key + ":");
+        let appBinaryTemp = new Buffer(appBinary);
+        console.log(appBinaryTemp)
+        reader.readAsArrayBuffer(file);
+        reader.onload = function() {
+          let body = new Buffer(this.result);
+          //alert(md5(body))
+          var list = [];
+          list.push(appBinaryTemp);
+          list.push(body);
+          var s1 = Buffer.concat(list,body.length+appBinaryTemp.length);
+          console.log(body)
+          var formData = new FormData();
+          formData.append('img', body);
+          this.url = 'http://192.168.1.234:80/upload?' + 'app=test&src_domain=img&src_image_url=winner&uid=123&tm=1280977330000' + '&tk=' + md5(s1);
+          //console.log(formData)
+          fetch(this.url, {
+            method: 'POST',
+            mode: "cors",
+            type: 'json',
+            //credentials: 'include',
+            /*headers:{
+             //'Accept': 'application/json',
+             "Content-Type":"multipart/form-data",
+             //"Content-Type":"application/x-www-form-urlencoded",
+             //"Content-type": "text/plain",
+             "Access-Control-Allow-Origin": '*'
+             //'Access-Control-Allow-Credentials':'false',
+             },*/
+            body: this.result
+          }).then(function(response){
+
+            if(response.status!=200){
+              console.log("存在一个问题，状态码为："+response.status);
+              return;
+            }
+            //console.log(response)
+            let str = JSON.stringify(response);
+            response.json().then(function(data){
+              _this.postForm.playimg.push(data.url);
+              /*console.log(data);
+              _this.emitInput(data.url);
+              if (data.url) {
+                _this.showClose = true;
+              }*/
+            });
+          }).catch(function(err){
+            console.log("Fetch错误123aa:"+err);
+          })
+
+        }
+        //console.log(reader.readAsText(file));
+        //console.log(file)
+        return isLt2M;
+      },
+      readAsBinaryString(){
+        var file = document.getElementById("file").files[0];
+        var reader = new FileReader();
+        //将文件以二进制形式读入页面
+        reader.readAsBinaryString(file);
+        reader.onload=function(f){
+          var result=document.getElementById("result");
+          //显示文件
+          result.innerHTML=this.result;
+        }
+      },
+      char2buf(str){
+        var out = new ArrayBuffer(str.length);
+        var u16a= new Uint8Array(out);
+        var strs = str.split("");
+        for(var i =0 ; i<strs.length;i++){
+          u16a[i]=strs[i].charCodeAt();
+        }
+        return out;
       },
       /*handleImageScucess (res,file) {
         console.log(res,file);
@@ -979,6 +1056,7 @@
           style: this.postForm.style,
           headurl: this.postForm.headurl,
           backimg: backimg,
+          playimg: this.postForm.playimg,
           host: this.postForm.host,
           configtime: dateString,
           private: this.postForm.private,
@@ -995,6 +1073,12 @@
                this.userLIstOptions = response.data.items.map(v => ({
                key: v.name
                }));*/
+              if (response.data.msg == 'name is repeat!') {
+                this.$message({
+                  message: '昵称不能重复',
+                  type: 'error'
+                });
+              }
               if(response.data.code == 200) {
                 this.$message({
                   message: '新增成功',
