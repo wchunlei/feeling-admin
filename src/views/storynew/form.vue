@@ -101,7 +101,7 @@
                     <span>钻石</span>
                 </el-form-item>
 
-                <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px" required>
+                <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
                     <!--<el-select v-model="postForm.config" placeholder="请选择">
                         <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>

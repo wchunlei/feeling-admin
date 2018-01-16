@@ -15,6 +15,7 @@
       </el-select>
 
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
+      <el-button @click="handleSort" type="primary" style="float: right;margin-right:50px;">排序</el-button>
       <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
       <!--<el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>-->
       <!--<el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>-->
@@ -22,9 +23,9 @@
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
-      <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
+      <el-table-column align="center" label="序号" width="80" column-key="id" prop="ids">
         <template scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span>{{scope.row.ids}}</span>
          <!-- <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
         </template>
       </el-table-column>
@@ -104,7 +105,7 @@
 
       <el-table-column fixed="right" align="center" label="快捷操作" min-width="140px">
         <template scope="scope">
-          <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>
+          <!--<el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>-->
           <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">上架</el-button>
           <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">下架</el-button>
           <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, scope.row)" type="text" size="small">删除</el-button>
@@ -512,8 +513,12 @@
       getList() {
         this.listLoading = true;
         actorList(this.listQuery).then(response => {
-          this.list = response.data.content;
+          //this.list = response.data.content;
           this.total = response.data.total;
+          this.list = response.data.content.reverse();
+          for (let i=0; i<response.data.content.length; i++) {
+            this.list[i].ids = i+1;
+          }
           for (let i=0; i< response.data.content.length; i++) {
             this.list[i].disable = true;
             if (response.data.content[i].status == "1") {

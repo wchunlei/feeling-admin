@@ -401,7 +401,7 @@
           <span style="font-size:12px;display: block">（注：请上传4:3，不小于10kb，jpg、png等格式的文件）</span>
         </el-form-item>
 
-        <el-form-item label="播放图集:" label-width="100px" prop="playimg" style="margin-bottom: 40px" required>
+        <el-form-item label="音频图集:" label-width="100px" prop="playimg" style="margin-bottom: 40px" required>
           <el-upload
                   :model="postForm.playimg"
                   class="upload-demo"
@@ -409,7 +409,7 @@
                   :before-upload="beforeAvatarUploadVideo"
                   :file-list="fileList"
                   style="width:200px">
-            <el-button size="small" type="primary">选择压缩文件</el-button>
+            <el-button size="small" type="primary">选择图片</el-button>
             <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
           </el-upload>
         </el-form-item>
