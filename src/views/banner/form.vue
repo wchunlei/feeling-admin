@@ -476,12 +476,6 @@
                             configtime: dateString,
                             configdowntime: dateString1,
                             sort: this.postForm.sort,
-                            url: '0',
-                            message: '0',
-                            actorid: '0',
-                            roomid: '0',
-                            scriptid: '0',
-                            mvurl: '0'
                         }
                         //diaryinfo = this.postForm;
                         if (this.postForm.type == 1) {

@@ -16,39 +16,39 @@
 
             <div class="createPost-main-container">
 
-                <el-form-item label-width="100px" label="主角:" prop="actor" style="margin-bottom: 40px;" required>
+                <el-form-item label-width="100px" label="主角:" prop="actor" style="margin-bottom: 40px;">
                     <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;" disabled>
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
 
-                <el-form-item label="音频:" label-width="100px" prop="content" style="margin-bottom: 20px" required>
+                <el-form-item label="音频:" label-width="100px" prop="content" style="margin-bottom: 20px">
                     <div style="margin-bottom: 20px;">
                         <!--<Uploadaudio v-model="postForm.content"></Uploadaudio>
                         <span style="font-size:12px">（注：请mp3等音频格式的文件）</span>-->
-                        <el-select v-model="postForm.content" filterable placeholder="请选择">
+                        <el-select v-model="postForm.content" filterable placeholder="请选择" disabled>
                             <el-option v-for="item in contentOptions" :key="item.value" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
                     </div>
                 </el-form-item>
 
-                <el-form-item label="音频标题:" label-width="100px" prop="avname" required>
-                    <el-input v-model="postForm.avname" style="width:150px" placeholder="最多输入10个字"></el-input>
+                <el-form-item label="音频标题:" label-width="100px" prop="avname">
+                    <el-input v-model="postForm.avname" style="width:150px" placeholder="最多输入10个字" disabled></el-input>
                 </el-form-item>
 
-                <el-form-item label="音频描述:" label-width="100px" prop="avdesc" required>
-                    <el-input v-model="postForm.avdesc" style="width:300px" placeholder="最多输入20个字"></el-input>
+                <el-form-item label="音频描述:" label-width="100px" prop="avdesc">
+                    <el-input v-model="postForm.avdesc" style="width:300px" placeholder="最多输入20个字" disabled></el-input>
                 </el-form-item>
 
-                <el-form-item label="音频图片:" label-width="100px" prop="picture" style="margin-bottom: 40px" required>
+                <el-form-item label="音频图片:" label-width="100px" prop="picture" style="margin-bottom: 40px" disabled>
                     <!--<div style="margin-bottom: 20px;">
                         <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
                         <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
                     </div>-->
                     <div style="margin-right: 20px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                        <Upload v-model="postForm.picture" v-on:input="picInput" required></Upload>
+                        <Upload v-model="postForm.picture" v-on:input="picInput" disabled></Upload>
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
@@ -73,8 +73,8 @@
                 </div>
 
                 <el-form-item label-width="100px">
-                    <el-button v-show="addBut" type="primary" @click.prevent="addFM('postForm')" size="large">新增女仆FM</el-button>
-                    <el-button v-show="saveBut" type="primary" @click.prevent="addFM('postForm')" size="large">保存女仆FM</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="addFM('postForm')" size="large">新增</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="addFM('postForm')" size="large">保存</el-button>
                 </el-form-item>
 
             </div>
