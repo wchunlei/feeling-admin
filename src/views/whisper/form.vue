@@ -48,7 +48,7 @@
                     </template>
                 </el-form-item>
 
-                <el-form-item v-show="showYesTop" label="偷听图片:" label-width="100px" prop="picture" style="margin-bottom: 40px" required>
+                <el-form-item v-show="showYesTop" label="偷听图片:" label-width="100px" prop="picture" style="margin-bottom: 40px">
                     <!--<div style="margin-bottom: 20px;">
                         <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
                         <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
@@ -111,8 +111,8 @@
                 </el-form-item>-->
 
                 <el-form-item label-width="100px">
-                    <el-button v-show="addBut" type="primary" @click.prevent="addFM('postForm')" size="large">新增女仆FM</el-button>
-                    <el-button v-show="saveBut" type="primary" @click.prevent="addFM('postForm')" size="large">保存女仆FM</el-button>
+                    <el-button v-show="addBut" type="primary" @click.prevent="addFM('postForm')" size="large">新增</el-button>
+                    <el-button v-show="saveBut" type="primary" @click.prevent="addFM('postForm')" size="large">保存</el-button>
                 </el-form-item>
 
             </div>
