@@ -505,6 +505,9 @@
                             this.postForm.actor = this.userLIstOptions[j];
                         }
                     }
+                    if (response.data.content.configtime == '0000-00-00 00:00:00') {
+                        this.postForm.configtime = '';
+                    }
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);
@@ -513,14 +516,20 @@
             addStory () {
                 //let date= this.postForm.configtime;
                 //(month>=10?+month:"0"+month+"-"+day>=10? day :'0'+day)
-                let date= new Date(this.postForm.configtime)
-                let year=date.getFullYear(),
-                        month=date.getMonth()+ 1,
-                        day=date.getDate(),
-                        hour=date.getHours(),
-                        minutes=date.getMinutes(),
-                        seconds=date.getSeconds();
-                let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                let dateString;
+                if (this.postForm.configtime) {
+                    let date= new Date(this.postForm.configtime)
+                    let year=date.getFullYear(),
+                            month=date.getMonth()+ 1,
+                            day=date.getDate(),
+                            hour=date.getHours(),
+                            minutes=date.getMinutes(),
+                            seconds=date.getSeconds();
+                    dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                } else {
+                    dateString = '0';
+                }
+
                 //console.log(this.video,this.videosize,this.videourl)
                 let storyinfo = {
                     //channel: "女仆团",

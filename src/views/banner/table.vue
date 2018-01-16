@@ -284,16 +284,16 @@
                     value: '1',
                     label: 'H5页面'
                 }, {
-                    value: '2',
+                    value: '5',
                     label: '女仆空间'
                 },{
-                    value: '3',
+                    value: '2',
                     label: '女仆房间'
                 }, {
                     value: '4',
                     label: '视频'
                 }, {
-                    value: '5',
+                    value: '3',
                     label: '充值页'
                 }],
                 statusOptions: [{
@@ -514,11 +514,11 @@
                         if(response.data.content[i].status == 1) {
                             this.list[i].status = '下架';
                         }
-                        if (response.data.content[i].type == 0) {
+                        if (response.data.content[i].type == 1) {
                             this.list[i].type = 'H5页面';
                             this.list[i].content = response.data.content[i].url;
                         }
-                        if (response.data.content[i].type == 1) {
+                        if (response.data.content[i].type == 5) {
                             this.list[i].type = '女仆空间';
                             for ( let j=0; j<this.actorOptions.length; j++) {
                                 if (response.data.content[i].actorid == this.actorOptions[j].value) {
@@ -534,10 +534,10 @@
                                 }
                             }
                         }
-                        if (response.data.content[i].type == 3) {
+                        if (response.data.content[i].type == 4) {
                             this.list[i].type = '视频';
                         }
-                        if (response.data.content[i].type == 4) {
+                        if (response.data.content[i].type == 3) {
                             this.list[i].type = '充值页';
                             this.list[i].content = '充值页';
                         }

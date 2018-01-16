@@ -414,7 +414,7 @@
           </el-upload>
         </el-form-item>
 
-        <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px" required>
+        <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
           <!--<el-select v-model="postForm.config" placeholder="请选择">
             <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>-->
@@ -849,20 +849,6 @@
           value: '2',
           label: '女'
         }],
-        /*addPhotosRules: {
-          url: [{ validator: validateRequire }],
-          amount: [{ validator: checkNum }],
-          name: [{ validator: validateRequire }]
-        },
-        addMvRules: {
-          thumbnail: [{ validator: validateRequire }],
-          mvurl: [{ validator: validateRequire }],
-          amount: [{ validator: checkNum }],
-          mvname: [{ validator: validateRequire }]
-        },
-        picListRules: {
-          photourl: [{ validator: validateRequire }]
-        },*/
         actorDetail: {
           name: [{ validator: validateRequire, trigger: 'blur' }],
           soliloquy: [{ validator: validateRequireAll, trigger: 'blur' }],

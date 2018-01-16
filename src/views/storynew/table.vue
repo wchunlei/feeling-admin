@@ -357,7 +357,10 @@
             this.getActor();
             let Query = {};
             //this.getRemoteUserList(Query);
-            this.getList();
+            let _this = this;
+            setTimeout(function(){
+                _this.getList();
+            },100)
         },
         filters: {
             statusFilter(status) {

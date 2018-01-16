@@ -1,14 +1,14 @@
 <template>
     <div class="createPost-container">
-        <el-form class="form-container" :model="postForm" ref="postForm" :rules="actorDetail">
+        <el-form class="form-container" :model="postForm" ref="postForm" :rules="bannerDetail">
 
             <div class="createPost-main-container">
 
-                <el-form-item label="banner标题:" label-width="100px" prop="title" style="margin-bottom: 40px">
+                <el-form-item label="标题:" label-width="100px" prop="title" style="margin-bottom: 40px" required>
                     <el-input placeholder="最多输入10个字" style='width:200px;' v-model="postForm.title"  :maxlength="10"></el-input>
                 </el-form-item>
 
-                <el-form-item label="banner图:" label-width="100px" prop="pic" style="margin-bottom: 40px">
+                <el-form-item label="banner图:" label-width="100px" prop="pic" style="margin-bottom: 40px" required>
                     <!--<div style="margin-bottom: 20px;">
                         <Upload v-model="postForm.pic"></Upload>
                         <span style="font-size:12px">（注：请上传比例16：9，不小于100Kb的图片）</span>
@@ -19,21 +19,21 @@
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
 
-                <el-form-item label="跳转设置:" label-width="100px" prop="type" style="margin-bottom: 40px">
+                <el-form-item label="跳转设置:" label-width="100px" prop="type" style="margin-bottom: 40px" required>
                     <!--<el-select v-model="postForm.top" placeholder="请选择">
                         <el-option v-for="item in topOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>-->
                     <template>
-                        <span @click="showH5"><el-radio v-model="postForm.type" label="0">H5页面</el-radio></span>
-                        <span @click="showPerHome"><el-radio v-model="postForm.type" label="1">女仆空间</el-radio></span>
+                        <span @click="showH5"><el-radio v-model="postForm.type" label="1">H5页面</el-radio></span>
+                        <span @click="showPerHome"><el-radio v-model="postForm.type" label="5">女仆空间</el-radio></span>
                         <span @click="showStory"><el-radio v-model="postForm.type" label="2">剧情选择页<span style="color:red">（请配置后注意查看该女仆的工作时间，以免用户无法跳转该链接）</span></el-radio></span>
-                        <span @click="showVideo"><el-radio v-model="postForm.type" label="3">视频</el-radio></span>
-                        <span @click="showRecharge"><el-radio v-model="postForm.type" label="4">充值页</el-radio></span>
+                        <span @click="showVideo"><el-radio v-model="postForm.type" label="4">视频</el-radio></span>
+                        <span @click="showRecharge"><el-radio v-model="postForm.type" label="3">充值页</el-radio></span>
                     </template>
                 </el-form-item>
 
                 <div v-show="showH" style="display: inline-block;margin-bottom: 20px">
-                    <el-form-item label="跳转地址:" label-width="100px" prop="url" style="margin-bottom: 40px">
+                    <el-form-item label="跳转地址:" label-width="100px" prop="url" style="margin-bottom: 40px" required>
                         <el-input placeholder="请输入链接" style='width:190px;' v-model="postForm.url" :maxlength="1000"></el-input>
                         <!--<span>钻石</span>-->
                     </el-form-item>
@@ -45,7 +45,7 @@
                     </el-form-item>
                 </div>
 
-                <el-form-item v-show="showPer" label="选择主角:" label-width="100px" prop="actor" style="margin-bottom: 40px">
+                <el-form-item v-show="showPer" label="选择主角:" label-width="100px" prop="actor" style="margin-bottom: 40px" required>
                     <!--<div style="margin-bottom: 20px;width:800px">
                         <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
                         <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
@@ -62,12 +62,12 @@
 
                 <div v-show="showSto" style="display: inline-block;margin-bottom: 0px">
                     <el-form-item label="选择房间:" label-width="100px" prop="room" style="margin-bottom: 40px">
-                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.room" placeholder="选择房间">
+                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.room" placeholder="选择房间" required>
                             <el-option v-for="item in  homeOptions" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="选择主角:" label-width="100px" prop="actor1" style="margin-bottom: 40px">
+                    <el-form-item label="选择主角:" label-width="100px" prop="actor1" style="margin-bottom: 40px" required>
                         <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.actor1" placeholder="选择主角">
                             <el-option v-for="item in  roomuserLIstOptions" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
@@ -77,7 +77,7 @@
                             <span slot='noResult'>无结果</span>
                         </multiselect>-->
                     </el-form-item>
-                    <el-form-item label="选择剧情:" label-width="100px" prop="script" style="margin-bottom: 40px">
+                    <el-form-item label="选择剧情:" label-width="100px" prop="script" style="margin-bottom: 40px" required>
                         <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.script" placeholder="选择剧情">
                             <el-option v-for="item in  scriptData" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
@@ -85,7 +85,7 @@
                     </el-form-item>
                 </div>
 
-                <el-form-item v-show="showVid" label="选择视频:" label-width="100px" prop="mvurl">
+                <el-form-item v-show="showVid" label="选择视频:" label-width="100px" prop="mvurl" required>
                     <div style="margin-top: 0px">
                         <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
                         <!--<Uploadvideo v-model="postForm.mvurl" :progresses="progressesData"></Uploadvideo>-->
@@ -96,7 +96,7 @@
                     </div>
                 </el-form-item>
 
-                <el-form-item label="banner排序:" label-width="100px" prop="sort" style="margin-bottom: 40px">
+                <el-form-item label="排序:" label-width="100px" prop="sort" style="margin-bottom: 40px" required>
                     <el-select v-model="postForm.sort" placeholder="未设置">
                         <el-option v-for="item in bannerOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
@@ -212,7 +212,7 @@
                 postForm: {
                     title: '',
                     pic: '',
-                    type: '0',
+                    type: '1',
                     url: '',
                     message: '0',
                     room: '',
@@ -311,21 +311,7 @@
                     value: '2',
                     label: '女'
                 }],
-                addPhotosRules: {
-                    url: [{ validator: validateRequire }],
-                    amount: [{ validator: checkNum }],
-                    name: [{ validator: validateRequire }]
-                },
-                addMvRules: {
-                    thumbnail: [{ validator: validateRequire }],
-                    mvurl: [{ validator: validateRequire }],
-                    amount: [{ validator: checkNum }],
-                    mvname: [{ validator: validateRequire }]
-                },
-                picListRules: {
-                    photourl: [{ validator: validateRequire }]
-                },
-                actorDetail: {
+                bannerDetail: {
                     name: [{ validator: validateRequire, trigger: 'blur' }],
                     style: [{ validator: validateRequire, trigger: 'blur' }],
                     height: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
@@ -454,24 +440,34 @@
             addBanner (formName) {
                 this.$refs.postForm.validate(valid => {
                     if (valid) {
-                        let date=new Date(this.postForm.configtime);
-                        let year=date.getFullYear(),
-                                month=date.getMonth()+ 1,
-                                day=date.getDate(),
-                                hour=date.getHours(),
-                                minutes=date.getMinutes(),
-                                seconds=date.getSeconds();
-                        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-                        let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
-                        let date1=new Date(this.postForm.configdowntime);
-                        let year1=date1.getFullYear(),
-                                month1=date1.getMonth()+ 1,
-                                day1=date1.getDate(),
-                                hour1=date1.getHours(),
-                                minutes1=date1.getMinutes(),
-                                seconds1=date1.getSeconds();
-                        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-                        let dateString1=year1+'-'+(month1>=10?+month1:"0"+month1)+"-"+(day1>=10? day1 :'0'+day1)+' '+(hour1>=10?+hour1:"0"+hour1)+':'+(minutes1>=10?+minutes1:"0"+minutes1)+':'+(seconds1>=10?+seconds1:"0"+seconds1);
+                        let dateString;
+                        if (this.postForm.configtime) {
+                            let date=new Date(this.postForm.configtime);
+                            let year=date.getFullYear(),
+                                    month=date.getMonth()+ 1,
+                                    day=date.getDate(),
+                                    hour=date.getHours(),
+                                    minutes=date.getMinutes(),
+                                    seconds=date.getSeconds();
+                            //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                            dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                        } else {
+                            dateString = '0';
+                        }
+                        let dateString1;
+                        if (this.postForm.configdowntime) {
+                            let date1=new Date(this.postForm.configdowntime);
+                            let year1=date1.getFullYear(),
+                                    month1=date1.getMonth()+ 1,
+                                    day1=date1.getDate(),
+                                    hour1=date1.getHours(),
+                                    minutes1=date1.getMinutes(),
+                                    seconds1=date1.getSeconds();
+                            //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                            dateString1=year1+'-'+(month1>=10?+month1:"0"+month1)+"-"+(day1>=10? day1 :'0'+day1)+' '+(hour1>=10?+hour1:"0"+hour1)+':'+(minutes1>=10?+minutes1:"0"+minutes1)+':'+(seconds1>=10?+seconds1:"0"+seconds1);
+                        } else {
+                            dateString1 = '0';
+                        }
                         let diaryinfo={
                             //actorid: parseInt(this.postForm.actorid),
                             //actorid: this.postForm.actor.value,
@@ -488,11 +484,11 @@
                             mvurl: '0'
                         }
                         //diaryinfo = this.postForm;
-                        if (this.postForm.type == 0) {
+                        if (this.postForm.type == 1) {
                             diaryinfo.type = this.postForm.type;
                             diaryinfo.url = this.postForm.url;
                             diaryinfo.message = this.postForm.message;
-                        } else if (this.postForm.type == 1) {
+                        } else if (this.postForm.type == 5) {
                             diaryinfo.type = this.postForm.type;
                             diaryinfo.actorid = this.postForm.actor.value;
                         } else if (this.postForm.type == 2) {
@@ -500,10 +496,10 @@
                             diaryinfo.roomid = this.postForm.room;
                             diaryinfo.actorid = this.postForm.actor1;
                             diaryinfo.scriptid = this.postForm.script;
-                        } else if (this.postForm.type == 3) {
+                        } else if (this.postForm.type == 4) {
                             diaryinfo.type = this.postForm.type;
                             diaryinfo.mvurl = this.postForm.mvurl;
-                        } else if (this.postForm.type == 4) {
+                        } else if (this.postForm.type == 3) {
                             diaryinfo.type = this.postForm.type;
                         } else {
                             this.$message({
@@ -549,6 +545,12 @@
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.actor = this.userLIstOptions[j];
                         }
+                    }
+                    if (response.data.content.configdowntime == '0000-00-00 00:00:00') {
+                        this.postForm.configdowntime = '';
+                    }
+                    if (response.data.content.configtime == '0000-00-00 00:00:00') {
+                        this.postForm.configtime = '';
                     }
                 }).catch(err => {
                     this.fetchSuccess = false;

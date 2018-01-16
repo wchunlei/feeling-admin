@@ -7,9 +7,8 @@
         </el-upload>-->
         <el-upload
                 class="avatar-uploader"
-                action="http://192.168.1.234:80/upload"
+                action="http://192.168.1.43:1442/?act=uploadimg"
                 :data="dataObj"
-                :headers="header"
                 :show-file-list="false"
                 :before-upload="beforeAvatarUpload"
                 :on-success="handleImageScucess"
@@ -61,15 +60,6 @@
                 tempUrl: '',
                 //dataObj: { token: '', key: '' },
                 dataObj: {
-                    "app": 'test',
-                    "src_domain": 'img',
-                    "src_image_url": 'winner',
-                    //"tk": md5(app+":"+ uid +":" + tm +":"+ key + ":"+ body)
-                },
-                header: {
-                    "Content-type":"multipart/form-data",
-                    "Access-Control-Allow-Origin": '*',
-                    //'Access-Control-Allow-Credentials':'true'
                 },
                 showClose: false,
                 //imageUrl: ''
@@ -84,13 +74,34 @@
                 this.$emit('input', val);
             },
             handleImageScucess(res, file) {
-                this.emitInput(res.content.url);
+                this.emitInput(res.url);
                 this.imageUrl = URL.createObjectURL(file.raw);
-                if (res.content.url) {
+                if (res.url) {
                     this.showClose = true;
                 }
+                //console.log(file)
+                //console.log(res)
+                /*var file = input.files[0];
+                 let filename = file.name.split(".")[0];
+                 var reader = new FileReader();
+                 reader.onload = function() {
+                 console.log(this.result)
+                 alert(this.result);
+                 }
+                 reader.readAsText(file);*/
             },
             beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            /*beforeAvatarUpload(file) {
                 //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';
                 const isLt2M = file.size / 1024 / 1024 > 0.01;
                 if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
@@ -129,14 +140,14 @@
                         mode: "cors",
                         type: 'json',
                         //credentials: 'include',
-                        /*headers:{
+                        /!*headers:{
                          //'Accept': 'application/json',
                          "Content-Type":"multipart/form-data",
                          //"Content-Type":"application/x-www-form-urlencoded",
                          //"Content-type": "text/plain",
                          "Access-Control-Allow-Origin": '*'
                          //'Access-Control-Allow-Credentials':'false',
-                         },*/
+                         },*!/
                         body: this.result
                     }).then(function(response){
 
@@ -159,8 +170,8 @@
 
                 }
                 return isLt2M;
-            },
-            readAsBinaryString(){
+            },*/
+            /*readAsBinaryString(){
                 var file = document.getElementById("file").files[0];
                 var reader = new FileReader();
                 //将文件以二进制形式读入页面
@@ -180,9 +191,7 @@
                 }
                 return out;
             },
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
-            },
+
             beforeUpload() {
                 const _self = this;
                 return new Promise((resolve, reject) => {
@@ -198,7 +207,7 @@
                         reject(false)
                     });
                 });
-            }
+            }*/
         }
     };
 </script>

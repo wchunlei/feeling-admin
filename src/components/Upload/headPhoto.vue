@@ -7,9 +7,8 @@
         </el-upload>-->
         <el-upload
                 class="avatar-uploader"
-                action="http://192.168.1.234:80/upload"
+                action="http://192.168.1.43:1442/?act=uploadimg"
                 :data="dataObj"
-                :headers="header"
                 :show-file-list="false"
                 :before-upload="beforeAvatarUpload"
                 :on-success="handleImageScucess"
@@ -60,53 +59,12 @@
             return {
                 tempUrl: '',
                 dataObj: {
-                    "app": 'test',
-                    "src_domain": 'img',
-                    "src_image_url": 'winner',
-                    //"tk": md5(app+":"+ uid +":" + tm +":"+ key + ":"+ body)
-                },
-                header: {
-                    "Content-type":"multipart/form-data",
-                    "Access-Control-Allow-Origin": '*',
-                    //'Access-Control-Allow-Credentials':'true'
                 },
                 showClose: false,
                 //imageUrl: ''
             };
         },
         methods: {
-            uploadfile(input) {
-                //支持chrome IE10
-                //var input = this.postForm.headurl;
-                if (window.FileReader) {
-                    var file = input.files[0];
-                    let filename = file.name.split(".")[0];
-                    var reader = new FileReader();
-                    reader.onload = function() {
-                        console.log(this.result)
-                        alert(this.result);
-                    }
-                    reader.readAsText(file);
-                }
-                //支持IE 7 8 9 10
-                else if (typeof window.ActiveXObject != 'undefined'){
-                    var xmlDoc;
-                    xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-                    xmlDoc.async = false;
-                    xmlDoc.load(input.value);
-                    alert(xmlDoc.xml);
-                }
-                //支持FF
-                else if (document.implementation && document.implementation.createDocument) {
-                    var xmlDoc;
-                    xmlDoc = document.implementation.createDocument("", "", null);
-                    xmlDoc.async = false;
-                    xmlDoc.load(input.value);
-                    alert(xmlDoc.xml);
-                } else {
-                    alert('error');
-                }
-            },
             rmImage() {
                 this.emitInput('');
                 this.showClose = false;
@@ -115,12 +73,11 @@
                 this.$emit('input', val);
             },
             handleImageScucess(res, file) {
-                this.emitInput(res.content.url);
+                this.emitInput(res.url);
                 this.imageUrl = URL.createObjectURL(file.raw);
-                if (res.content.url) {
+                if (res.url) {
                     this.showClose = true;
                 }
-                alert(res.content.url)
                 //console.log(file)
                 //console.log(res)
                 /*var file = input.files[0];
@@ -133,6 +90,17 @@
                 reader.readAsText(file);*/
             },
             beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            /*beforeAvatarUpload(file) {
                 //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';
                 const isLt2M = file.size / 1024 / 1024 > 0.01;
                 if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
@@ -141,6 +109,7 @@
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不小于 10kb!');
                 }
+                console.log(file)
                 let _this = this;
                 let filename = file.name.split(".")[0];
                 var reader = new FileReader();
@@ -164,30 +133,29 @@
                     console.log(body)
                     var formData = new FormData();
                     formData.append('img', body);
-                    this.url = 'http://192.168.1.234:80/upload?' + 'app=test&src_domain=img&src_image_url=winner&uid=123&tm=1280977330000' + '&tk=' + md5(s1);
+                    this.url = 'http://192.168.1.43:1448/?act=uploadimg?' + 'app=test&src_domain=img&src_image_url=winner&uid=123&tm=1280977330000' + '&tk=' + md5(s1);
                     //console.log(formData)
                     fetch(this.url, {
                         method: 'POST',
                         mode: "cors",
                         type: 'json',
                         //credentials: 'include',
-                        /*headers:{
+                        headers:{
                             //'Accept': 'application/json',
                             "Content-Type":"multipart/form-data",
                             //"Content-Type":"application/x-www-form-urlencoded",
                             //"Content-type": "text/plain",
-                            "Access-Control-Allow-Origin": '*'
+                            //"Access-Control-Allow-Origin": '*'
                             //'Access-Control-Allow-Credentials':'false',
-                        },*/
+                        },
                         body: this.result
                     }).then(function(response){
-
                         if(response.status!=200){
-                            console.log("存在一个问题，状态码为："+response.status);
+                            console.log("存在一个问题，状态码为："+response);
                             return;
                         }
-                        //console.log(response)
-                        let str = JSON.stringify(response);
+                        console.log(response)
+                        //let str = JSON.stringify(response);
                         response.json().then(function(data){
                             console.log(data);
                             _this.emitInput(data.url);
@@ -203,8 +171,8 @@
                 //console.log(reader.readAsText(file));
                 //console.log(file)
                 return isLt2M;
-            },
-            readAsBinaryString(){
+            },*/
+            /*readAsBinaryString(){
                 var file = document.getElementById("file").files[0];
                 var reader = new FileReader();
                 //将文件以二进制形式读入页面
@@ -242,7 +210,7 @@
                 reject(false)
             });
             });
-            }
+            }*/
         }
     };
 </script>
