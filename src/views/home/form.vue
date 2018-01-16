@@ -39,7 +39,7 @@
                     <!--<el-checkbox-group v-model="postForm.checkedActor">
                         <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
                     </el-checkbox-group>-->
-                    <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.checkedActor" placeholder="选择主角" @change="changeAc" @visible-change="changeScr">
+                    <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.checkedActor" placeholder="选择主角" @visible-change="changeScr">
                         <el-option v-for="item in  actorOptions" :key="item.label" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -168,6 +168,7 @@
             };*/
             return {
                 scriptData: [],
+                script: [],
                 actorOptions: [],
                 phopoid: '',
                 watcher: false,
@@ -277,7 +278,9 @@
                 this.addBut = false;
                 let home = {};
                 home.id = this.$route.params.id;
-                this.getDetail(home);
+                this.$nextTick(function () {
+                    this.getDetail(home);
+                })
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -350,7 +353,7 @@
             },
             changeAc () {
                 this.$nextTick(function () {
-                    this.postForm.name = this.postForm.name + ' ';
+                    //this.postForm.name = this.postForm.name + ' ';
                     scriptlist(this.listQuery).then(response => {
                         console.log(response)
                         if (this.scriptData) {
@@ -385,6 +388,12 @@
             },
             getScriptList () {
                 scriptlist(this.listQuery).then(response => {
+                    for (let i=0; i<response.data.content.length; i++) {
+                        let temp = {};
+                        temp.key = response.data.content[i].id;
+                        temp.label = response.data.content[i].title;
+                        this.script.push(temp);
+                    }
                     console.log(response)
                     this.listLoading = false;
                 })
@@ -418,7 +427,7 @@
                 let homeinfo = {
                     //channel: "女仆团",
                     name: this.postForm.name,
-                    actorid: this.postForm.checkedActor.value,
+                    actorid: this.postForm.checkedActor,
                     scriptid: this.postForm.checkedStory.join(","),
                     backimg: this.postForm.backimg,
                     configtime: dateString,
@@ -476,7 +485,24 @@
                             this.postForm.checkedActor = this.userLIstOptions[j];
                         }
                     }*/
+                    //alert(response.data.content.scriptid)
+                    //alert(this.scriptData[0].value)
+                    let tempScript = response.data.content.scriptid.split(',');
+                    this.postForm.checkedStory = tempScript;
+                    for (let i=0; i<tempScript.length; i++) {
+                        let temp = {};
+                        if (this.script[i].value == tempScript[i].id) {
+                            //this.postForm.checkedStory.push(this.script[i].label);
+                            /*this.$nextTick(function () {
+                                temp.key = this.script[i].key;
+                                temp.label = this.script[i].label;
+                                //this.scriptData.push(temp);
+                                this.postForm.checkedStory.push(temp);
+                            })*/
+                        }
+                    }
                     for ( let j=0; j<this.actorOptions.length; j++) {
+
                         if (response.data.content.actorid == this.actorOptions[j].value) {
                             this.$nextTick(function () {
                                 //console.log(this.$el.textContent) // => '更新完成'
