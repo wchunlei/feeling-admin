@@ -452,7 +452,7 @@
                             //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
                             dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
                         } else {
-                            dateString = '0';
+                            dateString = '0000-00-00 00:00:00';
                         }
                         let dateString1;
                         if (this.postForm.configdowntime) {
@@ -466,7 +466,7 @@
                             //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
                             dateString1=year1+'-'+(month1>=10?+month1:"0"+month1)+"-"+(day1>=10? day1 :'0'+day1)+' '+(hour1>=10?+hour1:"0"+hour1)+':'+(minutes1>=10?+minutes1:"0"+minutes1)+':'+(seconds1>=10?+seconds1:"0"+seconds1);
                         } else {
-                            dateString1 = '0';
+                            dateString1 = '0000-00-00 00:00:00';
                         }
                         let diaryinfo={
                             //actorid: parseInt(this.postForm.actorid),

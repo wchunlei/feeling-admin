@@ -527,9 +527,8 @@
                             seconds=date.getSeconds();
                     dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
                 } else {
-                    dateString = '0';
+                    dateString = '0000-00-00 00:00:00';
                 }
-
                 //console.log(this.video,this.videosize,this.videourl)
                 let storyinfo = {
                     //channel: "女仆团",

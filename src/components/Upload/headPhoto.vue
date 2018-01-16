@@ -78,16 +78,6 @@
                 if (res.url) {
                     this.showClose = true;
                 }
-                //console.log(file)
-                //console.log(res)
-                /*var file = input.files[0];
-                let filename = file.name.split(".")[0];
-                var reader = new FileReader();
-                reader.onload = function() {
-                    console.log(this.result)
-                    alert(this.result);
-                }
-                reader.readAsText(file);*/
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';

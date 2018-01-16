@@ -19,7 +19,7 @@
 
             <div class="createPost-main-container">
                 <el-form-item label="房间名:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
-                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :maxlength="10"></el-input>
+                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :maxlength="20"></el-input>
                 </el-form-item>
 
                 <el-form-item label="背景图:" label-width="100px" prop="backimg" style="margin-bottom: 40px" required>
@@ -39,10 +39,14 @@
                     <!--<el-checkbox-group v-model="postForm.checkedActor">
                         <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
                     </el-checkbox-group>-->
-                    <multiselect v-model="postForm.checkedActor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                    <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.checkedActor" placeholder="选择主角" @change="changeAc" @visible-change="changeScr">
+                        <el-option v-for="item in  actorOptions" :key="item.label" :label="item.label" :value="item.value">
+                        </el-option>
+                    </el-select>
+                    <!--<multiselect v-model="postForm.checkedActor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                  deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
-                    </multiselect>
+                    </multiselect>-->
                 </el-form-item>
                 <el-form-item label="剧情:" label-width="100px" prop="checkedStory" style="margin-bottom: 40px" required>
                     <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
@@ -53,10 +57,10 @@
                     <!--<el-checkbox-group v-model="postForm.checkedStory">
                         <el-checkbox v-for="story in storys" :label="story" :key="story">{{story}}</el-checkbox>
                     </el-checkbox-group>-->
-                    <el-transfer v-model="postForm.checkedStory" :data="scriptData" :titles="['未选择', '已选择']"></el-transfer>
+                    <el-transfer v-model="postForm.checkedStory" :data="scriptData" :titles="['未选择', '已选择']" @change="changeTransfer"></el-transfer>
                 </el-form-item>
 
-                <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px" required>
+                <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
                     <!--<el-select v-model="postForm.config" placeholder="请选择">
                         <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
@@ -164,6 +168,7 @@
             };*/
             return {
                 scriptData: [],
+                actorOptions: [],
                 phopoid: '',
                 watcher: false,
                 listQuery: {},
@@ -264,7 +269,8 @@
          }
          },*/
         created() {
-            this.getRemoteUserList(this.listQuery);
+            this.getActor();
+            //this.getRemoteUserList(this.listQuery);
             this.getScriptList();
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
@@ -287,8 +293,7 @@
             this.getDetail(home);
         },*/
         watch : {
-            "postForm.checkedActor.value": {
-                deep:true,
+            /*"postForm.checkedActor.value": {
                 handler:function(val,oldval) {
                     scriptlist(this.listQuery).then(response => {
                         console.log(response)
@@ -304,28 +309,103 @@
                             }
                         }
                     })
-                }
+                },
+                deep:true,
+            }*/
+            "postForm.checkedActor": {
+                handler:function(val,oldval) {
+                    scriptlist(this.listQuery).then(response => {
+                        console.log(response)
+                        if (this.scriptData) {
+                            this.scriptData = [];
+                        }
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            if (val == response.data.content[i].actorid) {
+                                temp.key = response.data.content[i].id;
+                                temp.label = response.data.content[i].title;
+                                this.scriptData.push(temp);
+                            }
+                        }
+                    })
+                },
+                deep:true,
             }
         },
         methods: {
+            getActor () {
+                actorList(this.listQuery).then(response => {
+                    console.log(response.data.content)
+                    /*this.actorOptions = response.data.content.map(v => ({
+                     key: v.name
+                     }));*/
+                    for (let i=0; i<response.data.content.length; i++) {
+                        //alert(response.data.content[i].id)
+                        let temp = {};
+                        temp.value = response.data.content[i].id;
+                        temp.label = response.data.content[i].name;
+                        this.actorOptions.push(temp);
+                    }
+                })
+            },
+            changeAc () {
+                this.$nextTick(function () {
+                    this.postForm.name = this.postForm.name + ' ';
+                    scriptlist(this.listQuery).then(response => {
+                        console.log(response)
+                        if (this.scriptData) {
+                            this.scriptData = [];
+                        }
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            if (this.postForm.checkedActor == response.data.content[i].actorid) {
+                                temp.key = response.data.content[i].id;
+                                temp.label = response.data.content[i].title;
+                                this.scriptData.push(temp);
+                            }
+                        }
+                    })
+                })
+            },
+            changeScr () {
+                scriptlist(this.listQuery).then(response => {
+                    console.log(response)
+                    if (this.scriptData) {
+                        this.scriptData = [];
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        let temp = {};
+                        if (this.postForm.checkedActor == response.data.content[i].actorid) {
+                            temp.key = response.data.content[i].id;
+                            temp.label = response.data.content[i].title;
+                            this.scriptData.push(temp);
+                        }
+                    }
+                })
+            },
             getScriptList () {
                 scriptlist(this.listQuery).then(response => {
                     console.log(response)
                     this.listLoading = false;
                 })
             },
+            changeTransfer () {
+                this.postForm.name = this.postForm.name + ' ';
+            },
             addHome () {
-                //let date= this.postForm.configtime;
-                //(month>=10?+month:"0"+month+"-"+day>=10? day :'0'+day)
-                let date= new Date(this.postForm.configtime);
-                let year=date.getFullYear(),
-                        month=date.getMonth()+ 1,
-                        day=date.getDate(),
-                        hour=date.getHours(),
-                        minutes=date.getMinutes(),
-                        seconds=date.getSeconds();
-                let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
-                //console.log(this.video,this.videosize,this.videourl)
+                let dateString;
+                if (this.postForm.configtime) {
+                    let date= new Date(this.postForm.configtime)
+                    let year=date.getFullYear(),
+                            month=date.getMonth()+ 1,
+                            day=date.getDate(),
+                            hour=date.getHours(),
+                            minutes=date.getMinutes(),
+                            seconds=date.getSeconds();
+                    dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                } else {
+                    dateString = '0000-00-00 00:00:00';
+                }
                 /*let scriptid = '';
                 if (this.postForm.checkedStory) {
                     this.$message({
@@ -391,12 +471,19 @@
             getDetail (home) {
                 roominfo (home).then(response => {
                     this.postForm = response.data.content;
-                    for ( let j=0; j<this.userLIstOptions.length; j++) {
+                    /*for ( let j=0; j<this.userLIstOptions.length; j++) {
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.checkedActor = this.userLIstOptions[j];
                         }
+                    }*/
+                    for ( let j=0; j<this.actorOptions.length; j++) {
+                        if (response.data.content.actorid == this.actorOptions[j].value) {
+                            this.$nextTick(function () {
+                                //console.log(this.$el.textContent) // => '更新完成'
+                                this.postForm.checkedActor = this.actorOptions[j].label;
+                            })
+                        }
                     }
-                    this.$set(this.postForm.checkedActor, 'value', this.userLIstOptions[j].value);
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);

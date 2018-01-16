@@ -7,7 +7,7 @@
         </el-upload>-->
         <el-upload
                 class="avatar-uploader"
-                action="http://192.168.1.234:80/upload"
+                action="http://192.168.1.43:1442/?act=uploadimg"
                 :data="dataObj"
                 :show-file-list="false"
                 :before-upload="beforeAvatarUpload"
@@ -59,10 +59,6 @@
             return {
                 tempUrl: '',
                 dataObj: {
-                    "app": 'test',
-                    "src_domain": 'img',
-                    "src_image_url": 'winner',
-                    //"tk": md5(app+":"+ uid +":" + tm +":"+ key + ":"+ body)
                 },
                 showClose: false,
                 //imageUrl: ''
@@ -77,13 +73,21 @@
                 this.$emit('input', val);
             },
             handleImageScucess(res, file) {
-                this.emitInput(res.content.url);
+                this.emitInput(res.url);
                 this.imageUrl = URL.createObjectURL(file.raw);
-                if (res.content.url) {
+                if (res.url) {
                     this.showClose = true;
                 }
             },
             beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+            },
+            /*beforeAvatarUpload(file) {
                 //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';
                 const isLt2M = file.size / 1024 / 1024 > 0.01;
                 if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
@@ -122,14 +126,14 @@
                         mode: "cors",
                         type: 'json',
                         //credentials: 'include',
-                        /*headers:{
+                        /!*headers:{
                          //'Accept': 'application/json',
                          "Content-Type":"multipart/form-data",
                          //"Content-Type":"application/x-www-form-urlencoded",
                          //"Content-type": "text/plain",
                          "Access-Control-Allow-Origin": '*'
                          //'Access-Control-Allow-Credentials':'false',
-                         },*/
+                         },*!/
                         body: this.result
                     }).then(function(response){
 
@@ -172,7 +176,7 @@
                     u16a[i]=strs[i].charCodeAt();
                 }
                 return out;
-            },
+            },*/
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },

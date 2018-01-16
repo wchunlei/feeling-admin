@@ -48,7 +48,7 @@
                         <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
                     </div>-->
                     <div style="margin-right: 20px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                        <Upload v-model="postForm.picture" v-on:input="picInput"></Upload>
+                        <Upload v-model="postForm.picture" v-on:input="picInput" required></Upload>
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
@@ -58,7 +58,7 @@
                     <span style="display: inline-block;color: red;font-size: 12px">(请以"#"符号为每条评论的分隔符)</span>
                 </el-form-item>
 
-                <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px" required>
+                <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
                     <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="未设置" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
@@ -378,14 +378,14 @@
              this.fetchData();
              }*/
         },
-        watch : {
+        /*watch : {
             "watcher" : {
                 handler:function(val,oldval){
                     this.picList(this.photoid);
                 },
                 deep: true
             }
-        },
+        },*/
         methods: {
             getDetail () {
                 this.listQuery.pos = '2';
@@ -439,15 +439,20 @@
                 this.$refs.postForm.validate(valid => {
                     if (valid) {
                         this.loading = true;
-                        let date=new Date(this.postForm.configtime);
-                        let year=date.getFullYear(),
-                                month=date.getMonth()+ 1,
-                                day=date.getDate(),
-                                hour=date.getHours(),
-                                minutes=date.getMinutes(),
-                                seconds=date.getSeconds();
-                        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-                        let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                        let dateString;
+                        if (this.postForm.configtime) {
+                            let date=new Date(this.postForm.configtime);
+                            let year=date.getFullYear(),
+                                    month=date.getMonth()+ 1,
+                                    day=date.getDate(),
+                                    hour=date.getHours(),
+                                    minutes=date.getMinutes(),
+                                    seconds=date.getSeconds();
+                            //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+                            dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                        } else {
+                            dateString = '0000-00-00 00:00:00';
+                        }
                         let fminfo={
                             //actorid: parseInt(this.postForm.actorid),
                             actorid: this.postForm.actor.value,
@@ -455,7 +460,6 @@
                             content: this.postForm.content,
                             ispay: this.postForm.ispay,
                             type: this.postForm.type,
-                            picture: '0',
                             price: this.postForm.price.toString(),
                             sort: this.postForm.sort,
                             configtime: dateString,

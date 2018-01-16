@@ -295,7 +295,7 @@
                         </el-time-select>
                     </el-form-item>
                 </el-form-item>-->
-                <el-form-item label-width="110px" label="上架时间:" prop="configtime"style="margin-bottom: 40px" required>
+                <el-form-item label-width="110px" label="上架时间:" prop="configtime"style="margin-bottom: 40px">
                     <div class="block">
                         <!--<span class="demonstration">默认</span>-->
                         <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="未设置" :picker-options="pickerOptions1"></el-date-picker>
@@ -702,33 +702,26 @@
             addDiary (formName) {
                 this.$refs.postForm.validate(valid => {
                     if (valid) {
-                        //var diaryinfo;
-                        let date=new Date(this.postForm.configtime);
-                        let year=date.getFullYear(),
-                                month=date.getMonth()+ 1,
-                                day=date.getDate(),
-                                hour=date.getHours(),
-                                minutes=date.getMinutes(),
-                                seconds=date.getSeconds();
-                        //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-                        let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                        let dateString;
+                        if (this.postForm.configtime) {
+                            let date= new Date(this.postForm.configtime)
+                            let year=date.getFullYear(),
+                                    month=date.getMonth()+ 1,
+                                    day=date.getDate(),
+                                    hour=date.getHours(),
+                                    minutes=date.getMinutes(),
+                                    seconds=date.getSeconds();
+                            dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes)+':'+(seconds>=10?+seconds:"0"+seconds);
+                        } else {
+                            dateString = '0000-00-00 00:00:00';
+                        }
                         let diaryinfo={
                             //actorid: parseInt(this.postForm.actorid),
                             actorid: this.postForm.actor.value,
                             reward: this.postForm.reward,
                             words: this.postForm.words,
                             configtime: dateString,
-                            sort: this.postForm.sort,
-                            picture: [],
-                            video: '0',
-                            vtype: '0',
-                            thumbnail: '0',
-                            audio: '0',
-                            avname: '0',
-                            avdesc: '0',
-                            help: '0',
-                            ispay: '0',
-                            price: '0'
+                            sort: this.postForm.sort
                         }
                         //diaryinfo = this.postForm;
                         if (this.postForm.type == 1) {
