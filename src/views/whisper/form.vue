@@ -460,6 +460,17 @@
                             this.postForm.actor = this.userLIstOptions[j];
                         }
                     }
+                    if (this.postForm.type == 1) {
+                        if(!this.showYesTop){
+                            this.showYesTop=true;
+                            this.showNoTop=false;
+                        } else {
+                            this.showNoTop=false;
+                        }
+                    }
+                    if (this.postForm.ispay == 0) {
+                        this.showPri = false;
+                    }
                     /*for (let i=0; i<response.data.content.comment.length; i++) {
                         let tempObj = {};
                         tempObj.id = response.data.content.comment[i].id;
@@ -497,7 +508,7 @@
                     if (valid) {
                         this.loading = true;
                         let dateString;
-                        if (this.postForm.configtime) {
+                        if (this.postForm.configtime && this.postForm.configtime != '0000-00-00 00:00:00') {
                             let date= new Date(this.postForm.configtime)
                             let year=date.getFullYear(),
                                     month=date.getMonth()+ 1,

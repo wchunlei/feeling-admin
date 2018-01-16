@@ -399,11 +399,13 @@
                 })
             },
             changeTransfer () {
-                this.postForm.name = this.postForm.name + ' ';
+                if(this.$route.params.id && this.$route.params.id != ':id') {
+                    this.postForm.name = this.postForm.name + ' ';
+                }
             },
             addHome () {
                 let dateString;
-                if (this.postForm.configtime) {
+                if (this.postForm.configtime && this.postForm.configtime != '0000-00-00 00:00:00') {
                     let date= new Date(this.postForm.configtime)
                     let year=date.getFullYear(),
                             month=date.getMonth()+ 1,
@@ -454,6 +456,7 @@
                         });
                     } else {
                         homeinfo.id = this.$route.params.id;
+                        homeinfo.name = this.postForm.name.replace(/(\s*$)/g, "");
                         updateroom(homeinfo).then(response => {
                             /*if (!response.data.items) return;
                              console.log(response)

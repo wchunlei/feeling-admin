@@ -87,8 +87,8 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="收费设置:" label-width="100px" prop="cost" style="margin-bottom: 40px" required>
-                    <span @click="showPrice"><el-radio v-model="radioPrice" label="0">收费</el-radio></span>
-                    <span @click="hidePrice"><el-radio v-model="radioPrice" label="1">免费</el-radio></span>
+                    <span @click="showPrice"><el-radio v-model="postForm.cost" label="0">收费</el-radio></span>
+                    <span @click="hidePrice"><el-radio v-model="postForm.cost" label="1">免费</el-radio></span>
                 </el-form-item>
                 <div v-show="showPri" style="display: inline-block;margin-bottom: 0px">
                     <el-form-item label="剧情价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
@@ -500,13 +500,16 @@
                     //console.log(JSON.parse(this.logicpic))
                     this.drawLine();
                     this.selectColor();
+                    if (response.data.content.cost == 1) {
+                        this.showPri = false;
+                    }
                     for ( let j=0; j<this.userLIstOptions.length; j++) {
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.actor = this.userLIstOptions[j];
                         }
                     }
                     if (response.data.content.configtime == '0000-00-00 00:00:00') {
-                        this.postForm.configtime = '';
+                        this.postForm.configtime = '0000-00-00 00:00:00';
                     }
                 }).catch(err => {
                     this.fetchSuccess = false;
@@ -517,8 +520,8 @@
                 //let date= this.postForm.configtime;
                 //(month>=10?+month:"0"+month+"-"+day>=10? day :'0'+day)
                 let dateString;
-                if (this.postForm.configtime) {
-                    let date= new Date(this.postForm.configtime)
+                if (this.postForm.configtime && this.postForm.configtime != '0000-00-00 00:00:00') {
+                    let date= new Date(this.postForm.configtime);
                     let year=date.getFullYear(),
                             month=date.getMonth()+ 1,
                             day=date.getDate(),

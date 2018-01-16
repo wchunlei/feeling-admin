@@ -37,7 +37,7 @@
                         <el-input placeholder="请输入链接" style='width:190px;' v-model="postForm.url" :maxlength="1000"></el-input>
                         <!--<span>钻石</span>-->
                     </el-form-item>
-                    <el-form-item label="用户信息:" label-width="100px" prop="message" style="margin-bottom: 20px">
+                    <el-form-item label="用户信息:" label-width="100px" prop="message" style="margin-bottom: 20px" required>
                         <el-select v-model="postForm.message" placeholder="请选择">
                             <el-option v-for="item in userMessOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
@@ -441,7 +441,7 @@
                 this.$refs.postForm.validate(valid => {
                     if (valid) {
                         let dateString;
-                        if (this.postForm.configtime) {
+                        if (this.postForm.configtime && this.postForm.configtime != '0000-00-00 00:00:00') {
                             let date=new Date(this.postForm.configtime);
                             let year=date.getFullYear(),
                                     month=date.getMonth()+ 1,
@@ -546,6 +546,70 @@
                     if (response.data.content.configtime == '0000-00-00 00:00:00') {
                         this.postForm.configtime = '';
                     }
+                    if (response.data.content.type == 1) {
+                        if(!this.showH){
+                            this.showH=true;
+                            this.showPer=false;
+                            this.showSto = false;
+                            this.showVid = false;
+                        } else {
+                            this.showPer=false;
+                            this.showSto = false;
+                            this.showVid = false;
+                        }
+                    }
+                    if (response.data.content.type == 2) {
+                        if(!this.showSto){
+                            this.showSto = true;
+                            this.showPer = false;
+                            this.showH = false;
+                            this.showVid = false;
+                        } else {
+                            this.showPer = false;
+                            this.showH=false;
+                            this.showVid = false;
+                        }
+                    }
+                    if (response.data.content.type == 3) {
+                        if(!this.showRe){
+                            this.showRe = true;
+                            this.showSto = false;
+                            this.showPer = false;
+                            this.showH = false;
+                            this.showVid = false;
+                        } else {
+                            this.showSto = false;
+                            this.showPer = false;
+                            this.showH = false;
+                            this.showVid = false;
+                        }
+                    }
+                    if (response.data.content.type == 4) {
+                        if(!this.showVid){
+                            this.showVid = true;
+                            this.showSto = false;
+                            this.showPer = false;
+                            this.showH = false;
+                            this.showRe = false;
+                        } else {
+                            this.showSto = false;
+                            this.showPer = false;
+                            this.showH=false;
+                            this.showRe = false;
+                        }
+                    }
+                    if (response.data.content.type == 5) {
+                        if(!this.showPer){
+                            this.showPer=true;
+                            this.showH=false;
+                            this.showSto = false;
+                            this.showVid = false;
+                        } else {
+                            this.showH=false;
+                            this.showSto = false;
+                            this.showVid = false;
+                        }
+                    }
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);
@@ -604,7 +668,7 @@
                 }
             },
             showVideo () {
-                if(!this.showSto){
+                if(!this.showVid){
                     this.showVid = true;
                     this.showSto = false;
                     this.showPer = false;
@@ -616,8 +680,9 @@
                     this.showH=false;
                     this.showRe = false;
                 }
-            },showRecharge () {
-                if(!this.showSto){
+            },
+            showRecharge () {
+                if(!this.showRe){
                     this.showRe = true;
                     this.showSto = false;
                     this.showPer = false;

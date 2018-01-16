@@ -1003,7 +1003,7 @@
       },*/
       add () {
         let dateString;
-        if (this.postForm.configtime) {
+        if (this.postForm.configtime && this.postForm.configtime != '0000-00-00 00:00:00') {
           let date= new Date(this.postForm.configtime);
           let year=date.getFullYear(),
                   month=date.getMonth()+ 1,
