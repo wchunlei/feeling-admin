@@ -575,6 +575,7 @@
             if(this.$route.params.id && this.$route.params.id != ':id'){
                 let listQuery={};
                 listQuery.id = this.$route.params.id;
+                listQuery.pos = '1';
                 //listQuery.actorid = this.$route.params.actorid;
                 this.fetchData(listQuery);
                 this.saveBut = true;
@@ -703,7 +704,7 @@
                 this.$refs.postForm.validate(valid => {
                     if (valid) {
                         let dateString;
-                        if (this.postForm.configtime) {
+                        if (this.postForm.configtime && this.postForm.configtime != '0000-00-00 00:00:00') {
                             let date= new Date(this.postForm.configtime)
                             let year=date.getFullYear(),
                                     month=date.getMonth()+ 1,
@@ -717,6 +718,7 @@
                         }
                         let diaryinfo={
                             //actorid: parseInt(this.postForm.actorid),
+                            pos: '1',
                             actorid: this.postForm.actor.value,
                             reward: this.postForm.reward,
                             words: this.postForm.words,

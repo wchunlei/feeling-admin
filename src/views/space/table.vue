@@ -381,7 +381,8 @@
                     type: 'warning'
                 }).then(() => {
                     let deleteitem={
-                        id: rows.id
+                        id: rows.id,
+                        pos: '1'
                     };
                     deldiary(deleteitem).then(response => {
                         //this.list = response.data.content;
@@ -481,7 +482,8 @@
             changeSort (rows) {
                 let sortitem={
                     id: rows.id,
-                    sort: rows.sort
+                    sort: rows.sort,
+                    pos: '1'
                 };
                 //row.splice(index, 1);
                 sortdiary(sortitem).then(response => {
