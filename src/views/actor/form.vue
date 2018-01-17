@@ -566,8 +566,9 @@
           price: [{ validator: checkNumPrice, trigger: 'blur' }],
           workTimeWeek: [{ validator: validateRequireAll, trigger: 'blur' }],
           workTimeWeek1: [{ validator: validateRequireAll, trigger: 'blur' }],
-          time2: [{ validator: validateRequireAll, trigger: 'blur' }],
-          time3: [{ validator: validateRequireAll, trigger: 'blur' }],
+          time: [{ validator: validateRequireAll, trigger: 'blur' }],
+          time1: [{ validator: validateRequireAll, trigger: 'blur' }],
+          playimg: [{ validator: validateRequireAll, trigger: 'blur' }],
           //bust: [{ validator: checkNum, trigger: 'blur' }],
         }
       }
@@ -889,6 +890,9 @@
           }
           if (response.data.content.backimg[4]) {
             this.postForm.backImg5 = response.data.content.backimg[4];
+          }
+          if (this.postForm.configtime == "0000-00-00 00:00:00") {
+            this.postForm.configtime = '';
           }
           /*for(let i=0;i<this.postForm.nature.length;i++){
             this.postForm.nature[i].name = response.data.content.nature[i].name;

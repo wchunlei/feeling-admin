@@ -103,3 +103,20 @@ export function upmaidfm(storyinfo) {
         data
     });
 }
+
+export function addhomefmcomm(diaryinfo) {
+    const data = diaryinfo;
+    return fetch({
+        url: '?act=addhomefmcomm',
+        method: 'post',
+        data
+    });
+}
+
+export function homefmcomminfo(query) {
+    return fetch({
+        url: '?act=homefmcomminfo',
+        method: 'get',
+        params: query
+    });
+}

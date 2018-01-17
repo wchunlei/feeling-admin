@@ -504,6 +504,12 @@
                         this.loading = true;
                         if (this.$route.params.id && this.$route.params.id == ':id') {
                             addbanner (diaryinfo).then(response => {
+                                if (response.data.msg == 'title is repeat!') {
+                                    this.$message({
+                                        message: '标题不能重复',
+                                        type: 'error'
+                                    });
+                                }
                                 if(response.data.code==200){
                                     this.$message({
                                         message: '新增成功',

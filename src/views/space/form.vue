@@ -750,8 +750,10 @@
                                 this.showAudContent = false;
                             }
                         }
+                        if (this.postForm.configtime == "0000-00-00 00:00:00") {
+                            this.postForm.configtime = '';
+                        }
                     })
-
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);

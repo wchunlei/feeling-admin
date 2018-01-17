@@ -432,7 +432,9 @@
                 this.addBut = false;
                 this.showChart = true;
                 this.listQuery.scriptid = this.$route.params.id;
-                this.getDetail(this.listQuery);
+                this.$nextTick(function () {
+                    this.getDetail();
+                })
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -508,8 +510,8 @@
                             this.postForm.actor = this.userLIstOptions[j];
                         }
                     }
-                    if (response.data.content.configtime == '0000-00-00 00:00:00') {
-                        this.postForm.configtime = '0000-00-00 00:00:00';
+                    if (this.postForm.configtime == "0000-00-00 00:00:00") {
+                        this.postForm.configtime = '';
                     }
                 }).catch(err => {
                     this.fetchSuccess = false;
@@ -550,49 +552,55 @@
                     videosize: this.videosize.toString(),
                     videourl: this.videourl
                 };
-                /*this.$refs.postForm.validate(valid => {
+                this.$refs.postForm.validate(valid => {
                  if (valid) {
-                 this.loading = true;*/
-                if (this.$route.params.id && this.$route.params.id == ':id') {
-                    addscript(storyinfo).then(response => {
-                        /*if (!response.data.items) return;
-                         console.log(response)
-                         this.userLIstOptions = response.data.items.map(v => ({
-                         key: v.name
-                         }));*/
-                        if(response.data.code == 200) {
-                            this.$message({
-                                message: '发布成功',
-                                type: 'success'
-                            });
-                            //this.$refs[formName].resetFields();
-                            //this.postForm.status = 'published';
-                        }
-                    });
+                     this.loading = true;
+                    if (this.$route.params.id && this.$route.params.id == ':id') {
+                        addscript(storyinfo).then(response => {
+                            /*if (!response.data.items) return;
+                             console.log(response)
+                             this.userLIstOptions = response.data.items.map(v => ({
+                             key: v.name
+                             }));*/
+                            if (response.data.msg == 'title is repeat!') {
+                                this.$message({
+                                    message: '标题不能重复',
+                                    type: 'error'
+                                });
+                            }
+                            if(response.data.code == 200) {
+                                this.$message({
+                                    message: '发布成功',
+                                    type: 'success'
+                                });
+                                //this.$refs[formName].resetFields();
+                                //this.postForm.status = 'published';
+                            }
+                        });
+                    } else {
+                        storyinfo.scriptid = this.$route.params.id;
+                        updatescript(storyinfo).then(response => {
+                            /*if (!response.data.items) return;
+                             console.log(response)
+                             this.userLIstOptions = response.data.items.map(v => ({
+                             key: v.name
+                             }));*/
+                            if(response.data.code == 200) {
+                                this.$message({
+                                    message: '发布成功',
+                                    type: 'success'
+                                });
+                                //this.$refs[formName].resetFields();
+                                //this.postForm.status = 'published';
+                            }
+                        });
+                    }
+                    this.loading = false;
                 } else {
-                    storyinfo.scriptid = this.$route.params.id;
-                    updatescript(storyinfo).then(response => {
-                        /*if (!response.data.items) return;
-                         console.log(response)
-                         this.userLIstOptions = response.data.items.map(v => ({
-                         key: v.name
-                         }));*/
-                        if(response.data.code == 200) {
-                            this.$message({
-                                message: '发布成功',
-                                type: 'success'
-                            });
-                            //this.$refs[formName].resetFields();
-                            //this.postForm.status = 'published';
-                        }
-                    });
-                }
-                this.loading = false;
-                /*} else {
                  console.log('error submit!!');
                  return false;
                  }
-                 });*/
+                 });
             },
             showPrice () {
                 this.showPri = true;

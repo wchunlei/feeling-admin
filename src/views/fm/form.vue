@@ -23,14 +23,15 @@
                     </multiselect>
                 </el-form-item>
 
-                <el-form-item label="音频:" label-width="100px" prop="content" style="margin-bottom: 20px">
+                <el-form-item label="音频:" label-width="100px" prop="audio" style="margin-bottom: 20px">
                     <div style="margin-bottom: 20px;">
                         <!--<Uploadaudio v-model="postForm.content"></Uploadaudio>
                         <span style="font-size:12px">（注：请mp3等音频格式的文件）</span>-->
-                        <el-select v-model="postForm.content" filterable placeholder="请选择" disabled>
-                            <el-option v-for="item in contentOptions" :key="item.value" :label="item.label" :value="item.value">
+                        <el-select v-model="postForm.audio" filterable placeholder="请选择" disabled>
+                            <el-option v-for="item in audioOptions" :key="item.value" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
+                        <!--<el-input v-model="postForm.audio" style="width:150px" placeholder="最多输入10个字" disabled></el-input>-->
                     </div>
                 </el-form-item>
 
@@ -42,13 +43,13 @@
                     <el-input v-model="postForm.avdesc" style="width:300px" placeholder="最多输入20个字" disabled></el-input>
                 </el-form-item>
 
-                <el-form-item label="音频图片:" label-width="100px" prop="picture" style="margin-bottom: 40px" disabled>
+                <el-form-item label="音频图片:" label-width="100px" prop="thumbnail" style="margin-bottom: 40px" disabled>
                     <!--<div style="margin-bottom: 20px;">
                         <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
                         <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
                     </div>-->
                     <div style="margin-right: 20px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                        <Upload v-model="postForm.picture" v-on:input="picInput" disabled></Upload>
+                        <Upload v-model="postForm.thumbnail" v-on:input="picInput" disabled></Upload>
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
@@ -151,6 +152,9 @@
     import { diaryinfo } from 'api/diary';
     import { maidfmlist } from 'api/fm';
     import { actorList } from 'api/actor';
+    import { addhomefmcomm } from 'api/fm';
+    import { homefmcomminfo } from 'api/fm';
+    import { reslist } from 'api/resource';
 
     export default {
         name: 'articleDetail',
@@ -211,6 +215,7 @@
             };
             return {
                 list: [],
+                audioOptions: [],
                 phopoid: '',
                 watcher: false,
                 listQuery: {},
@@ -230,14 +235,14 @@
                 commentForm: false,
                 showPri: true,
                 postForm: {
-                    actor: '',
+                    actor: [],
                     title: '',
                     avname: '',
                     avdesc: '',
-                    content: '',
+                    audio: '',
                     type: '0',
                     ispay: '1',
-                    picture: '',
+                    thumbnail: '',
                     configtime: '',
                     sort: '0',
                     price: 5,
@@ -363,12 +368,15 @@
         created() {
             let Query = {};
             this.getRemoteUserList(Query);
+            this.getAudioResource();
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
                 this.listQuery.id = this.$route.params.id;
-                this.getDetail(this.listQuery);
-                this.getList();
+                this.$nextTick(function () {
+                    this.getDetail();
+                    this.getList();
+                })
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -378,6 +386,12 @@
              this.fetchData();
              }*/
         },
+        /*mounted () {
+            this.$nextTick(function () {
+                this.getDetail();
+            })
+
+        },*/
         /*watch : {
             "watcher" : {
                 handler:function(val,oldval){
@@ -387,57 +401,61 @@
             }
         },*/
         methods: {
+            getAudioResource () {
+                let typeinfo = {};
+                typeinfo.type = '3';
+                reslist (typeinfo).then(response => {
+                    if(response.data.code==200){
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            temp.value = response.data.content[i].id;
+                            temp.label = response.data.content[i].name;
+                            this.audioOptions.push(temp);
+                        }
+                        console.log(this.audioOptions)
+                        /*this.$message({
+                         message: '新增成功',
+                         type: 'success'
+                         });*/
+                    }
+                });
+            },
             getDetail () {
                 this.listQuery.pos = '2';
-                maidfminfo (this.listQuery).then(response => {
-                    let logicpicTemp = JSON.stringify(response.data.content.logicpic);
-                    this.postForm = response.data.content;
-                    this.postForm.price = parseInt(response.data.content.price);
-                    let temp = [];
-                    for (let i=0; i<response.data.content.comment.length; i++) {
-                        temp.push(response.data.content.comment[i].content)
-                    }
-                    this.postForm.comment = temp.join('#');
+                diaryinfo (this.listQuery).then(response => {
+                    this.postForm.audio = response.data.content.audio;
+                    this.postForm.avname = response.data.content.avname;
+                    this.postForm.avdesc = response.data.content.avdesc;
+                    this.postForm.thumbnail = response.data.content.thumbnail;
+                    this.postForm.configtime = response.data.content.configtime;
                     for ( let j=0; j<this.userLIstOptions.length; j++) {
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.actor = this.userLIstOptions[j];
                         }
                     }
-                    /*for (let i=0; i<response.data.content.comment.length; i++) {
-                     let tempObj = {};
-                     tempObj.id = response.data.content.comment[i].id;
-                     tempObj.content = response.data.content.comment[i].content;
-                     tempObj.publish = response.data.content.comment[i].uid;
-                     tempObj.configtime = response.data.content.configtime;
-                     this.list.push(tempObj);
-                     }*/
+                    if (this.postForm.configtime == "0000-00-00 00:00:00") {
+                        this.postForm.configtime = '';
+                    }
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);
                 });
             },
             getList() {
-                this.listLoading = true;
-                maidfmlist(this.listQuery).then(response => {
-                    for (let m=0; m<response.data.content.length; m++) {
-                        if (this.$route.params.id == response.data.content[m].id) {
-                            for (let i=0; i<response.data.content[m].comment.length; i++) {
-                                let tempObj = {};
-                                tempObj.id = response.data.content[m].comment[i].id;
-                                tempObj.content = response.data.content[m].comment[i].content;
-                                tempObj.publish = response.data.content[m].comment[i].uid;
-                                tempObj.configtime = response.data.content[m].configtime;
-                                this.list.push(tempObj);
-                            }
-                        }
+                let comminfo = {
+                    id: this.$route.params.id
+                };
+                homefmcomminfo (comminfo).then(response => {
+                    let temp = [];
+                    for (let i=0; i<response.data.content.length; i++) {
+                        temp.push(response.data.content[i].content)
                     }
-                    this.listLoading = false;
+                    this.postForm.comment = temp.join('#');
                 })
-                this.listLoading = false;
             },
             addFM (formName) {
-                this.$refs.postForm.validate(valid => {
-                    if (valid) {
+                /*this.$refs.postForm.validate(valid => {
+                    if (valid) {*/
                         this.loading = true;
                         let dateString;
                         if (this.postForm.configtime) {
@@ -455,50 +473,41 @@
                         }
                         let fminfo={
                             //actorid: parseInt(this.postForm.actorid),
-                            actorid: this.postForm.actor.value,
-                            title: this.postForm.title,
-                            content: this.postForm.content,
-                            ispay: this.postForm.ispay,
-                            type: this.postForm.type,
-                            price: this.postForm.price.toString(),
+                            id: this.$route.params.id,
                             sort: this.postForm.sort,
                             configtime: dateString,
-                            comment: this.postForm.comment.split('#'),
-                            people: this.postForm.people
-                        }
-                        if (this.postForm.type == 1) {
-                            fminfo.picture = this.postForm.picture
+                            content: this.postForm.comment.split('#')
                         }
                         if (this.$route.params.id && this.$route.params.id == ':id') {
-                            addmaidfm(fminfo).then(response => {
+                            addhomefmcomm(fminfo).then(response => {
                                 if(response.data.code == 200) {
                                     this.$message({
                                         message: '发布成功',
                                         type: 'success'
                                     });
-                                    this.$refs[formName].resetFields();
-                                    this.postForm.status = 'published';
+                                    //this.$refs[formName].resetFields();
+                                    //this.postForm.status = 'published';
                                 }
                             });
                         } else {
                             fminfo.id = this.$route.params.id;
-                            updatemaidfm(fminfo).then(response => {
+                            addhomefmcomm(fminfo).then(response => {
                                 if(response.data.code == 200) {
                                     this.$message({
                                         message: '发布成功',
                                         type: 'success'
                                     });
-                                    this.$refs[formName].resetFields();
-                                    this.postForm.status = 'published';
+                                    //this.$refs[formName].resetFields();
+                                    //this.postForm.status = 'published';
                                 }
                             });
                         }
                         this.loading = false;
-                    } else {
+                    /*} else {
                         console.log('error submit!!');
                         return false;
                     }
-                });
+                });*/
             },
             showPrice () {
                 this.showPri = true;

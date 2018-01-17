@@ -445,6 +445,12 @@
                              this.userLIstOptions = response.data.items.map(v => ({
                              key: v.name
                              }));*/
+                            if (response.data.msg == 'name is repeat!') {
+                                this.$message({
+                                    message: '房间名不能重复',
+                                    type: 'error'
+                                });
+                            }
                             if(response.data.code == 200) {
                                 this.$message({
                                     message: '发布成功',
@@ -517,6 +523,9 @@
                                 this.postForm.checkedActor = this.actorOptions[j].label;
                             })
                         }
+                    }
+                    if (this.postForm.configtime == "0000-00-00 00:00:00") {
+                        this.postForm.configtime = '';
                     }
                 }).catch(err => {
                     this.fetchSuccess = false;

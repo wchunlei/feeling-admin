@@ -312,7 +312,6 @@
         },
         created() {
             this.getActor();
-            this.getList();
         },
         filters: {
             statusFilter(status) {
@@ -372,6 +371,7 @@
                         temp.label = response.data.content[i].name;
                         this.actorOptions.push(temp);
                     }
+                    this.getList();
                 })
             },
             deleteRow(index, rows) {

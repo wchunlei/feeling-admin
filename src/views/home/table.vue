@@ -358,11 +358,10 @@
             }
         },
         created() {
-            let Query = {};
             this.getActor();
-            this.getScriptList(Query);
-            //this.getRemoteUserList(Query);
+            this.getScriptList();
             this.getList();
+            //this.getRemoteUserList(Query);
         },
         filters: {
             statusFilter(status) {
@@ -423,6 +422,7 @@
                         this.actorOptions.push(temp);
                     }
                 })
+                this.getList();
             },
             getRemoteUserList(query) {
                 console.log("getRemoteUserList")
@@ -436,7 +436,8 @@
                     }));
                 })
             },
-            getScriptList (Query) {
+            getScriptList () {
+                let Query = {};
                 scriptlist(Query).then(response => {
                     console.log(response)
                     if (this.scriptData) {
@@ -450,6 +451,7 @@
                     }
                     this.listLoading = false;
                 })
+                this.getList();
             },
             deleteRow(index, rows) {
                 this.$confirm('确定要删除该内容吗？', '提示', {

@@ -381,9 +381,9 @@
                 }],
                 actorDetail: {
                     actor: [{ validator: validateRequireAll, trigger: 'blur' }],
-                    question: [{ validator: validateRequire, trigger: 'blur' }],
+                    title: [{ validator: validateRequire, trigger: 'blur' }],
                     //comments: [{ validator: validateRequire, trigger: 'blur' }],
-                    commentOne: [{ validator: validateRequire, trigger: 'blur' }],
+                    content: [{ validator: validateRequire, trigger: 'blur' }],
                     price: [{ validator: checkNum, trigger: 'blur' }],
                     //bust: [{ validator: checkNum, trigger: 'blur' }],
                 }
@@ -406,8 +406,10 @@
                 this.saveBut = true;
                 this.addBut = false;
                 this.listQuery.id = this.$route.params.id;
-                this.getDetail(this.listQuery);
-                this.getList();
+                this.$nextTick(function () {
+                    this.getDetail();
+                    this.getList();
+                })
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -470,6 +472,9 @@
                     }
                     if (this.postForm.ispay == 0) {
                         this.showPri = false;
+                    }
+                    if (this.postForm.configtime == "0000-00-00 00:00:00") {
+                        this.postForm.configtime = '';
                     }
                     /*for (let i=0; i<response.data.content.comment.length; i++) {
                         let tempObj = {};
@@ -546,8 +551,8 @@
                                         message: '发布成功',
                                         type: 'success'
                                     });
-                                    this.$refs[formName].resetFields();
-                                    this.postForm.status = 'published';
+                                    //this.$refs[formName].resetFields();
+                                    //this.postForm.status = 'published';
                                 }
                             });
                         } else {
@@ -558,8 +563,8 @@
                                         message: '发布成功',
                                         type: 'success'
                                     });
-                                    this.$refs[formName].resetFields();
-                                    this.postForm.status = 'published';
+                                    //this.$refs[formName].resetFields();
+                                    //this.postForm.status = 'published';
                                 }
                             });
                         }
