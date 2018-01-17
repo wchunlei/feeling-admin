@@ -464,8 +464,8 @@
                         type: 'error'
                     });
                 }
-                this.$refs.postForm.validate(valid => {
-                    if (valid) {
+                /*this.$refs.postForm.validate(valid => {
+                    if (valid) {*/
                         let dateString;
                         if (this.postForm.configtime && this.postForm.configtime != '0000-00-00 00:00:00') {
                             let date=new Date(this.postForm.configtime);
@@ -558,11 +558,11 @@
                         }
                         this.postForm.status = 'published';
                         this.loading = false;
-                    } else {
+                    /*} else {
                         console.log('error submit!!');
                         return false;
                     }
-                });
+                });*/
             },
             getDetail (home) {
                 bannerinfo (home).then(response => {
