@@ -312,11 +312,11 @@
                     label: '女'
                 }],
                 bannerDetail: {
-                    name: [{ validator: validateRequire, trigger: 'blur' }],
-                    style: [{ validator: validateRequire, trigger: 'blur' }],
-                    height: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
-                    weight: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
-                    age: [{ validator: checkNum, trigger: 'blur' }],
+                    title: [{ validator: validateRequire, trigger: 'blur' }],
+                    actor: [{ validator: validateRequire, trigger: 'blur' }],
+                    pic: [{ validator: validateRequire, trigger: 'blur' }],
+                    url: [{ validator: validateRequire, trigger: 'blur' }],
+                    mvurl: [{ validator: validateRequire, trigger: 'blur' }],
                     //bust: [{ validator: checkNum, trigger: 'blur' }],
                 }
             }
