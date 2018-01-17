@@ -62,7 +62,7 @@
 
                 <div v-show="showSto" style="display: inline-block;margin-bottom: 0px">
                     <el-form-item label="选择房间:" label-width="100px" prop="room" style="margin-bottom: 40px">
-                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.room" placeholder="选择房间" required>
+                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.room" placeholder="选择房间" @visible-change="changeRoo" required>
                             <el-option v-for="item in  homeOptions" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
@@ -422,6 +422,9 @@
                     }
                 });
             },
+            changeRoo () {
+                //postForm.room
+            },
             getList () {
                 scriptlist(this.listQuery).then(response => {
                     console.log(response)
@@ -567,6 +570,11 @@
                     for ( let j=0; j<this.userLIstOptions.length; j++) {
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.actor = this.userLIstOptions[j];
+                        }
+                    }
+                    for (let i=0; i<this.homeOptions.length; i++) {
+                        if(response.data.content.roomid == this.homeOptions[i].value) {
+                            this.postForm.room = this.homeOptions[i].label;
                         }
                     }
                     if (response.data.content.configdowntime == '0000-00-00 00:00:00') {

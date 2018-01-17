@@ -509,8 +509,8 @@
                 this.listLoading = false;
             },
             addFM (formName) {
-                this.$refs.postForm.validate(valid => {
-                    if (valid) {
+                /*this.$refs.postForm.validate(valid => {
+                    if (valid) {*/
                         this.loading = true;
                         let dateString;
                         if (this.postForm.configtime && this.postForm.configtime != '0000-00-00 00:00:00') {
@@ -569,11 +569,11 @@
                             });
                         }
                         this.loading = false;
-                    } else {
+                    /*} else {
                         console.log('error submit!!');
                         return false;
                     }
-                });
+                });*/
             },
             showPrice () {
                 this.showPri = true;

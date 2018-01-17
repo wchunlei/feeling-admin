@@ -435,8 +435,8 @@
                     configtime: dateString,
                     roomsort: this.postForm.roomsort
                 };
-                this.$refs.postForm.validate(valid => {
-                 if (valid) {
+                /*this.$refs.postForm.validate(valid => {
+                 if (valid) {*/
                      this.loading = true;
                     if (this.$route.params.id && this.$route.params.id == ':id') {
                         addroom(homeinfo).then(response => {
@@ -485,11 +485,11 @@
                         });
                     }
                     this.loading = false;
-                } else {
+                /*} else {
                  console.log('error submit!!');
                  return false;
                  }
-                 });
+                 });*/
             },
             getDetail (home) {
                 roominfo (home).then(response => {
