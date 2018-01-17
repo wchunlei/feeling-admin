@@ -438,6 +438,29 @@
                 })
             },
             addBanner (formName) {
+                if (this.postForm.type == 1) {
+                    this.postForm.mvurl = "www";
+                    this.postForm.actor = "1";
+                } else if (this.postForm.type == 5) {
+                    this.postForm.url = "www";
+                    this.postForm.mvurl = "www";
+                } else if (this.postForm.type == 2) {
+                    this.postForm.url = "www";
+                    this.postForm.mvurl = "www";
+                    this.postForm.actor = "1";
+                } else if (this.postForm.type == 4) {
+                    this.postForm.url = "www";
+                    this.postForm.actor = "1";
+                } else if (this.postForm.type == 3) {
+                    this.postForm.url = "www";
+                    this.postForm.mvurl = "www";
+                    this.postForm.actor = "1";
+                } else {
+                    this.$message({
+                        message: '请选择类型',
+                        type: 'error'
+                    });
+                }
                 this.$refs.postForm.validate(valid => {
                     if (valid) {
                         let dateString;
