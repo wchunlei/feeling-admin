@@ -457,6 +457,11 @@
                     } else {
                         homeinfo.id = this.$route.params.id;
                         homeinfo.name = this.postForm.name.replace(/(\s*$)/g, "");
+                        for (let i=0; i<this.actorOptions.length; i++) {
+                            if (this.postForm.checkedActor == this.actorOptions[i].label) {
+                                homeinfo.actorid = this.actorOptions[i].value;
+                            }
+                        }
                         updateroom(homeinfo).then(response => {
                             /*if (!response.data.items) return;
                              console.log(response)

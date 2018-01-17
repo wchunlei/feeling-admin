@@ -7,7 +7,7 @@
         </el-upload>-->
         <el-upload
                 class="avatar-uploader"
-                action="http://192.168.1.43:3000/system/upload"
+                :action="picUrl"
                 :data="dataObj"
                 :show-file-list="false"
                 :before-upload="beforeAvatarUpload"
@@ -47,10 +47,14 @@
 <script type="text/ECMAScript-6">
     // 预览效果见文章
     import { getToken } from 'api/qiniu';
+    import { pictureUrl } from 'utils/urlConfig';
     export default {
         name: 'singleImageUpload',
         props: {
             value: String
+        },
+        created () {
+            this.picUrl = pictureUrl();
         },
         computed: {
             imageUrl() {
@@ -60,6 +64,7 @@
         data() {
             return {
                 tempUrl: '',
+                picUrl: '',
                 dataObj: { token: '', key: '' },
                 showClose: false,
                 //imageUrl: ''

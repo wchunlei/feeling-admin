@@ -7,7 +7,7 @@
         </el-upload>-->
         <el-upload
                 class="avatar-uploader"
-                action="http://192.168.1.43:1442/?act=uploadimg"
+                :action="picUrl"
                 :data="dataObj"
                 :show-file-list="false"
                 :before-upload="beforeAvatarUpload"
@@ -43,12 +43,16 @@
 
 <script type="text/ECMAScript-6">
     import { getToken } from 'api/qiniu';
+    import { pictureUrl } from 'utils/urlConfig';
     import  md5  from 'js-md5';
     import axios from 'axios'
     export default {
         name: 'singleImageUpload',
         props: {
             value: String
+        },
+        created () {
+            this.picUrl = pictureUrl();
         },
         computed: {
             imageUrl() {
@@ -58,6 +62,7 @@
         data() {
             return {
                 tempUrl: '',
+                picUrl: '',
                 dataObj: {
                 },
                 showClose: false,
@@ -80,12 +85,14 @@
                 }
             },
             beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isLt2M = file.size / 1024 / 1024 < 2;
-
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                const isLt2M = file.size / 1024 / 1024 > 0.01;
+                if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
+                    this.$message.error('图片格式有误!');
                 }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不小于 10kb!');
+                }
+                return isLt2M;
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
