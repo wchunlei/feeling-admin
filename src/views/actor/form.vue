@@ -702,12 +702,17 @@
       handleRemove(file, fileList) {
         console.log( fileList);
         let index = null;
+        let temp = [];
         for (let i=0; i<this.postForm.playimg.length; i++) {
-          if (file.name == this.postForm.playimg[i].name) {
-            index = this.postForm.playimg.indexOf(file.name);
+          temp.push(this.postForm.playimg[i].name);
+        }
+        for (let j=0; j<temp.length; j++) {
+          if (file.name == temp[j]) {
+            index = temp.indexOf(file.name);
+            this.postForm.playimg.splice(index, 1);
           }
         }
-        this.postForm.playimg.splice(index, 1);
+        //this.postForm.playimg.splice(index, 1);
         this.fileList = this.postForm.playimg;
       },
       readAsBinaryString(){
