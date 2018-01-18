@@ -286,7 +286,9 @@
                 this.addBut = false;
                 let home = {};
                 home.id = this.$route.params.id;
-                this.getDetail(home);
+                this.$nextTick(function() {
+                    this.getDetail(home);
+                })
             } else {
                 this.showPhoto = false;
                 this.disable = false;

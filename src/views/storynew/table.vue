@@ -574,7 +574,7 @@
                     }
                     this.total = response.data.total;
                     for (let i=0; i< response.data.content.length; i++) {
-                        if(response.data.content[i].cost == 0) {
+                        if(response.data.content[i].cost == 1) {
                             this.list[i].price = "免费";
                         }
                     }
