@@ -49,7 +49,7 @@
                         &lt;!&ndash;<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>&ndash;&gt;
                     </el-upload>
                 </el-form-item>-->
-                <el-form-item label="剧情包:" label-width="100px" prop="uploadFile" style="margin-bottom: 40px">
+                <!--<el-form-item label="剧情包:" label-width="100px" prop="uploadFile" style="margin-bottom: 40px">
                     <el-upload
                             :model="postForm.uploadFile"
                             class="upload-demo"
@@ -57,7 +57,11 @@
                             :before-upload="beforeAvatarUploadVideo"
                             :on-success="handleImageScucess" style="width:200px">
                         <el-button size="small" type="primary">选择txt文件</el-button>
-                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                        &lt;!&ndash;<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>&ndash;&gt;
+                    </el-upload>
+                </el-form-item>-->
+                <el-form-item label="剧情:" label-width="100px" prop="video" style="margin-bottom: 40px" required>
+                    <el-input type="textarea" placeholder="" style='width:280px;' v-model="postForm.video" :maxlength=20 :rows=3></el-input>
                     </el-upload>
                 </el-form-item>
                 <el-form-item class="removeElList" label="背景图:" label-width="100px" prop="picture" style="margin-bottom: 40px">
@@ -235,6 +239,7 @@
                     actor: [],
                     uploadTxt: '',
                     uploadFile: '',
+                    video: '',
                     picture: '',
                     csolor: '0',
                     stage: '1',
@@ -495,8 +500,8 @@
                     this.postForm.option = parseInt(response.data.content.option);
                     this.pictureurl = response.data.content.picture;
                     this.video = response.data.content.video;
-                    this.videosize = response.data.content.videosize;
-                    this.videourl = response.data.content.videourl;
+                    /*this.videosize = response.data.content.videosize;
+                    this.videourl = response.data.content.videourl;*/
                     //this.postForm.uploadPicture = response.data.content.picture;
                     //this.logicpic = JSON.stringify(response.data.content.logicpic)
                     this.logicpic = JSON.parse(logicpicTemp)
@@ -550,9 +555,9 @@
                     option: this.postForm.option.toString(),
                     configtime: dateString,
                     sort: this.postForm.sort,
-                    video: this.video,
-                    videosize: this.videosize.toString(),
-                    videourl: this.videourl
+                    video: this.postForm.video.split('#'),
+                    /*videosize: this.videosize.toString(),
+                    videourl: this.videourl*/
                 };
                 this.$refs.postForm.validate(valid => {
                  if (valid) {

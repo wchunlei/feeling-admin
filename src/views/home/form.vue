@@ -257,6 +257,8 @@
                 saveBut: false,
                 actorDetail: {
                     name: [{ validator: validateRequire, trigger: 'blur' }],
+                    checkedActor: [{ validator: validateRequireAll, trigger: 'blur' }],
+                    checkedStory: [{ validator: validateRequireAll, trigger: 'blur' }]
                 }
             }
         },
