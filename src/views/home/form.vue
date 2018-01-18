@@ -19,7 +19,7 @@
 
             <div class="createPost-main-container">
                 <el-form-item label="房间名:" label-width="100px" prop="name" style="margin-bottom: 40px" required>
-                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :maxlength="20"></el-input>
+                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :maxlength="10"></el-input>
                 </el-form-item>
 
                 <el-form-item label="背景图:" label-width="100px" prop="backimg" style="margin-bottom: 40px">
@@ -58,6 +58,11 @@
                         <el-checkbox v-for="story in storys" :label="story" :key="story">{{story}}</el-checkbox>
                     </el-checkbox-group>-->
                     <el-transfer v-model="postForm.checkedStory" :data="scriptData" :titles="['未选择', '已选择']" @change="changeTransfer"></el-transfer>
+                    <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                    <div style="margin: 15px 0;"></div>-->
+                    <!--<el-checkbox-group v-model="postForm.checkedStory" @change="handleScriptChange">
+                        <el-checkbox v-for="script in scriptDataLabel" :label="script" :key="script">{{script}}</el-checkbox>
+                    </el-checkbox-group>-->
                 </el-form-item>
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
@@ -168,6 +173,7 @@
             };*/
             return {
                 scriptData: [],
+                scriptDataLabel: [],
                 script: [],
                 actorOptions: [],
                 phopoid: '',
@@ -189,7 +195,7 @@
                 postForm: {
                     name: '', // 文章内容
                     checkedActor: [],
-                    checkedStory: ['3'],
+                    checkedStory: [],
                     backimg: '',
                     configtime: '',
                     roomsort: '0',
@@ -280,9 +286,7 @@
                 this.addBut = false;
                 let home = {};
                 home.id = this.$route.params.id;
-                this.$nextTick(function () {
-                    this.getDetail(home);
-                })
+                this.getDetail(home);
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -319,6 +323,9 @@
             }*/
             "postForm.checkedActor": {
                 handler:function(val,oldval) {
+                    if (this.scriptDataLabel) {
+                        this.scriptDataLabel = [];
+                    }
                     scriptlist(this.listQuery).then(response => {
                         console.log(response)
                         if (this.scriptData) {
@@ -330,6 +337,7 @@
                                 temp.key = response.data.content[i].id;
                                 temp.label = response.data.content[i].title;
                                 this.scriptData.push(temp);
+                                this.scriptDataLabel.push(temp.label);
                             }
                         }
                     })
@@ -353,30 +361,14 @@
                     }
                 })
             },
-            changeAc () {
-                this.$nextTick(function () {
-                    //this.postForm.name = this.postForm.name + ' ';
-                    scriptlist(this.listQuery).then(response => {
-                        console.log(response)
-                        if (this.scriptData) {
-                            this.scriptData = [];
-                        }
-                        for (let i=0; i<response.data.content.length; i++) {
-                            let temp = {};
-                            if (this.postForm.checkedActor == response.data.content[i].actorid) {
-                                temp.key = response.data.content[i].id;
-                                temp.label = response.data.content[i].title;
-                                this.scriptData.push(temp);
-                            }
-                        }
-                    })
-                })
-            },
             changeScr () {
                 scriptlist(this.listQuery).then(response => {
                     console.log(response)
                     if (this.scriptData) {
                         this.scriptData = [];
+                    }
+                    if (this.scriptDataLabel) {
+                        this.scriptDataLabel = [];
                     }
                     for (let i=0; i<response.data.content.length; i++) {
                         let temp = {};
@@ -384,6 +376,7 @@
                             temp.key = response.data.content[i].id;
                             temp.label = response.data.content[i].title;
                             this.scriptData.push(temp);
+                            this.scriptDataLabel.push(temp.label);
                         }
                     }
                 })
@@ -395,6 +388,7 @@
                         temp.key = response.data.content[i].id;
                         temp.label = response.data.content[i].title;
                         this.scriptData.push(temp);
+                        //this.scriptDataLabel.push(temp.label);
                     }
                     console.log(response)
                     this.listLoading = false;
@@ -404,6 +398,13 @@
                 if(this.$route.params.id && this.$route.params.id != ':id') {
                     this.postForm.name = this.postForm.name + ' ';
                 }
+            },
+            handleScriptChange(value) {
+                //this.postForm.name = this.postForm.name + ' ';
+                alert(value)
+                //let checkedCount = value.length;
+                //this.checkAll = checkedCount === this.scriptData.length;
+                //this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
             },
             addHome () {
                 let dateString;
@@ -428,11 +429,20 @@
                 } else {
                     scriptid = this.postForm.checkedStory.join(",");
                 }*/
+                let scriptids =  '';
+                for (let i=0; i<this.scriptData.length; i++) {
+                    for (let j=0; j<this.postForm.checkedStory.length; j++) {
+                        if (this.postForm.checkedStory[j] == this.scriptData[i].label) {
+                            scriptids += this.scriptData[i].key + ',';
+                        }
+                    }
+                }
                 let homeinfo = {
                     //channel: "女仆团",
                     name: this.postForm.name,
                     actorid: this.postForm.checkedActor,
-                    scriptid: this.postForm.checkedStory.join(","),
+                    //scriptid: this.postForm.checkedStory.join(","),
+                    scriptid: scriptids,
                     backimg: this.postForm.backimg,
                     configtime: dateString,
                     roomsort: this.postForm.roomsort
@@ -494,40 +504,41 @@
                  });*/
             },
             getDetail (home) {
-                this.getScriptList();
-                this.changeScr();
-                this.$nextTick(function () {
-                    roominfo (home).then(response => {
-                        this.postForm = response.data.content;
-                        /*for ( let j=0; j<this.userLIstOptions.length; j++) {
-                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
-                         this.postForm.checkedActor = this.userLIstOptions[j];
-                         }
-                         }*/
-                        //alert(response.data.content.scriptid)
-                        //alert(this.scriptData[0].value)
-                        let tempScript = response.data.content.scriptid.split(',');
-                        let temp = [];
-                        this.$set(temp,0,3)
-                        this.postForm.checkedStory = temp;
-                        //alert(this.scriptData[0].key)
-                        for ( let j=0; j<this.actorOptions.length; j++) {
-
-                            if (response.data.content.actorid == this.actorOptions[j].value) {
-                                this.$nextTick(function () {
-                                    //console.log(this.$el.textContent) // => '更新完成'
-                                    this.postForm.checkedActor = this.actorOptions[j].label;
-                                })
+                for (let i=0; i<this.scriptData.length; i++) {
+                    this.scriptDataLabel.push(this.scriptData[i].label);
+                }
+                roominfo (home).then(response => {
+                    this.postForm = response.data.content;
+                    /*for ( let j=0; j<this.userLIstOptions.length; j++) {
+                     if (response.data.content.actorid == this.userLIstOptions[j].value) {
+                     this.postForm.checkedActor = this.userLIstOptions[j];
+                     }
+                     }*/
+                    //alert(this.scriptData[0].key)
+                    /*let scriptidtemp = response.data.content.scriptid.split(',');
+                    for (let j=0; j<this.scriptData.length; j++) {
+                        for (let k=0; k<scriptidtemp.length.length-1; k++) {
+                            if (scriptidtemp[k] == this.scriptData[j].key) {
+                                this.postForm.checkStory.push(this.scriptData[j].label);
                             }
                         }
-                        if (this.postForm.configtime == "0000-00-00 00:00:00") {
-                            this.postForm.configtime = '';
+                    }*/
+                    for ( let j=0; j<this.actorOptions.length; j++) {
+                        if (response.data.content.actorid == this.actorOptions[j].value) {
+                            /*this.$nextTick(function () {
+                                //console.log(this.$el.textContent) // => '更新完成'
+                                this.postForm.checkedActor = this.actorOptions[j].label;
+                            })*/
+                            this.postForm.checkedActor = this.actorOptions[j].label;
                         }
-                    }).catch(err => {
-                        this.fetchSuccess = false;
-                        console.log(err);
-                    });
-                })
+                    }
+                    if (this.postForm.configtime == "0000-00-00 00:00:00") {
+                        this.postForm.configtime = '';
+                    }
+                }).catch(err => {
+                    this.fetchSuccess = false;
+                    console.log(err);
+                });
             },
             picInput (data) {
                 if (data) {
