@@ -189,7 +189,7 @@
                 postForm: {
                     name: '', // 文章内容
                     checkedActor: [],
-                    checkedStory: [],
+                    checkedStory: ['3'],
                     backimg: '',
                     configtime: '',
                     roomsort: '0',
@@ -394,7 +394,7 @@
                         let temp = {};
                         temp.key = response.data.content[i].id;
                         temp.label = response.data.content[i].title;
-                        this.script.push(temp);
+                        this.scriptData.push(temp);
                     }
                     console.log(response)
                     this.listLoading = false;
@@ -494,45 +494,40 @@
                  });*/
             },
             getDetail (home) {
-                roominfo (home).then(response => {
-                    this.postForm = response.data.content;
-                    /*for ( let j=0; j<this.userLIstOptions.length; j++) {
-                        if (response.data.content.actorid == this.userLIstOptions[j].value) {
-                            this.postForm.checkedActor = this.userLIstOptions[j];
-                        }
-                    }*/
-                    //alert(response.data.content.scriptid)
-                    //alert(this.scriptData[0].value)
-                    let tempScript = response.data.content.scriptid.split(',');
-                    this.postForm.checkedStory = tempScript;
-                    for (let i=0; i<tempScript.length; i++) {
-                        let temp = {};
-                        if (this.script[i].value == tempScript[i].id) {
-                            //this.postForm.checkedStory.push(this.script[i].label);
-                            /*this.$nextTick(function () {
-                                temp.key = this.script[i].key;
-                                temp.label = this.script[i].label;
-                                //this.scriptData.push(temp);
-                                this.postForm.checkedStory.push(temp);
-                            })*/
-                        }
-                    }
-                    for ( let j=0; j<this.actorOptions.length; j++) {
+                this.getScriptList();
+                this.changeScr();
+                this.$nextTick(function () {
+                    roominfo (home).then(response => {
+                        this.postForm = response.data.content;
+                        /*for ( let j=0; j<this.userLIstOptions.length; j++) {
+                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
+                         this.postForm.checkedActor = this.userLIstOptions[j];
+                         }
+                         }*/
+                        //alert(response.data.content.scriptid)
+                        //alert(this.scriptData[0].value)
+                        let tempScript = response.data.content.scriptid.split(',');
+                        let temp = [];
+                        this.$set(temp,0,3)
+                        this.postForm.checkedStory = temp;
+                        //alert(this.scriptData[0].key)
+                        for ( let j=0; j<this.actorOptions.length; j++) {
 
-                        if (response.data.content.actorid == this.actorOptions[j].value) {
-                            this.$nextTick(function () {
-                                //console.log(this.$el.textContent) // => '更新完成'
-                                this.postForm.checkedActor = this.actorOptions[j].label;
-                            })
+                            if (response.data.content.actorid == this.actorOptions[j].value) {
+                                this.$nextTick(function () {
+                                    //console.log(this.$el.textContent) // => '更新完成'
+                                    this.postForm.checkedActor = this.actorOptions[j].label;
+                                })
+                            }
                         }
-                    }
-                    if (this.postForm.configtime == "0000-00-00 00:00:00") {
-                        this.postForm.configtime = '';
-                    }
-                }).catch(err => {
-                    this.fetchSuccess = false;
-                    console.log(err);
-                });
+                        if (this.postForm.configtime == "0000-00-00 00:00:00") {
+                            this.postForm.configtime = '';
+                        }
+                    }).catch(err => {
+                        this.fetchSuccess = false;
+                        console.log(err);
+                    });
+                })
             },
             picInput (data) {
                 if (data) {
