@@ -491,6 +491,8 @@
                 scriptdetail (this.listQuery).then(response => {
                     let logicpicTemp = JSON.stringify(response.data.content.logicpic);
                     this.postForm = response.data.content;
+                    this.postForm.price = parseInt(response.data.content.price);
+                    this.postForm.option = parseInt(response.data.content.option);
                     this.pictureurl = response.data.content.picture;
                     this.video = response.data.content.video;
                     this.videosize = response.data.content.videosize;

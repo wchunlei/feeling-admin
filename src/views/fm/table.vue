@@ -503,6 +503,14 @@
                     for (let i=0; i<response.data.content.length; i++) {
                         this.list[i].ids = i+1;
                     }
+                    for (let i=0; i< response.data.content.length; i++) {
+                        this.list[i].disable = true;
+                        if (response.data.content[i].status == "1" && response.data.content[i].configtime == '0000-00-00 00:00:00') {
+                            this.list[i].configtime = "未设置";
+                        } else {
+                            this.list[i].configtime = response.data.content[i].configtime;
+                        }
+                    }
                     this.total = response.data.total;
                     for (let i=0; i<response.data.content.length; i++) {
                         for ( let j=0; j<this.actorOptions.length; j++) {

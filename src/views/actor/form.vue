@@ -106,7 +106,7 @@
 
         <el-form-item label="空间背景:" label-width="100px" prop="backImg1" style="margin-bottom: 40px" required>
           <div style="margin-right: 20px;height: 180px;display: inline-block;border: 1px dashed #d9d9d9;">
-            <Upload v-model="postForm.backImg1" v-on:input="picInput"></Upload>
+            <Upload v-model="postForm.backImg1" :close="closeStatus" v-on:input="picInput"></Upload>
           </div>
           <el-form-item prop="backImg2" style="margin-right: 20px;display: inline-block">
             <div style="height: 180px;border: 1px dashed #d9d9d9;">
@@ -351,6 +351,7 @@
       return {
         phopoid: '',
         picUrl: '',
+        closeStatus: false,
         watcher: false,
         listQuery: {},
         photoData: {},
@@ -591,6 +592,7 @@
         this.addBut = false;
         this.listQuery.id = this.$route.params.id;
         this.getDetail(this.listQuery);
+        this.closeStatus = true;
       } else {
         /*this.showPhoto = false;
         this.disable = false;
