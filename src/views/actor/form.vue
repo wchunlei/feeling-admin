@@ -138,6 +138,7 @@
                   :action="picUrl"
                   :before-upload="beforeAvatarUploadVideo"
                   :on-success="handleImageScucess"
+                  :on-remove="handleRemove"
                   :file-list="fileList"
                   style="width:200px">
             <el-button size="small" type="primary">选择图片</el-button>
@@ -355,6 +356,7 @@
         photoData: {},
         mvData: {},
         photoid: '',
+        playImgName: '',
         progressesData: {
           percentage: 25,
           progress: false
@@ -605,6 +607,8 @@
     },
     methods: {
       beforeAvatarUploadVideo(file) {
+        console.log(file);
+        this.playImgName = file.name;
         const isLt2M = file.size / 1024 / 1024 > 0.01;
         if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
           this.$message.error('图片格式有误!');
@@ -685,10 +689,24 @@
         return isLt2M;*/
       },
       handleImageScucess(res, file) {
-        console.log(res);
+        console.log(res,file);
         if (res.code == 200) {
-          this.postForm.playimg.push(res.url);
+          let temp = {};
+          temp.name = this.playImgName;
+          temp.url = res.url;
+          this.postForm.playimg.push(temp);
         }
+      },
+      handleRemove(file, fileList) {
+        console.log( fileList);
+        let index = null;
+        for (let i=0; i<this.postForm.playimg.length; i++) {
+          if (file.name == this.postForm.playimg[i].name) {
+            index = this.postForm.playimg.indexOf(file.name);
+          }
+        }
+        this.postForm.playimg.splice(index, 1);
+        this.fileList = this.postForm.playimg;
       },
       readAsBinaryString(){
         var file = document.getElementById("file").files[0];
@@ -862,12 +880,13 @@
           this.postForm.weight = parseInt(response.data.content.weight);
           this.postForm.age = parseInt(response.data.content.age);
           this.postForm.price = parseInt(response.data.content.price);
-          for (let i=0;i<response.data.content.playimg.length; i++) {
+          this.fileList = response.data.content.playimg;
+          /*for (let i=0;i<response.data.content.playimg.length; i++) {
             let temp = {};
             temp.name = '图片'+(i+1);
             temp.url = response.data.content.playimg[i];
             this.fileList.push(temp);
-          }
+          }*/
           //console.log(response.data.content.worktime)
           this.postForm.worktimes = response.data.content.worktime;
           for (let i=0;i<response.data.content.worktime.length; i++) {
