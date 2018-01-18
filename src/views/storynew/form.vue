@@ -49,7 +49,7 @@
                         &lt;!&ndash;<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>&ndash;&gt;
                     </el-upload>
                 </el-form-item>-->
-                <el-form-item label="剧情包:" label-width="100px" prop="uploadFile" style="margin-bottom: 40px" required>
+                <el-form-item label="剧情包:" label-width="100px" prop="uploadFile" style="margin-bottom: 40px">
                     <el-upload
                             :model="postForm.uploadFile"
                             class="upload-demo"
