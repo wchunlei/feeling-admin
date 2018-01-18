@@ -90,7 +90,7 @@
           </el-col>
         </el-row>
 
-        <el-form-item label="头像:" label-width="100px" prop="headurl" style="margin-bottom: 40px" required>
+        <el-form-item label="头像:" label-width="100px" prop="headurl" style="margin-bottom: 40px">
           <div style="margin-bottom: 0px;width: 180px;height: 180px; border: 1px dashed #d9d9d9;">
             <Uploadhead v-model="postForm.headurl" v-on:input="picInput"></Uploadhead>
           </div>
@@ -104,7 +104,7 @@
           </el-select>
         </el-form-item>-->
 
-        <el-form-item label="空间背景:" label-width="100px" prop="backImg1" style="margin-bottom: 40px" required>
+        <el-form-item label="空间背景:" label-width="100px" prop="backImg1" style="margin-bottom: 40px">
           <div style="margin-right: 20px;height: 180px;display: inline-block;border: 1px dashed #d9d9d9;">
             <Upload v-model="postForm.backImg1" :close="closeStatus" v-on:input="picInput"></Upload>
           </div>
@@ -131,7 +131,7 @@
           <span style="font-size:12px;display: block">（注：请上传4:3，不小于10kb，jpg、png等格式的文件）</span>
         </el-form-item>
 
-        <el-form-item label="音频图集:" label-width="100px" prop="playimg" style="margin-bottom: 40px" required>
+        <el-form-item label="音频图集:" label-width="100px" prop="playimg" style="margin-bottom: 40px">
           <el-upload
                   :model="postForm.playimg"
                   class="upload-demo"
