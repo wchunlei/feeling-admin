@@ -239,7 +239,7 @@
                     csolor: '0',
                     stage: '1',
                     cost: '0',
-                    price: '20',
+                    price: 20,
                     option: 20,
                     configtime: '',
                     sort: '0'
@@ -465,7 +465,7 @@
         },
         watch : {
             "postForm.actor" (val,oldval) {
-                this.postForm.actor = val;
+                    this.postForm.actor = val;
             }
         },
         methods: {
@@ -977,7 +977,7 @@
                         value: v.id
                     }));
                     let temp = this.userLIstOptions.length-1;
-                    this.postForm.actor = this.userLIstOptions[temp];
+                    //this.postForm.actor = this.userLIstOptions[temp];
                 })
             }
         }
