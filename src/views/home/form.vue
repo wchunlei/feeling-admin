@@ -22,7 +22,7 @@
                     <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.name" :maxlength="20"></el-input>
                 </el-form-item>
 
-                <el-form-item label="背景图:" label-width="100px" prop="backimg" style="margin-bottom: 40px" required>
+                <el-form-item label="背景图:" label-width="100px" prop="backimg" style="margin-bottom: 40px">
                     <div style="margin-bottom: 0px;width: 180px;height: 240px; border: 1px dashed #d9d9d9;">
                         <Upload v-model="postForm.backimg" v-on:input="picInput"></Upload>
                     </div>
@@ -30,7 +30,7 @@
                     <!--<input type="file" @change="uploadfile(this)" />-->
                 </el-form-item>
 
-                <el-form-item label="主角:" label-width="100px" prop="checkedActor" style="margin-bottom: 40px" required>
+                <el-form-item label="主角:" label-width="100px" prop="checkedActor" style="margin-bottom: 40px">
                     <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                     <div style="margin: 15px 0;"></div>
                     <el-checkbox-group v-model="postForm.checkedActor" @change="handleCheckedCitiesChange">
@@ -48,7 +48,7 @@
                         <span slot='noResult'>无结果</span>
                     </multiselect>-->
                 </el-form-item>
-                <el-form-item label="剧情:" label-width="100px" prop="checkedStory" style="margin-bottom: 40px" required>
+                <el-form-item label="剧情:" label-width="100px" prop="checkedStory" style="margin-bottom: 40px">
                     <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                     <div style="margin: 15px 0;"></div>
                     <el-checkbox-group v-model="postForm.checkedActor" @change="handleCheckedCitiesChange">
@@ -257,8 +257,8 @@
                 saveBut: false,
                 actorDetail: {
                     name: [{ validator: validateRequire, trigger: 'blur' }],
-                    checkedActor: [{ validator: validateRequireAll, trigger: 'blur' }],
-                    checkedStory: [{ validator: validateRequireAll, trigger: 'blur' }]
+                    //checkedActor: [{ validator: validateRequireAll, trigger: 'blur' }],
+                    //checkedStory: [{ validator: validateRequireAll, trigger: 'blur' }]
                 }
             }
         },

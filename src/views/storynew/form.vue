@@ -61,7 +61,7 @@
                     </el-upload>
                 </el-form-item>-->
                 <el-form-item label="剧情:" label-width="100px" prop="video" style="margin-bottom: 40px" required>
-                    <el-input type="textarea" placeholder="" style='width:280px;' v-model="postForm.video" :maxlength=20 :rows=3></el-input>
+                    <el-input type="textarea" placeholder="" style='width:280px;' v-model="postForm.video" :rows=3></el-input>
                     </el-upload>
                 </el-form-item>
                 <el-form-item class="removeElList" label="背景图:" label-width="100px" prop="picture" style="margin-bottom: 40px">
@@ -499,7 +499,7 @@
                     this.postForm.price = parseInt(response.data.content.price);
                     this.postForm.option = parseInt(response.data.content.option);
                     this.pictureurl = response.data.content.picture;
-                    this.video = response.data.content.video;
+                    this.postForm.video = response.data.content.video.join("#");
                     /*this.videosize = response.data.content.videosize;
                     this.videourl = response.data.content.videourl;*/
                     //this.postForm.uploadPicture = response.data.content.picture;
