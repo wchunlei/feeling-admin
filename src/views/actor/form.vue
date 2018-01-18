@@ -395,9 +395,9 @@
           time3: '',
           worktimes: [{
             time: '',
-            value: '',
+            value: '00:00',
             time1: '',
-            value1: ''
+            value1: '00:00'
           }],
         },
         pickerOptions1: {
@@ -562,16 +562,12 @@
         actorDetail: {
           name: [{ validator: validateRequire, trigger: 'blur' }],
           soliloquy: [{ validator: validateRequireAll, trigger: 'blur' }],
+          host: [{ validator: validateRequireAll, trigger: 'blur' }],
           style: [{ validator: validateRequire, trigger: 'blur' }],
           height: [{ validator: checkNumHeight, trigger: 'blur' }],
           weight: [{ validator: checkNumWeight, trigger: 'blur' }],
           age: [{ validator: checkNumAge, trigger: 'blur' }],
-          price: [{ validator: checkNumPrice, trigger: 'blur' }],
-          workTimeWeek: [{ validator: validateRequireAll, trigger: 'blur' }],
-          workTimeWeek1: [{ validator: validateRequireAll, trigger: 'blur' }],
-          time: [{ validator: validateRequireAll, trigger: 'blur' }],
-          time1: [{ validator: validateRequireAll, trigger: 'blur' }],
-          playimg: [{ validator: validateRequireAll, trigger: 'blur' }],
+          price: [{ validator: checkNumPrice, trigger: 'blur' }]
           //bust: [{ validator: checkNum, trigger: 'blur' }],
         }
       }
@@ -794,6 +790,34 @@
         this.$refs.postForm.validate(valid => {
           if (valid) {
             this.loading = true;
+            if (this.postForm.headurl == '') {
+              this.$message({
+                message: '请上传头像',
+                type: 'error'
+              });
+              return false;
+            }
+            if (actorinfo.backimg == '') {
+              this.$message({
+                message: '请上传空间背景图',
+                type: 'error'
+              });
+              return false;
+            }
+            if (actorinfo.playimg == '') {
+              this.$message({
+                message: '请上传音频图集',
+                type: 'error'
+              });
+              return false;
+            }
+            if (this.postForm.worktimes[0].time == 0 || this.postForm.worktimes[0].time == '' || this.postForm.worktimes[0].time1 == 0|| this.postForm.worktimes[0].time1 == '') {
+              this.$message({
+                message: '请选择工作时间',
+                type: 'error'
+              });
+              return false;
+            }
             if (this.$route.params.id && this.$route.params.id == ':id') {
               addactor(actorinfo).then(response => {
                 /*if (!response.data.items) return;
@@ -819,6 +843,7 @@
             } else {
               actorinfo.id = this.$route.params.id;
               actorinfo.host = this.postForm.host.replace(/(\s*$)/g, "");
+              actorinfo.soliloquy = this.postForm.soliloquy.replace(/(\s*$)/g, "");
               updateactor(actorinfo).then(response => {
                 /*if (!response.data.items) return;
                  console.log(response)
