@@ -61,14 +61,14 @@
                 </el-form-item>
 
                 <div v-show="showSto" style="display: inline-block;margin-bottom: 0px">
-                    <el-form-item label="选择房间:" label-width="100px" prop="room" style="margin-bottom: 40px">
-                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.room" placeholder="选择房间" @visible-change="changeRoo" required>
+                    <el-form-item label="选择房间:" label-width="100px" prop="room" style="margin-bottom: 40px" required>
+                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.room" placeholder="选择房间" @visible-change="changeRoo">
                             <el-option v-for="item in  homeOptions" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="选择主角:" label-width="100px" prop="actor1" style="margin-bottom: 40px" required>
-                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.actor1" placeholder="选择主角">
+                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.actor1" placeholder="选择主角" @visible-change="changeAct">
                             <el-option v-for="item in  roomuserLIstOptions" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
@@ -78,7 +78,7 @@
                         </multiselect>-->
                     </el-form-item>
                     <el-form-item label="选择剧情:" label-width="100px" prop="script" style="margin-bottom: 40px" required>
-                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.script" placeholder="选择剧情">
+                        <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.script" placeholder="选择剧情" @visible-change="changeScr">
                             <el-option v-for="item in  scriptData" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
@@ -216,7 +216,7 @@
                     url: '',
                     message: '0',
                     room: '',
-                    actor: '',
+                    actor: [],
                     actor1: '',
                     script: '',
                     sort: '0',
@@ -423,7 +423,56 @@
                 });
             },
             changeRoo () {
-                //postForm.room
+                roomlist(this.listQuery).then(response => {
+                    console.log(response)
+                    if (this.roomuserLIstOptions) {
+                        this.roomuserLIstOptions = [];
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        let temp = {};
+                        if (this.postForm.room == response.data.content[i].id) {
+                            temp.value = response.data.content[i].actorid;
+                            for (let j=0; j<this.userLIstOptions.length; j++) {
+                                if (temp.value == this.userLIstOptions[j].value) {
+                                    temp.label = this.userLIstOptions[j].key;
+                                }
+                            }
+                            this.roomuserLIstOptions.push(temp);
+                        }
+                    }
+                })
+            },
+            changeAct () {
+                scriptlist(this.listQuery).then(response => {
+                    console.log(response)
+                    if (this.scriptData) {
+                        this.scriptData = [];
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        let temp = {};
+                        if (this.postForm.actor1 == response.data.content[i].actorid) {
+                            temp.value = response.data.content[i].id;
+                            temp.label = response.data.content[i].title;
+                            this.scriptData.push(temp);
+                        }
+                    }
+                })
+            },
+            changeScr () {
+                scriptlist(this.listQuery).then(response => {
+                    console.log(response)
+                    if (this.scriptData) {
+                        this.scriptData = [];
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        let temp = {};
+                        if (this.postForm.actor1 == response.data.content[i].actorid) {
+                            temp.key = response.data.content[i].id;
+                            temp.label = response.data.content[i].title;
+                            this.scriptData.push(temp);
+                        }
+                    }
+                })
             },
             getList () {
                 scriptlist(this.listQuery).then(response => {
@@ -570,6 +619,7 @@
                     for ( let j=0; j<this.userLIstOptions.length; j++) {
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.actor = this.userLIstOptions[j];
+                            this.postForm.actor1 = this.userLIstOptions[j].key;
                         }
                     }
                     for (let i=0; i<this.homeOptions.length; i++) {
