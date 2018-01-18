@@ -357,10 +357,7 @@
             this.getActor();
             let Query = {};
             //this.getRemoteUserList(Query);
-            let _this = this;
-            setTimeout(function(){
-                _this.getList();
-            },100)
+            this.getList();
         },
         filters: {
             statusFilter(status) {
@@ -420,6 +417,7 @@
                         temp.label = response.data.content[i].name;
                         this.actorOptions.push(temp);
                     }
+                    this.getList();
                 })
             },
             getRemoteUserList(query) {
@@ -517,6 +515,12 @@
                     //row.splice(index, 1);
                     upscript(upitem).then(response => {
                         //this.list = response.data.content;
+                        if (response.data.msg == 'girl is xiaxian!') {
+                            this.$message({
+                                message: '该主角已下架，请先上架主角后再操作',
+                                type: 'error'
+                            });
+                        }
                         if(response.data.code==200){
                             row.status = '上架';
                             row.configtime = dateString;
@@ -569,6 +573,11 @@
                         this.list[i].ids = i+1;
                     }
                     this.total = response.data.total;
+                    for (let i=0; i< response.data.content.length; i++) {
+                        if(response.data.content[i].cost == 0) {
+                            this.list[i].price = "免费";
+                        }
+                    }
                     for (let i=0; i< response.data.content.length; i++) {
                         this.list[i].disable = false;
                         if (response.data.content[i].status == "1" && response.data.content[i].configtime == '0000-00-00 00:00:00') {

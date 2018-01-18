@@ -614,7 +614,7 @@
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = this.$echarts.init(document.getElementById('myChart'));
                 // 绘制图表
-                var data2 = {
+                /*var data2 = {
                     "name": "0 打招呼",
                     "value": 'http://192.168.1.43:8000/upload/27/297d3fdedd2c8981ec7aa15981b06df2.jpg',
                     "children": [
@@ -658,7 +658,7 @@
                             ]
                         }
                     ]
-                };
+                };*/
                 myChart.setOption({
                     tooltip: {
                         trigger: 'item',
