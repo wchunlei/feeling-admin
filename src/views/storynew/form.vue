@@ -68,7 +68,7 @@
                     <el-upload
                             :model="postForm.picture"
                             class="upload-demo"
-                            action="http://192.168.1.234:80/upload"
+                            action="http://192.168.1.43:1442/?act=uploadimg"
                             :before-upload="beforeAvatarUpload"
                             :on-success="handleBackImageScucess" style="width:200px">
                         <el-button size="small" type="primary">选择图片文件</el-button>
@@ -856,7 +856,24 @@
                  }*/
                 return isJPG;
             },
+            handleImageScucess(res, file) {
+                this.emitInput(res.url);
+                this.imageUrl = URL.createObjectURL(file.raw);
+                if (res.url) {
+                    this.showClose = true;
+                }
+            },
             beforeAvatarUpload(file) {
+                const isLt2M = file.size / 1024 / 1024 > 0.01;
+                if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
+                    this.$message.error('图片格式有误!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不小于 10kb!');
+                }
+                return isLt2M;
+            },
+            /*beforeAvatarUpload(file) {
                 //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';
                 const isLt2M = file.size / 1024 / 1024 > 0.01;
                 if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
@@ -895,14 +912,14 @@
                         mode: "cors",
                         type: 'json',
                         //credentials: 'include',
-                        /*headers:{
+                        /!*headers:{
                          //'Accept': 'application/json',
                          "Content-Type":"multipart/form-data",
                          //"Content-Type":"application/x-www-form-urlencoded",
                          //"Content-type": "text/plain",
                          "Access-Control-Allow-Origin": '*'
                          //'Access-Control-Allow-Credentials':'false',
-                         },*/
+                         },*!/
                         body: this.result
                     }).then(function(response){
 
@@ -924,7 +941,7 @@
 
                 }
                 return isLt2M;
-            },
+            },*/
             readAsBinaryString(){
                 var file = document.getElementById("file").files[0];
                 var reader = new FileReader();

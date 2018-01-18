@@ -422,7 +422,7 @@
                 } else {
                     dateString = '0000-00-00 00:00:00';
                 }
-                /*let scriptid = '';
+                let scriptid = '';
                 if (this.postForm.checkedStory) {
                     this.$message({
                         message: '请选择剧情',
@@ -430,21 +430,21 @@
                     });
                 } else {
                     scriptid = this.postForm.checkedStory.join(",");
-                }*/
-                let scriptids =  '';
+                }
+                /*let scriptids =  '';
                 for (let i=0; i<this.scriptData.length; i++) {
                     for (let j=0; j<this.postForm.checkedStory.length; j++) {
                         if (this.postForm.checkedStory[j] == this.scriptData[i].label) {
                             scriptids += this.scriptData[i].key + ',';
                         }
                     }
-                }
+                }*/
                 let homeinfo = {
                     //channel: "女仆团",
                     name: this.postForm.name,
                     actorid: this.postForm.checkedActor,
-                    //scriptid: this.postForm.checkedStory.join(","),
-                    scriptid: scriptids,
+                    scriptid: this.postForm.checkedStory.join(","),
+                    //scriptid: scriptids,
                     backimg: this.postForm.backimg,
                     configtime: dateString,
                     roomsort: this.postForm.roomsort
@@ -506,9 +506,9 @@
                  });*/
             },
             getDetail (home) {
-                for (let i=0; i<this.scriptData.length; i++) {
+                /*for (let i=0; i<this.scriptData.length; i++) {
                     this.scriptDataLabel.push(this.scriptData[i].label);
-                }
+                }*/
                 roominfo (home).then(response => {
                     this.postForm = response.data.content;
                     /*for ( let j=0; j<this.userLIstOptions.length; j++) {
