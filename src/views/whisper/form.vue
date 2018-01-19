@@ -607,6 +607,8 @@
                         }
                         if (this.postForm.ispay == 1) {
                             fminfo.price = this.postForm.price.toString();
+                        } else {
+                            fminfo.price = '0';
                         }
                         if (this.$route.params.id && this.$route.params.id == ':id') {
                             addmaidfm(fminfo).then(response => {
