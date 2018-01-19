@@ -540,7 +540,8 @@
                         if (this.$route.params.id == response.data.content[m].id) {
                             for (let i=0; i<response.data.content[m].comment.length; i++) {
                                 let tempObj = {};
-                                tempObj.id = response.data.content[m].comment[i].id;
+                                //tempObj.id = response.data.content[m].comment[i].id;
+                                tempObj.id = i + 1;
                                 tempObj.content = response.data.content[m].comment[i].content;
                                 tempObj.publish = response.data.content[m].comment[i].uid;
                                 tempObj.configtime = response.data.content[m].comment[i].configtime;
@@ -582,6 +583,12 @@
                         } else {
                             dateString = '0000-00-00 00:00:00';
                         }
+                        let commentTemp = [];
+                        if (this.postForm.comment) {
+                            commentTemp = this.postForm.comment.split('#');
+                        } else {
+                            commentTemp = [];
+                        }
                         let fminfo={
                             //actorid: parseInt(this.postForm.actorid),
                             actorid: this.postForm.actor.value,
@@ -592,7 +599,7 @@
                             //price: this.postForm.price.toString(),
                             sort: this.postForm.sort,
                             configtime: dateString,
-                            comment: this.postForm.comment.split('#'),
+                            comment: commentTemp,
                             people: this.postForm.people
                         }
                         if (this.postForm.type == 1) {
