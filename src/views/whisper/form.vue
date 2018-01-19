@@ -85,7 +85,7 @@
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
                 </el-form-item>
 
-                <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px" required>
+                <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px">
                     <el-input type="textarea" placeholder="请输入评论" style='width:280px;' v-model="postForm.comment"  :maxlength="1000" :rows="3"></el-input>
                     <span style="display: inline-block;color: red;font-size: 12px">(请以"#"符号为每条评论的分隔符)</span>
                 </el-form-item>
@@ -131,6 +131,9 @@
         </el-form>-->
 
         <div v-show="commentForm" style="margin: 0 100px">
+            <div class="filter-container">
+                <el-button @click="handleSort" type="primary" style="float: right;margin-right:50px;">排序</el-button>
+            </div>
             <el-table :data="list" border fithighlight-current-row style="width: 100%">
 
                 <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
@@ -155,18 +158,32 @@
                         <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                     </template>
                 </el-table-column>
-                <el-table-column min-width="300px" align="center" label="发布时间" prop="configtime">
+                <el-table-column label="状态" width="160" align="center" prop="status">
+                    <template scope="scope">
+                        <span>{{scope.row.status}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column min-width="300px" align="center" label="上架时间" prop="configtime">
                     <template scope="scope">
                         <span>{{scope.row.configtime}}</span>
                         <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                     </template>
                 </el-table-column>
+                <el-table-column min-width="150px" align="center" label="排序" prop="commentsort">
+                    <template scope="scope">
+                        <!--<span>{{scope.row.sort}}</span>-->
+                        <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
+                        <el-select v-model="scope.row.commentsort" placeholder="请选择" :disabled="disable" @change="changeSort(scope.row)">
+                            <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </template>
+                </el-table-column>
                 <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
                     <template scope="scope">
-                        <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">置顶</el-button>
-                        <!--<el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
-                        <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>-->
-                        <el-button @click.native.prevent="deleteRow(scope.$index, list)" type="text" size="small">删除</el-button>
+                        <!--<el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">置顶</el-button>-->
+                        <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">上架</el-button>
+                        <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">下架</el-button>
+                        <el-button @click.native.prevent="deleteRow(scope.$index, scope.row)" type="text" size="small">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -188,6 +205,9 @@
     import { updatemaidfm } from 'api/fm';
     import { maidfminfo } from 'api/fm';
     import { maidfmlist } from 'api/fm';
+    import { upfmcomment } from 'api/fm';
+    import { delfmcomment } from 'api/fm';
+    import { sortfmcomment } from 'api/fm';
     import { actorList } from 'api/actor';
     import { reslist } from 'api/resource';
 
@@ -250,6 +270,7 @@
             };
             return {
                 list: [],
+                commentsort: '0',
                 audioOptions: [],
                 phopoid: '',
                 watcher: false,
@@ -340,6 +361,25 @@
                     value: '4',
                     label: '周'
                 }],
+                privateOptions: [{
+                    value: '0',
+                    label: '默认'
+                },{
+                    value: '1',
+                    label: '1'
+                },{
+                    value: '2',
+                    label: '2'
+                },{
+                    value: '3',
+                    label: '3'
+                },{
+                    value: '4',
+                    label: '4'
+                },{
+                    value: '5',
+                    label: '5'
+                }],
                 photos: [],
                 photosList: {
                     url: '',
@@ -383,7 +423,7 @@
                     actor: [{ validator: validateRequireAll, trigger: 'blur' }],
                     title: [{ validator: validateRequire, trigger: 'blur' }],
                     //comments: [{ validator: validateRequire, trigger: 'blur' }],
-                    content: [{ validator: validateRequire, trigger: 'blur' }],
+                    //content: [{ validator: validateRequire, trigger: 'blur' }],
                     price: [{ validator: checkNum, trigger: 'blur' }],
                     //bust: [{ validator: checkNum, trigger: 'blur' }],
                 }
@@ -452,11 +492,12 @@
                     let logicpicTemp = JSON.stringify(response.data.content.logicpic);
                     this.postForm = response.data.content;
                     this.postForm.price = parseInt(response.data.content.price);
-                    let temp = [];
+                    /*let temp = [];
                     for (let i=0; i<response.data.content.comment.length; i++) {
                         temp.push(response.data.content.comment[i].content)
                     }
-                    this.postForm.comment = temp.join('#');
+                    this.postForm.comment = temp.join('#');*/
+                    this.postForm.comment = '';
                     for ( let j=0; j<this.userLIstOptions.length; j++) {
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.actor = this.userLIstOptions[j];
@@ -502,7 +543,20 @@
                                 tempObj.id = response.data.content[m].comment[i].id;
                                 tempObj.content = response.data.content[m].comment[i].content;
                                 tempObj.publish = response.data.content[m].comment[i].uid;
-                                tempObj.configtime = response.data.content[m].configtime;
+                                tempObj.configtime = response.data.content[m].comment[i].configtime;
+                                tempObj.commentsort = response.data.content[m].comment[i].sort;
+                                //tempObj.status = response.data.content[m].comment[i].status;
+                                if(response.data.content[m].comment[i].status == 0) {
+                                    tempObj.status = '上架'
+                                }
+                                if(response.data.content[m].comment[i].status == 1) {
+                                    tempObj.status = '下架'
+                                }
+                                if (response.data.content[m].comment[i].status == "1" && response.data.content[m].comment[i].configtime == '0000-00-00 00:00:00') {
+                                    tempObj.configtime = "未设置";
+                                } else {
+                                    tempObj.configtime = response.data.content[m].comment[i].configtime;
+                                }
                                 this.list.push(tempObj);
                             }
                         }
@@ -577,6 +631,107 @@
                         return false;
                     }
                 });*/
+            },
+            editRow (row, list) {
+                let date = new Date();
+                let year=date.getFullYear(),
+                        month=date.getMonth()+ 1,
+                        day=date.getDate(),
+                        hour=date.getHours(),
+                        minutes=date.getMinutes();
+                //seconds=date.getSeconds();
+                //let dateString=year+'-'+month+'-'+day+' '+hour+':'+minutes;
+                let dateString=year+'-'+(month>=10?+month:"0"+month)+"-"+(day>=10? day :'0'+day)+' '+(hour>=10?+hour:"0"+hour)+':'+(minutes>=10?+minutes:"0"+minutes);
+                let statusTemp = '';
+                if (row.status == '上架') {
+                    statusTemp = '1'
+                }
+                if (row.status == '下架') {
+                    statusTemp = '0'
+                }
+                if (row.status == '上架') {
+                    this.$confirm('确定下架会将和该内容相关的内容均下架？', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        let upitem={
+                            id: row.id,
+                            status: statusTemp,
+                            configtime: dateString
+                        };
+                        //row.splice(index, 1);
+                        upfmcomment(upitem).then(response => {
+                            //this.list = response.data.content;
+                            if(response.data.code==200){
+                                row.status = '下架';
+                                row.configtime = "未设置";
+                                //this.getList();
+                                this.$message({
+                                    message: '操作成功',
+                                    type: 'success'
+                                });
+                            }
+                        });
+                    }).catch(() => {
+
+                    });
+                } else {
+                    let upitem={
+                        id: row.id,
+                        status: statusTemp,
+                        configtime: dateString
+                    };
+                    //row.splice(index, 1);
+                    upfmcomment(upitem).then(response => {
+                        //this.list = response.data.content;
+                        if (response.data.msg == 'girl is xiaxian!') {
+                            this.$message({
+                                message: '该主角已下架，请先上架主角后再操作',
+                                type: 'error'
+                            });
+                        }
+                        if(response.data.code==200){
+                            row.status = '上架';
+                            row.configtime = dateString;
+                            this.$message({
+                                message: '操作成功',
+                                type: 'success'
+                            });
+                        }
+                    });
+                }
+                this.disable = true;
+            },
+            handleSort (index, rows) {
+                this.disable = false;
+                /*if (this.disable) {
+                 this.disable = false;
+                 } else {
+                 this.disable = true;
+                 }*/
+                /*if (rows.disable) {
+                 rows.disable = false;
+                 } else {
+                 rows.disable = true;
+                 }*/
+            },
+            changeSort (rows) {
+                let sortitem={
+                    id: rows.id,
+                    sort: rows.commentsort
+                };
+                //row.splice(index, 1);
+                sortfmcomment(sortitem).then(response => {
+                    //this.list = response.data.content;
+                    if(response.data.code==200){
+                        this.disable = true;
+                        this.$message({
+                            message: '操作成功',
+                            type: 'success'
+                        });
+                    }
+                });
             },
             showPrice () {
                 this.showPri = true;
@@ -961,19 +1116,19 @@
                 }
             },
             deleteRow(index, rows) {
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                this.$confirm('确定要删除该内容吗？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
                     let deleteitem={
-                        id: parseInt(rows.id)
+                        id: rows.id
                     };
-                    rows.splice(index, 1);
-                    channelDelete(deleteitem).then(response => {
+                    delfmcomment(deleteitem).then(response => {
                         //this.list = response.data.content;
                         if(response.data.code==200){
-                            this.getList();
+                            this.list.splice(index, 1);
+                            //this.getList();
                         }
                     });
                     this.$message({
@@ -981,10 +1136,7 @@
                         type: 'success'
                     });
                 }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
+
                 });
             },
             getRemoteUserList(query) {

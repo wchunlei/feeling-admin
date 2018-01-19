@@ -120,3 +120,30 @@ export function homefmcomminfo(query) {
         params: query
     });
 }
+
+export function delfmcomment(diaryinfo) {
+    const data = diaryinfo;
+    return fetch({
+        url: '?act=delfmcomment',
+        method: 'post',
+        data
+    });
+}
+
+export function sortfmcomment(storyinfo) {
+    const data = storyinfo;
+    return fetch({
+        url: '?act=sortfmcomment',
+        method: 'post',
+        data
+    });
+}
+
+export function upfmcomment(diaryinfo) {
+    const data = diaryinfo;
+    return fetch({
+        url: '?act=upfmcomment',
+        method: 'post',
+        data
+    });
+}

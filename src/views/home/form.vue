@@ -160,17 +160,28 @@
                     callback()
                 }
             };
-            /*const generateData = _ => {
-                const data = [];
-                for (let i = 1; i <= 15; i++) {
-                    data.push({
+            const generateData = _ => {
+                const csriptdatas = [];
+                /*for (let i = 1; i <= 15; i++) {
+                    csriptdatas.push({
                         key: i,
                         label: `备选项 ${ i }`,
                         //disabled: i % 4 === 0
                     });
-                }
-                return data;
-            };*/
+                }*/
+                scriptlist(this.listQuery).then(response => {
+                    console.log(response)
+                    for (let i=0; i<response.data.content.length; i++) {
+                        let temp = {};
+                        if (this.postForm.checkedActor == response.data.content[i].actorid) {
+                            temp.key = response.data.content[i].id;
+                            temp.label = response.data.content[i].title;
+                            this.csriptdatas.push(temp);
+                        }
+                    }
+                })
+                return csriptdatas;
+            };
             return {
                 scriptData: [],
                 scriptDataLabel: [],
@@ -280,7 +291,7 @@
         created() {
             this.getActor();
             //this.getRemoteUserList(this.listQuery);
-            this.getScriptList();
+            //this.getScriptList();
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
@@ -323,7 +334,7 @@
                 },
                 deep:true,
             }*/
-            "postForm.checkedActor": {
+            /*"postForm.checkedActor": {
                 handler:function(val,oldval) {
                     if (this.scriptDataLabel) {
                         this.scriptDataLabel = [];
@@ -345,7 +356,7 @@
                     })
                 },
                 deep:true,
-            }
+            }*/
         },
         methods: {
             getActor () {
@@ -392,6 +403,7 @@
                         this.scriptData.push(temp);
                         //this.scriptDataLabel.push(temp.label);
                     }
+                    this.checkedStory = [1,3]
                     console.log(response)
                     this.listLoading = false;
                 })

@@ -562,6 +562,7 @@
                 }*/
             },
             changeSort (rows) {
+                alert()
                 let sortitem={
                     id: rows.id,
                     sort: rows.roomsort
