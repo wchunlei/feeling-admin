@@ -74,7 +74,7 @@
                         <el-button size="small" type="primary">选择图片文件</el-button>
                         <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
                     </el-upload>
-                    <div id="showBackColor" class="backPic" style="border: 1px solid red;margin-top: 15px;">
+                    <div id="showBackColor" class="backPic" style="border: 1px solid #ccc;margin-top: 15px;">
                         <div class="showUploadPic">
                             <img id="image" :src="postForm.picture" />
                         </div>
@@ -547,7 +547,7 @@
                     actorid: this.postForm.actor.value,
                     title: this.postForm.title,
                     //video: this.postForm.uploadFile,
-                    picture: this.pictureurl,
+                    picture: this.postForm.picture,
                     csolor: this.postForm.csolor,
                     stage: this.postForm.stage,
                     cost: this.postForm.cost,
@@ -665,6 +665,9 @@
                     ]
                 };*/
                 myChart.setOption({
+                    brush: {
+                        brushLink: [1000]
+                    },
                     tooltip: {
                         trigger: 'item',
                         triggerOn: 'mousemove'
@@ -741,7 +744,7 @@
                 });
                 myChart.on('click', function (params) {
                     // 控制台打印数据的名称
-                    console.log(params.value);
+                    console.log(params);
                     //window.location.href = params.value;
                     window.open(params.value);
                 });
@@ -971,7 +974,9 @@
                 console.log(this.video,this.videosize,this.videourl)
             },
             handleBackImageScucess (res,file) {
-                this.postForm.picture = URL.createObjectURL(file.raw);
+                console.log(res)
+                //this.postForm.picture = URL.createObjectURL(file.raw);
+                this.postForm.picture = res.url;
                 let setTime = setTimeout(function () {
                     let img = document.getElementById('image');
                     let showBackColor = document.getElementById('showBackColor');
