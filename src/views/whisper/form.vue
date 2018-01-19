@@ -473,6 +473,9 @@
                     if (this.postForm.ispay == 0) {
                         this.showPri = false;
                     }
+                    if (this.postForm.picture == 0) {
+                        this.postForm.picture = '';
+                    }
                     if (this.postForm.configtime == "0000-00-00 00:00:00") {
                         this.postForm.configtime = '';
                     }
