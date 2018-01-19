@@ -136,9 +136,9 @@
             </div>
             <el-table :data="list" border fithighlight-current-row style="width: 100%">
 
-                <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
+                <el-table-column align="center" label="序号" width="80" column-key="id" prop="ids">
                     <template scope="scope">
-                        <span>{{scope.row.id}}</span>
+                        <span>{{scope.row.ids}}</span>
                         <!-- <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
                     </template>
                 </el-table-column>
@@ -540,8 +540,8 @@
                         if (this.$route.params.id == response.data.content[m].id) {
                             for (let i=0; i<response.data.content[m].comment.length; i++) {
                                 let tempObj = {};
-                                //tempObj.id = response.data.content[m].comment[i].id;
-                                tempObj.id = i + 1;
+                                tempObj.id = response.data.content[m].comment[i].id;
+                                tempObj.ids = i + 1;
                                 tempObj.content = response.data.content[m].comment[i].content;
                                 tempObj.publish = response.data.content[m].comment[i].uid;
                                 tempObj.configtime = response.data.content[m].comment[i].configtime;
@@ -1136,11 +1136,11 @@
                         if(response.data.code==200){
                             this.list.splice(index, 1);
                             //this.getList();
+                            this.$message({
+                                message: '操作成功',
+                                type: 'success'
+                            });
                         }
-                    });
-                    this.$message({
-                        message: '操作成功',
-                        type: 'success'
                     });
                 }).catch(() => {
 
