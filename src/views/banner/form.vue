@@ -424,7 +424,7 @@
                 });
             },
             changeRoo () {
-                roomlist(this.listQuery).then(response => {
+                /*roomlist(this.listQuery).then(response => {
                     console.log(response)
                     if (this.roomuserLIstOptions) {
                         this.roomuserLIstOptions = [];
@@ -441,7 +441,8 @@
                             this.roomuserLIstOptions.push(temp);
                         }
                     }
-                })
+                })*/
+                this.postForm.title = this.postForm.title + ' ';
             },
             changeAct () {
                 scriptlist(this.listQuery).then(response => {
@@ -596,6 +597,7 @@
                             });
                         } else {
                             diaryinfo.id = this.$route.params.id;
+                            diaryinfo.title = this.postForm.title.replace(/(\s*$)/g, "");
                             updatebanner (diaryinfo).then(response => {
                                 if(response.data.code==200){
                                     this.$message({

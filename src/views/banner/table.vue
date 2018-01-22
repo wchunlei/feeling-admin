@@ -557,9 +557,9 @@
                             for ( let j=0; j<this.actorOptions.length; j++) {
                                 if (response.data.content[i].actorid == this.actorOptions[j].value) {
                                     this.list[i].content = this.actorOptions[j].label + '的空间';
-                                } else {
+                                }/* else {
                                     this.list[i].content = "空间不存在!!";
-                                }
+                                }*/
                             }
                         }
                         if (response.data.content[i].type == 2) {
@@ -567,9 +567,9 @@
                             for ( let j=0; j<this.homeOptions.length; j++) {
                                 if (response.data.content[i].roomid == this.homeOptions[j].value) {
                                     this.list[i].content = this.homeOptions[j].label;
-                                } else {
+                                }/* else {
                                     this.list[i].content = "房间不存在!!";
-                                }
+                                }*/
                             }
                         }
                         if (response.data.content[i].type == 4) {
