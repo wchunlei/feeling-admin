@@ -314,6 +314,16 @@
             home.id = this.$route.params.id;
             this.getDetail(home);
         },*/
+        mounted(){
+            if(this.$route.params.id && this.$route.params.id != ':id') {
+                this.$nextTick(function() {
+                    this.getActor();
+                    let home = {};
+                    home.id = this.$route.params.id;
+                    this.getDetail(home);
+                })
+            }
+        },
         watch : {
             /*"postForm.checkedActor.value": {
                 handler:function(val,oldval) {
@@ -362,16 +372,17 @@
             getActor () {
                 actorList(this.listQuery).then(response => {
                     console.log(response.data.content)
-                    /*this.actorOptions = response.data.content.map(v => ({
-                     key: v.name
-                     }));*/
-                    for (let i=0; i<response.data.content.length; i++) {
+                    this.actorOptions = response.data.content.map(v => ({
+                        value: v.id,
+                        label: v.name
+                     }));
+                    /*for (let i=0; i<response.data.content.length; i++) {
                         //alert(response.data.content[i].id)
                         let temp = {};
                         temp.value = response.data.content[i].id;
                         temp.label = response.data.content[i].name;
                         this.actorOptions.push(temp);
-                    }
+                    }*/
                 })
             },
             changeScr () {
@@ -549,6 +560,7 @@
                     if (this.postForm.configtime == "0000-00-00 00:00:00") {
                         this.postForm.configtime = '';
                     }
+                    this.postForm.checkStory.push(response.data.content.scriptid);
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);
