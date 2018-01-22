@@ -573,13 +573,13 @@
             let Query = {};
             this.getRemoteUserList(Query);
             if(this.$route.params.id && this.$route.params.id != ':id'){
-                let listQuery={};
+                /*let listQuery={};
                 listQuery.id = this.$route.params.id;
                 listQuery.pos = '1';
                 //listQuery.actorid = this.$route.params.actorid;
                 this.$nextTick(function () {
                     this.fetchData(listQuery);
-                })
+                })*/
                 this.saveBut = true;
                 this.addBut = false;
                 this.showButton = false;
@@ -598,7 +598,7 @@
             //this.postForm.actor={key:"1", value:this.$route.params.num};
             //this.postForm.actor.key=this.$route.params.num;
         },
-        mounted(){
+        /*mounted(){
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 let listQuery={};
                 listQuery.id = this.$route.params.id;
@@ -607,7 +607,7 @@
                     this.fetchData(listQuery);
                 })
             }
-        },
+        },*/
         watch : {
             /*types () {
              for (let i=0; i<this.diarys.length; i++) {
@@ -1085,11 +1085,11 @@
                         key: v.name,
                         value: v.id
                     }));
+                    let listQuery={};
+                    listQuery.id = this.$route.params.id;
+                    listQuery.pos = '1';
+                    this.fetchData(listQuery);
                 })
-                let listQuery={};
-                listQuery.id = this.$route.params.id;
-                listQuery.pos = '1';
-                this.fetchData(listQuery);
             }
         }
     }
