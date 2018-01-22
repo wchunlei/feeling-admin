@@ -205,7 +205,7 @@
                 /*checkedActor: [],*/
                 postForm: {
                     name: '', // 文章内容
-                    checkedActor: [],
+                    checkedActor: '',
                     checkedStory: [],
                     backimg: '',
                     configtime: '',
@@ -533,7 +533,9 @@
                     this.scriptDataLabel.push(this.scriptData[i].label);
                 }*/
                 roominfo (home).then(response => {
-                    this.postForm = response.data.content;
+                    this.postForm.name = response.data.content.name;
+                    this.postForm.backimg = response.data.content.backimg;
+                    this.postForm.roomsort = response.data.content.roomsort;
                     /*for ( let j=0; j<this.userLIstOptions.length; j++) {
                      if (response.data.content.actorid == this.userLIstOptions[j].value) {
                      this.postForm.checkedActor = this.userLIstOptions[j];
@@ -560,7 +562,7 @@
                     if (this.postForm.configtime == "0000-00-00 00:00:00") {
                         this.postForm.configtime = '';
                     }
-                    this.postForm.checkStory.push(response.data.content.scriptid);
+                    //this.postForm.checkStory.push(response.data.content.scriptid);
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);

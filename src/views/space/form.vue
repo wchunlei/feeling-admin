@@ -672,6 +672,7 @@
                     //this.postForm.actor = { key:response.data.content[0].name, value:response.data.content[0].actorid };
                     this.postForm.reward = response.data.content.reward;
                     this.postForm.words = response.data.content.words;
+                    this.postForm.sort = response.data.content.sort;
                     for ( let j=0; j<this.userLIstOptions.length; j++) {
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.actor = this.userLIstOptions[j];
@@ -682,6 +683,7 @@
                         this.postForm.price = 5;
                     }
                     if (response.data.content.type == 1) {
+                        this.postForm.type = response.data.content.type;
                         if(!this.showPicContent){
                             this.showPicContent=true;
                             this.showVidContent=false;
@@ -741,6 +743,7 @@
                         }
                     }
                     if (response.data.content.type == 3) {
+                        this.postForm.type = response.data.content.type;
                         this.postForm.audio = response.data.content.audio;
                         this.postForm.avname = response.data.content.avname;
                         this.postForm.avdesc = response.data.content.avdesc;
@@ -758,6 +761,7 @@
                         }
                     }
                     if (response.data.content.type == 4) {
+                        this.postForm.type = response.data.content.type;
                         this.postForm.help = response.data.content.help;
                         this.postForm.crowd = response.data.content.thumbnail;
                         if(!this.showCroContent){
