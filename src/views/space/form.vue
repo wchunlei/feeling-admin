@@ -598,6 +598,16 @@
             //this.postForm.actor={key:"1", value:this.$route.params.num};
             //this.postForm.actor.key=this.$route.params.num;
         },
+        mounted(){
+            if(this.$route.params.id && this.$route.params.id != ':id') {
+                let listQuery={};
+                listQuery.id = this.$route.params.id;
+                listQuery.pos = '1';
+                this.$nextTick(function () {
+                    this.fetchData(listQuery);
+                })
+            }
+        },
         watch : {
             /*types () {
              for (let i=0; i<this.diarys.length; i++) {
@@ -660,100 +670,98 @@
                 diaryinfo(listQuery).then(response => {
                     //this.postForm.actor.value = response.data.content.actorid;
                     //this.postForm.actor = { key:response.data.content[0].name, value:response.data.content[0].actorid };
-                    this.$nextTick(function () {
-                        this.postForm = response.data.content;
-                        this.postForm.price = parseInt(response.data.content.price);
-                        if (response.data.content.price == 0) {
-                            this.postForm.price = 5;
+                    this.postForm = response.data.content;
+                    for ( let j=0; j<this.userLIstOptions.length; j++) {
+                        if (response.data.content.actorid == this.userLIstOptions[j].value) {
+                            this.postForm.actor = this.userLIstOptions[j];
                         }
-                        for ( let j=0; j<this.userLIstOptions.length; j++) {
-                            if (response.data.content.actorid == this.userLIstOptions[j].value) {
-                                this.postForm.actor = this.userLIstOptions[j];
-                            }
+                    }
+                    this.postForm.price = parseInt(response.data.content.price);
+                    if (response.data.content.price == 0) {
+                        this.postForm.price = 5;
+                    }
+                    if (response.data.content.type == 1) {
+                        if(!this.showPicContent){
+                            this.showPicContent=true;
+                            this.showVidContent=false;
+                            this.showAudContent = false;
+                            this.showCroContent = false;
+                            this.showPayDefault = true;
+                        } else {
+                            this.showVidContent=false;
+                            this.showAudContent = false;
+                            this.showCroContent = false;
                         }
-                        if (response.data.content.type == 1) {
-                            if(!this.showPicContent){
-                                this.showPicContent=true;
-                                this.showVidContent=false;
-                                this.showAudContent = false;
-                                this.showCroContent = false;
-                                this.showPayDefault = true;
-                            } else {
-                                this.showVidContent=false;
-                                this.showAudContent = false;
-                                this.showCroContent = false;
-                            }
-                            if (response.data.content.picture[0]) {
-                                this.postForm.pic1 = response.data.content.picture[0]
-                            }
-                            if (response.data.content.picture[1]) {
-                                this.postForm.pic2 = response.data.content.picture[1]
-                            }
-                            if (response.data.content.picture[2]) {
-                                this.postForm.pic3 = response.data.content.picture[2]
-                            }
-                            if (response.data.content.picture[3]) {
-                                this.postForm.pic4 = response.data.content.picture[3]
-                            }
-                            if (response.data.content.picture[4]) {
-                                this.postForm.pic5 = response.data.content.picture[4]
-                            }
-                            if (response.data.content.picture[5]) {
-                                this.postForm.pic6 = response.data.content.picture[5]
-                            }
-                            if (response.data.content.picture[6]) {
-                                this.postForm.pic7 = response.data.content.picture[6]
-                            }
-                            if (response.data.content.picture[7]) {
-                                this.postForm.pic8 = response.data.content.picture[7]
-                            }
-                            if (response.data.content.picture[8]) {
-                                this.postForm.pic9 = response.data.content.picture[8]
-                            }
+                        if (response.data.content.picture[0]) {
+                            this.postForm.pic1 = response.data.content.picture[0]
                         }
-                        if (response.data.content.type == 2) {
-                            if(!this.showVidContent){
-                                this.showVidContent=true;
-                                this.showPicContent=false;
-                                this.showAudContent = false;
-                                this.showCroContent = false;
-                                this.showPayDefault = true;
-                            } else {
-                                this.showPicContent=false;
-                                this.showAudContent = false;
-                                this.showCroContent = false;
-                            }
+                        if (response.data.content.picture[1]) {
+                            this.postForm.pic2 = response.data.content.picture[1]
                         }
-                        if (response.data.content.type == 3) {
-                            if(!this.showAudContent){
-                                this.showAudContent = true;
-                                this.showVidContent=false;
-                                this.showPicContent=false;
-                                this.showCroContent = false;
-                                this.showPayDefault = true;
-                            } else {
-                                this.showPicContent=false;
-                                this.showVidContent=false;
-                                this.showCroContent = false;
-                            }
+                        if (response.data.content.picture[2]) {
+                            this.postForm.pic3 = response.data.content.picture[2]
                         }
-                        if (response.data.content.type == 4) {
-                            if(!this.showCroContent){
-                                this.showCroContent = true;
-                                this.showAudContent = false;
-                                this.showVidContent=false;
-                                this.showPicContent=false;
-                                this.showPayDefault = false;
-                            } else {
-                                this.showPicContent=false;
-                                this.showVidContent=false;
-                                this.showAudContent = false;
-                            }
+                        if (response.data.content.picture[3]) {
+                            this.postForm.pic4 = response.data.content.picture[3]
                         }
-                        if (this.postForm.configtime == "0000-00-00 00:00:00") {
-                            this.postForm.configtime = '';
+                        if (response.data.content.picture[4]) {
+                            this.postForm.pic5 = response.data.content.picture[4]
                         }
-                    })
+                        if (response.data.content.picture[5]) {
+                            this.postForm.pic6 = response.data.content.picture[5]
+                        }
+                        if (response.data.content.picture[6]) {
+                            this.postForm.pic7 = response.data.content.picture[6]
+                        }
+                        if (response.data.content.picture[7]) {
+                            this.postForm.pic8 = response.data.content.picture[7]
+                        }
+                        if (response.data.content.picture[8]) {
+                            this.postForm.pic9 = response.data.content.picture[8]
+                        }
+                    }
+                    if (response.data.content.type == 2) {
+                        if(!this.showVidContent){
+                            this.showVidContent=true;
+                            this.showPicContent=false;
+                            this.showAudContent = false;
+                            this.showCroContent = false;
+                            this.showPayDefault = true;
+                        } else {
+                            this.showPicContent=false;
+                            this.showAudContent = false;
+                            this.showCroContent = false;
+                        }
+                    }
+                    if (response.data.content.type == 3) {
+                        if(!this.showAudContent){
+                            this.showAudContent = true;
+                            this.showVidContent=false;
+                            this.showPicContent=false;
+                            this.showCroContent = false;
+                            this.showPayDefault = true;
+                        } else {
+                            this.showPicContent=false;
+                            this.showVidContent=false;
+                            this.showCroContent = false;
+                        }
+                    }
+                    if (response.data.content.type == 4) {
+                        if(!this.showCroContent){
+                            this.showCroContent = true;
+                            this.showAudContent = false;
+                            this.showVidContent=false;
+                            this.showPicContent=false;
+                            this.showPayDefault = false;
+                        } else {
+                            this.showPicContent=false;
+                            this.showVidContent=false;
+                            this.showAudContent = false;
+                        }
+                    }
+                    if (this.postForm.configtime == "0000-00-00 00:00:00") {
+                        this.postForm.configtime = '';
+                    }
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);
