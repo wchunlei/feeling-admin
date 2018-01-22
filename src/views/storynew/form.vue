@@ -438,9 +438,9 @@
                 this.addBut = false;
                 this.showChart = true;
                 this.listQuery.scriptid = this.$route.params.id;
-                this.$nextTick(function () {
+                /*this.$nextTick(function () {
                     this.getDetail();
-                })
+                })*/
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -488,7 +488,6 @@
                         temp.label = response.data.content[i].name;
                         this.actorOptions.push(temp);
                     }
-                    this.getDetail();
                 })
             },
             changeActor () {
@@ -1011,6 +1010,7 @@
                     }));
                     let temp = this.userLIstOptions.length-1;
                     //this.postForm.actor = this.userLIstOptions[temp];
+                    this.getDetail();
                 })
             }
         }
