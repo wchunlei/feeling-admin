@@ -236,7 +236,7 @@
                 /*checkedActor: [],*/
                 postForm: {
                     title: '', // 文章内容
-                    actor: [],
+                    actor: '',
                     uploadTxt: '',
                     uploadFile: '',
                     video: '',

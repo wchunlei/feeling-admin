@@ -383,6 +383,9 @@
                         temp.label = response.data.content[i].name;
                         this.actorOptions.push(temp);
                     }*/
+                    let home = {};
+                    home.id = this.$route.params.id;
+                    this.getDetail(home);
                 })
             },
             changeScr () {
