@@ -360,7 +360,7 @@
         created() {
             this.getActor();
             this.getScriptList();
-            this.getList();
+            //this.getList();
             //this.getRemoteUserList(Query);
         },
         filters: {

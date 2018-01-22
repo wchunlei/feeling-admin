@@ -291,15 +291,15 @@
         created() {
             this.getActor();
             //this.getRemoteUserList(this.listQuery);
-            //this.getScriptList();
+            this.getScriptList();
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
-                let home = {};
+                /*let home = {};
                 home.id = this.$route.params.id;
                 this.$nextTick(function() {
                     this.getDetail(home);
-                })
+                })*/
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -314,7 +314,7 @@
             home.id = this.$route.params.id;
             this.getDetail(home);
         },*/
-        mounted(){
+        /*mounted(){
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.$nextTick(function() {
                     this.getActor();
@@ -323,7 +323,7 @@
                     this.getDetail(home);
                 })
             }
-        },
+        },*/
         watch : {
             /*"postForm.checkedActor.value": {
                 handler:function(val,oldval) {
@@ -417,7 +417,6 @@
                         this.scriptData.push(temp);
                         //this.scriptDataLabel.push(temp.label);
                     }
-                    this.checkedStory = [1,3]
                     console.log(response)
                     this.listLoading = false;
                 })
@@ -449,7 +448,7 @@
                     dateString = '0000-00-00 00:00:00';
                 }
                 let scriptid = '';
-                if (this.postForm.checkedStory) {
+                if (this.postForm.checkedStory == []) {
                     this.$message({
                         message: '请选择剧情',
                         type: 'error'
@@ -539,20 +538,6 @@
                     this.postForm.name = response.data.content.name;
                     this.postForm.backimg = response.data.content.backimg;
                     this.postForm.roomsort = response.data.content.roomsort;
-                    /*for ( let j=0; j<this.userLIstOptions.length; j++) {
-                     if (response.data.content.actorid == this.userLIstOptions[j].value) {
-                     this.postForm.checkedActor = this.userLIstOptions[j];
-                     }
-                     }*/
-                    //alert(this.scriptData[0].key)
-                    /*let scriptidtemp = response.data.content.scriptid.split(',');
-                    for (let j=0; j<this.scriptData.length; j++) {
-                        for (let k=0; k<scriptidtemp.length.length-1; k++) {
-                            if (scriptidtemp[k] == this.scriptData[j].key) {
-                                this.postForm.checkStory.push(this.scriptData[j].label);
-                            }
-                        }
-                    }*/
                     for ( let j=0; j<this.actorOptions.length; j++) {
                         if (response.data.content.actorid == this.actorOptions[j].value) {
                             /*this.$nextTick(function () {
@@ -565,7 +550,13 @@
                     if (this.postForm.configtime == "0000-00-00 00:00:00") {
                         this.postForm.configtime = '';
                     }
-                    //this.postForm.checkStory.push(response.data.content.scriptid);
+                    let tempScriptid = response.data.content.scriptid.split(',');
+                    for (let i=0; i<tempScriptid.length; i++) {
+                        /*let temp;
+                        temp = parseInt(tempScriptid[i]);*/
+                        this.postForm.checkedStory.push(parseInt(tempScriptid[i]));
+                    }
+                    console.log(this.postForm.checkedStory)
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);

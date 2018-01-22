@@ -446,10 +446,10 @@
                 this.saveBut = true;
                 this.addBut = false;
                 this.listQuery.id = this.$route.params.id;
-                this.$nextTick(function () {
+                /*this.$nextTick(function () {
                     this.getDetail();
                     this.getList();
-                })
+                })*/
             } else {
                 this.showPhoto = false;
                 this.disable = false;

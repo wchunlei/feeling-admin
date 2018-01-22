@@ -557,6 +557,8 @@
                             for ( let j=0; j<this.actorOptions.length; j++) {
                                 if (response.data.content[i].actorid == this.actorOptions[j].value) {
                                     this.list[i].content = this.actorOptions[j].label + '的空间';
+                                } else {
+                                    this.list[i].content = "空间不存在!!";
                                 }
                             }
                         }
