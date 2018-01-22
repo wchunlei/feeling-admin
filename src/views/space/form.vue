@@ -670,7 +670,8 @@
                 diaryinfo(listQuery).then(response => {
                     //this.postForm.actor.value = response.data.content.actorid;
                     //this.postForm.actor = { key:response.data.content[0].name, value:response.data.content[0].actorid };
-                    this.postForm = response.data.content;
+                    this.postForm.reward = response.data.content.reward;
+                    this.postForm.words = response.data.content.words;
                     for ( let j=0; j<this.userLIstOptions.length; j++) {
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.actor = this.userLIstOptions[j];
@@ -721,6 +722,12 @@
                         }
                     }
                     if (response.data.content.type == 2) {
+                        this.postForm.type = response.data.content.type;
+                        this.postForm.video = response.data.content.video;
+                        this.postForm.vtype = response.data.content.vtype;
+                        if (this.postForm.vtype == 1) {
+                            diaryinfo.thumbnail = this.postForm.thumbnail;
+                        }
                         if(!this.showVidContent){
                             this.showVidContent=true;
                             this.showPicContent=false;
@@ -734,6 +741,10 @@
                         }
                     }
                     if (response.data.content.type == 3) {
+                        this.postForm.audio = response.data.content.audio;
+                        this.postForm.avname = response.data.content.avname;
+                        this.postForm.avdesc = response.data.content.avdesc;
+                        this.postForm.soundImg = response.data.content.thumbnail;
                         if(!this.showAudContent){
                             this.showAudContent = true;
                             this.showVidContent=false;
@@ -747,6 +758,8 @@
                         }
                     }
                     if (response.data.content.type == 4) {
+                        this.postForm.help = response.data.content.help;
+                        this.postForm.crowd = response.data.content.thumbnail;
                         if(!this.showCroContent){
                             this.showCroContent = true;
                             this.showAudContent = false;
