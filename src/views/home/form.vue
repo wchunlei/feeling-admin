@@ -185,6 +185,7 @@
             return {
                 scriptData: [],
                 scriptDataLabel: [],
+                scriptDataAll: [],
                 script: [],
                 actorOptions: [],
                 phopoid: '',
@@ -412,10 +413,14 @@
                 scriptlist(this.listQuery).then(response => {
                     for (let i=0; i<response.data.content.length; i++) {
                         let temp = {};
+                        let tempall = {};
                         temp.key = response.data.content[i].id;
                         temp.label = response.data.content[i].title;
                         this.scriptData.push(temp);
-                        //this.scriptDataLabel.push(temp.label);
+                        tempall.key = response.data.content[i].id;
+                        tempall.label = response.data.content[i].title;
+                        tempall.actorid = response.data.content[i].actorid;
+                        this.scriptDataAll.push(tempall);
                     }
                     console.log(response)
                     this.listLoading = false;
@@ -550,12 +555,24 @@
                     if (this.postForm.configtime == "0000-00-00 00:00:00") {
                         this.postForm.configtime = '';
                     }
+                    if (this.scriptData) {
+                        this.scriptData = [];
+                    }
+                    for (let i=0; i<this.scriptDataAll.length; i ++) {
+                        if (response.data.content.actorid == this.scriptDataAll[i].actorid) {
+                            let temp = {};
+                            temp.key = this.scriptDataAll[i].key;
+                            temp.label = this.scriptDataAll[i].label;
+                            this.scriptData.push(temp);
+                        }
+                    }
                     let tempScriptid = response.data.content.scriptid.split(',');
                     for (let i=0; i<tempScriptid.length; i++) {
                         /*let temp;
-                        temp = parseInt(tempScriptid[i]);*/
-                        this.postForm.checkedStory.push(parseInt(tempScriptid[i]));
+                         temp = parseInt(tempScriptid[i]);*/
+                        this.postForm.checkedStory.push(tempScriptid[i]);
                     }
+                    //this.postForm.checkedStory.reverse()
                     console.log(this.postForm.checkedStory)
                 }).catch(err => {
                     this.fetchSuccess = false;
