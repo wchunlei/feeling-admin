@@ -422,7 +422,7 @@
                         this.actorOptions.push(temp);
                     }
                 })
-                this.getList();
+                //this.getList();
             },
             getRemoteUserList(query) {
                 console.log("getRemoteUserList")

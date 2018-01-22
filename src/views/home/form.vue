@@ -292,10 +292,10 @@
         created() {
             this.getActor();
             //this.getRemoteUserList(this.listQuery);
-            this.getScriptList();
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
+                this.getScriptList();
                 /*let home = {};
                 home.id = this.$route.params.id;
                 this.$nextTick(function() {
@@ -384,9 +384,11 @@
                         temp.label = response.data.content[i].name;
                         this.actorOptions.push(temp);
                     }*/
-                    let home = {};
-                    home.id = this.$route.params.id;
-                    this.getDetail(home);
+                    if(this.$route.params.id && this.$route.params.id != ':id') {
+                        let home = {};
+                        home.id = this.$route.params.id;
+                        this.getDetail(home);
+                    }
                 })
             },
             changeScr () {
