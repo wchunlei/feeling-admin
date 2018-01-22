@@ -456,6 +456,7 @@
                         this.scriptData.push(temp);
                     }
                     this.listLoading = false;
+                    //解决列表某项不饿能显示出来问题
                     this.getList();
                 })
             },

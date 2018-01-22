@@ -76,7 +76,7 @@
                     </el-upload>
                     <div id="showBackColor" class="backPic" style="border: 1px solid #ccc;margin-top: 15px;">
                         <div class="showUploadPic">
-                            <img id="image" :src="postForm.picture" />
+                            <img id="image" :src="postForm.pictureBack" />
                         </div>
                     </div>
                 </el-form-item>
@@ -241,6 +241,7 @@
                     uploadFile: '',
                     video: '',
                     picture: '',
+                    pictureBack: '',
                     csolor: '0',
                     stage: '1',
                     cost: '0',
@@ -499,7 +500,8 @@
                     this.postForm = response.data.content;
                     this.postForm.price = parseInt(response.data.content.price);
                     this.postForm.option = parseInt(response.data.content.option);
-                    this.pictureurl = response.data.content.picture;
+                    this.postForm.pictureBack = response.data.content.picture;
+                    //this.postForm.pictureBack = URL.createObjectURL(response.data.content.picture);
                     this.postForm.video = response.data.content.video.join("#");
                     /*this.videosize = response.data.content.videosize;
                     this.videourl = response.data.content.videourl;*/
@@ -755,7 +757,7 @@
                 let selectBackColor = document.getElementById('showBackColor');
                 if (this.postForm.csolor == 0) {
                     let _this = this;
-                    let setTime = setTimeout(function () {
+                    setTimeout(function () {
                         //alert(_this.postForm.picture)
                         //let img = _this.postForm.picture;
                         //let showBackColor = document.getElementById('showBackColor');
@@ -975,10 +977,11 @@
                 console.log(this.video,this.videosize,this.videourl)
             },
             handleBackImageScucess (res,file) {
-                console.log(res)
-                //this.postForm.picture = URL.createObjectURL(file.raw);
+                //console.log(res)
+                console.log(file.raw)
+                this.postForm.pictureBack = URL.createObjectURL(file.raw);
                 this.postForm.picture = res.url;
-                let setTime = setTimeout(function () {
+                setTimeout(function () {
                     let img = document.getElementById('image');
                     let showBackColor = document.getElementById('showBackColor');
                     RGBaster.colors(img, {
