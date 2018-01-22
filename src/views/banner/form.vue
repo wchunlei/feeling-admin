@@ -26,9 +26,10 @@
                     <template>
                         <span @click="showH5"><el-radio v-model="postForm.type" label="1">H5页面</el-radio></span>
                         <span @click="showPerHome"><el-radio v-model="postForm.type" label="5">女仆空间</el-radio></span>
-                        <span @click="showStory"><el-radio v-model="postForm.type" label="2">剧情选择页<span style="color:red">（请配置后注意查看该女仆的工作时间，以免用户无法跳转该链接）</span></el-radio></span>
+                        <span @click="showStory"><el-radio v-model="postForm.type" label="2">女仆房间</el-radio></span>
                         <span @click="showVideo"><el-radio v-model="postForm.type" label="4">视频</el-radio></span>
                         <span @click="showRecharge"><el-radio v-model="postForm.type" label="3">充值页</el-radio></span>
+                        <span style="color:red">（请配置后注意查看该女仆的工作时间，以免用户无法跳转该链接）</span>
                     </template>
                 </el-form-item>
 
@@ -67,22 +68,22 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="选择主角:" label-width="100px" prop="actor1" style="margin-bottom: 40px" required>
+                    <!--<el-form-item label="选择主角:" label-width="100px" prop="actor1" style="margin-bottom: 40px" required>
                         <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.actor1" placeholder="选择主角" @visible-change="changeAct">
                             <el-option v-for="item in  roomuserLIstOptions" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
-                        <!--<multiselect v-model="postForm.actor1" required :options="roomuserLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
+                        &lt;!&ndash;<multiselect v-model="postForm.actor1" required :options="roomuserLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
                                      deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
                             <span slot='noResult'>无结果</span>
-                        </multiselect>-->
+                        </multiselect>&ndash;&gt;
                     </el-form-item>
                     <el-form-item label="选择剧情:" label-width="100px" prop="script" style="margin-bottom: 40px" required>
                         <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.script" placeholder="选择剧情" @visible-change="changeScr">
                             <el-option v-for="item in  scriptData" :key="item.label" :label="item.label" :value="item.value">
                             </el-option>
                         </el-select>
-                    </el-form-item>
+                    </el-form-item>-->
                 </div>
 
                 <el-form-item v-show="showVid" label="选择视频:" label-width="100px" prop="mvurl" required>
@@ -563,8 +564,8 @@
                         } else if (this.postForm.type == 2) {
                             diaryinfo.type = this.postForm.type;
                             diaryinfo.roomid = this.postForm.room;
-                            diaryinfo.actorid = this.postForm.actor1;
-                            diaryinfo.scriptid = this.postForm.script;
+                            //diaryinfo.actorid = this.postForm.actor1;
+                            //diaryinfo.scriptid = this.postForm.script;
                         } else if (this.postForm.type == 4) {
                             diaryinfo.type = this.postForm.type;
                             diaryinfo.mvurl = this.postForm.mvurl;

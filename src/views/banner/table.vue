@@ -209,6 +209,7 @@
     import { delbanner } from 'api/banner';
     import { actorList } from 'api/actor';
     import { scriptlist } from 'api/story';
+    import { roomlist } from 'api/room';
     import { reslist } from 'api/resource';
 
     const calendarTypeOptions = [
@@ -235,6 +236,7 @@
                 actorOptions: [],
                 scriptOptions: [],
                 videoOptions: [],
+                homeOptions: [],
                 disable: true,
                 privateOptions: [{
                     value: '0',
@@ -325,7 +327,7 @@
         created() {
             this.getVideoResource();
             this.getActor();
-            this.getList();
+            //this.getList();
         },
         filters: {
             statusFilter(status) {
@@ -378,6 +380,16 @@
                         temp.label = response.data.content[i].name;
                         this.actorOptions.push(temp);
                     }
+                    roomlist(this.listQuery).then(response => {
+                        console.log(response)
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            temp.value = response.data.content[i].id;
+                            temp.label = response.data.content[i].name;
+                            this.homeOptions.push(temp);
+                        }
+                        this.getList();
+                    })
                 });
                 scriptlist(this.listQuery).then(response => {
                     console.log(response)
@@ -549,10 +561,12 @@
                             }
                         }
                         if (response.data.content[i].type == 2) {
-                            this.list[i].type = '剧情选择页';
-                            for ( let j=0; j<this.scriptOptions.length; j++) {
-                                if (response.data.content[i].scriptid == this.scriptOptions[j].value) {
-                                    this.list[i].content = this.scriptOptions[j].label;
+                            this.list[i].type = '女仆房间';
+                            for ( let j=0; j<this.homeOptions.length; j++) {
+                                if (response.data.content[i].roomid == this.homeOptions[j].value) {
+                                    this.list[i].content = this.homeOptions[j].label;
+                                } else {
+                                    this.list[i].content = "房间不存在!!";
                                 }
                             }
                         }
