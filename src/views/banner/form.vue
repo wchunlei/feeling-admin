@@ -217,7 +217,7 @@
                     url: '',
                     message: '0',
                     room: '',
-                    actor: [],
+                    actor: '',
                     actor1: '',
                     script: '',
                     sort: '0',
@@ -340,9 +340,9 @@
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
-                let banner = {};
+                /*let banner = {};
                 banner.id = this.$route.params.id;
-                this.getDetail(banner);
+                this.getDetail(banner);*/
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -794,6 +794,9 @@
                         key: v.name,
                         value: v.id
                     }));
+                    let banner = {};
+                    banner.id = this.$route.params.id;
+                    this.getDetail(banner);
                 })
             },
             getRemoteScriptList(query) {
