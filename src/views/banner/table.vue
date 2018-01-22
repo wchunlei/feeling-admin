@@ -209,6 +209,7 @@
     import { delbanner } from 'api/banner';
     import { actorList } from 'api/actor';
     import { scriptlist } from 'api/story';
+    import { reslist } from 'api/resource';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -233,6 +234,7 @@
                 list: [],
                 actorOptions: [],
                 scriptOptions: [],
+                videoOptions: [],
                 disable: true,
                 privateOptions: [{
                     value: '0',
@@ -321,6 +323,7 @@
             }
         },
         created() {
+            this.getVideoResource();
             this.getActor();
             this.getList();
         },
@@ -343,6 +346,25 @@
          }
          },*/
         methods: {
+            getVideoResource () {
+                let typeinfo = {};
+                typeinfo.type = '2';
+                reslist (typeinfo).then(response => {
+                    if(response.data.code==200){
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            temp.value = response.data.content[i].id;
+                            temp.label = response.data.content[i].name;
+                            this.videoOptions.push(temp);
+                        }
+                        console.log(this.videoOptions)
+                        /*this.$message({
+                         message: '新增成功',
+                         type: 'success'
+                         });*/
+                    }
+                });
+            },
             getActor () {
                 actorList(this.listQuery).then(response => {
                     //console.log(response)
@@ -536,6 +558,11 @@
                         }
                         if (response.data.content[i].type == 4) {
                             this.list[i].type = '视频';
+                            for (let j=0; j<this.videoOptions.length; j++) {
+                                if (response.data.content[i].mvurl == this.videoOptions[j].value) {
+                                    this.list[i].content = this.videoOptions[j].label;
+                                }
+                            }
                         }
                         if (response.data.content[i].type == 3) {
                             this.list[i].type = '充值页';

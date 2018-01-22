@@ -487,6 +487,7 @@
                         temp.label = response.data.content[i].name;
                         this.actorOptions.push(temp);
                     }
+                    this.getDetail();
                 })
             },
             changeActor () {

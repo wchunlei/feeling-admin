@@ -1086,6 +1086,10 @@
                         value: v.id
                     }));
                 })
+                let listQuery={};
+                listQuery.id = this.$route.params.id;
+                listQuery.pos = '1';
+                this.fetchData(listQuery);
             }
         }
     }

@@ -1157,6 +1157,8 @@
                         key: v.name,
                         value: v.id
                     }));
+                    this.getList();
+                    this.getDetail();
                 })
             }
         }
