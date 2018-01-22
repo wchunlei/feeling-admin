@@ -1085,6 +1085,7 @@
                         key: v.name,
                         value: v.id
                     }));
+                    //解决主角在详情页显示不出来
                     let listQuery={};
                     listQuery.id = this.$route.params.id;
                     listQuery.pos = '1';

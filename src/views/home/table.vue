@@ -381,6 +381,12 @@
          scope.row.sort = scope.row.selectSort;
          }
          },*/
+        /*mounted () {
+            this.$nextTick(function() {
+                this.getActor();
+                this.getScriptList();
+            })
+        },*/
         methods: {
             /*handleModifyStatus(row, status) {
              this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -421,8 +427,8 @@
                         temp.label = response.data.content[i].name;
                         this.actorOptions.push(temp);
                     }
+                    //this.getList();
                 })
-                //this.getList();
             },
             getRemoteUserList(query) {
                 console.log("getRemoteUserList")
@@ -450,8 +456,8 @@
                         this.scriptData.push(temp);
                     }
                     this.listLoading = false;
+                    this.getList();
                 })
-                this.getList();
             },
             deleteRow(index, rows) {
                 this.$confirm('确定要删除该内容吗？', '提示', {
