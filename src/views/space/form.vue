@@ -413,7 +413,7 @@
                     pic7: '', // 图片
                     pic8: '', // 图片
                     pic9: '', // 图片
-                    ispay: '0',
+                    ispay: '1',
                     selectPic: [],
                     price: 20,
                     configtime: '',
@@ -586,9 +586,12 @@
                 this.showContentButton = true;
                 this.disableTitle = true;
             }
-            if(this.$route.params.num && this.$route.params.num == ':num'){
+            if(this.$route.params.id && this.$route.params.id == ':id'){
                 this.showButton = true;
                 this.showDiary = false;
+                if (this.postForm.ispay == 1) {
+                    this.disprice = true;
+                }
             }
             /*id = $route.params.num;
              if(id == "num:"){
