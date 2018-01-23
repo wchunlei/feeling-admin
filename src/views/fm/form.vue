@@ -389,11 +389,11 @@
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
-                this.listQuery.id = this.$route.params.id;
+                this.listQuery.id = this.$route.params.id;/*
                 this.$nextTick(function () {
                     this.getDetail();
                     this.getList();
-                })
+                })*/
             } else {
                 this.showPhoto = false;
                 this.disable = false;
@@ -944,6 +944,10 @@
                         key: v.name,
                         value: v.id
                     }));
+                    if(this.$route.params.id && this.$route.params.id != ':id') {
+                        this.getDetail();
+                        this.getList();
+                    }
                 })
             }
         }

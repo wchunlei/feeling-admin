@@ -1010,7 +1010,9 @@
                     }));
                     let temp = this.userLIstOptions.length-1;
                     //this.postForm.actor = this.userLIstOptions[temp];
-                    this.getDetail();
+                    if(this.$route.params.id && this.$route.params.id != ':id') {
+                        this.getDetail();
+                    }
                 })
             }
         }

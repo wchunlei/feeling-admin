@@ -1157,8 +1157,10 @@
                         key: v.name,
                         value: v.id
                     }));
-                    this.getList();
-                    this.getDetail();
+                    if(this.$route.params.id && this.$route.params.id != ':id') {
+                        this.getList();
+                        this.getDetail();
+                    }
                 })
             }
         }
