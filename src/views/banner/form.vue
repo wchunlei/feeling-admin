@@ -799,9 +799,11 @@
                         key: v.name,
                         value: v.id
                     }));
-                    let banner = {};
-                    banner.id = this.$route.params.id;
-                    this.getDetail(banner);
+                    if(this.$route.params.id && this.$route.params.id != ':id') {
+                        let banner = {};
+                        banner.id = this.$route.params.id;
+                        this.getDetail(banner);
+                    }
                 })
             },
             getRemoteScriptList(query) {
