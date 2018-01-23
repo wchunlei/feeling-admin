@@ -498,6 +498,10 @@
                 scriptdetail (this.listQuery).then(response => {
                     let logicpicTemp = JSON.stringify(response.data.content.logicpic);
                     this.postForm = response.data.content;
+                    let selectBackColor = document.getElementById('showBackColor');
+                    if (response.data.content.csolor) {
+                        selectBackColor.style.backgroundColor = response.data.content.csolor;
+                    }
                     this.postForm.price = parseInt(response.data.content.price);
                     this.postForm.option = parseInt(response.data.content.option);
                     this.postForm.pictureBack = response.data.content.picture;
@@ -511,7 +515,6 @@
                     //console.log(this.logicpic)
                     //console.log(JSON.parse(this.logicpic))
                     this.drawLine();
-                    this.selectColor();
                     if (response.data.content.cost == 1) {
                         this.showPri = false;
                     }
@@ -545,6 +548,7 @@
                         this.postForm.csolor = '10';
                     } else {
                         this.postForm.csolor = '0';
+                        this.rgb = response.data.content.csolor;
                     }
                 }).catch(err => {
                     this.fetchSuccess = false;
@@ -778,8 +782,34 @@
             selectColor () {
                 //this.postForm.picture = URL.createObjectURL(file.raw);
                 let selectBackColor = document.getElementById('showBackColor');
-                if (this.postForm.csolor == 0) {
+                /*if (this.postForm.csolor == 0) {
                     let _this = this;
+                    setTimeout(function () {
+                        //alert(_this.postForm.picture)
+                        //let img = _this.postForm.picture;
+                        //let showBackColor = document.getElementById('showBackColor');
+                        let img = document.getElementById('image');
+                        RGBaster.colors(img, {
+                            exclude: [ 'rgb(255,255,255)' ],  // 不包括白色
+                            success: function(payload) {
+                                // payload.dominant是主色，RGB形式表示
+                                // payload.secondary是次色，RGB形式表示
+                                // payload.palette是调色板，含多个主要颜色，数组
+                                console.log(payload.dominant);
+                                console.log(payload.secondary);
+                                console.log(payload.palette);
+                                this.defaultColor = payload.dominant;
+                                //showBackColor.setAttribute('style', 'background: rgb(7,14,45)');
+                                selectBackColor.style.backgroundColor = payload.dominant;
+                                this.rgb = payload.dominant;
+                            }
+                        });
+                        //window.clearTimeout(setTime);
+                    },0);
+                }*/
+                if (this.postForm.csolor == 0 && this.rgb) {
+                    selectBackColor.style.backgroundColor = this.rgb;
+                } else {
                     setTimeout(function () {
                         //alert(_this.postForm.picture)
                         //let img = _this.postForm.picture;
