@@ -879,7 +879,7 @@
                                         message: '新增成功',
                                         type: 'success'
                                     });
-                                    this.$refs[formName].resetFields();
+                                    //this.$refs[formName].resetFields();
                                 }
                             });
                         } else {
@@ -887,10 +887,11 @@
                             updatediary (diaryinfo).then(response => {
                                 if(response.data.code==200){
                                     this.$message({
-                                        message: '新增成功',
+                                        message: '保存成功',
                                         type: 'success'
                                     });
                                     this.$refs[formName].resetFields();
+                                    this.postForm.type = diaryinfo.type;
                                 }
                             });
                         }

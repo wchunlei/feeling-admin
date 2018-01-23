@@ -179,7 +179,7 @@ export default new Router({
 });
 
 export const asyncRouterMap = [
-  {
+  /*{
     path : '/login',
     component: Layout,
     redirect: '/login/index',
@@ -188,7 +188,7 @@ export const asyncRouterMap = [
     children: [
       { path: 'index', component: AccountManage, name: '新增账号' }
     ]
-  },
+  },*/
   {
     path: '/actor',
     component: Layout,
