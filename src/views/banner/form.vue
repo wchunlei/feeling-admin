@@ -353,7 +353,7 @@
              }*/
         },
         watch : {
-            "postForm.actor1" (val,oldval) {
+            /*"postForm.actor1" (val,oldval) {
                 scriptlist(this.listQuery).then(response => {
                     console.log(response)
                     if (this.scriptData) {
@@ -368,7 +368,7 @@
                         }
                     }
                 })
-            },
+            },*/
             "postForm.room" (val,oldval) {
                 /*actorList(this.listQuery).then(response => {
                     console.log(response)
@@ -383,7 +383,7 @@
                     }
 
                 })*/
-                roomlist(this.listQuery).then(response => {
+                /*roomlist(this.listQuery).then(response => {
                     console.log(response)
                     if (this.roomuserLIstOptions) {
                         this.roomuserLIstOptions = [];
@@ -400,7 +400,7 @@
                             this.roomuserLIstOptions.push(temp);
                         }
                     }
-                })
+                })*/
             }
         },
         methods: {
@@ -592,23 +592,28 @@
                                         message: '新增成功',
                                         type: 'success'
                                     });
-                                    this.$refs[formName].resetFields();
+                                    //this.$refs[formName].resetFields();
                                 }
                             });
                         } else {
                             diaryinfo.id = this.$route.params.id;
                             diaryinfo.title = this.postForm.title.replace(/(\s*$)/g, "");
+                            for (let i=0; i<this.homeOptions.length; i++) {
+                                if(this.postForm.room == this.homeOptions[i].label) {
+                                    diaryinfo.roomid = this.homeOptions[i].value;
+                                }
+                            }
                             updatebanner (diaryinfo).then(response => {
                                 if(response.data.code==200){
                                     this.$message({
                                         message: '新增成功',
                                         type: 'success'
                                     });
-                                    this.$refs[formName].resetFields();
+                                    //this.$refs[formName].resetFields();
                                 }
                             });
                         }
-                        this.postForm.status = 'published';
+                        //this.postForm.status = 'published';
                         this.loading = false;
                     /*} else {
                         console.log('error submit!!');
