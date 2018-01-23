@@ -730,8 +730,8 @@
                         this.postForm.type = response.data.content.type;
                         this.postForm.video = response.data.content.video;
                         this.postForm.vtype = response.data.content.vtype;
-                        if (this.postForm.vtype == 1) {
-                            diaryinfo.thumbnail = this.postForm.thumbnail;
+                        if (response.data.content.vtype == 1) {
+                            this.postForm.thumbnail = response.data.content.thumbnail;
                         }
                         if(!this.showVidContent){
                             this.showVidContent=true;
