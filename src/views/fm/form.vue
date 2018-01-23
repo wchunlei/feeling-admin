@@ -94,11 +94,14 @@
         </el-form>-->
 
         <div v-show="commentForm" style="margin: 0 100px">
+            <div class="filter-container">
+                <el-button @click="handleSort" type="primary" style="float: right;margin-right:50px;">排序</el-button>
+            </div>
             <el-table :data="list" border fithighlight-current-row style="width: 100%">
 
-                <el-table-column align="center" label="序号" width="80" column-key="id" prop="id">
+                <el-table-column align="center" label="序号" width="80" column-key="id" prop="ids">
                     <template scope="scope">
-                        <span>{{scope.row.id}}</span>
+                        <span>{{scope.row.ids}}</span>
                         <!-- <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
                     </template>
                 </el-table-column>
@@ -118,18 +121,32 @@
                         <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                     </template>
                 </el-table-column>
-                <el-table-column min-width="300px" align="center" label="发布时间" prop="configtime">
+                <el-table-column label="状态" width="160" align="center" prop="status">
+                    <template scope="scope">
+                        <span>{{scope.row.status}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column min-width="300px" align="center" label="上架时间" prop="configtime">
                     <template scope="scope">
                         <span>{{scope.row.configtime}}</span>
                         <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                     </template>
                 </el-table-column>
+                <el-table-column min-width="150px" align="center" label="排序" prop="commentsort">
+                    <template scope="scope">
+                        <!--<span>{{scope.row.sort}}</span>-->
+                        <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
+                        <el-select v-model="scope.row.commentsort" placeholder="请选择" :disabled="disable" @change="changeSort(scope.row)">
+                            <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </template>
+                </el-table-column>
                 <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
                     <template scope="scope">
-                        <el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">置顶</el-button>
-                        <!--<el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
-                        <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">下架</el-button>-->
-                        <el-button @click.native.prevent="deleteRow(scope.$index, list)" type="text" size="small">删除</el-button>
+                        <!--<el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">置顶</el-button>-->
+                        <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">上架</el-button>
+                        <el-button v-if="scope.row.status!='下架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">下架</el-button>
+                        <el-button v-if="scope.row.status!='上架'" @click.native.prevent="deleteRow(scope.$index, scope.row)" type="text" size="small">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
