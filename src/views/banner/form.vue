@@ -531,6 +531,7 @@
                         } else {
                             dateString = '0000-00-00 00:00:00';
                         }
+                        let timestamp1 = Date.parse(dateString);
                         let dateString1;
                         if (this.postForm.configdowntime) {
                             let date1=new Date(this.postForm.configdowntime);
@@ -545,6 +546,7 @@
                         } else {
                             dateString1 = '0000-00-00 00:00:00';
                         }
+                        let timestamp2 = Date.parse(dateString1);
                         let diaryinfo={
                             //actorid: parseInt(this.postForm.actorid),
                             //actorid: this.postForm.actor.value,
@@ -579,39 +581,46 @@
                             });
                         }
                         this.loading = true;
-                        if (this.$route.params.id && this.$route.params.id == ':id') {
-                            addbanner (diaryinfo).then(response => {
-                                if (response.data.msg == 'title is repeat!') {
-                                    this.$message({
-                                        message: '标题不能重复',
-                                        type: 'error'
-                                    });
-                                }
-                                if(response.data.code==200){
-                                    this.$message({
-                                        message: '新增成功',
-                                        type: 'success'
-                                    });
-                                    //this.$refs[formName].resetFields();
-                                }
+                        if(timestamp1 > timestamp2) {
+                            this.$message({
+                                message: '上架时间不能大于下架时间',
+                                type: 'error'
                             });
                         } else {
-                            diaryinfo.id = this.$route.params.id;
-                            diaryinfo.title = this.postForm.title.replace(/(\s*$)/g, "");
-                            for (let i=0; i<this.homeOptions.length; i++) {
-                                if(this.postForm.room == this.homeOptions[i].label) {
-                                    diaryinfo.roomid = this.homeOptions[i].value;
+                            if (this.$route.params.id && this.$route.params.id == ':id') {
+                                addbanner (diaryinfo).then(response => {
+                                    if (response.data.msg == 'title is repeat!') {
+                                        this.$message({
+                                            message: '标题不能重复',
+                                            type: 'error'
+                                        });
+                                    }
+                                    if(response.data.code==200){
+                                        this.$message({
+                                            message: '新增成功',
+                                            type: 'success'
+                                        });
+                                        //this.$refs[formName].resetFields();
+                                    }
+                                });
+                            } else {
+                                diaryinfo.id = this.$route.params.id;
+                                diaryinfo.title = this.postForm.title.replace(/(\s*$)/g, "");
+                                for (let i=0; i<this.homeOptions.length; i++) {
+                                    if(this.postForm.room == this.homeOptions[i].label) {
+                                        diaryinfo.roomid = this.homeOptions[i].value;
+                                    }
                                 }
+                                updatebanner (diaryinfo).then(response => {
+                                    if(response.data.code==200){
+                                        this.$message({
+                                            message: '新增成功',
+                                            type: 'success'
+                                        });
+                                        //this.$refs[formName].resetFields();
+                                    }
+                                });
                             }
-                            updatebanner (diaryinfo).then(response => {
-                                if(response.data.code==200){
-                                    this.$message({
-                                        message: '新增成功',
-                                        type: 'success'
-                                    });
-                                    //this.$refs[formName].resetFields();
-                                }
-                            });
                         }
                         //this.postForm.status = 'published';
                         this.loading = false;

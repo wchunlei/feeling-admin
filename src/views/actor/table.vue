@@ -1,8 +1,8 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="昵称" v-model="listQuery.name">
-      </el-input>
+      <!--<el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="昵称" v-model="listQuery.name">
+      </el-input>-->
 
       <!--<el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.gender" placeholder="性别">
         <el-option v-for="item in  sexOptions" :key="item.label" :label="item.label" :value="item.value">
@@ -14,7 +14,7 @@
         </el-option>
       </el-select>
 
-      <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
+      <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">筛选</el-button>
       <el-button @click="handleSort" type="primary" style="float: right;margin-right:50px;">排序</el-button>
       <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>-->
       <!--<el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>-->
@@ -23,7 +23,7 @@
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
-      <el-table-column align="center" label="序号" width="80" column-key="id" prop="ids">
+      <el-table-column align="center" label="序号" width="100" column-key="id" prop="ids" sortable>
         <template scope="scope">
           <span>{{scope.row.ids}}</span>
          <!-- <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
@@ -65,7 +65,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="200px" align="center" label="加速雇佣价格（钻石）" prop="priceTime">
+      <el-table-column width="180px" align="center" label="加速雇佣价格（钻石）" prop="priceTime">
         <template scope="scope">
           <span>{{scope.row.priceTime}}</span>
         </template>
@@ -79,7 +79,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" label="状态" width="100" prop="status">
+      <el-table-column class-name="status-col" label="状态" width="100" prop="status" sortable>
         <template scope="scope">
           <!--<el-tag :type="scope.row.status | statusFilter" :class="{activeColor: isColor}">{{scope.row.status}}</el-tag>-->
           <span>{{scope.row.status}}</span>
@@ -97,13 +97,13 @@
         <template scope="scope">
           <!--<span>{{scope.row.sort}}</span>-->
           <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-          <el-select v-model="scope.row.private" placeholder="请选择" :disabled="scope.row.disable" @change="changeSort(scope.row)">
+          <el-select v-model="scope.row.private" placeholder="请选择" :disabled="disable" @visible-change="changeSort(scope.row)">
             <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" align="center" label="快捷操作" min-width="140px">
+      <el-table-column fixed="right" align="left" label="快捷操作" min-width="140px">
         <template scope="scope">
           <!--<el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>-->
           <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list)" type="text" size="small">上架</el-button>
@@ -234,43 +234,7 @@
         disable: true,
         private: '0',
         list: [],
-        /*list1: [{
-          id: '1',
-          name: 'test',
-          nature: '邻家大姐姐，善解人意，喜欢拍照、旅游',
-          headSelect: '枫叶',
-          style: '贴心护士',
-          price: '1小时30钻石',
-          workTime: '周一 00:00-周二00:00；周三 15:30 至 周四15:30；周六 15:30 至 周日 15:30',
-          status: '上架',
-          configTime: '2017-12-2 00:00',
-          sort: '默认',
-          disable: true,
-        },{
-          id: '1',
-          name: 'test',
-          nature: '邻家大姐姐，善解人意，喜欢拍照、旅游',
-          headSelect: '枫叶',
-          style: '贴心护士',
-          price: '1小时30钻石',
-          workTime: '周一 15:30 至 周二15:30',
-          status: '上架',
-          configTime: '2017-12-2 00:00',
-          sort: '默认',
-          disable: true,
-        },{
-          id: '1',
-          name: 'test',
-          nature: '邻家大姐姐，善解人意，喜欢拍照、旅游',
-          headSelect: '枫叶',
-          style: '贴心护士',
-          price: '1小时30钻石',
-          workTime: '周一 15:30 至 周二15:30',
-          status: '上架',
-          configTime: '2017-12-2 00:00',
-          sort: '默认',
-          disable: true,
-        }],*/
+        listTemp: [],
         privateOptions: [{
           value: '0',
           label: '默认'
@@ -300,6 +264,9 @@
           gender: undefined,
           status: undefined,
           //sort: '+id'
+        },
+        listQueryLocal: {
+          status: undefined,
         },
         temp: {
           id: undefined,
@@ -478,10 +445,10 @@
           /*row.status = '上架';
           row.configTime = dateString;*/
         }
-        row.disable = true;
+        this.disable = true;
       },
       handleSort (index, rows) {
-        rows.disable = false;
+        this.disable = false;
         /*if (this.disable) {
           this.disable = false;
         } else {
@@ -502,7 +469,7 @@
         sortactor(sortitem).then(response => {
           //this.list = response.data.content;
           if(response.data.code==200){
-            rows.disable = true;
+            this.disable = true;
             this.$message({
               message: '操作成功',
               type: 'success'
@@ -516,6 +483,7 @@
           //this.list = response.data.content;
           this.total = response.data.total;
           this.list = response.data.content.reverse();
+          this.listTemp = response.data.content.reverse();
           for (let i=0; i<response.data.content.length; i++) {
             this.list[i].ids = i+1;
           }
@@ -651,6 +619,18 @@
       },
       handleFilter() {
         this.getList();
+        /*if (this.list) {
+          this.list = [];
+        }
+        for (let i=0; i<this.listTemp.length; i++) {
+          alert(this.listTemp[i].status)
+          if (this.listQueryLocal.status == this.listTemp[i].status) {
+            this.list.push(this.listTemp[i]);
+            alert(this.list)
+          }
+        }this.$nextTick(function(){
+
+        })*/
       },
       handleSizeChange(val) {
         this.listQuery.limit = val;

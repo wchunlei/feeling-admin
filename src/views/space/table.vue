@@ -33,14 +33,14 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="80" column-key="id" prop="ids">
+            <el-table-column align="center" label="序号" width="100" column-key="id" prop="ids" sortable>
                 <template scope="scope">
                     <!--<span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
                     <span>{{scope.row.ids}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column width="300px" align="center" label="动态内容" prop="words">
+            <el-table-column min-width="300px" align="center" label="动态内容" prop="words">
                 <template scope="scope">
                     <!--<span>{{scope.row.nature}}</span>-->
                     <span style="color:#337ab7;"><router-link :to="{ path: '/space/form/' + scope.row.id }">{{scope.row.words}}</router-link></span>
@@ -82,13 +82,13 @@
                 <template scope="scope">
                     <!--<span>{{scope.row.sort}}</span>-->
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-                    <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="disable" @change="changeSort(scope.row)">
+                    <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="disable" @visible-change="changeSort(scope.row,value)">
                         <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </template>
             </el-table-column>
 
-            <el-table-column fixed="right" align="center" label="快捷操作" min-width="150px">
+            <el-table-column fixed="right" align="left" label="快捷操作" width="150px">
                 <template scope="scope">
                     <!--<el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>-->
                     <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
@@ -479,7 +479,8 @@
                  rows.disable = true;
                  }*/
             },
-            changeSort (rows) {
+            changeSort (rows,value) {
+                alert(value)
                 let sortitem={
                     id: rows.id,
                     sort: rows.sort,
