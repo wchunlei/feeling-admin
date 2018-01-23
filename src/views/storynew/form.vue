@@ -234,6 +234,7 @@
                 actors: ["佳佳","娜美"],
                 storys: ["佳佳ss","娜美ss"],
                 /*checkedActor: [],*/
+                rgb: '',
                 postForm: {
                     title: '', // 文章内容
                     actor: '',
@@ -522,6 +523,29 @@
                     if (this.postForm.configtime == "0000-00-00 00:00:00") {
                         this.postForm.configtime = '';
                     }
+                    if (response.data.content.csolor == 'rgb(55,71,79)') {
+                        this.postForm.csolor = '1';
+                    } else if (response.data.content.csolor == 'rgb(136,14,79)') {
+                        this.postForm.csolor = '2';
+                    } else if (response.data.content.csolor == 'rgb(62,39,35)') {
+                        this.postForm.csolor = '3';
+                    } else if (response.data.content.csolor == 'rgb(183,28,28)') {
+                        this.postForm.csolor = '4';
+                    } else if (response.data.content.csolor == 'rgb(13,71,161)') {
+                        this.postForm.csolor = '5';
+                    } else if (response.data.content.csolor == 'rgb(74,20,140)') {
+                        this.postForm.csolor = '6';
+                    } else if (response.data.content.csolor == 'rgb(245,127,23)') {
+                        this.postForm.csolor = '7';
+                    } else if (response.data.content.csolor == 'rgb(27,94,32)') {
+                        this.postForm.csolor = '8';
+                    } else if (response.data.content.csolor == 'rgb(0,77,64)') {
+                        this.postForm.csolor = '9';
+                    } else if (response.data.content.csolor == 'rgb(0,96,100)') {
+                        this.postForm.csolor = '10';
+                    } else {
+                        this.postForm.csolor = '0';
+                    }
                 }).catch(err => {
                     this.fetchSuccess = false;
                     console.log(err);
@@ -550,7 +574,7 @@
                     title: this.postForm.title,
                     //video: this.postForm.uploadFile,
                     picture: this.postForm.picture,
-                    csolor: this.postForm.csolor,
+                    csolor: this.rgb,
                     stage: this.postForm.stage,
                     cost: this.postForm.cost,
                     price: this.postForm.price.toString(),
@@ -773,6 +797,7 @@
                                 this.defaultColor = payload.dominant;
                                 //showBackColor.setAttribute('style', 'background: rgb(7,14,45)');
                                 selectBackColor.style.backgroundColor = payload.dominant;
+                                this.rgb = payload.dominant;
                             }
                         });
                         //window.clearTimeout(setTime);
@@ -780,33 +805,43 @@
                 }
                 if (this.postForm.csolor == 1) {
                     selectBackColor.setAttribute('style', 'background: rgb(55,71,79);margin-top: 15px');
+                    this.rgb = 'rgb(55,71,79)';
                 }
                 if (this.postForm.csolor == 2) {
                     selectBackColor.setAttribute('style', 'background: rgb(136,14,79);margin-top: 15px');
+                    this.rgb = 'rgb(136,14,79)';
                 }
                 if (this.postForm.csolor == 3) {
                     selectBackColor.setAttribute('style', 'background: rgb(62,39,35);margin-top: 15px');
+                    this.rgb = 'rgb(62,39,35)';
                 }
                 if (this.postForm.csolor == 4) {
                     selectBackColor.setAttribute('style', 'background: rgb(183,28,28);margin-top: 15px');
+                    this.rgb = 'rgb(183,28,28)';
                 }
                 if (this.postForm.csolor == 5) {
                     selectBackColor.setAttribute('style', 'background: rgb(13,71,161);margin-top: 15px');
+                    this.rgb = 'rgb(13,71,161)';
                 }
                 if (this.postForm.csolor == 6) {
                     selectBackColor.setAttribute('style', 'background: rgb(74,20,140);margin-top: 15px');
+                    this.rgb = 'rgb(74,20,140)';
                 }
                 if (this.postForm.csolor == 7) {
                     selectBackColor.setAttribute('style', 'background: rgb(245,127,23);margin-top: 15px');
+                    this.rgb = 'rgb(245,127,23)';
                 }
                 if (this.postForm.csolor == 8) {
                     selectBackColor.setAttribute('style', 'background: rgb(27,94,32);margin-top: 15px');
+                    this.rgb = 'rgb(27,94,32)';
                 }
                 if (this.postForm.csolor == 9) {
                     selectBackColor.setAttribute('style', 'background: rgb(0,77,64);margin-top: 15px');
+                    this.rgb = 'rgb(0,77,64)';
                 }
                 if (this.postForm.csolor == 10) {
-                    selectBackColor.setAttribute('style', 'background: #006064;margin-top: 15px');
+                    selectBackColor.setAttribute('style', 'background: rgb(0,96,100);margin-top: 15px');
+                    this.rgb = 'rgb(0,96,100)';
                 }
             },
             handleCheckAllChange(val) {
@@ -978,6 +1013,7 @@
             handleBackImageScucess (res,file) {
                 //console.log(res)
                 console.log(file.raw)
+                let _this = this;
                 this.postForm.pictureBack = URL.createObjectURL(file.raw);
                 this.postForm.picture = res.url;
                 setTimeout(function () {
@@ -995,10 +1031,15 @@
                             this.defaultColor = payload.dominant;
                             //showBackColor.setAttribute('style', 'background: rgb(7,14,45)');
                             showBackColor.style.backgroundColor = payload.dominant;
+                            _this.rgb = payload.dominant;
                         }
                     });
+
                     //window.clearTimeout(setTime);
                 },0);
+                /*setTimeout(function () {
+                    alert(_this.rgb)
+                },2000)*/
             },
             getRemoteUserList(query) {
                 actorList(query).then(response => {

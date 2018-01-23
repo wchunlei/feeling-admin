@@ -79,13 +79,13 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="内心独白:" label-width="100px" prop="soliloquy" style="margin-bottom: 40px" required>
-              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.soliloquy" :maxlength=20 :rows=3></el-input>
+              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.soliloquy" :maxlength=1000 :rows=3></el-input>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
             <el-form-item label="女仆特征:" label-width="100px" prop="host" style="margin-bottom: 40px" required>
-              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.host" :maxlength=20 :rows=3></el-input>
+              <el-input type="textarea" placeholder="最多输入20个字" style='width:280px;' v-model="postForm.host" :maxlength=1000 :rows=3></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -110,22 +110,22 @@
           </div>
           <el-form-item prop="backImg2" style="margin-right: 20px;display: inline-block">
             <div style="height: 180px;border: 1px dashed #d9d9d9;">
-              <Upload v-model="postForm.backImg2" v-on:input="picInput"></Upload>
+              <Upload v-model="postForm.backImg2" :close="closeStatus" v-on:input="picInput"></Upload>
             </div>
           </el-form-item>
           <el-form-item prop="backImg3" style="margin-right: 20px;display: inline-block">
             <div style="height: 180px;border: 1px dashed #d9d9d9;">
-              <Upload v-model="postForm.backImg3" v-on:input="picInput"></Upload>
+              <Upload v-model="postForm.backImg3" :close="closeStatus" v-on:input="picInput"></Upload>
             </div>
           </el-form-item>
           <el-form-item prop="backImg4" style="margin-right: 20px;display: inline-block">
             <div style="height: 180px;border: 1px dashed #d9d9d9;">
-              <Upload v-model="postForm.backImg4" v-on:input="picInput"></Upload>
+              <Upload v-model="postForm.backImg4" :close="closeStatus" v-on:input="picInput"></Upload>
             </div>
           </el-form-item>
           <el-form-item prop="backImg5" style="margin-right: 20px;display: inline-block">
             <div style="height: 180px;border: 1px dashed #d9d9d9;">
-              <Upload v-model="postForm.backImg5" v-on:input="picInput"></Upload>
+              <Upload v-model="postForm.backImg5" :close="closeStatus" v-on:input="picInput"></Upload>
             </div>
           </el-form-item>
           <span style="font-size:12px;display: block">（注：请上传4:3，不小于10kb，jpg、png等格式的文件）</span>
@@ -913,6 +913,7 @@
           this.postForm.age = parseInt(response.data.content.age);
           this.postForm.price = parseInt(response.data.content.price);
           this.fileList = response.data.content.playimg;
+          this.postForm.host = response.data.content.host.replace(/(\s*$)/g, "");
           /*for (let i=0;i<response.data.content.playimg.length; i++) {
             let temp = {};
             temp.name = '图片'+(i+1);
