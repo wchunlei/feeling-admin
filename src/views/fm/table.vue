@@ -47,7 +47,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="150px" align="center" label="音频描述" prop="avdesc">
+            <el-table-column min-width="150px" align="center" label="音频描述" prop="avdesc">
                 <template scope="scope">
                     <span>{{scope.row.avdesc}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
@@ -88,7 +88,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column fixed="right" align="left" label="快捷操作" min-width="150px">
+            <el-table-column fixed="right" align="left" label="快捷操作" width="140px">
                 <template scope="scope">
                     <!--<el-button @click="handleSort(scope.$index, scope.row)" type="text" size="small">排序</el-button>-->
                     <el-button v-if="scope.row.status!='上架'" @click.native.prevent="editRow(scope.row, list1)" type="text" size="small">上架</el-button>
