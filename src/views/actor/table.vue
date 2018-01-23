@@ -483,7 +483,6 @@
           //this.list = response.data.content;
           this.total = response.data.total;
           this.list = response.data.content.reverse();
-          this.listTemp = response.data.content.reverse();
           for (let i=0; i<response.data.content.length; i++) {
             this.list[i].ids = i+1;
           }
