@@ -840,6 +840,9 @@
                         //window.clearTimeout(setTime);
                     },0);
                 }
+                if(this.$route.params.id && this.$route.params.id != ':id') {
+                    selectBackColor.style.backgroundColor = this.rgb;
+                }
                 if (this.postForm.csolor == 1) {
                     selectBackColor.setAttribute('style', 'background: #37474F;margin-top: 15px');
                     this.rgb = '#37474F';

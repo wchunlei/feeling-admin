@@ -23,7 +23,7 @@
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
-      <el-table-column align="center" label="序号" width="100" column-key="id" prop="ids" sortable>
+      <el-table-column align="center" label="序号" width="100" column-key="id" prop="ids">
         <template scope="scope">
           <span>{{scope.row.ids}}</span>
          <!-- <span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
@@ -86,7 +86,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="180px" align="center" label="上架时间" prop="configtime">
+      <el-table-column min-width="180px" align="center" label="上架时间" prop="configtime" sortable>
         <template scope="scope">
           <span>{{scope.row.configtime}}</span>
           <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->

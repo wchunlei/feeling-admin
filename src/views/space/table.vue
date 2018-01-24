@@ -64,14 +64,14 @@
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="150px" align="center" label="上架时间" prop="configtime">
+            <el-table-column min-width="150px" align="center" label="上架时间" prop="configtime" sortable>
                 <template scope="scope">
                     <span>{{scope.row.configtime}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                 </template>
             </el-table-column>
 
-            <el-table-column class-name="status-col" label="状态" width="150" prop="status">
+            <el-table-column class-name="status-col" label="状态" width="150" prop="status" sortable>
                 <template scope="scope">
                     <!--<el-tag :type="scope.row.status | statusFilter" :class="{activeColor: isColor}">{{scope.row.status}}</el-tag>-->
                     <span>{{scope.row.status}}</span>

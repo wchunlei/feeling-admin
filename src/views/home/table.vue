@@ -89,14 +89,14 @@
                 </template>
             </el-table-column>-->
 
-            <el-table-column label="状态" width="100" align="center" prop="status">
+            <el-table-column label="状态" width="100" align="center" prop="status" sortable>
                 <template scope="scope">
                     <!--<el-tag :type="scope.row.status | statusFilter" :class="{activeColor: isColor}">{{scope.row.status}}</el-tag>-->
                     <span>{{scope.row.status}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="150px" align="center" label="上架时间" prop="configtime">
+            <el-table-column min-width="150px" align="center" label="上架时间" prop="configtime" sortable>
                 <template scope="scope">
                     <span>{{scope.row.configtime}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
@@ -121,7 +121,7 @@
                 <template scope="scope">
                     <!--<span>{{scope.row.sort}}</span>-->
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-                    <el-select v-model="scope.row.roomsort" placeholder="请选择" :disabled="disable" @change="changeSort(scope.row)">
+                    <el-select v-model="scope.row.roomsort" placeholder="请选择" :disabled="disable" @visible-change="changeSort(scope.row)">
                         <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </template>
