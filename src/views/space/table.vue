@@ -33,7 +33,7 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%">
 
-            <el-table-column align="center" label="序号" width="100" column-key="id" prop="ids" sortable>
+            <el-table-column align="center" label="序号" width="100" column-key="id" prop="ids">
                 <template scope="scope">
                     <!--<span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
                     <span>{{scope.row.ids}}</span>
@@ -507,6 +507,13 @@
                         this.list[i].ids = i+1;
                     }
                     this.total = response.data.total;
+                    for (let i=0; i< response.data.content.length; i++) {
+                        if (response.data.content[i].words.length > 20) {
+                            this.list[i].words = response.data.content[i].words.substr(0, 20) + '...';
+                        } else {
+                            this.list[i].words = response.data.content[i].words;
+                        }
+                    }
                     for (let i=0; i< response.data.content.length; i++) {
                         this.list[i].disable = false;
                         if (response.data.content[i].status == "1" && response.data.content[i].configtime == '0000-00-00 00:00:00') {
