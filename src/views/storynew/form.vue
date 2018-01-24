@@ -1051,7 +1051,7 @@
                 console.log(this.video,this.videosize,this.videourl)
             },
             handleBackImageScucess (res,file) {
-                //console.log(res)
+                console.log(res)
                 console.log(file.raw)
                 let _this = this;
                 this.postForm.pictureBack = URL.createObjectURL(file.raw);

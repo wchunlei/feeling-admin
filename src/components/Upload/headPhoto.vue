@@ -49,10 +49,16 @@
     export default {
         name: 'singleImageUpload',
         props: {
-            value: String
+            value: String,
+            close: false
         },
         created () {
             this.picUrl = pictureUrl();
+            if (this.close) {
+                this.showClose = true;
+            } else {
+                this.showClose = false;
+            }
         },
         computed: {
             imageUrl() {

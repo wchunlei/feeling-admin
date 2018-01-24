@@ -49,10 +49,16 @@
     export default {
         name: 'singleImageUpload',
         props: {
-            value: String
+            value: String,
+            close: false
         },
         created () {
             this.picUrl = pictureUrl();
+            if (this.close) {
+                this.showClose = true;
+            } else {
+                this.showClose = false;
+            }
         },
         computed: {
             imageUrl() {
@@ -226,13 +232,13 @@
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
-        width: 180px;
+        width: 320px;
         height: 180px;
         line-height: 180px;
         text-align: center;
     }
     .avatar {
-        width: 180px;
+        width: 320px;
         height: 180px;
         display: inline-block;
     }
@@ -240,7 +246,7 @@
         display: inline-block;
         cursor: pointer;
         position: relative;
-        left: 160px;
+        left: 300px;
         top: -190px;
     }
     }

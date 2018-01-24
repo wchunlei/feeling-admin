@@ -31,7 +31,7 @@
                     <el-form-item class="uplo" label-width="110px" prop="pic1">
                         <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
                             <!--<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>-->
-                            <Upload v-model="postForm.pic1" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic1" :close="closeStatus" v-on:input="picInput"></Upload>
                             <img v-show="showMon1" src="../../../gifs/money.png" class="icon_style" @click="payIcon1" />
                             <img v-show="showMonPay1" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon1" />
                             <div class="clear"></div>
@@ -39,7 +39,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic2">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic2" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic2" :close="closeStatus" v-on:input="picInput"></Upload>
                             <img v-show="showMon2" src="../../../gifs/money.png" class="icon_style" @click="payIcon2" />
                             <img v-show="showMonPay2" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon2" />
                             <div class="clear"></div>
@@ -47,7 +47,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic3">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic3" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic3" :close="closeStatus" v-on:input="picInput"></Upload>
                             <img v-show="showMon3" src="../../../gifs/money.png" class="icon_style" @click="payIcon3" />
                             <img v-show="showMonPay3" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon3" />
                             <div class="clear"></div>
@@ -58,7 +58,7 @@
                 <div>
                     <el-form-item class="uplo" label-width="110px" prop="pic4">
                         <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                            <Upload v-model="postForm.pic4" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic4" :close="closeStatus" v-on:input="picInput"></Upload>
                             <img v-show="showMon4" src="../../../gifs/money.png" class="icon_style" @click="payIcon4" />
                             <img v-show="showMonPay4" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon4" />
                             <div class="clear"></div>
@@ -66,7 +66,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic5">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic5" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic5" :close="closeStatus" v-on:input="picInput"></Upload>
                             <img v-show="showMon5" src="../../../gifs/money.png" class="icon_style" @click="payIcon5" />
                             <img v-show="showMonPay5" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon5" />
                             <div class="clear"></div>
@@ -74,7 +74,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic6">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic6" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic6" :close="closeStatus" v-on:input="picInput"></Upload>
                             <img v-show="showMon6" src="../../../gifs/money.png" class="icon_style" @click="payIcon6" />
                             <img v-show="showMonPay6" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon6" />
                             <div class="clear"></div>
@@ -85,7 +85,7 @@
                 <div>
                     <el-form-item class="uplo" label-width="110px" prop="pic7">
                         <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                            <Upload v-model="postForm.pic7" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic7" :close="closeStatus" v-on:input="picInput"></Upload>
                             <img v-show="showMon7" src="../../../gifs/money.png" class="icon_style" @click="payIcon7" />
                             <img v-show="showMonPay7" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon7" />
                             <div class="clear"></div>
@@ -93,7 +93,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic8">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic8" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic8" :close="closeStatus" v-on:input="picInput"></Upload>
                             <img v-show="showMon8" src="../../../gifs/money.png" class="icon_style" @click="payIcon8" />
                             <img v-show="showMonPay8" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon8" />
                             <div class="clear"></div>
@@ -101,7 +101,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic9">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic9" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic9" :close="closeStatus" v-on:input="picInput"></Upload>
                             <img v-show="showMon9" src="../../../gifs/money.png" class="icon_style" @click="payIcon9" />
                             <img v-show="showMonPay9" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon9" />
                             <div class="clear"></div>
@@ -177,7 +177,7 @@
 
                 <div v-show="showThumb" style="display: inline-block;margin-bottom: 20px">
                     <el-form-item v-show="showVidContent" label-width="110px" prop="thumbnail">
-                        <div style="margin-top: 10px;width: 180px;height: 180px;border: 1px dashed #d9d9d9;">
+                        <div style="margin-top: 10px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
                             <Uploadimg v-model="postForm.thumbnail" v-on:input="picInput"></Uploadimg>
                         </div>
                         <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9或9:16，不小于10kb，jpg、png等格式的文件）</span>
@@ -395,6 +395,7 @@
             return {
                 watcher: false,
                 disprice: false,
+                closeStatus: false,
                 videoOptions: [],
                 audioOptions: [],
                 postForm: {
@@ -585,6 +586,7 @@
                 this.showButton = false;
                 this.showContentButton = true;
                 this.disableTitle = true;
+                this.closeStatus = true;
             }
             if(this.$route.params.id && this.$route.params.id == ':id'){
                 this.showButton = true;
