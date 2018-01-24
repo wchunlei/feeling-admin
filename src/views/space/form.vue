@@ -263,6 +263,12 @@
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
+
+                <el-form-item v-show="showCroContent" label="打赏默认值:" label-width="110px" prop="crowdfund" required>
+                    <el-input v-model="postForm.crowdfund" style="width:150px" placeholder="请输入整数金额"></el-input>
+                    <span>钻石</span>
+                </el-form-item>
+
                 <el-form-item v-show="showCroContent" label="众筹价格:" label-width="110px" prop="help" required>
                     <el-input v-model="postForm.help" style="width:150px" placeholder="请输入整数金额"></el-input>
                     <span>钻石</span>
@@ -272,6 +278,7 @@
                     <el-input v-model="postForm.reward" style="width:150px" placeholder="请输入整数金额"></el-input>
                     <span>钻石</span>
                 </el-form-item>
+
 
                 <el-form-item v-show="showCroContent" label="众筹默认值:" label-width="110px" prop="reward" required>
                     <el-input v-model="postForm.reward" style="width:150px" placeholder="请输入整数金额"></el-input>
@@ -396,6 +403,8 @@
                 watcher: false,
                 disprice: false,
                 closeStatus: false,
+                width: '',
+                height: '',
                 videoOptions: [],
                 audioOptions: [],
                 postForm: {
@@ -423,6 +432,7 @@
                     avdesc: '',
                     soundImg: '',
                     crowd: '',
+                    crowdfund: '20',
                     help: '20',
                     reward: '20',
                     sort: '0'
@@ -675,6 +685,7 @@
                 diaryinfo(listQuery).then(response => {
                     //this.postForm.actor.value = response.data.content.actorid;
                     //this.postForm.actor = { key:response.data.content[0].name, value:response.data.content[0].actorid };
+                    this.postForm.crowdfund = response.data.content.crowdfund;
                     this.postForm.reward = response.data.content.reward;
                     this.postForm.words = response.data.content.words;
                     this.postForm.sort = response.data.content.sort;
@@ -701,7 +712,7 @@
                             this.showCroContent = false;
                         }
                         if (response.data.content.picture[0]) {
-                            this.postForm.pic1 = response.data.content.picture[0]
+                            this.postForm.pic1 = response.data.content.picture[0].url
                         }
                         if (response.data.content.picture[1]) {
                             this.postForm.pic2 = response.data.content.picture[1]
@@ -818,10 +829,19 @@
                         if (this.postForm.type == 1) {
                             let temp = [];
                             if (this.postForm.pic1) {
-                                temp.push(this.postForm.pic1);
+                                let tempObj = {};
+                                tempObj.url = this.postForm.pic1;
+                                tempObj.width = this.width.toString();
+                                tempObj.height = this.height.toString();
+                                temp.push(tempObj);
                             }
                             if (this.postForm.pic2) {
-                                temp.push(this.postForm.pic2);
+                                //temp.push(this.postForm.pic2);
+                                let tempObj = {};
+                                tempObj.url = this.postForm.pic2;
+                                tempObj.width = this.width.toString();
+                                tempObj.height = this.height.toString();
+                                temp.push(tempObj);
                             }
                             if (this.postForm.pic3) {
                                 temp.push(this.postForm.pic3);
@@ -867,6 +887,9 @@
                             diaryinfo.type = this.postForm.type;
                             diaryinfo.help = this.postForm.help;
                             diaryinfo.thumbnail = this.postForm.crowd;
+                            diaryinfo.crowdfund =  this.postForm.crowdfund;
+                            diaryinfo.width = '100';
+                            diaryinfo.height = '100';
                         } else {
                             this.$message({
                                 message: '请选择类型',
@@ -995,9 +1018,17 @@
                     type: 'success'
                 });
             },
-            picInput (data) {
+            picInput (url,data) {
                 if (data) {
-                    this.watcher = data;
+                    console.log(data.urlinfo[0])
+                    if (this.width && this.height) {
+                        this.width = '';
+                        this.height = '';
+                    }
+                    this.width = data.urlinfo[0].width;
+                    this.height = data.urlinfo[0].height;
+                    alert(this.width)
+                    this.watcher = data.url;
                 }
             },
             payIcon1 () {
