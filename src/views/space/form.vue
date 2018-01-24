@@ -177,10 +177,10 @@
 
                 <div v-show="showThumb" style="display: inline-block;margin-bottom: 20px">
                     <el-form-item v-show="showVidContent" label-width="110px" prop="thumbnail">
-                        <div style="margin-top: 10px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
+                        <div style="margin-top: 10px;width: 180px;height: 180px;border: 1px dashed #d9d9d9;">
                             <Uploadimg v-model="postForm.thumbnail" v-on:input="picInput"></Uploadimg>
                         </div>
-                        <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
+                        <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9或9:16，不小于10kb，jpg、png等格式的文件）</span>
                     </el-form-item>
                 </div>
 

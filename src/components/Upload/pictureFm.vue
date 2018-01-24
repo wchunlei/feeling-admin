@@ -226,13 +226,13 @@
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
-        width: 320px;
+        width: 180px;
         height: 180px;
         line-height: 180px;
         text-align: center;
     }
     .avatar {
-        width: 320px;
+        width: 180px;
         height: 180px;
         display: inline-block;
     }
@@ -240,7 +240,7 @@
         display: inline-block;
         cursor: pointer;
         position: relative;
-        left: 300px;
+        left: 160px;
         top: -190px;
     }
     }
