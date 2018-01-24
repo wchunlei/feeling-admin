@@ -526,25 +526,25 @@
                     if (this.postForm.configtime == "0000-00-00 00:00:00") {
                         this.postForm.configtime = '';
                     }
-                    if (response.data.content.csolor == 'rgb(55,71,79)') {
+                    if (response.data.content.csolor == '#37474F') {
                         this.postForm.csolor = '1';
-                    } else if (response.data.content.csolor == 'rgb(136,14,79)') {
+                    } else if (response.data.content.csolor == '#880E4F') {
                         this.postForm.csolor = '2';
-                    } else if (response.data.content.csolor == 'rgb(62,39,35)') {
+                    } else if (response.data.content.csolor == '#3E2723') {
                         this.postForm.csolor = '3';
-                    } else if (response.data.content.csolor == 'rgb(183,28,28)') {
+                    } else if (response.data.content.csolor == '#B71C1C') {
                         this.postForm.csolor = '4';
-                    } else if (response.data.content.csolor == 'rgb(13,71,161)') {
+                    } else if (response.data.content.csolor == '#0D47A1') {
                         this.postForm.csolor = '5';
-                    } else if (response.data.content.csolor == 'rgb(74,20,140)') {
+                    } else if (response.data.content.csolor == '#4A148C') {
                         this.postForm.csolor = '6';
-                    } else if (response.data.content.csolor == 'rgb(245,127,23)') {
+                    } else if (response.data.content.csolor == '#FE7F17') {
                         this.postForm.csolor = '7';
-                    } else if (response.data.content.csolor == 'rgb(27,94,32)') {
+                    } else if (response.data.content.csolor == '#1B5E20') {
                         this.postForm.csolor = '8';
-                    } else if (response.data.content.csolor == 'rgb(0,77,64)') {
+                    } else if (response.data.content.csolor == '#004D40') {
                         this.postForm.csolor = '9';
-                    } else if (response.data.content.csolor == 'rgb(0,96,100)') {
+                    } else if (response.data.content.csolor == '#006064') {
                         this.postForm.csolor = '10';
                     } else {
                         this.postForm.csolor = '0';
@@ -779,6 +779,13 @@
                     window.open(params.value);
                 });
             },
+            colorRGB2Hex(color) {
+                var rgb = color.split(',');
+                var r = parseInt(rgb[0].split('(')[1]);
+                var g = parseInt(rgb[1]);
+                var b = parseInt(rgb[2].split(')')[0]);
+                this.rgb = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+            },
             selectColor () {
                 //this.postForm.picture = URL.createObjectURL(file.raw);
                 let selectBackColor = document.getElementById('showBackColor');
@@ -834,44 +841,44 @@
                     },0);
                 }
                 if (this.postForm.csolor == 1) {
-                    selectBackColor.setAttribute('style', 'background: rgb(55,71,79);margin-top: 15px');
-                    this.rgb = 'rgb(55,71,79)';
+                    selectBackColor.setAttribute('style', 'background: #37474F;margin-top: 15px');
+                    this.rgb = '#37474F';
                 }
                 if (this.postForm.csolor == 2) {
-                    selectBackColor.setAttribute('style', 'background: rgb(136,14,79);margin-top: 15px');
-                    this.rgb = 'rgb(136,14,79)';
+                    selectBackColor.setAttribute('style', 'background: #880E4F;margin-top: 15px');
+                    this.rgb = '#880E4F';
                 }
                 if (this.postForm.csolor == 3) {
-                    selectBackColor.setAttribute('style', 'background: rgb(62,39,35);margin-top: 15px');
-                    this.rgb = 'rgb(62,39,35)';
+                    selectBackColor.setAttribute('style', 'background: #3E2723;margin-top: 15px');
+                    this.rgb = '#3E2723';
                 }
                 if (this.postForm.csolor == 4) {
-                    selectBackColor.setAttribute('style', 'background: rgb(183,28,28);margin-top: 15px');
-                    this.rgb = 'rgb(183,28,28)';
+                    selectBackColor.setAttribute('style', 'background: #B71C1C;margin-top: 15px');
+                    this.rgb = '#B71C1C';
                 }
                 if (this.postForm.csolor == 5) {
-                    selectBackColor.setAttribute('style', 'background: rgb(13,71,161);margin-top: 15px');
-                    this.rgb = 'rgb(13,71,161)';
+                    selectBackColor.setAttribute('style', 'background: #0D47A1;margin-top: 15px');
+                    this.rgb = '#0D47A1';
                 }
                 if (this.postForm.csolor == 6) {
-                    selectBackColor.setAttribute('style', 'background: rgb(74,20,140);margin-top: 15px');
-                    this.rgb = 'rgb(74,20,140)';
+                    selectBackColor.setAttribute('style', 'background: #4A148C;margin-top: 15px');
+                    this.rgb = '#4A148C';
                 }
                 if (this.postForm.csolor == 7) {
-                    selectBackColor.setAttribute('style', 'background: rgb(245,127,23);margin-top: 15px');
-                    this.rgb = 'rgb(245,127,23)';
+                    selectBackColor.setAttribute('style', 'background: #FE7F17;margin-top: 15px');
+                    this.rgb = '#FE7F17';
                 }
                 if (this.postForm.csolor == 8) {
-                    selectBackColor.setAttribute('style', 'background: rgb(27,94,32);margin-top: 15px');
-                    this.rgb = 'rgb(27,94,32)';
+                    selectBackColor.setAttribute('style', 'background: #1B5E20;margin-top: 15px');
+                    this.rgb = '#1B5E20';
                 }
                 if (this.postForm.csolor == 9) {
-                    selectBackColor.setAttribute('style', 'background: rgb(0,77,64);margin-top: 15px');
-                    this.rgb = 'rgb(0,77,64)';
+                    selectBackColor.setAttribute('style', 'background: #004D40;margin-top: 15px');
+                    this.rgb = '#004D40';
                 }
                 if (this.postForm.csolor == 10) {
-                    selectBackColor.setAttribute('style', 'background: rgb(0,96,100);margin-top: 15px');
-                    this.rgb = 'rgb(0,96,100)';
+                    selectBackColor.setAttribute('style', 'background: #006064;margin-top: 15px');
+                    this.rgb = '#006064';
                 }
             },
             handleCheckAllChange(val) {
@@ -1061,7 +1068,8 @@
                             this.defaultColor = payload.dominant;
                             //showBackColor.setAttribute('style', 'background: rgb(7,14,45)');
                             showBackColor.style.backgroundColor = payload.dominant;
-                            _this.rgb = payload.dominant;
+                            _this.colorRGB2Hex(payload.dominant);
+                            //_this.rgb = payload.dominant;
                         }
                     });
 
