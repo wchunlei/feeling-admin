@@ -815,8 +815,8 @@
                     },0);
                 }*/
                 if (this.postForm.csolor == 0 && this.rgb) {
-                    selectBackColor.style.backgroundColor = this.rgb;
-                } else {
+                    /*selectBackColor.style.backgroundColor = this.rgb;
+                } else {*/
                     setTimeout(function () {
                         //alert(_this.postForm.picture)
                         //let img = _this.postForm.picture;
