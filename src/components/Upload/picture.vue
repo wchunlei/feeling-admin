@@ -81,25 +81,16 @@
                 this.emitInput('');
                 this.showClose = false;
             },
-            emitInput(val) {
-                this.$emit('input', val);
+            emitInput(val,data) {
+                this.$emit('input', val,data);
             },
             handleImageScucess(res, file) {
-                this.emitInput(res.url);
+                console.log(res.urlinfo[0])
+                this.emitInput(res.urlinfo[0].url,res);
                 this.imageUrl = URL.createObjectURL(file.raw);
                 if (res.url) {
                     this.showClose = true;
                 }
-                //console.log(file)
-                //console.log(res)
-                /*var file = input.files[0];
-                 let filename = file.name.split(".")[0];
-                 var reader = new FileReader();
-                 reader.onload = function() {
-                 console.log(this.result)
-                 alert(this.result);
-                 }
-                 reader.readAsText(file);*/
             },
             beforeAvatarUpload(file) {
                 const isLt2M = file.size / 1024 / 1024 > 0.01;

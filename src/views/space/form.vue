@@ -126,7 +126,7 @@
                     </el-form-item>-->
                     <el-form-item label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 0px" required>
                         <el-input v-model.number="postForm.price" :disabled="disprice" style="width:150px" placeholder="请输入整数金额"></el-input>
-                        <span>钻石</span>
+                        <span>金币</span>
                     </el-form-item>
                 </div>
                 <!--<el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
@@ -201,7 +201,7 @@
                     </el-form-item>-->
                     <el-form-item v-show="showVidContent" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 0px" required>
                         <el-input v-model.number="postForm.price" :disabled="disprice" style="width:150px" placeholder="请输入整数金额"></el-input>
-                        <span>钻石</span>
+                        <span>金币</span>
                     </el-form-item>
                 </div>
 
@@ -250,7 +250,7 @@
                     </el-form-item>-->
                     <el-form-item v-show="showAudContent" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 0px" required>
                         <el-input v-model.number="postForm.price" :disabled="disprice" style="width:150px" placeholder="请输入整数金额"></el-input>
-                        <span>钻石</span>
+                        <span>金币</span>
                     </el-form-item>
                 </div>
 
@@ -266,23 +266,23 @@
 
                 <el-form-item v-show="showCroContent" label="打赏默认值:" label-width="110px" prop="crowdfund" required>
                     <el-input v-model="postForm.crowdfund" style="width:150px" placeholder="请输入整数金额"></el-input>
-                    <span>钻石</span>
+                    <span>金币</span>
                 </el-form-item>
 
                 <el-form-item v-show="showCroContent" label="众筹价格:" label-width="110px" prop="help" required>
                     <el-input v-model="postForm.help" style="width:150px" placeholder="请输入整数金额"></el-input>
-                    <span>钻石</span>
+                    <span>金币</span>
                 </el-form-item>
 
                 <el-form-item v-show="showPayDefault" label="打赏默认值:" label-width="110px" prop="reward" required>
                     <el-input v-model="postForm.reward" style="width:150px" placeholder="请输入整数金额"></el-input>
-                    <span>钻石</span>
+                    <span>金币</span>
                 </el-form-item>
 
 
                 <el-form-item v-show="showCroContent" label="众筹默认值:" label-width="110px" prop="reward" required>
                     <el-input v-model="postForm.reward" style="width:150px" placeholder="请输入整数金额"></el-input>
-                    <span>钻石</span>
+                    <span>金币</span>
                 </el-form-item>
 
                 <el-form-item style="margin-bottom: 40px;" label-width="110px" label="动态内容:" prop="words" required>

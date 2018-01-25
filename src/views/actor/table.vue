@@ -65,7 +65,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="加速雇佣价格（钻石）" prop="priceTime">
+      <el-table-column width="180px" align="center" label="加速雇佣价格（金币）" prop="priceTime">
         <template scope="scope">
           <span>{{scope.row.priceTime}}</span>
         </template>
@@ -537,8 +537,8 @@
             if (response.data.content[i].time == 4) {
               timeTemp = "周";
             }
-            //this.list[i].priceTime = response.data.content[i].time + timeTemp + response.data.content[i].price + "钻石";
-            this.list[i].priceTime = 1 + timeTemp + response.data.content[i].price + "钻石";
+            //this.list[i].priceTime = response.data.content[i].time + timeTemp + response.data.content[i].price + "金币";
+            this.list[i].priceTime = 1 + timeTemp + response.data.content[i].price + "金币";
           }
           for (let i=0; i<response.data.content.length; i++) {
             let dataTemp = [];

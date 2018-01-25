@@ -165,7 +165,7 @@
         <el-form-item label="加速价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
           <!--<el-input placeholder="" style='width:60px;' v-model="postForm.timeNum" :disabled="disable" maxlength="10"></el-input>-->
           <el-input placeholder="" style='width:50px;' v-model.number="postForm.price" :maxlength=10></el-input>
-          <span>钻石/</span>
+          <span>金币/</span>
           <el-select v-model="postForm.time" placeholder="请选择" style="width:80px">
             <el-option v-for="item in timeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
@@ -987,7 +987,7 @@
         });
         this.postForm.status = 'draft';
       },
-      picInput (data) {
+      picInput (data,data1) {
         if (data) {
           this.watcher = data;
           this.postForm.host = this.postForm.host + ' ';

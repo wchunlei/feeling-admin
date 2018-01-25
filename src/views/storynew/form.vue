@@ -97,12 +97,12 @@
                 <div v-show="showPri" style="display: inline-block;margin-bottom: 0px">
                     <el-form-item label="剧情价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
                         <el-input v-model.number="postForm.price" style="width:150px" placeholder="请输入整数金额"></el-input>
-                        <span>钻石</span>
+                        <span>金币</span>
                     </el-form-item>
                 </div>
                 <el-form-item label="选项价格:" label-width="100px" prop="option" style="margin-bottom: 40px" required>
                     <el-input v-model.number="postForm.option" style="width:150px" placeholder="请输入整数金额"></el-input>
-                    <span>钻石</span>
+                    <span>金币</span>
                 </el-form-item>
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
@@ -1055,7 +1055,7 @@
                 console.log(file.raw)
                 let _this = this;
                 this.postForm.pictureBack = URL.createObjectURL(file.raw);
-                this.postForm.picture = res.url;
+                this.postForm.picture = res.urlinfo[0].url;
                 setTimeout(function () {
                     let img = document.getElementById('image');
                     let showBackColor = document.getElementById('showBackColor');

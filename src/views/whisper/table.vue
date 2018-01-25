@@ -76,7 +76,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="200px" align="center" label="偷听价格（钻石）" prop="price">
+            <el-table-column width="200px" align="center" label="偷听价格（金币）" prop="price">
                 <template scope="scope">
                     <span>{{scope.row.price}}</span>
                 </template>
