@@ -61,7 +61,7 @@
                     </el-upload>
                 </el-form-item>-->
                 <el-form-item label="剧情:" label-width="100px" prop="video" style="margin-bottom: 40px" required>
-                    <el-input type="textarea" placeholder="" style='width:280px;' v-model="postForm.video" :rows=3></el-input>
+                    <el-input type="textarea" placeholder="" style='width:350px;' v-model="postForm.video" :rows=5></el-input>
                     </el-upload>
                 </el-form-item>
                 <el-form-item class="removeElList" label="背景图:" label-width="100px" prop="picture" style="margin-bottom: 40px">
@@ -572,6 +572,7 @@
                     dateString = '0000-00-00 00:00:00';
                 }
                 //console.log(this.video,this.videosize,this.videourl)
+                let tempVideo = this.postForm.video.replace(/(\s)/g, "")
                 let storyinfo = {
                     //channel: "女仆团",
                     actorid: this.postForm.actor.value,
@@ -585,7 +586,8 @@
                     option: this.postForm.option.toString(),
                     configtime: dateString,
                     sort: this.postForm.sort,
-                    video: this.postForm.video.split('#'),
+                    //video: this.postForm.video.split('#'),
+                    video: tempVideo.split('#'),
                     /*videosize: this.videosize.toString(),
                     videourl: this.videourl*/
                 };

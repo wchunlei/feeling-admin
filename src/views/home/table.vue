@@ -64,7 +64,7 @@
               </template>
             </el-table-column>-->
 
-            <el-table-column min-width="300px" align="center" label="剧情" prop="story">
+            <el-table-column min-width="300px" align="left" label="剧情" prop="story">
                 <template scope="scope">
                     <span>{{scope.row.story}}</span>
                 </template>
