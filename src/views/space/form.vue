@@ -403,6 +403,15 @@
                 watcher: false,
                 disprice: false,
                 closeStatus: false,
+                ispay1: '1',
+                ispay2: '1',
+                ispay3: '1',
+                ispay4: '1',
+                ispay5: '1',
+                ispay6: '1',
+                ispay7: '1',
+                ispay8: '1',
+                ispay9: '1',
                 width: '',
                 height: '',
                 tempObj1: {},
@@ -1111,6 +1120,7 @@
                     this.tempObj1.url = data.urlinfo[0].url;
                     this.tempObj1.width = data.urlinfo[0].width.toString();
                     this.tempObj1.height = data.urlinfo[0].height.toString();
+                    this.tempObj1.ispay = '1';
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1120,6 +1130,7 @@
                     this.tempObj2.url = data.urlinfo[0].url;
                     this.tempObj2.width = data.urlinfo[0].width.toString();
                     this.tempObj2.height = data.urlinfo[0].height.toString();
+                    this.tempObj2.ispay = '1';
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1129,6 +1140,7 @@
                     this.tempObj3.url = data.urlinfo[0].url;
                     this.tempObj3.width = data.urlinfo[0].width.toString();
                     this.tempObj3.height = data.urlinfo[0].height.toString();
+                    this.tempObj3.ispay = '1';
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1138,6 +1150,7 @@
                     this.tempObj4.url = data.urlinfo[0].url;
                     this.tempObj4.width = data.urlinfo[0].width.toString();
                     this.tempObj4.height = data.urlinfo[0].height.toString();
+                    this.tempObj4.ispay = '1';
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1147,6 +1160,7 @@
                     this.tempObj5.url = data.urlinfo[0].url;
                     this.tempObj5.width = data.urlinfo[0].width.toString();
                     this.tempObj5.height = data.urlinfo[0].height.toString();
+                    this.tempObj5.ispay = '1';
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1156,6 +1170,7 @@
                     this.tempObj6.url = data.urlinfo[0].url;
                     this.tempObj6.width = data.urlinfo[0].width.toString();
                     this.tempObj6.height = data.urlinfo[0].height.toString();
+                    this.tempObj6.ispay = '1';
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1165,6 +1180,7 @@
                     this.tempObj7.url = data.urlinfo[0].url;
                     this.tempObj7.width = data.urlinfo[0].width.toString();
                     this.tempObj7.height = data.urlinfo[0].height.toString();
+                    this.tempObj7.ispay = '1';
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1174,6 +1190,7 @@
                     this.tempObj8.url = data.urlinfo[0].url;
                     this.tempObj8.width = data.urlinfo[0].width.toString();
                     this.tempObj8.height = data.urlinfo[0].height.toString();
+                    this.tempObj8.ispay = '1';
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1183,6 +1200,7 @@
                     this.tempObj9.url = data.urlinfo[0].url;
                     this.tempObj9.width = data.urlinfo[0].width.toString();
                     this.tempObj9.height = data.urlinfo[0].height.toString();
+                    this.tempObj9.ispay = '1';
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1195,6 +1213,13 @@
                     this.showMon1 = true;
                     this.showMonPay1 = false;
                 }
+                if (this.showMonPay1) {
+                    this.ispay1 = '0';
+                    this.tempObj1.ispay = this.ispay1;
+                } else {
+                    this.ispay1 = '1';
+                    this.tempObj1.ispay = this.ispay1;
+                }
             },
             payIcon2 () {
                 if (this.showMon2) {
@@ -1203,6 +1228,14 @@
                 } else {
                     this.showMon2 = true;
                     this.showMonPay2 = false;
+                }
+                if (this.showMonPay2) {
+                    this.ispay2 = '0';
+                    this.tempObj2.ispay = this.ispay2;
+                } else {
+                    this.ispay2 = '1';
+                    this.tempObj2.ispay = this.ispay2;
+                    alert(this.tempObj2.ispay)
                 }
             },
             payIcon3 () {
@@ -1213,6 +1246,13 @@
                     this.showMon3 = true;
                     this.showMonPay3 = false;
                 }
+                if (this.showMonPay3) {
+                    this.ispay3 = '0';
+                    this.tempObj3.ispay = this.ispay3;
+                } else {
+                    this.ispay3 = '1';
+                    this.tempObj3.ispay = this.ispay3;
+                }
             },
             payIcon4 () {
                 if (this.showMon4) {
@@ -1221,6 +1261,13 @@
                 } else {
                     this.showMon4 = true;
                     this.showMonPay4 = false;
+                }
+                if (this.showMonPay4) {
+                    this.ispay4 = '0';
+                    this.tempObj4.ispay = this.ispay4;
+                } else {
+                    this.ispay4 = '1';
+                    this.tempObj4.ispay = this.ispay4;
                 }
             },
             payIcon5 () {
@@ -1231,6 +1278,13 @@
                     this.showMon5 = true;
                     this.showMonPay5 = false;
                 }
+                if (this.showMonPay5) {
+                    this.ispay5 = '0';
+                    this.tempObj5.ispay = this.ispay5;
+                } else {
+                    this.ispay5 = '1';
+                    this.tempObj5.ispay = this.ispay5;
+                }
             },
             payIcon6 () {
                 if (this.showMon6) {
@@ -1239,6 +1293,13 @@
                 } else {
                     this.showMon6 = true;
                     this.showMonPay6 = false;
+                }
+                if (this.showMonPay6) {
+                    this.ispay6 = '0';
+                    this.tempObj6.ispay = this.ispay6;
+                } else {
+                    this.ispay6 = '1';
+                    this.tempObj6.ispay = this.ispay6;
                 }
             },
             payIcon7 () {
@@ -1249,6 +1310,13 @@
                     this.showMon7 = true;
                     this.showMonPay7 = false;
                 }
+                if (this.showMonPay7) {
+                    this.ispay7 = '0';
+                    this.tempObj7.ispay = this.ispay7;
+                } else {
+                    this.ispay7 = '1';
+                    this.tempObj7.ispay = this.ispay7;
+                }
             },
             payIcon8 () {
                 if (this.showMon8) {
@@ -1258,6 +1326,13 @@
                     this.showMon8 = true;
                     this.showMonPay8 = false;
                 }
+                if (this.showMonPay8) {
+                    this.ispay8 = '0';
+                    this.tempObj8.ispay = this.ispay8;
+                } else {
+                    this.ispay8 = '1';
+                    this.tempObj8.ispay = this.ispay8;
+                }
             },
             payIcon9 () {
                 if (this.showMon9) {
@@ -1266,6 +1341,13 @@
                 } else {
                     this.showMon9 = true;
                     this.showMonPay9 = false;
+                }
+                if (this.showMonPay9) {
+                    this.ispay9 = '0';
+                    this.tempObj9.ispay = this.ispay9;
+                } else {
+                    this.ispay9 = '1';
+                    this.tempObj9.ispay = this.ispay9;
                 }
             },
             getRemoteUserList(query) {
