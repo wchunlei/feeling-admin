@@ -957,15 +957,33 @@
                             diaryinfo.id = this.$route.params.id;
                             if (this.postForm.type == 1) {
                                 let temp = [];
-                                this.tempPic[0].ispay = this.ispay1;
-                                this.tempPic[1].ispay = this.ispay2;
-                                this.tempPic[2].ispay = this.ispay3;
-                                this.tempPic[3].ispay = this.ispay4;
-                                this.tempPic[4].ispay = this.ispay5;
-                                this.tempPic[5].ispay = this.ispay6;
-                                this.tempPic[6].ispay = this.ispay7;
-                                this.tempPic[7].ispay = this.ispay8;
-                                this.tempPic[8].ispay = this.ispay9;
+                                if (this.tempPic[0]) {
+                                    this.tempPic[0].ispay = this.ispay1;
+                                }
+                                if (this.tempPic[1]) {
+                                    this.tempPic[1].ispay = this.ispay2;
+                                }
+                                if (this.tempPic[2]) {
+                                    this.tempPic[2].ispay = this.ispay3;
+                                }
+                                if (this.tempPic[3]) {
+                                    this.tempPic[3].ispay = this.ispay4;
+                                }
+                                if (this.tempPic[4]) {
+                                    this.tempPic[4].ispay = this.ispay5;
+                                }
+                                if (this.tempPic[5]) {
+                                    this.tempPic[5].ispay = this.ispay6;
+                                }
+                                if (this.tempPic[6]) {
+                                    this.tempPic[6].ispay = this.ispay7;
+                                }
+                                if (this.tempPic[7]) {
+                                    this.tempPic[7].ispay = this.ispay8;
+                                }
+                                if (this.tempPic[8]) {
+                                    this.tempPic[8].ispay = this.ispay9;
+                                }
                                 if (this.postForm.pic1 && this.tempObj1.url) {
                                     temp.push(this.tempObj1);
                                 }
