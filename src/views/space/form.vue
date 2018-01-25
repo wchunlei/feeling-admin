@@ -756,6 +756,8 @@
                         this.postForm.vtype = response.data.content.vtype;
                         if (response.data.content.vtype == 1) {
                             this.postForm.thumbnail = response.data.content.thumbnail;
+                            this.width = response.data.content.width;
+                            this.height = response.data.content.height;
                         }
                         if(!this.showVidContent){
                             this.showVidContent=true;
@@ -775,6 +777,8 @@
                         this.postForm.avname = response.data.content.avname;
                         this.postForm.avdesc = response.data.content.avdesc;
                         this.postForm.soundImg = response.data.content.thumbnail;
+                        this.width = response.data.content.width;
+                        this.height = response.data.content.height;
                         if(!this.showAudContent){
                             this.showAudContent = true;
                             this.showVidContent=false;
@@ -791,6 +795,8 @@
                         this.postForm.type = response.data.content.type;
                         this.postForm.help = response.data.content.help;
                         this.postForm.crowd = response.data.content.thumbnail;
+                        this.width = response.data.content.width;
+                        this.height = response.data.content.height;
                         if(!this.showCroContent){
                             this.showCroContent = true;
                             this.showAudContent = false;
