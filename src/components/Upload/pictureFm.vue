@@ -80,11 +80,12 @@
                 this.emitInput('');
                 this.showClose = false;
             },
-            emitInput(val) {
-                this.$emit('input', val);
+            emitInput(val,data) {
+                this.$emit('input', val,data);
             },
             handleImageScucess(res, file) {
-                this.emitInput(res.url);
+                console.log(res.urlinfo[0])
+                this.emitInput(res.urlinfo[0].url,res);
                 this.imageUrl = URL.createObjectURL(file.raw);
                 if (res.url) {
                     this.showClose = true;

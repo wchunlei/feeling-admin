@@ -178,7 +178,7 @@
                 <div v-show="showThumb" style="display: inline-block;margin-bottom: 20px">
                     <el-form-item v-show="showVidContent" label-width="110px" prop="thumbnail">
                         <div style="margin-top: 10px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                            <Uploadimg v-model="postForm.thumbnail" v-on:input="picInput"></Uploadimg>
+                            <Uploadimg v-model="postForm.thumbnail" v-on:input="picInputVid"></Uploadimg>
                         </div>
                         <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9或9:16，不小于10kb，jpg、png等格式的文件）</span>
                     </el-form-item>
@@ -228,7 +228,7 @@
                         <Uploadbak v-model="diaryContent.soundImg"></Uploadbak>
                     </div>-->
                     <div style="margin-top: 0px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                        <Uploadimg v-model="postForm.soundImg" v-on:input="picInput"></Uploadimg>
+                        <Uploadimg v-model="postForm.soundImg" v-on:input="picInputVid"></Uploadimg>
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
@@ -259,7 +259,7 @@
                         <Uploadimg v-model="diaryContent.crowd"></Uploadimg>
                     </div>-->
                     <div style="margin-top: -180px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                        <Uploadimg v-model="postForm.crowd" v-on:input="picInput"></Uploadimg>
+                        <Uploadimg v-model="postForm.crowd" v-on:input="picInputVid"></Uploadimg>
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
@@ -403,8 +403,8 @@
                 watcher: false,
                 disprice: false,
                 closeStatus: false,
-                //width: '',
-                //height: '',
+                width: '',
+                height: '',
                 tempObj1: {},
                 tempObj2: {},
                 tempObj3: {},
@@ -886,6 +886,8 @@
                             diaryinfo.vtype = this.postForm.vtype;
                             if (this.postForm.vtype == 1) {
                                 diaryinfo.thumbnail = this.postForm.thumbnail;
+                                diaryinfo.width = this.width;
+                                diaryinfo.height = this.height;
                             }
                         } else if (this.postForm.type == 3) {
                             diaryinfo.type = this.postForm.type;
@@ -893,13 +895,15 @@
                             diaryinfo.avname = this.postForm.avname;
                             diaryinfo.avdesc = this.postForm.avdesc;
                             diaryinfo.thumbnail = this.postForm.soundImg;
+                            diaryinfo.width = this.width;
+                            diaryinfo.height = this.height;
                         } else if (this.postForm.type == 4) {
                             diaryinfo.type = this.postForm.type;
                             diaryinfo.help = this.postForm.help;
                             diaryinfo.thumbnail = this.postForm.crowd;
                             diaryinfo.crowdfund =  this.postForm.crowdfund;
-                            diaryinfo.width = '100';
-                            diaryinfo.height = '100';
+                            diaryinfo.width = this.width;
+                            diaryinfo.height = this.height;
                         } else {
                             this.$message({
                                 message: '请选择类型',
@@ -956,6 +960,22 @@
                                     temp.push(this.tempObj9);
                                 }
                                 diaryinfo.picture = this.tempPic.concat(temp);
+                            } else if (this.postForm.type == 2) {
+                                if (this.postForm.vtype == 1) {
+                                    diaryinfo.width = this.width;
+                                    diaryinfo.height = this.height;
+                                }
+                            } else if (this.postForm.type == 3) {
+                                diaryinfo.width = this.width;
+                                diaryinfo.height = this.height;
+                            } else if (this.postForm.type == 4) {
+                                diaryinfo.width = this.width;
+                                diaryinfo.height = this.height;
+                            } else {
+                                this.$message({
+                                    message: '请选择类型',
+                                    type: 'error'
+                                });
                             }
                             updatediary (diaryinfo).then(response => {
                                 if(response.data.code==200){
@@ -1069,6 +1089,15 @@
             picInput (url,data) {
                 if (data) {
                     this.watcher = data.url;
+                }
+            },
+            picInputVid (url,data) {
+                if (data) {
+                    //this.tempObjVid.url = data.urlinfo[0].url;
+                    this.width = data.urlinfo[0].width.toString();
+                    this.height = data.urlinfo[0].height.toString();
+                    //this.tempPic.push(this.tempObj);
+                    //this.watcher = data.url;
                 }
             },
             picInput1 (url,data) {
