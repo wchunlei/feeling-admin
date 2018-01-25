@@ -31,7 +31,7 @@
                     <el-form-item class="uplo" label-width="110px" prop="pic1">
                         <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
                             <!--<el-form-item class="uplo"  label-width="200px" label="图片:最多9张图片"></el-form-item>-->
-                            <Upload v-model="postForm.pic1" :close="closeStatus" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic1" :close="closeStatus" v-on:input="picInput1"></Upload>
                             <img v-show="showMon1" src="../../../gifs/money.png" class="icon_style" @click="payIcon1" />
                             <img v-show="showMonPay1" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon1" />
                             <div class="clear"></div>
@@ -39,7 +39,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic2">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic2" :close="closeStatus" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic2" :close="closeStatus" v-on:input="picInput2"></Upload>
                             <img v-show="showMon2" src="../../../gifs/money.png" class="icon_style" @click="payIcon2" />
                             <img v-show="showMonPay2" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon2" />
                             <div class="clear"></div>
@@ -47,7 +47,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic3">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic3" :close="closeStatus" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic3" :close="closeStatus" v-on:input="picInput3"></Upload>
                             <img v-show="showMon3" src="../../../gifs/money.png" class="icon_style" @click="payIcon3" />
                             <img v-show="showMonPay3" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon3" />
                             <div class="clear"></div>
@@ -58,7 +58,7 @@
                 <div>
                     <el-form-item class="uplo" label-width="110px" prop="pic4">
                         <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                            <Upload v-model="postForm.pic4" :close="closeStatus" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic4" :close="closeStatus" v-on:input="picInput4"></Upload>
                             <img v-show="showMon4" src="../../../gifs/money.png" class="icon_style" @click="payIcon4" />
                             <img v-show="showMonPay4" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon4" />
                             <div class="clear"></div>
@@ -66,7 +66,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic5">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic5" :close="closeStatus" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic5" :close="closeStatus" v-on:input="picInput5"></Upload>
                             <img v-show="showMon5" src="../../../gifs/money.png" class="icon_style" @click="payIcon5" />
                             <img v-show="showMonPay5" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon5" />
                             <div class="clear"></div>
@@ -74,7 +74,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic6">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic6" :close="closeStatus" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic6" :close="closeStatus" v-on:input="picInput6"></Upload>
                             <img v-show="showMon6" src="../../../gifs/money.png" class="icon_style" @click="payIcon6" />
                             <img v-show="showMonPay6" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon6" />
                             <div class="clear"></div>
@@ -85,7 +85,7 @@
                 <div>
                     <el-form-item class="uplo" label-width="110px" prop="pic7">
                         <div v-show="showPicContent" class="pictureStyle" style="margin-bottom: 10px;">
-                            <Upload v-model="postForm.pic7" :close="closeStatus" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic7" :close="closeStatus" v-on:input="picInput7"></Upload>
                             <img v-show="showMon7" src="../../../gifs/money.png" class="icon_style" @click="payIcon7" />
                             <img v-show="showMonPay7" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon7" />
                             <div class="clear"></div>
@@ -93,7 +93,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic8">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic8" :close="closeStatus" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic8" :close="closeStatus" v-on:input="picInput8"></Upload>
                             <img v-show="showMon8" src="../../../gifs/money.png" class="icon_style" @click="payIcon8" />
                             <img v-show="showMonPay8" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon8" />
                             <div class="clear"></div>
@@ -101,7 +101,7 @@
                     </el-form-item>
                     <el-form-item class="uplo" label-width="110px" prop="pic9">
                         <div v-show="showPicContent" class="pictureStyle">
-                            <Upload v-model="postForm.pic9" :close="closeStatus" v-on:input="picInput"></Upload>
+                            <Upload v-model="postForm.pic9" :close="closeStatus" v-on:input="picInput9"></Upload>
                             <img v-show="showMon9" src="../../../gifs/money.png" class="icon_style" @click="payIcon9" />
                             <img v-show="showMonPay9" src="../../../gifs/moneypay.png" class="icon_style_pay" @click="payIcon9" />
                             <div class="clear"></div>
@@ -403,8 +403,18 @@
                 watcher: false,
                 disprice: false,
                 closeStatus: false,
-                width: '',
-                height: '',
+                //width: '',
+                //height: '',
+                tempObj1: {},
+                tempObj2: {},
+                tempObj3: {},
+                tempObj4: {},
+                tempObj5: {},
+                tempObj6: {},
+                tempObj7: {},
+                tempObj8: {},
+                tempObj9: {},
+                tempPic: [],
                 videoOptions: [],
                 audioOptions: [],
                 postForm: {
@@ -711,32 +721,33 @@
                             this.showAudContent = false;
                             this.showCroContent = false;
                         }
+                        this.tempPic = response.data.content.picture;
                         if (response.data.content.picture[0]) {
                             this.postForm.pic1 = response.data.content.picture[0].url
                         }
                         if (response.data.content.picture[1]) {
-                            this.postForm.pic2 = response.data.content.picture[1]
+                            this.postForm.pic2 = response.data.content.picture[1].url
                         }
                         if (response.data.content.picture[2]) {
-                            this.postForm.pic3 = response.data.content.picture[2]
+                            this.postForm.pic3 = response.data.content.picture[2].url
                         }
                         if (response.data.content.picture[3]) {
-                            this.postForm.pic4 = response.data.content.picture[3]
+                            this.postForm.pic4 = response.data.content.picture[3].url
                         }
                         if (response.data.content.picture[4]) {
-                            this.postForm.pic5 = response.data.content.picture[4]
+                            this.postForm.pic5 = response.data.content.picture[4].url
                         }
                         if (response.data.content.picture[5]) {
-                            this.postForm.pic6 = response.data.content.picture[5]
+                            this.postForm.pic6 = response.data.content.picture[5].url
                         }
                         if (response.data.content.picture[6]) {
-                            this.postForm.pic7 = response.data.content.picture[6]
+                            this.postForm.pic7 = response.data.content.picture[6].url
                         }
                         if (response.data.content.picture[7]) {
-                            this.postForm.pic8 = response.data.content.picture[7]
+                            this.postForm.pic8 = response.data.content.picture[7].url
                         }
                         if (response.data.content.picture[8]) {
-                            this.postForm.pic9 = response.data.content.picture[8]
+                            this.postForm.pic9 = response.data.content.picture[8].url
                         }
                     }
                     if (response.data.content.type == 2) {
@@ -829,43 +840,42 @@
                         if (this.postForm.type == 1) {
                             let temp = [];
                             if (this.postForm.pic1) {
-                                let tempObj = {};
-                                tempObj.url = this.postForm.pic1;
-                                tempObj.width = this.width.toString();
-                                tempObj.height = this.height.toString();
-                                temp.push(tempObj);
+                                temp.push(this.tempObj1);
                             }
                             if (this.postForm.pic2) {
-                                //temp.push(this.postForm.pic2);
-                                let tempObj = {};
-                                tempObj.url = this.postForm.pic2;
-                                tempObj.width = this.width.toString();
-                                tempObj.height = this.height.toString();
-                                temp.push(tempObj);
+                                temp.push(this.tempObj2);
                             }
                             if (this.postForm.pic3) {
-                                temp.push(this.postForm.pic3);
+                                //temp.push(this.postForm.pic3);
+                                temp.push(this.tempObj3);
                             }
                             if (this.postForm.pic4) {
-                                temp.push(this.postForm.pic4);
+                                //temp.push(this.postForm.pic4);
+                                temp.push(this.tempObj4);
                             }
                             if (this.postForm.pic5) {
-                                temp.push(this.postForm.pic5);
+                                //temp.push(this.postForm.pic5);
+                                temp.push(this.tempObj5);
                             }
                             if (this.postForm.pic6) {
-                                temp.push(this.postForm.pic6);
+                                //temp.push(this.postForm.pic6);
+                                temp.push(this.tempObj6);
                             }
                             if (this.postForm.pic7) {
-                                temp.push(this.postForm.pic7);
+                                //temp.push(this.postForm.pic7);
+                                temp.push(this.tempObj7);
                             }
                             if (this.postForm.pic8) {
-                                temp.push(this.postForm.pic8);
+                                //temp.push(this.postForm.pic8);
+                                temp.push(this.tempObj8);
                             }
                             if (this.postForm.pic9) {
-                                temp.push(this.postForm.pic9);
+                                //temp.push(this.postForm.pic9);
+                                temp.push(this.tempObj9);
                             }
                             diaryinfo.type = this.postForm.type;
                             diaryinfo.picture = temp;
+                            //diaryinfo.picture = this.tempPic;
                             diaryinfo.ispay = this.postForm.ispay;
                             if (this.postForm.ispay == 0) {
                                 diaryinfo.price = this.postForm.price.toString();
@@ -909,6 +919,44 @@
                             });
                         } else {
                             diaryinfo.id = this.$route.params.id;
+                            if (this.postForm.type == 1) {
+                                let temp = [];
+                                if (this.postForm.pic1 && this.tempObj1.url) {
+                                    temp.push(this.tempObj1);
+                                }
+                                if (this.postForm.pic2 && this.tempObj2.url) {
+                                    temp.push(this.tempObj2);
+                                }
+                                if (this.postForm.pic3 && this.tempObj3.url) {
+                                    //temp.push(this.postForm.pic3);
+                                    temp.push(this.tempObj3);
+                                }
+                                if (this.postForm.pic4 && this.tempObj4.url) {
+                                    //temp.push(this.postForm.pic4);
+                                    temp.push(this.tempObj4);
+                                }
+                                if (this.postForm.pic5 && this.tempObj5.url) {
+                                    //temp.push(this.postForm.pic5);
+                                    temp.push(this.tempObj5);
+                                }
+                                if (this.postForm.pic6 && this.tempObj6.url) {
+                                    //temp.push(this.postForm.pic6);
+                                    temp.push(this.tempObj6);
+                                }
+                                if (this.postForm.pic7 && this.tempObj7.url) {
+                                    //temp.push(this.postForm.pic7);
+                                    temp.push(this.tempObj7);
+                                }
+                                if (this.postForm.pic8 && this.tempObj8.url) {
+                                    //temp.push(this.postForm.pic8);
+                                    temp.push(this.tempObj8);
+                                }
+                                if (this.postForm.pic9 && this.tempObj9.url) {
+                                    //temp.push(this.postForm.pic9);
+                                    temp.push(this.tempObj9);
+                                }
+                                diaryinfo.picture = this.tempPic.concat(temp);
+                            }
                             updatediary (diaryinfo).then(response => {
                                 if(response.data.code==200){
                                     this.$message({
@@ -1020,15 +1068,88 @@
             },
             picInput (url,data) {
                 if (data) {
-                    console.log(data.urlinfo[0])
-                    if (this.width && this.height) {
-                        this.width = '';
-                        this.height = '';
-                    }
-                    this.width = data.urlinfo[0].width;
-                    this.height = data.urlinfo[0].height;
-                    alert(this.width)
                     this.watcher = data.url;
+                }
+            },
+            picInput1 (url,data) {
+                if (data) {
+                    this.tempObj1.url = data.urlinfo[0].url;
+                    this.tempObj1.width = data.urlinfo[0].width.toString();
+                    this.tempObj1.height = data.urlinfo[0].height.toString();
+                    //this.tempPic.push(this.tempObj);
+                    //this.watcher = data.url;
+                }
+            },
+            picInput2 (url,data) {
+                if (data) {
+                    this.tempObj2.url = data.urlinfo[0].url;
+                    this.tempObj2.width = data.urlinfo[0].width.toString();
+                    this.tempObj2.height = data.urlinfo[0].height.toString();
+                    //this.tempPic.push(this.tempObj);
+                    //this.watcher = data.url;
+                }
+            },
+            picInput3 (url,data) {
+                if (data) {
+                    this.tempObj3.url = data.urlinfo[0].url;
+                    this.tempObj3.width = data.urlinfo[0].width.toString();
+                    this.tempObj3.height = data.urlinfo[0].height.toString();
+                    //this.tempPic.push(this.tempObj);
+                    //this.watcher = data.url;
+                }
+            },
+            picInput4 (url,data) {
+                if (data) {
+                    this.tempObj4.url = data.urlinfo[0].url;
+                    this.tempObj4.width = data.urlinfo[0].width.toString();
+                    this.tempObj4.height = data.urlinfo[0].height.toString();
+                    //this.tempPic.push(this.tempObj);
+                    //this.watcher = data.url;
+                }
+            },
+            picInput5 (url,data) {
+                if (data) {
+                    this.tempObj5.url = data.urlinfo[0].url;
+                    this.tempObj5.width = data.urlinfo[0].width.toString();
+                    this.tempObj5.height = data.urlinfo[0].height.toString();
+                    //this.tempPic.push(this.tempObj);
+                    //this.watcher = data.url;
+                }
+            },
+            picInput6 (url,data) {
+                if (data) {
+                    this.tempObj6.url = data.urlinfo[0].url;
+                    this.tempObj6.width = data.urlinfo[0].width.toString();
+                    this.tempObj6.height = data.urlinfo[0].height.toString();
+                    //this.tempPic.push(this.tempObj);
+                    //this.watcher = data.url;
+                }
+            },
+            picInput7 (url,data) {
+                if (data) {
+                    this.tempObj7.url = data.urlinfo[0].url;
+                    this.tempObj7.width = data.urlinfo[0].width.toString();
+                    this.tempObj7.height = data.urlinfo[0].height.toString();
+                    //this.tempPic.push(this.tempObj);
+                    //this.watcher = data.url;
+                }
+            },
+            picInput8 (url,data) {
+                if (data) {
+                    this.tempObj8.url = data.urlinfo[0].url;
+                    this.tempObj8.width = data.urlinfo[0].width.toString();
+                    this.tempObj8.height = data.urlinfo[0].height.toString();
+                    //this.tempPic.push(this.tempObj);
+                    //this.watcher = data.url;
+                }
+            },
+            picInput9 (url,data) {
+                if (data) {
+                    this.tempObj9.url = data.urlinfo[0].url;
+                    this.tempObj9.width = data.urlinfo[0].width.toString();
+                    this.tempObj9.height = data.urlinfo[0].height.toString();
+                    //this.tempPic.push(this.tempObj);
+                    //this.watcher = data.url;
                 }
             },
             payIcon1 () {
