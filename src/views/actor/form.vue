@@ -818,6 +818,13 @@
               });
               return false;
             }
+            if (parseInt(this.postForm.worktimes[0].time) > parseInt(this.postForm.worktimes[0].time1)) {
+              this.$message({
+                message: '起始时间不能大于结束时间',
+                type: 'error'
+              });
+              return false;
+            }
             if (this.$route.params.id && this.$route.params.id == ':id') {
               addactor(actorinfo).then(response => {
                 /*if (!response.data.items) return;
