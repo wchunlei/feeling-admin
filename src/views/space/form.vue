@@ -1104,6 +1104,24 @@
                                     });
                                     this.$refs[formName].resetFields();
                                     this.postForm.type = diaryinfo.type;
+                                    this.showMon1 = true;
+                                    this.showMonPay1 = false;
+                                    this.showMon2 = true;
+                                    this.showMonPay2 = false;
+                                    this.showMon3 = true;
+                                    this.showMonPay3 = false;
+                                    this.showMon4 = true;
+                                    this.showMonPay4 = false;
+                                    this.showMon5 = true;
+                                    this.showMonPay5 = false;
+                                    this.showMon6 = true;
+                                    this.showMonPay6 = false;
+                                    this.showMon7 = true;
+                                    this.showMonPay7 = false;
+                                    this.showMon8 = true;
+                                    this.showMonPay8 = false;
+                                    this.showMon9 = true;
+                                    this.showMonPay9 = false;
                                 }
                             });
                         }
@@ -1236,6 +1254,8 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                } else {
+                    this.postForm.words = this.postForm.words + ' ';
                 }
             },
             picInput2 (url,data) {
@@ -1249,6 +1269,8 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                } else {
+                    this.postForm.words = this.postForm.words + ' ';
                 }
             },
             picInput3 (url,data) {
@@ -1262,6 +1284,8 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                } else {
+                    this.postForm.words = this.postForm.words + ' ';
                 }
             },
             picInput4 (url,data) {
@@ -1275,6 +1299,8 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                } else {
+                    this.postForm.words = this.postForm.words + ' ';
                 }
             },
             picInput5 (url,data) {
@@ -1288,6 +1314,8 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                } else {
+                    this.postForm.words = this.postForm.words + ' ';
                 }
             },
             picInput6 (url,data) {
@@ -1301,6 +1329,8 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                } else {
+                    this.postForm.words = this.postForm.words + ' ';
                 }
             },
             picInput7 (url,data) {
@@ -1314,6 +1344,8 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                } else {
+                    this.postForm.words = this.postForm.words + ' ';
                 }
             },
             picInput8 (url,data) {
@@ -1327,6 +1359,8 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                } else {
+                    this.postForm.words = this.postForm.words + ' ';
                 }
             },
             picInput9 (url,data) {
@@ -1340,6 +1374,8 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                } else {
+                    this.postForm.words = this.postForm.words + ' ';
                 }
             },
             payIcon1 () {
