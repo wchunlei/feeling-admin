@@ -732,10 +732,24 @@
                         }
                         this.tempPic = response.data.content.picture;
                         if (response.data.content.picture[0]) {
-                            this.postForm.pic1 = response.data.content.picture[0].url
+                            this.postForm.pic1 = response.data.content.picture[0].url;
+                            if (response.data.content.picture[0].ispay == '1') {
+                                this.showMon1 = true;
+                                this.showMonPay1 = false;
+                            } else {
+                                this.showMon1 = false;
+                                this.showMonPay1 = true;
+                            }
                         }
                         if (response.data.content.picture[1]) {
-                            this.postForm.pic2 = response.data.content.picture[1].url
+                            this.postForm.pic2 = response.data.content.picture[1].url;
+                            if (response.data.content.picture[1].ispay == '1') {
+                                this.showMon2 = true;
+                                this.showMonPay2 = false;
+                            } else {
+                                this.showMon2 = false;
+                                this.showMonPay2 = true;
+                            }
                         }
                         if (response.data.content.picture[2]) {
                             this.postForm.pic3 = response.data.content.picture[2].url
@@ -942,6 +956,9 @@
                                 let temp = [];
                                 if (this.postForm.pic1 && this.tempObj1.url) {
                                     temp.push(this.tempObj1);
+                                }
+                                if (this.postForm.pic2) {
+                                    temp.push(this.tempObj2.ispay);
                                 }
                                 if (this.postForm.pic2 && this.tempObj2.url) {
                                     temp.push(this.tempObj2);
@@ -1235,7 +1252,6 @@
                 } else {
                     this.ispay2 = '1';
                     this.tempObj2.ispay = this.ispay2;
-                    alert(this.tempObj2.ispay)
                 }
             },
             payIcon3 () {
