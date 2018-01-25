@@ -957,6 +957,7 @@
                             });
                         } else {
                             diaryinfo.id = this.$route.params.id;
+                            diaryinfo.words = this.postForm.words.replace(/(\s*$)/g, "");
                             if (this.postForm.type == 1) {
                                 let temp = [];
                                 if (this.tempPic[0]) {
@@ -1150,6 +1151,9 @@
             picInput (url,data) {
                 if (data) {
                     this.watcher = data.url;
+                    if (this.$route.params.id && this.$route.params.id != ':id') {
+                        this.postForm.words = this.postForm.words + ' ';
+                    }
                 }
             },
             picInputVid (url,data) {
@@ -1157,6 +1161,9 @@
                     //this.tempObjVid.url = data.urlinfo[0].url;
                     this.width = data.urlinfo[0].width.toString();
                     this.height = data.urlinfo[0].height.toString();
+                    if (this.$route.params.id && this.$route.params.id != ':id') {
+                        this.postForm.words = this.postForm.words + ' ';
+                    }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1167,6 +1174,9 @@
                     this.tempObj1.width = data.urlinfo[0].width.toString();
                     this.tempObj1.height = data.urlinfo[0].height.toString();
                     this.tempObj1.ispay = '1';
+                    if (this.$route.params.id && this.$route.params.id != ':id') {
+                        this.postForm.words = this.postForm.words + ' ';
+                    }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1177,6 +1187,9 @@
                     this.tempObj2.width = data.urlinfo[0].width.toString();
                     this.tempObj2.height = data.urlinfo[0].height.toString();
                     this.tempObj2.ispay = '1';
+                    if (this.$route.params.id && this.$route.params.id != ':id') {
+                        this.postForm.words = this.postForm.words + ' ';
+                    }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1187,6 +1200,9 @@
                     this.tempObj3.width = data.urlinfo[0].width.toString();
                     this.tempObj3.height = data.urlinfo[0].height.toString();
                     this.tempObj3.ispay = '1';
+                    if (this.$route.params.id && this.$route.params.id != ':id') {
+                        this.postForm.words = this.postForm.words + ' ';
+                    }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1197,6 +1213,9 @@
                     this.tempObj4.width = data.urlinfo[0].width.toString();
                     this.tempObj4.height = data.urlinfo[0].height.toString();
                     this.tempObj4.ispay = '1';
+                    if (this.$route.params.id && this.$route.params.id != ':id') {
+                        this.postForm.words = this.postForm.words + ' ';
+                    }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1207,6 +1226,9 @@
                     this.tempObj5.width = data.urlinfo[0].width.toString();
                     this.tempObj5.height = data.urlinfo[0].height.toString();
                     this.tempObj5.ispay = '1';
+                    if (this.$route.params.id && this.$route.params.id != ':id') {
+                        this.postForm.words = this.postForm.words + ' ';
+                    }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1217,6 +1239,9 @@
                     this.tempObj6.width = data.urlinfo[0].width.toString();
                     this.tempObj6.height = data.urlinfo[0].height.toString();
                     this.tempObj6.ispay = '1';
+                    if (this.$route.params.id && this.$route.params.id != ':id') {
+                        this.postForm.words = this.postForm.words + ' ';
+                    }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1227,6 +1252,9 @@
                     this.tempObj7.width = data.urlinfo[0].width.toString();
                     this.tempObj7.height = data.urlinfo[0].height.toString();
                     this.tempObj7.ispay = '1';
+                    if (this.$route.params.id && this.$route.params.id != ':id') {
+                        this.postForm.words = this.postForm.words + ' ';
+                    }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1237,6 +1265,9 @@
                     this.tempObj8.width = data.urlinfo[0].width.toString();
                     this.tempObj8.height = data.urlinfo[0].height.toString();
                     this.tempObj8.ispay = '1';
+                    if (this.$route.params.id && this.$route.params.id != ':id') {
+                        this.postForm.words = this.postForm.words + ' ';
+                    }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
@@ -1247,6 +1278,9 @@
                     this.tempObj9.width = data.urlinfo[0].width.toString();
                     this.tempObj9.height = data.urlinfo[0].height.toString();
                     this.tempObj9.ispay = '1';
+                    if (this.$route.params.id && this.$route.params.id != ':id') {
+                        this.postForm.words = this.postForm.words + ' ';
+                    }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 }
