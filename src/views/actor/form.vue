@@ -691,7 +691,7 @@
         if (res.code == 200) {
           let temp = {};
           temp.name = this.playImgName;
-          temp.url = res.url;
+          temp.url = res.urlinfo[0].url;
           this.postForm.playimg.push(temp);
         }
       },

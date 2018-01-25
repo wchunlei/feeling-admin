@@ -1119,7 +1119,7 @@
                  }*!/
                 //this.dialogVisible = false;
             },*/
-            picInput (data) {
+            picInput (data,data1) {
                 if (data) {
                     this.watcher = data;
                 }

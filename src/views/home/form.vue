@@ -581,7 +581,7 @@
                     console.log(err);
                 });
             },
-            picInput (data) {
+            picInput (data,data1) {
                 if (data) {
                     this.watcher = data;
                 }
