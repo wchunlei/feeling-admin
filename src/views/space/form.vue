@@ -170,7 +170,7 @@
                     </div>
                 </el-form-item>-->
 
-                <el-form-item v-show="showVidContent" label="视频缩略图:" label-width="110px" prop="vtype" style="margin-bottom: 20px" required>
+                <el-form-item v-if="tempVideo" v-show="showVidContent" label="视频缩略图:" label-width="110px" prop="vtype" style="margin-bottom: 20px;" required>
                     <span @click="hideThumbnail"><el-radio v-model="postForm.vtype" label="2">自动截取</el-radio></span>
                     <span @click="showThumbnail"><el-radio v-model="postForm.vtype" label="1">主动上传</el-radio></span>
                 </el-form-item>
@@ -401,6 +401,7 @@
             };
             return {
                 watcher: false,
+                tempVideo: true,
                 disprice: false,
                 closeStatus: false,
                 ispay1: '1',
@@ -704,6 +705,7 @@
                 diaryinfo(listQuery).then(response => {
                     //this.postForm.actor.value = response.data.content.actorid;
                     //this.postForm.actor = { key:response.data.content[0].name, value:response.data.content[0].actorid };
+                    this.postForm = response.data.content;
                     this.postForm.crowdfund = response.data.content.crowdfund;
                     this.postForm.reward = response.data.content.reward;
                     this.postForm.words = response.data.content.words;

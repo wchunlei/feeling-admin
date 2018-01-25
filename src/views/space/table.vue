@@ -502,7 +502,8 @@
                 this.listLoading = true;
                 this.listQuery.pos = '1';
                 diarylist(this.listQuery).then(response => {
-                    this.list = response.data.content.reverse();
+                    //this.list = response.data.content.reverse();
+                    this.list = response.data.content;
                     for (let i=0; i<response.data.content.length; i++) {
                         this.list[i].ids = i+1;
                     }
