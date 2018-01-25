@@ -918,6 +918,10 @@
                             diaryinfo.type = this.postForm.type;
                             diaryinfo.video = this.postForm.video;
                             diaryinfo.vtype = this.postForm.vtype;
+                            diaryinfo.ispay = this.postForm.ispay;
+                            if (this.postForm.ispay == 0) {
+                                diaryinfo.price = this.postForm.price.toString();
+                            }
                             if (this.postForm.vtype == 1) {
                                 diaryinfo.thumbnail = this.postForm.thumbnail;
                                 diaryinfo.width = this.width;
@@ -929,6 +933,10 @@
                             diaryinfo.avname = this.postForm.avname;
                             diaryinfo.avdesc = this.postForm.avdesc;
                             diaryinfo.thumbnail = this.postForm.soundImg;
+                            diaryinfo.ispay = this.postForm.ispay;
+                            if (this.postForm.ispay == 0) {
+                                diaryinfo.price = this.postForm.price.toString();
+                            }
                             diaryinfo.width = this.width;
                             diaryinfo.height = this.height;
                         } else if (this.postForm.type == 4) {
