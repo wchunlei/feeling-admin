@@ -757,25 +757,74 @@
                             }
                         }
                         if (response.data.content.picture[2]) {
-                            this.postForm.pic3 = response.data.content.picture[2].url
+                            this.postForm.pic3 = response.data.content.picture[2].url;
+                            if (response.data.content.picture[2].ispay == '1') {
+                                this.showMon3 = true;
+                                this.showMonPay3 = false;
+                            } else {
+                                this.showMon3 = false;
+                                this.showMonPay3 = true;
+                            }
                         }
                         if (response.data.content.picture[3]) {
-                            this.postForm.pic4 = response.data.content.picture[3].url
+                            this.postForm.pic4 = response.data.content.picture[3].url;
+                            if (response.data.content.picture[3].ispay == '1') {
+                                this.showMon4 = true;
+                                this.showMonPay4 = false;
+                            } else {
+                                this.showMon4 = false;
+                                this.showMonPay4 = true;
+                            }
                         }
                         if (response.data.content.picture[4]) {
-                            this.postForm.pic5 = response.data.content.picture[4].url
+                            this.postForm.pic5 = response.data.content.picture[4].url;
+                            if (response.data.content.picture[4].ispay == '1') {
+                                this.showMon5 = true;
+                                this.showMonPay5 = false;
+                            } else {
+                                this.showMon5 = false;
+                                this.showMonPay5 = true;
+                            }
                         }
                         if (response.data.content.picture[5]) {
-                            this.postForm.pic6 = response.data.content.picture[5].url
+                            this.postForm.pic6 = response.data.content.picture[5].url;
+                            if (response.data.content.picture[5].ispay == '1') {
+                                this.showMon6 = true;
+                                this.showMonPay6 = false;
+                            } else {
+                                this.showMon6 = false;
+                                this.showMonPay6 = true;
+                            }
                         }
                         if (response.data.content.picture[6]) {
-                            this.postForm.pic7 = response.data.content.picture[6].url
+                            this.postForm.pic7 = response.data.content.picture[6].url;
+                            if (response.data.content.picture[6].ispay == '1') {
+                                this.showMon7 = true;
+                                this.showMonPay7 = false;
+                            } else {
+                                this.showMon7 = false;
+                                this.showMonPay7 = true;
+                            }
                         }
                         if (response.data.content.picture[7]) {
-                            this.postForm.pic8 = response.data.content.picture[7].url
+                            this.postForm.pic8 = response.data.content.picture[7].url;
+                            if (response.data.content.picture[7].ispay == '1') {
+                                this.showMon8 = true;
+                                this.showMonPay8 = false;
+                            } else {
+                                this.showMon8 = false;
+                                this.showMonPay8 = true;
+                            }
                         }
                         if (response.data.content.picture[8]) {
-                            this.postForm.pic9 = response.data.content.picture[8].url
+                            this.postForm.pic9 = response.data.content.picture[8].url;
+                            if (response.data.content.picture[8].ispay == '1') {
+                                this.showMon9 = true;
+                                this.showMonPay9 = false;
+                            } else {
+                                this.showMon9 = false;
+                                this.showMonPay9 = true;
+                            }
                         }
                     }
                     if (response.data.content.type == 2) {
