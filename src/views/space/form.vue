@@ -745,6 +745,9 @@
                                 this.showMon1 = false;
                                 this.showMonPay1 = true;
                             }
+                            this.closeStatus = true;
+                        } else {
+                            this.closeStatus = false;
                         }
                         if (response.data.content.picture[1]) {
                             this.postForm.pic2 = response.data.content.picture[1].url;
@@ -775,6 +778,7 @@
                                 this.showMon4 = false;
                                 this.showMonPay4 = true;
                             }
+                            this.closeStatus = true;
                         } else {
                             this.closeStatus = false;
                         }
@@ -1246,6 +1250,8 @@
                 }
             },
             picInput1 (url,data) {
+                //this.closeStatus = true;
+                //alert(url)
                 if (url) {
                     this.tempObj1.url = data.urlinfo[0].url;
                     this.tempObj1.width = data.urlinfo[0].width.toString();
@@ -1258,6 +1264,7 @@
                     //this.watcher = data.url;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
+                    this.tempPic.splice(0,1);
                 }
             },
             picInput2 (url,data) {
@@ -1273,6 +1280,9 @@
                     //this.watcher = data.url;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
+                    if (this.tempPic[1]) {
+                        this.tempPic.splice(1,1);
+                    }
                 }
             },
             picInput3 (url,data) {
@@ -1288,6 +1298,9 @@
                     //this.watcher = data.url;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
+                    if (this.tempPic[2]) {
+                        this.tempPic.splice(2,1);
+                    }
                 }
             },
             picInput4 (url,data) {
@@ -1303,6 +1316,9 @@
                     //this.watcher = data.url;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
+                    if (this.tempPic[3]) {
+                        this.tempPic.splice(3,1);
+                    }
                 }
             },
             picInput5 (url,data) {
@@ -1318,6 +1334,9 @@
                     //this.watcher = data.url;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
+                    if (this.tempPic[4]) {
+                        this.tempPic.splice(4,1);
+                    }
                 }
             },
             picInput6 (url,data) {
@@ -1333,6 +1352,9 @@
                     //this.watcher = data.url;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
+                    if (this.tempPic[5]) {
+                        this.tempPic.splice(5,1);
+                    }
                 }
             },
             picInput7 (url,data) {
@@ -1348,6 +1370,9 @@
                     //this.watcher = data.url;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
+                    if (this.tempPic[6]) {
+                        this.tempPic.splice(6,1);
+                    }
                 }
             },
             picInput8 (url,data) {
@@ -1363,6 +1388,9 @@
                     //this.watcher = data.url;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
+                    if (this.tempPic[7]) {
+                        this.tempPic.splice(7,1);
+                    }
                 }
             },
             picInput9 (url,data) {
@@ -1378,6 +1406,9 @@
                     //this.watcher = data.url;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
+                    if (this.tempPic[8]) {
+                        this.tempPic.splice(8,1);
+                    }
                 }
             },
             payIcon1 () {
