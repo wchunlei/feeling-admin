@@ -617,7 +617,7 @@
                                         message: '发布成功',
                                         type: 'success'
                                     });
-                                    //this.$refs[formName].resetFields();
+                                    this.$refs[formName].resetFields();
                                     //this.postForm.status = 'published';
                                 }
                             });
@@ -629,7 +629,7 @@
                                         message: '发布成功',
                                         type: 'success'
                                     });
-                                    //this.$refs[formName].resetFields();
+                                    this.$refs[formName].resetFields();
                                     //this.postForm.status = 'published';
                                 }
                             });
