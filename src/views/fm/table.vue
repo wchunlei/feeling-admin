@@ -382,7 +382,8 @@
                     type: 'warning'
                 }).then(() => {
                     let deleteitem={
-                        id: rows.id
+                        id: rows.id,
+                        pos: '2'
                     };
                     deldiary(deleteitem).then(response => {
                         //this.list = response.data.content;

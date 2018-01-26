@@ -88,7 +88,7 @@
                 console.log(res.urlinfo[0])
                 this.emitInput(res.urlinfo[0].url,res);
                 this.imageUrl = URL.createObjectURL(file.raw);
-                if (res.url) {
+                if (res.urlinfo[0].url) {
                     this.showClose = true;
                 }
             },

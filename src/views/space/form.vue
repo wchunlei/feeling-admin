@@ -775,6 +775,8 @@
                                 this.showMon4 = false;
                                 this.showMonPay4 = true;
                             }
+                        } else {
+                            this.closeStatus = false;
                         }
                         if (response.data.content.picture[4]) {
                             this.postForm.pic5 = response.data.content.picture[4].url;
