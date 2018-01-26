@@ -195,9 +195,9 @@
     import { updatehomefm } from 'api/homefm';
     import { homefminfo } from 'api/homefm';
     import { homefmlist } from 'api/homefm';
-    import { upfmcomment } from 'api/homefm';
-    import { delfmcomment } from 'api/homefm';
-    import { sortfmcomment } from 'api/homefm';
+    import { uphomefmcomm } from 'api/homefm';
+    import { delhomefmcomm } from 'api/homefm';
+    import { sorthomefmcomm } from 'api/homefm';
     import { actorList } from 'api/actor';
     import { reslist } from 'api/resource';
 
@@ -660,7 +660,7 @@
                             configtime: dateString
                         };
                         //row.splice(index, 1);
-                        upfmcomment(upitem).then(response => {
+                        uphomefmcomm(upitem).then(response => {
                             //this.list = response.data.content;
                             if(response.data.code==200){
                                 row.status = '下架';
@@ -682,7 +682,7 @@
                         configtime: dateString
                     };
                     //row.splice(index, 1);
-                    upfmcomment(upitem).then(response => {
+                    uphomefmcomm(upitem).then(response => {
                         //this.list = response.data.content;
                         if (response.data.msg == 'girl is xiaxian!') {
                             this.$message({
@@ -721,7 +721,7 @@
                     sort: rows.commentsort
                 };
                 //row.splice(index, 1);
-                sortfmcomment(sortitem).then(response => {
+                sorthomefmcomm(sortitem).then(response => {
                     //this.list = response.data.content;
                     if(response.data.code==200){
                         this.disable = true;
@@ -1123,7 +1123,7 @@
                     let deleteitem={
                         id: rows.id
                     };
-                    delfmcomment(deleteitem).then(response => {
+                    delhomefmcomm(deleteitem).then(response => {
                         //this.list = response.data.content;
                         if(response.data.code==200){
                             this.list.splice(index, 1);

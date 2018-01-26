@@ -112,8 +112,32 @@ export function addhomefmcomm(diaryinfo) {
         data
     });
 }
+export function delhomefmcomm(diaryinfo) {
+    const data = diaryinfo;
+    return fetch({
+        url: '?act=delhomefmcomm',
+        method: 'post',
+        data
+    });
+}
+export function sorthomefmcomm(diaryinfo) {
+    const data = diaryinfo;
+    return fetch({
+        url: '?act=sorthomefmcomm',
+        method: 'post',
+        data
+    });
+}
+export function uphomefmcomm(diaryinfo) {
+    const data = diaryinfo;
+    return fetch({
+        url: '?act=uphomefmcomm',
+        method: 'post',
+        data
+    });
+}
 
-export function homefmcomminfo(query) {
+/*export function homefmcomminfo(query) {
     return fetch({
         url: '?act=homefmcomminfo',
         method: 'get',
@@ -146,4 +170,4 @@ export function upfmcomment(diaryinfo) {
         method: 'post',
         data
     });
-}
+}*/
