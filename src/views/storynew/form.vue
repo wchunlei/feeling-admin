@@ -819,6 +819,7 @@
                 if (this.postForm.csolor == 0 && this.rgb) {
                     /*selectBackColor.style.backgroundColor = this.rgb;
                 } else {*/
+                    let _this = this;
                     setTimeout(function () {
                         //alert(_this.postForm.picture)
                         //let img = _this.postForm.picture;
@@ -836,7 +837,8 @@
                                 this.defaultColor = payload.dominant;
                                 //showBackColor.setAttribute('style', 'background: rgb(7,14,45)');
                                 selectBackColor.style.backgroundColor = payload.dominant;
-                                this.rgb = payload.dominant;
+                                //this.rgb = payload.dominant;
+                                _this.colorRGB2Hex(payload.dominant);
                             }
                         });
                         //window.clearTimeout(setTime);
