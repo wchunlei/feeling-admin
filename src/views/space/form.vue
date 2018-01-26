@@ -1244,7 +1244,7 @@
                 }
             },
             picInput1 (url,data) {
-                if (data) {
+                if (url) {
                     this.tempObj1.url = data.urlinfo[0].url;
                     this.tempObj1.width = data.urlinfo[0].width.toString();
                     this.tempObj1.height = data.urlinfo[0].height.toString();

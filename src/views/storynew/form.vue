@@ -1058,6 +1058,7 @@
                 let _this = this;
                 this.postForm.pictureBack = URL.createObjectURL(file.raw);
                 this.postForm.picture = res.urlinfo[0].url;
+                this.postForm.csolor = '0';
                 setTimeout(function () {
                     let img = document.getElementById('image');
                     let showBackColor = document.getElementById('showBackColor');
@@ -1077,7 +1078,6 @@
                             //_this.rgb = payload.dominant;
                         }
                     });
-
                     //window.clearTimeout(setTime);
                 },0);
                 /*setTimeout(function () {
