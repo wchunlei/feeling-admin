@@ -745,9 +745,6 @@
                                 this.showMon1 = false;
                                 this.showMonPay1 = true;
                             }
-                            this.closeStatus = true;
-                        } else {
-                            this.closeStatus = false;
                         }
                         if (response.data.content.picture[1]) {
                             this.postForm.pic2 = response.data.content.picture[1].url;
@@ -778,9 +775,6 @@
                                 this.showMon4 = false;
                                 this.showMonPay4 = true;
                             }
-                            this.closeStatus = true;
-                        } else {
-                            this.closeStatus = false;
                         }
                         if (response.data.content.picture[4]) {
                             this.postForm.pic5 = response.data.content.picture[4].url;
@@ -1015,7 +1009,26 @@
                                         message: '新增成功',
                                         type: 'success'
                                     });
-                                    //this.$refs[formName].resetFields();
+                                    this.$refs[formName].resetFields();
+                                    this.postForm.type = diaryinfo.type;
+                                    this.showMon1 = true;
+                                    this.showMonPay1 = false;
+                                    this.showMon2 = true;
+                                    this.showMonPay2 = false;
+                                    this.showMon3 = true;
+                                    this.showMonPay3 = false;
+                                    this.showMon4 = true;
+                                    this.showMonPay4 = false;
+                                    this.showMon5 = true;
+                                    this.showMonPay5 = false;
+                                    this.showMon6 = true;
+                                    this.showMonPay6 = false;
+                                    this.showMon7 = true;
+                                    this.showMonPay7 = false;
+                                    this.showMon8 = true;
+                                    this.showMonPay8 = false;
+                                    this.showMon9 = true;
+                                    this.showMonPay9 = false;
                                 }
                             });
                         } else {
