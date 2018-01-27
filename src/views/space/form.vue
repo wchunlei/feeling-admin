@@ -328,7 +328,7 @@
     import Tinymce from 'components/Tinymce'
     //import Uploadvideo from 'components/Upload/video'
     //import Uploadimg from 'components/Upload/singleImage3'
-    import Uploadvid from 'components/Upload/pictureFm';
+    import UploadVid from 'components/Upload/pictureFm';
     import Uploadimg from 'components/Upload/pictureSpaceAud';
     import Upload from 'components/Upload/pictureSpace';
     import Uploadbak from 'components/Upload/pictureSpaceOne';
@@ -349,7 +349,7 @@
 
     export default {
         name: 'articleDetail',
-        components: { Tinymce, MDinput, Uploadvid, Uploadimg, Upload, Uploadvideo, Uploadaudio, Uploadbak },
+        components: { Tinymce, MDinput, UploadVid, Uploadimg, Upload, Uploadvideo, Uploadaudio, Uploadbak },
         data() {
             const checkNum = (rule, value, callback) => {
                 if (!value) {
