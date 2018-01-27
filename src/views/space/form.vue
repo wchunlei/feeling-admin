@@ -170,7 +170,7 @@
                     </div>
                 </el-form-item>-->
 
-                <el-form-item v-if="tempVideo" v-show="showVidContent" label="视频缩略图:" label-width="110px" prop="vtype" style="margin-bottom: 20px;" required>
+                <el-form-item v-show="false" label="视频缩略图:" label-width="110px" prop="vtype" style="margin-bottom: 20px;" required>
                     <span @click="hideThumbnail"><el-radio v-model="postForm.vtype" label="2">自动截取</el-radio></span>
                     <span @click="showThumbnail"><el-radio v-model="postForm.vtype" label="1">主动上传</el-radio></span>
                 </el-form-item>
@@ -178,7 +178,7 @@
                 <div v-show="showThumb" style="display: inline-block;margin-bottom: 20px">
                     <el-form-item v-show="showVidContent" label-width="110px" prop="thumbnail">
                         <div style="margin-top: 10px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                            <Uploadimg v-model="postForm.thumbnail" v-on:input="picInputVid"></Uploadimg>
+                            <UploadVid v-model="postForm.thumbnail" v-on:input="picInputVid"></UploadVid>
                         </div>
                         <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9或9:16，不小于10kb，jpg、png等格式的文件）</span>
                     </el-form-item>
@@ -233,7 +233,7 @@
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
 
-                <el-form-item v-show="showAudContent" label="收费设置:" label-width="110px" prop="ispay" style="margin-bottom: 20px" required>
+                <el-form-item v-show="false" label="收费设置:" label-width="110px" prop="ispay" style="margin-bottom: 20px" required>
                     <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="1">免费</el-radio></span>
                     <span @click="showPrice"><el-radio v-model="postForm.ispay" label="0">收费</el-radio></span>
                 </el-form-item>
@@ -248,7 +248,7 @@
                             <el-checkbox v-for="pic in selectPics" :label="pic" :key="pic">{{pic}}</el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>-->
-                    <el-form-item v-show="showAudContent" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 0px" required>
+                    <el-form-item v-show="false" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 0px" required>
                         <el-input v-model.number="postForm.price" :disabled="disprice" style="width:150px" placeholder="请输入整数金额"></el-input>
                         <span>金币</span>
                     </el-form-item>
@@ -328,8 +328,9 @@
     import Tinymce from 'components/Tinymce'
     //import Uploadvideo from 'components/Upload/video'
     //import Uploadimg from 'components/Upload/singleImage3'
-    import Uploadimg from 'components/Upload/pictureFm';
-    import Upload from 'components/Upload/headPhoto';
+    import Uploadvid from 'components/Upload/pictureFm';
+    import Uploadimg from 'components/Upload/pictureSpaceAud';
+    import Upload from 'components/Upload/pictureSpace';
     import Uploadbak from 'components/Upload/pictureSpaceOne';
     import Uploadvideo from 'components/Upload/video';
     import Uploadaudio from 'components/Upload/audio'
@@ -348,7 +349,7 @@
 
     export default {
         name: 'articleDetail',
-        components: { Tinymce, MDinput, Uploadimg, Upload, Uploadvideo, Uploadaudio, Uploadbak },
+        components: { Tinymce, MDinput, Uploadvid, Uploadimg, Upload, Uploadvideo, Uploadaudio, Uploadbak },
         data() {
             const checkNum = (rule, value, callback) => {
                 if (!value) {

@@ -53,7 +53,7 @@
             close: false
         },
         created () {
-            this.picUrl = pictureUrl();
+            this.picUrl = pictureUrl() + "&width=990";
             if (this.close) {
                 this.showClose = true;
             } else {

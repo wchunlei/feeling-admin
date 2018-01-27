@@ -53,7 +53,7 @@
             close: false
         },
         created () {
-            this.picUrl = pictureUrl();
+            this.picUrl = pictureUrl() + "&width=192";
             if (this.close) {
                 this.showClose = true;
             } else {
@@ -92,6 +92,7 @@
                 }
             },
             beforeAvatarUpload(file) {
+                console.log(file)
                 const isLt2M = file.size / 1024 / 1024 > 0.01;
                 if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
                     this.$message.error('图片格式有误!');

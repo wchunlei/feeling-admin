@@ -301,11 +301,11 @@
           return callback(new Error('输入不能为空'));
         }
         setTimeout(() => {
-          if (!Number.isInteger(value)) {
-            callback(new Error('请输入正整数'));
+          if (!value) {
+            callback(new Error('请输入正数'));
           } else {
             if (value < 0) {
-              callback(new Error('请输入正整数'));
+              callback(new Error('请输入正数'));
             } else {
               callback();
             }
@@ -582,7 +582,7 @@
       }
     },*/
     created() {
-      this.picUrl = pictureUrl();
+      this.picUrl = pictureUrl() + "&width=1080";
       if(this.$route.params.id && this.$route.params.id != ':id'){
         this.saveBut = true;
         this.addBut = false;

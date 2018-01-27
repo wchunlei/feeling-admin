@@ -52,7 +52,7 @@
             value: String
         },
         created () {
-            this.picUrl = pictureUrl();
+            this.picUrl = pictureUrl() + "&width=600";
         },
         computed: {
             imageUrl() {

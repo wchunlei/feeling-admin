@@ -52,6 +52,14 @@
             value: String,
             close: false
         },
+        created () {
+            this.picUrl = pictureUrl() + "&width=1080";
+            if (this.close) {
+                this.showClose = true;
+            } else {
+                this.showClose = false;
+            }
+        },
         computed: {
             imageUrl() {
                 return this.value
@@ -60,21 +68,12 @@
         data() {
             return {
                 tempUrl: '',
-                //dataObj: { token: '', key: '' },
                 picUrl: '',
                 dataObj: {
                 },
                 showClose: false,
                 //imageUrl: ''
             };
-        },
-        created () {
-            this.picUrl = pictureUrl() + "&width=800";
-            if (this.close) {
-                this.showClose = true;
-            } else {
-                this.showClose = false;
-            }
         },
         methods: {
             rmImage() {
@@ -88,7 +87,7 @@
                 console.log(res.urlinfo[0])
                 this.emitInput(res.urlinfo[0].url,res);
                 this.imageUrl = URL.createObjectURL(file.raw);
-                if (res.urlinfo[0].url) {
+                if (res.url) {
                     this.showClose = true;
                 }
             },
@@ -102,100 +101,99 @@
                 }
                 return isLt2M;
             },
+            /*beforeAvatarUpload(file) {
+             //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';
+             const isLt2M = file.size / 1024 / 1024 > 0.01;
+             if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
+             this.$message.error('图片格式有误!');
+             }
+             if (!isLt2M) {
+             this.$message.error('上传头像图片大小不小于 10kb!');
+             }
+             let _this = this;
+             let filename = file.name.split(".")[0];
+             var reader = new FileReader();
+             let app = 'test';
+             let src_domain = 'img';
+             let src_image_url = 'winner';
+             let key = '34F<S932JF;<,/SF*F56#DSfd+9fw?zF';
+             let uid ='123';
+             let tm = '1280977330000';
+             let appBinary = this.char2buf(app+":"+ uid +":" + tm +":"+ key + ":");
+             let appBinaryTemp = new Buffer(appBinary);
+             console.log(appBinaryTemp)
+             reader.readAsArrayBuffer(file);
+             reader.onload = function() {
+             let body = new Buffer(this.result);
+             //alert(md5(body))
+             var list = [];
+             list.push(appBinaryTemp);
+             list.push(body);
+             var s1 = Buffer.concat(list,body.length+appBinaryTemp.length);
+             console.log(body)
+             var formData = new FormData();
+             formData.append('img', body);
+             this.url = 'http://192.168.1.234:80/upload?' + 'app=test&src_domain=img&src_image_url=winner&uid=123&tm=1280977330000' + '&tk=' + md5(s1);
+             //console.log(formData)
+             fetch(this.url, {
+             method: 'POST',
+             mode: "cors",
+             type: 'json',
+             //credentials: 'include',
+             /!*headers:{
+             //'Accept': 'application/json',
+             "Content-Type":"multipart/form-data",
+             //"Content-Type":"application/x-www-form-urlencoded",
+             //"Content-type": "text/plain",
+             "Access-Control-Allow-Origin": '*'
+             //'Access-Control-Allow-Credentials':'false',
+             },*!/
+             body: this.result
+             }).then(function(response){
+
+             if(response.status!=200){
+             console.log("存在一个问题，状态码为："+response.status);
+             return;
+             }
+             //console.log(response)
+             let str = JSON.stringify(response);
+             response.json().then(function(data){
+             console.log(data);
+             _this.emitInput(data.url);
+             if (data.url) {
+             _this.showClose = true;
+             }
+             });
+             }).catch(function(err){
+             console.log("Fetch错误123aa:"+err);
+             })
+
+             }
+             return isLt2M;
+             },
+             readAsBinaryString(){
+             var file = document.getElementById("file").files[0];
+             var reader = new FileReader();
+             //将文件以二进制形式读入页面
+             reader.readAsBinaryString(file);
+             reader.onload=function(f){
+             var result=document.getElementById("result");
+             //显示文件
+             result.innerHTML=this.result;
+             }
+             },
+             char2buf(str){
+             var out = new ArrayBuffer(str.length);
+             var u16a= new Uint8Array(out);
+             var strs = str.split("");
+             for(var i =0 ; i<strs.length;i++){
+             u16a[i]=strs[i].charCodeAt();
+             }
+             return out;
+             },*/
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
-            /*beforeAvatarUpload(file) {
-                //const isJPG = file.type === 'image/jpeg' || 'image/png' || 'image/gif' || 'image/bmp' || 'image/raw';
-                const isLt2M = file.size / 1024 / 1024 > 0.01;
-                if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
-                    this.$message.error('图片格式有误!');
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不小于 10kb!');
-                }
-                let _this = this;
-                let filename = file.name.split(".")[0];
-                var reader = new FileReader();
-                let app = 'test';
-                let src_domain = 'img';
-                let src_image_url = 'winner';
-                let key = '34F<S932JF;<,/SF*F56#DSfd+9fw?zF';
-                let uid ='123';
-                let tm = '1280977330000';
-                let appBinary = this.char2buf(app+":"+ uid +":" + tm +":"+ key + ":");
-                let appBinaryTemp = new Buffer(appBinary);
-                console.log(appBinaryTemp)
-                reader.readAsArrayBuffer(file);
-                reader.onload = function() {
-                    let body = new Buffer(this.result);
-                    //alert(md5(body))
-                    var list = [];
-                    list.push(appBinaryTemp);
-                    list.push(body);
-                    var s1 = Buffer.concat(list,body.length+appBinaryTemp.length);
-                    console.log(body)
-                    var formData = new FormData();
-                    formData.append('img', body);
-                    this.url = 'http://192.168.1.234:80/upload?' + 'app=test&src_domain=img&src_image_url=winner&uid=123&tm=1280977330000' + '&tk=' + md5(s1);
-                    //console.log(formData)
-                    fetch(this.url, {
-                        method: 'POST',
-                        mode: "cors",
-                        type: 'json',
-                        //credentials: 'include',
-                        /!*headers:{
-                         //'Accept': 'application/json',
-                         "Content-Type":"multipart/form-data",
-                         //"Content-Type":"application/x-www-form-urlencoded",
-                         //"Content-type": "text/plain",
-                         "Access-Control-Allow-Origin": '*'
-                         //'Access-Control-Allow-Credentials':'false',
-                         },*!/
-                        body: this.result
-                    }).then(function(response){
-
-                        if(response.status!=200){
-                            console.log("存在一个问题，状态码为："+response.status);
-                            return;
-                        }
-                        //console.log(response)
-                        let str = JSON.stringify(response);
-                        response.json().then(function(data){
-                            console.log(data);
-                            _this.emitInput(data.url);
-                            if (data.url) {
-                                _this.showClose = true;
-                            }
-                        });
-                    }).catch(function(err){
-                        console.log("Fetch错误123aa:"+err);
-                    })
-
-                }
-                return isLt2M;
-            },*/
-            /*readAsBinaryString(){
-                var file = document.getElementById("file").files[0];
-                var reader = new FileReader();
-                //将文件以二进制形式读入页面
-                reader.readAsBinaryString(file);
-                reader.onload=function(f){
-                    var result=document.getElementById("result");
-                    //显示文件
-                    result.innerHTML=this.result;
-                }
-            },
-            char2buf(str){
-                var out = new ArrayBuffer(str.length);
-                var u16a= new Uint8Array(out);
-                var strs = str.split("");
-                for(var i =0 ; i<strs.length;i++){
-                    u16a[i]=strs[i].charCodeAt();
-                }
-                return out;
-            },
-
             beforeUpload() {
                 const _self = this;
                 return new Promise((resolve, reject) => {
@@ -211,7 +209,7 @@
                         reject(false)
                     });
                 });
-            }*/
+            }
         }
     };
 </script>
@@ -235,13 +233,13 @@
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
-        width: 240px;
+        width: 320px;
         height: 180px;
         line-height: 180px;
         text-align: center;
     }
     .avatar {
-        width: 240px;
+        width: 320px;
         height: 180px;
         display: inline-block;
     }
@@ -249,7 +247,7 @@
         display: inline-block;
         cursor: pointer;
         position: relative;
-        left: 220px;
+        left: 300px;
         top: -190px;
     }
     }

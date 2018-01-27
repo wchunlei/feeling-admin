@@ -184,7 +184,7 @@
 
 <script type="text/ECMAScript-6">
     import Tinymce from 'components/Tinymce';
-    import Upload from 'components/Upload/pictureFm';
+    import Upload from 'components/Upload/pictureHomeFm';
     import Uploadhead from 'components/Upload/headPhoto'
     import Uploadvideo from 'components/Upload/video';
     import Uploadaudio from 'components/Upload/audio'
