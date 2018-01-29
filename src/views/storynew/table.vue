@@ -12,8 +12,8 @@
                          deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:130px;height: 20px;display: inline-block;" >
                 <span slot='noResult'>无结果</span>
             </multiselect>-->
-            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.name" placeholder="主角">
-                <el-option v-for="item in  nameOptions" :key="item.label" :label="item.label" :value="item.value">
+            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.actorid" placeholder="主角">
+                <el-option v-for="item in  actorOptions" :key="item.label" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
             <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.status" placeholder="状态">
@@ -287,7 +287,7 @@
                     page: 1,
                     limit: 20,
                     importance: undefined,
-                    name: undefined,
+                    actorid: undefined,
                     gender: undefined,
                     status: undefined,
                     priceType: undefined,
@@ -305,13 +305,7 @@
                 importanceOptions: [1, 2, 3],
                 sortOptions: [{ label: '按ID升序列', key: '+id' }, { label: '按ID降序', key: '-id' }],
                 //statusOptions: ['0', '1', ''],
-                nameOptions: [{
-                    value: '1',
-                    label: '佳佳'
-                }, {
-                    value: '2',
-                    label: '娜美'
-                }],
+                nameOptions: [],
                 sexOptions: [{
                     value: '1',
                     label: '男'

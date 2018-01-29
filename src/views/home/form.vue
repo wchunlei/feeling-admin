@@ -190,7 +190,10 @@
                 actorOptions: [],
                 phopoid: '',
                 watcher: false,
-                listQuery: {},
+                listQuery: {                },
+                listQuery1: {
+                    actorid: ''
+                },
                 photoData: {},
                 mvData: {},
                 photoid: '',
@@ -392,7 +395,7 @@
                 })
             },
             changeScr () {
-                scriptlist(this.listQuery).then(response => {
+                scriptlist(this.listQuery1).then(response => {
                     console.log(response)
                     if (this.scriptData) {
                         this.scriptData = [];
@@ -412,7 +415,7 @@
                 })
             },
             getScriptList () {
-                scriptlist(this.listQuery).then(response => {
+                scriptlist(this.listQuery1).then(response => {
                     for (let i=0; i<response.data.content.length; i++) {
                         let temp = {};
                         let tempall = {};

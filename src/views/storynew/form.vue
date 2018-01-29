@@ -68,11 +68,12 @@
                     <el-upload
                             :model="postForm.picture"
                             class="upload-demo"
-                            action="http://192.168.1.43:1442/?act=uploadimg&width=1080"
+                            action="imgupmaid.inveno.cn:1442/?act=uploadimg&width=1080"
                             :before-upload="beforeAvatarUpload"
                             :on-success="handleBackImageScucess" style="width:200px">
                         <el-button size="small" type="primary">选择图片文件</el-button>
                         <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                        <!--imgupmaid.inveno.cn:1442/?act=uploadimg-->
                     </el-upload>
                     <div id="showBackColor" class="backPic" style="border: 1px solid #ccc;margin-top: 15px;">
                         <div class="showUploadPic">
