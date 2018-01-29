@@ -329,25 +329,12 @@
             }
         },*/
         watch : {
-            /*"postForm.checkedActor.value": {
+            "postForm.checkedActor": {
                 handler:function(val,oldval) {
-                    scriptlist(this.listQuery).then(response => {
-                        console.log(response)
-                        if (this.scriptData) {
-                            this.scriptData = [];
-                        }
-                        for (let i=0; i<response.data.content.length; i++) {
-                            let temp = {};
-                            if (val == response.data.content[i].actorid) {
-                                temp.key = response.data.content[i].id;
-                                temp.label = response.data.content[i].title;
-                                this.scriptData.push(temp);
-                            }
-                        }
-                    })
+                    this.listQuery1.actorid = val;
                 },
                 deep:true,
-            }*/
+            }
             /*"postForm.checkedActor": {
                 handler:function(val,oldval) {
                     if (this.scriptDataLabel) {
