@@ -68,7 +68,7 @@
                     <el-upload
                             :model="postForm.picture"
                             class="upload-demo"
-                            action="http://192.168.1.43:1442/?act=uploadimg&width=1080"
+                            action="http://imgupmaid.inveno.cn:1442/?act=uploadimg&width=1080"
                             :before-upload="beforeAvatarUpload"
                             :on-success="handleBackImageScucess" style="width:200px">
                         <el-button size="small" type="primary">选择图片文件</el-button>
