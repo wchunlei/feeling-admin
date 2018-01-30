@@ -1,3 +1,4 @@
+<!--
 <template>
   <el-breadcrumb class="app-levelbar" separator="/">
     <el-breadcrumb-item v-for="(item,index)  in levelList" :key="item">
@@ -47,3 +48,4 @@
     }
   }
 </style>
+-->

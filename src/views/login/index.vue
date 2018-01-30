@@ -93,7 +93,7 @@
             //this.loading = true;
             this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
               this.loading = false;
-              this.$router.push({ path: '/' });
+              this.$router.push({ path: '/actor/table' });
               /*if (response.data.code == 200) {
                 this.loading = false;
                 this.$router.push({ path: '/' });

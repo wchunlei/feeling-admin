@@ -158,7 +158,7 @@ export const constantRouterMap = [
      { path: '/404', component: Err404, hidden: true },
      { path: '/401', component: Err401, hidden: true },
 
-  {
+  /*{
     path: '/',
     component: Layout,
     redirect: '/dashboard',
@@ -173,7 +173,7 @@ export const constantRouterMap = [
     icon: 'xinrenzhinan',
     noDropdown: true,
     children: [{ path: 'index', component: Introduction, name: '简述' }]
-  }
+  }*/
 ]
 
 export default new Router({
