@@ -158,7 +158,7 @@ export const constantRouterMap = [
      { path: '/404', component: Err404, hidden: true },
      { path: '/401', component: Err401, hidden: true },
 
-  /*{
+  {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
@@ -166,7 +166,7 @@ export const constantRouterMap = [
     hidden: true,
     children: [{ path: 'dashboard', component: dashboard }]
   },
-  {
+   /*{
     path: '/introduction',
     component: Layout,
     redirect: '/introduction/index',
@@ -320,7 +320,7 @@ export const asyncRouterMap = [
     icon: 'zujian',
     children: [
       { path: 'form', component: rechargeForm, name: '充值管理' },
-      {
+      /*{
       path: '/help/push_msg',
       component: AppMain,
       redirect: '/help/push_msg/index',
@@ -330,7 +330,7 @@ export const asyncRouterMap = [
         { path: 'table', component: helpPushTable, name: 'push消息列表' },
         { path: 'form/:id', component: helpPushForm, name: '新增push消息' }
       ]
-    }
+    }*/
     ]
   },
   /*{
