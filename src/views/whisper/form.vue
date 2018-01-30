@@ -299,7 +299,7 @@
                     picture: '',
                     configtime: '',
                     sort: '0',
-                    price: 5,
+                    price: 10,
                     comment: '',
                     people: ''
                     //id: '',
@@ -535,6 +535,7 @@
             },
             getList() {
                 this.listLoading = true;
+                this.listQuery.limit = 100000000;
                 maidfmlist(this.listQuery).then(response => {
                     for (let m=0; m<response.data.content.length; m++) {
                         if (this.$route.params.id == response.data.content[m].id) {
