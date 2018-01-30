@@ -190,7 +190,7 @@
                 actorOptions: [],
                 phopoid: '',
                 watcher: false,
-                listQuery: {                },
+                listQuery: {},
                 listQuery1: {
                     actorid: ''
                 },

@@ -296,6 +296,9 @@
                     priceType: undefined,
                     //sort: '+id'
                 },
+                Query: {
+                    limit: 100000,
+                },
                 temp: {
                     id: undefined,
                     importance: 0,
@@ -443,8 +446,10 @@
                 })
             },
             getScriptList () {
-                let Query = {};
-                scriptlist(Query).then(response => {
+                let Query = {
+                    actorid: ''
+                };
+                scriptlist(this.Query).then(response => {
                     console.log(response)
                     if (this.scriptData) {
                         this.scriptData = [];
