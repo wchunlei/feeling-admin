@@ -807,8 +807,8 @@
         background: #13ce66;
     }
     .pagination-container {
-        position: fixed;
-        top: 90%;
+        /*position: fixed;
+        top: 90%;*/
     }
 </style>
 
