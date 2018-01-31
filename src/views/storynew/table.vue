@@ -293,6 +293,14 @@
                     priceType: undefined,
                     //sort: '+id'
                 },
+                Query: {
+                    page: 1,
+                    limit: 1000,
+                    name: undefined,
+                    type: undefined,
+                    status: undefined,
+                    //sort: '+id'
+                },
                 temp: {
                     id: undefined,
                     importance: 0,
@@ -399,7 +407,7 @@
              });
              },*/
             getActor () {
-                actorList(this.listQuery).then(response => {
+                actorList(this.Query).then(response => {
                     //console.log(response)
                     /*this.actorOptions = response.data.content.map(v => ({
                      key: v.name
