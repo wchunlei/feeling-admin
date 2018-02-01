@@ -535,6 +535,7 @@
                     this.postForm.name = response.data.content.name;
                     this.postForm.backimg = response.data.content.backimg;
                     this.postForm.roomsort = response.data.content.roomsort;
+                    //this.listQuery1.actorid = response.data.content.actorid;
                     for ( let j=0; j<this.actorOptions.length; j++) {
                         if (response.data.content.actorid == this.actorOptions[j].value) {
                             /*this.$nextTick(function () {
@@ -564,6 +565,23 @@
                          temp = parseInt(tempScriptid[i]);*/
                         this.postForm.checkedStory.push(tempScriptid[i]);
                     }
+                    let tempid = {};
+                    tempid.scriptid = response.data.content.actorid;
+                    scriptlist(tempid).then(response => {
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            let tempall = {};
+                            temp.key = response.data.content[i].id;
+                            temp.label = response.data.content[i].title;
+                            this.scriptData.push(temp);
+                            tempall.key = response.data.content[i].id;
+                            tempall.label = response.data.content[i].title;
+                            tempall.actorid = response.data.content[i].actorid;
+                            this.scriptDataAll.push(tempall);
+                        }
+                        console.log(response)
+                        this.listLoading = false;
+                    })
                     //this.postForm.checkedStory.reverse()
                     console.log(this.postForm.checkedStory)
                 }).catch(err => {
