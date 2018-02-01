@@ -264,8 +264,8 @@
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
 
-                <el-form-item v-show="showCroContent" label="打赏默认值:" label-width="110px" prop="crowdfund" required>
-                    <el-input v-model="postForm.crowdfund" style="width:150px" placeholder="请输入整数金额"></el-input>
+                <el-form-item v-show="showCroContent" label="打赏默认值:" label-width="110px" prop="reward" required>
+                    <el-input v-model="postForm.reward" style="width:150px" placeholder="请输入整数金额"></el-input>
                     <span>金币</span>
                 </el-form-item>
 
@@ -280,8 +280,8 @@
                 </el-form-item>
 
 
-                <el-form-item v-show="showCroContent" label="众筹默认值:" label-width="110px" prop="reward" required>
-                    <el-input v-model="postForm.reward" style="width:150px" placeholder="请输入整数金额"></el-input>
+                <el-form-item v-show="showCroContent" label="众筹默认值:" label-width="110px" prop="crowdfund" required>
+                    <el-input v-model="postForm.crowdfund" style="width:150px" placeholder="请输入整数金额"></el-input>
                     <span>金币</span>
                 </el-form-item>
 
