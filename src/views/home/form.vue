@@ -565,7 +565,7 @@
                          temp = parseInt(tempScriptid[i]);*/
                         this.postForm.checkedStory.push(tempScriptid[i]);
                     }
-                    let tempid = {};
+                    /*let tempid = {};
                     tempid.scriptid = response.data.content.actorid;
                     scriptlist(tempid).then(response => {
                         for (let i=0; i<response.data.content.length; i++) {
@@ -581,7 +581,7 @@
                         }
                         console.log(response)
                         this.listLoading = false;
-                    })
+                    })*/
                     //this.postForm.checkedStory.reverse()
                     console.log(this.postForm.checkedStory)
                 }).catch(err => {
