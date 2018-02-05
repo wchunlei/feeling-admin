@@ -91,7 +91,7 @@
                         <el-option v-for="item in stageOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="收费设置:" label-width="100px" prop="cost" style="margin-bottom: 40px" required>
+                <el-form-item v-show="false" label="收费设置:" label-width="100px" prop="cost" style="margin-bottom: 40px" required>
                     <span @click="showPrice"><el-radio v-model="postForm.cost" label="0">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="postForm.cost" label="1">免费</el-radio></span>
                 </el-form-item>
@@ -247,8 +247,8 @@
                     csolor: '0',
                     stage: '1',
                     cost: '0',
-                    price: 20,
-                    option: 20,
+                    price: 68,
+                    option: 38,
                     configtime: '',
                     sort: '0'
                 },

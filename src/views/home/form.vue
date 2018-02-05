@@ -551,6 +551,23 @@
                     if (this.scriptData) {
                         this.scriptData = [];
                     }
+                    /*let tempid = {};
+                     tempid.scriptid = response.data.content.actorid;
+                     scriptlist(tempid).then(response => {
+                     for (let i=0; i<response.data.content.length; i++) {
+                     let temp = {};
+                     let tempall = {};
+                     temp.key = response.data.content[i].id;
+                     temp.label = response.data.content[i].title;
+                     this.scriptData.push(temp);
+                     tempall.key = response.data.content[i].id;
+                     tempall.label = response.data.content[i].title;
+                     tempall.actorid = response.data.content[i].actorid;
+                     this.scriptDataAll.push(tempall);
+                     }
+                     console.log(response)
+                     this.listLoading = false;
+                     })*/
                     for (let i=0; i<this.scriptDataAll.length; i ++) {
                         if (response.data.content.actorid == this.scriptDataAll[i].actorid) {
                             let temp = {};
@@ -565,23 +582,6 @@
                          temp = parseInt(tempScriptid[i]);*/
                         this.postForm.checkedStory.push(tempScriptid[i]);
                     }
-                    /*let tempid = {};
-                    tempid.scriptid = response.data.content.actorid;
-                    scriptlist(tempid).then(response => {
-                        for (let i=0; i<response.data.content.length; i++) {
-                            let temp = {};
-                            let tempall = {};
-                            temp.key = response.data.content[i].id;
-                            temp.label = response.data.content[i].title;
-                            this.scriptData.push(temp);
-                            tempall.key = response.data.content[i].id;
-                            tempall.label = response.data.content[i].title;
-                            tempall.actorid = response.data.content[i].actorid;
-                            this.scriptDataAll.push(tempall);
-                        }
-                        console.log(response)
-                        this.listLoading = false;
-                    })*/
                     //this.postForm.checkedStory.reverse()
                     console.log(this.postForm.checkedStory)
                 }).catch(err => {
