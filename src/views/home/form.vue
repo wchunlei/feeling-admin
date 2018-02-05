@@ -245,6 +245,12 @@
                 },{
                     value: '5',
                     label: '5'
+                },{
+                    value: '6',
+                    label: '6'
+                },{
+                    value: '7',
+                    label: '7'
                 }],
                 timeOptions: [{
                     value: '0',
