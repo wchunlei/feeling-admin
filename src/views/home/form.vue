@@ -304,7 +304,7 @@
             if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
                 this.addBut = false;
-                this.getScriptList();
+                //this.getScriptList();
                 /*let home = {};
                 home.id = this.$route.params.id;
                 this.$nextTick(function() {
