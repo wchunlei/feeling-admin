@@ -49,7 +49,7 @@
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
 
-                <div v-show="showNoTop" style="display: block;margin-bottom: 20px">
+                <div style="display: block;margin-bottom: 20px">
                     <el-form-item label="偷听排序:" label-width="100px" prop="sort" style="margin-bottom: 40px" required>
                         <el-select v-model="postForm.sort" placeholder="请选择">
                             <el-option v-for="item in listenOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
