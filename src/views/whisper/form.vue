@@ -68,7 +68,7 @@
                     </el-form-item>
                 </div>
 
-                <el-form-item label="收费设置:" label-width="100px" prop="ispay" style="margin-bottom: 40px" required>
+                <el-form-item v-show="false" label="收费设置:" label-width="100px" prop="ispay" style="margin-bottom: 40px" required>
                     <span @click="showPrice"><el-radio v-model="postForm.ispay" label="1">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="0">免费</el-radio></span>
                 </el-form-item>
@@ -611,6 +611,9 @@
                         }
                         if (this.postForm.type == 1) {
                             fminfo.picture = this.postForm.picture;
+                            fminfo.ispay = '0';
+                        } else {
+                            fminfo.ispay = '1';
                         }
                         if (this.postForm.ispay == 1) {
                             fminfo.price = this.postForm.price.toString();
@@ -782,16 +785,20 @@
                 if(!this.showNoTop){
                     this.showNoTop=true;
                     this.showYesTop=false;
+                    this.showPri = false;
                 } else {
                     this.showYesTop=false;
+                    this.showPri = true;
                 }
             },
             showTop () {
                 if(!this.showYesTop){
                     this.showYesTop=true;
                     this.showNoTop=false;
+                    this.showPri = true;
                 } else {
                     this.showNoTop=false;
+                    this.showPri = false;
                 }
             },
             /*getDetail () {
