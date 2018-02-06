@@ -624,7 +624,7 @@
                                 }
                             }
                         }
-                        this.list[i].story = temp.join(',');
+                        this.list[i].story = temp.join(' || ');
                     }
                     for (let i=0; i<response.data.content.length; i++) {
                         if(response.data.content[i].status == 0) {

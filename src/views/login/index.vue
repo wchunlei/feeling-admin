@@ -116,6 +116,7 @@
             loginByEmailMessage (loginInfo).then(response => {
               if(response.data.code == 200){
                 //this.token = response.data.token;
+                console.log(response.config.baseURL)
                 localStorage.setItem('token',response.data.token);
                 //sessionStorage.setItem('token',response.data.token);
                 //this.$refs[formName].resetFields();

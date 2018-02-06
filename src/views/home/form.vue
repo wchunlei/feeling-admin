@@ -557,8 +557,8 @@
                     if (this.scriptData) {
                         this.scriptData = [];
                     }
-                    /*let tempid = {};
-                     tempid.scriptid = response.data.content.actorid;
+                    let tempid = {};
+                     tempid.actorid = response.data.content.actorid;
                      scriptlist(tempid).then(response => {
                      for (let i=0; i<response.data.content.length; i++) {
                      let temp = {};
@@ -573,7 +573,7 @@
                      }
                      console.log(response)
                      this.listLoading = false;
-                     })*/
+                     })
                     for (let i=0; i<this.scriptDataAll.length; i ++) {
                         if (response.data.content.actorid == this.scriptDataAll[i].actorid) {
                             let temp = {};
