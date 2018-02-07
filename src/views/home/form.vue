@@ -57,7 +57,7 @@
                     <!--<el-checkbox-group v-model="postForm.checkedStory">
                         <el-checkbox v-for="story in storys" :label="story" :key="story">{{story}}</el-checkbox>
                     </el-checkbox-group>-->
-                    <el-transfer v-model="postForm.checkedStory" :data="scriptData" :titles="['未选择', '已选择']" @change="changeTransfer"></el-transfer>
+                    <el-transfer v-model="postForm.checkedStory" :data="scriptData" :titles="['未选择', '已选择']" @change="changeTransfer" style="height:200px"></el-transfer>
                     <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                     <div style="margin: 15px 0;"></div>-->
                     <!--<el-checkbox-group v-model="postForm.checkedStory" @change="handleScriptChange">
@@ -713,6 +713,9 @@
         position: absolute;
         left: 60px;
         top: 60px;
+    }
+    .el-transfer-panel__body {
+        height: 280px;
     }
     }
 </style>
