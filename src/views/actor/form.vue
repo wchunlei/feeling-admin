@@ -613,12 +613,12 @@
       beforeAvatarUploadVideo(file) {
         console.log(file);
         this.playImgName = file.name;
-        const isLt2M = file.size / 1024 / 1024 > 0.01;
-        if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
-          this.$message.error('图片格式有误!');
+        const isLt2M = file.size / 1024 / 1024 > 0.01 && file.size / 1024 / 1024 < 1;
+        if (!(file.type === 'image/jpeg' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
+          this.$message.error('图片格式有误!(不能上传png格式)');
         }
         if (!isLt2M) {
-          this.$message.error('上传头像图片大小不小于 10kb!');
+          this.$message.error('上传头像图片大小不小于 10kb且不能大于1M!');
         }
         return isLt2M;
         /*const isLt2M = file.size / 1024 / 1024 > 0.001;
