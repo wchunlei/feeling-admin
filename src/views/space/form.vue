@@ -460,9 +460,9 @@
                     //status: 'draft'
                 },
                 pickerOptions1: {
-                    disabledDate(time) {
+                    /*disabledDate(time) {
                         return time.getTime() + 86400000 < Date.now();
-                    },
+                    },*/
                 },
                 selectPics: [ "第一张","第二张","第三张","第四张","第五张","第六张","第七张","第八张","第九张" ],
                 progressesData: {
