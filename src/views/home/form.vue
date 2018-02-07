@@ -637,7 +637,7 @@
         }
     }
 </script>
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
     @import "src/styles/mixin.scss";
     .title-prompt{
         position: absolute;
@@ -648,25 +648,32 @@
     }
     .createPost-container {
         position: relative;
+
     .createPost-main-container {
         padding: 40px 45px 20px 50px;
+
     .postInfo-container {
         position: relative;
     @include clearfix;
         margin-bottom: 10px;
+
     .postInfo-container-item {
         float: left;
     }
+
     }
     .editor-container {
         min-height: 500px;
         margin: 0 0 30px;
+
     .editor-upload-btn-container {
         text-align: right;
         margin-right: 10px;
+
     .editor-upload-btn {
         display: inline-block;
     }
+
     }
     }
     }
@@ -676,31 +683,36 @@
         right: -10px;
         top: 0px;
     }
+
     .el-dialog__header {
-        height:40px;
-        padding:0;
-        text-align:center;
-        line-height:40px;
-        background-color:#1970cf;
+        height: 40px;
+        padding: 0;
+        text-align: center;
+        line-height: 40px;
+        background-color: #1970cf;
     }
 
     .el-dialog__header .el-dialog__title {
-        color:#fff;
-        font-weight:500;
-        font-size:14px;
+        color: #fff;
+        font-weight: 500;
+        font-size: 14px;
     }
+
     .el-dialog .el-dialog__body {
-        max-height:740px;
-        overflow:auto;
+        max-height: 740px;
+        overflow: auto;
     }
+
     .el-dialog__headerbtn {
-        margin-right:10px
+        margin-right: 10px
     }
+
     .delButton {
         position: relative;
         left: -20px;
-        top:-5px
+        top: -5px
     }
+
     .uploader-icon {
         font-size: 28px;
         color: #8c939d;
@@ -709,14 +721,15 @@
         line-height: 178px;
         text-align: center;
     }
+
     .icon-position {
         position: absolute;
         left: 60px;
         top: 60px;
     }
+    .el-transfer .el-transfer-panel__list {
+        height: 210px;
     }
-    .el-transfer-panel__body {
-        height: 280px;
     }
 </style>
 
