@@ -428,6 +428,15 @@
                 tempPic: [],
                 videoOptions: [],
                 audioOptions: [],
+                pictureId1: '',
+                pictureId2: '',
+                pictureId3: '',
+                pictureId4: '',
+                pictureId5: '',
+                pictureId6: '',
+                pictureId7: '',
+                pictureId8: '',
+                pictureId9: '',
                 postForm: {
                     actor: '',
                     words: '',
@@ -738,6 +747,7 @@
                         }
                         this.tempPic = response.data.content.picture;
                         if (response.data.content.picture[0]) {
+                            this.pictureId1 = response.data.content.picture[0].id;
                             this.postForm.pic1 = response.data.content.picture[0].url;
                             if (response.data.content.picture[0].ispay == '1') {
                                 this.showMon1 = true;
@@ -1266,6 +1276,40 @@
             picInput1 (url,data) {
                 //this.closeStatus = true;
                 //alert(url)
+                /*if (!this.pictureId1) {
+                    if (url) {
+                        this.tempObj1.url = data.urlinfo[0].url;
+                        this.tempObj1.width = data.urlinfo[0].width.toString();
+                        this.tempObj1.height = data.urlinfo[0].height.toString();
+                        this.tempObj1.ispay = '1';
+                        if (this.$route.params.id && this.$route.params.id != ':id') {
+                            this.postForm.words = this.postForm.words + ' ';
+                        }
+                        //this.tempPic.push(this.tempObj);
+                        //this.watcher = data.url;
+                    } else {
+                        this.postForm.words = this.postForm.words + ' ';
+                        this.tempPic.splice(0,1);
+                    }
+                } else {
+                    this.tempObj1 = {};
+                    this.tempPic.splice(0,1);
+                    if (url) {
+                        this.tempObj1.url = data.urlinfo[0].url;
+                        this.tempObj1.width = data.urlinfo[0].width.toString();
+                        this.tempObj1.height = data.urlinfo[0].height.toString();
+                        this.tempObj1.ispay = '1';
+                        if (this.$route.params.id && this.$route.params.id != ':id') {
+                            this.postForm.words = this.postForm.words + ' ';
+                        }
+                        //this.tempPic.push(this.tempObj);
+                        //this.watcher = data.url;
+                    } else {
+                        this.postForm.words = this.postForm.words + ' ';
+                        this.tempPic.splice(0,1);
+                    }
+                }*/
+                this.tempPic.splice(0,1);
                 if (url) {
                     this.tempObj1.url = data.urlinfo[0].url;
                     this.tempObj1.width = data.urlinfo[0].width.toString();
@@ -1282,6 +1326,7 @@
                 }
             },
             picInput2 (url,data) {
+                this.tempPic.splice(0,1);
                 if (data) {
                     this.tempObj2.url = data.urlinfo[0].url;
                     this.tempObj2.width = data.urlinfo[0].width.toString();
@@ -1300,6 +1345,7 @@
                 }
             },
             picInput3 (url,data) {
+                this.tempPic.splice(0,1);
                 if (data) {
                     this.tempObj3.url = data.urlinfo[0].url;
                     this.tempObj3.width = data.urlinfo[0].width.toString();
@@ -1318,6 +1364,7 @@
                 }
             },
             picInput4 (url,data) {
+                this.tempPic.splice(0,1);
                 if (data) {
                     this.tempObj4.url = data.urlinfo[0].url;
                     this.tempObj4.width = data.urlinfo[0].width.toString();
@@ -1336,6 +1383,7 @@
                 }
             },
             picInput5 (url,data) {
+                this.tempPic.splice(0,1);
                 if (data) {
                     this.tempObj5.url = data.urlinfo[0].url;
                     this.tempObj5.width = data.urlinfo[0].width.toString();
@@ -1354,6 +1402,7 @@
                 }
             },
             picInput6 (url,data) {
+                this.tempPic.splice(0,1);
                 if (data) {
                     this.tempObj6.url = data.urlinfo[0].url;
                     this.tempObj6.width = data.urlinfo[0].width.toString();
@@ -1372,6 +1421,7 @@
                 }
             },
             picInput7 (url,data) {
+                this.tempPic.splice(0,1);
                 if (data) {
                     this.tempObj7.url = data.urlinfo[0].url;
                     this.tempObj7.width = data.urlinfo[0].width.toString();
@@ -1390,6 +1440,7 @@
                 }
             },
             picInput8 (url,data) {
+                this.tempPic.splice(0,1);
                 if (data) {
                     this.tempObj8.url = data.urlinfo[0].url;
                     this.tempObj8.width = data.urlinfo[0].width.toString();
@@ -1408,6 +1459,7 @@
                 }
             },
             picInput9 (url,data) {
+                this.tempPic.splice(0,1);
                 if (data) {
                     this.tempObj9.url = data.urlinfo[0].url;
                     this.tempObj9.width = data.urlinfo[0].width.toString();

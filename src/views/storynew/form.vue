@@ -277,9 +277,6 @@
                 },{
                     value: '4',
                     label: '4'
-                },{
-                    value: '5',
-                    label: '5'
                 }],
                 colorOptions: [{
                     value: '0',
