@@ -13,7 +13,7 @@
                 <span slot='noResult'>无结果</span>
             </multiselect>-->
             <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.name" placeholder="主角">
-                <el-option v-for="item in  nameOptions" :key="item.label" :label="item.label" :value="item.value">
+                <el-option v-for="item in  actorOptions" :key="item.label" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
             <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.status" placeholder="状态">
