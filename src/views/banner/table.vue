@@ -26,7 +26,7 @@
             <!--<el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>-->
         </div>
 
-        <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%" height="500">
+        <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%" max-height="500">
 
             <el-table-column align="center" label="序号" width="80" column-key="id" prop="ids">
                 <template scope="scope">
