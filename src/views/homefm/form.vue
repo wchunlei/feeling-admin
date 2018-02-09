@@ -525,7 +525,9 @@
             },
             getList() {
                 this.listLoading = true;
-                homefmlist(this.listQuery).then(response => {
+                let templistQuery = {};
+                templistQuery.limit = 1000000;
+                homefmlist(templistQuery).then(response => {
                     for (let m=0; m<response.data.content.length; m++) {
                         if (this.$route.params.id == response.data.content[m].id) {
                             for (let i=0; i<response.data.content[m].comment.length; i++) {
