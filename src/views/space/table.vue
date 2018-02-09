@@ -4,7 +4,7 @@
             <!--<el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="动态内容" v-model="listQuery.name">
             </el-input>-->
 
-            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.name" placeholder="主角">
+            <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.actorid" placeholder="主角">
                 <el-option v-for="item in  actorOptions" :key="item.label" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
@@ -252,7 +252,7 @@
                 listQuery: {
                     page: 1,
                     limit: 10,
-                    name: undefined,
+                    actorid: undefined,
                     type: undefined,
                     status: undefined,
                     //sort: '+id'
