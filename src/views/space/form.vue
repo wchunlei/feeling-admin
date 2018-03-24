@@ -126,7 +126,7 @@
                     </el-form-item>-->
                     <el-form-item label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 0px" required>
                         <el-input v-model.number="postForm.price" :disabled="disprice" style="width:150px" placeholder="请输入整数金额"></el-input>
-                        <span>金币</span>
+                        <span>金</span>
                     </el-form-item>
                 </div>
                 <!--<el-form :model="upPhotos" :rules="picListRules" ref="upPhotos">
@@ -201,7 +201,7 @@
                     </el-form-item>-->
                     <el-form-item v-show="showVidContent" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 0px" required>
                         <el-input v-model.number="postForm.price" :disabled="disprice" style="width:150px" placeholder="请输入整数金额"></el-input>
-                        <span>金币</span>
+                        <span>金</span>
                     </el-form-item>
                 </div>
 
@@ -227,7 +227,7 @@
                     <!--<div class="pictureStyle">
                         <Uploadbak v-model="diaryContent.soundImg"></Uploadbak>
                     </div>-->
-                    <div style="margin-top: 0px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
+                    <div style="margin-top: 0px;width: 180px;height: 180px;border: 1px dashed #d9d9d9;">
                         <Uploadimg v-model="postForm.soundImg" v-on:input="picInputVid"></Uploadimg>
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
@@ -250,7 +250,7 @@
                     </el-form-item>-->
                     <el-form-item v-show="false" label="收费价格:" label-width="110px" prop="price" style="margin-bottom: 0px" required>
                         <el-input v-model.number="postForm.price" :disabled="disprice" style="width:150px" placeholder="请输入整数金额"></el-input>
-                        <span>金币</span>
+                        <span>金</span>
                     </el-form-item>
                 </div>
 
@@ -259,30 +259,30 @@
                         <Uploadimg v-model="diaryContent.crowd"></Uploadimg>
                     </div>-->
                     <div style="margin-top: -180px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
-                        <Uploadimg v-model="postForm.crowd" v-on:input="picInputVid"></Uploadimg>
+                        <UploadimgCro v-model="postForm.crowd" v-on:input="picInputVid"></UploadimgCro>
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
                 </el-form-item>
 
                 <el-form-item v-show="showCroContent" label="打赏默认值:" label-width="110px" prop="reward" required>
                     <el-input v-model="postForm.reward" style="width:150px" placeholder="请输入整数金额"></el-input>
-                    <span>金币</span>
+                    <span>金</span>
                 </el-form-item>
 
                 <el-form-item v-show="showCroContent" label="众筹价格:" label-width="110px" prop="help" required>
                     <el-input v-model="postForm.help" style="width:150px" placeholder="请输入整数金额"></el-input>
-                    <span>金币</span>
+                    <span>金</span>
                 </el-form-item>
 
                 <el-form-item v-show="showPayDefault" label="打赏默认值:" label-width="110px" prop="reward" required>
                     <el-input v-model="postForm.reward" style="width:150px" placeholder="请输入整数金额"></el-input>
-                    <span>金币</span>
+                    <span>金</span>
                 </el-form-item>
 
 
                 <el-form-item v-show="showCroContent" label="众筹默认值:" label-width="110px" prop="crowdfund" required>
                     <el-input v-model="postForm.crowdfund" style="width:150px" placeholder="请输入整数金额"></el-input>
-                    <span>金币</span>
+                    <span>金</span>
                 </el-form-item>
 
                 <el-form-item style="margin-bottom: 40px;" label-width="110px" label="动态内容:" prop="words" required>
@@ -305,7 +305,7 @@
                 <el-form-item label-width="110px" label="上架时间:" prop="configtime"style="margin-bottom: 40px">
                     <div class="block">
                         <!--<span class="demonstration">默认</span>-->
-                        <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="未设置" :picker-options="pickerOptions1"></el-date-picker>
+                        <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="未设置" :picker-options="pickerOptions1"></el-date-picker>
                     </div>
                 </el-form-item>
                 <el-form-item label="动态排序:" label-width="110px" prop="sort" style="margin-bottom: 40px" required>
@@ -330,6 +330,7 @@
     //import Uploadimg from 'components/Upload/singleImage3'
     import UploadVid from 'components/Upload/pictureFm';
     import Uploadimg from 'components/Upload/pictureSpaceAud';
+    import UploadimgCro from 'components/Upload/pictureSpaceCro';
     import Upload from 'components/Upload/pictureSpace';
     import Uploadbak from 'components/Upload/pictureSpaceOne';
     import Uploadvideo from 'components/Upload/video';
@@ -349,7 +350,7 @@
 
     export default {
         name: 'articleDetail',
-        components: { Tinymce, MDinput, UploadVid, Uploadimg, Upload, Uploadvideo, Uploadaudio, Uploadbak },
+        components: { Tinymce, MDinput, UploadVid, Uploadimg, UploadimgCro, Upload, Uploadvideo, Uploadaudio, Uploadbak },
         data() {
             const checkNum = (rule, value, callback) => {
                 if (!value) {
@@ -582,23 +583,23 @@
                 addBut: true,
                 saveBut: false,
                 showPayDefault: true,
-                showMon1: true,
+                showMon1: false,
                 showMonPay1: false,
-                showMon2: true,
+                showMon2: false,
                 showMonPay2: false,
-                showMon3: true,
+                showMon3: false,
                 showMonPay3: false,
-                showMon4: true,
+                showMon4: false,
                 showMonPay4: false,
-                showMon5: true,
+                showMon5: false,
                 showMonPay5: false,
-                showMon6: true,
+                showMon6: false,
                 showMonPay6: false,
-                showMon7: true,
+                showMon7: false,
                 showMonPay7: false,
-                showMon8: true,
+                showMon8: false,
                 showMonPay8: false,
-                showMon9: true,
+                showMon9: false,
                 showMonPay9: false,
             }
         },
@@ -1318,11 +1319,13 @@
                     if (this.$route.params.id && this.$route.params.id != ':id') {
                         this.postForm.words = this.postForm.words + ' ';
                     }
+                    this.showMon1 = true;
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
                     this.tempPic.splice(0,1);
+                    this.showMon1 = false;
                 }
             },
             picInput2 (url,data) {
@@ -1337,11 +1340,13 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                    this.showMon2 = true;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
                     if (this.tempPic[1]) {
                         this.tempPic.splice(1,1);
                     }
+                    this.showMon2 = false;
                 }
             },
             picInput3 (url,data) {
@@ -1356,11 +1361,13 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                    this.showMon3 = true;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
                     if (this.tempPic[2]) {
                         this.tempPic.splice(2,1);
                     }
+                    this.showMon3 = false;
                 }
             },
             picInput4 (url,data) {
@@ -1375,11 +1382,13 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                    this.showMon4 = true;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
                     if (this.tempPic[3]) {
                         this.tempPic.splice(3,1);
                     }
+                    this.showMon4 = false;
                 }
             },
             picInput5 (url,data) {
@@ -1394,11 +1403,13 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                    this.showMon5 = true;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
                     if (this.tempPic[4]) {
                         this.tempPic.splice(4,1);
                     }
+                    this.showMon5 = false;
                 }
             },
             picInput6 (url,data) {
@@ -1413,11 +1424,13 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                    this.showMon6 = true;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
                     if (this.tempPic[5]) {
                         this.tempPic.splice(5,1);
                     }
+                    this.showMon6 = false;
                 }
             },
             picInput7 (url,data) {
@@ -1432,11 +1445,13 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                    this.showMon7 = true;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
                     if (this.tempPic[6]) {
                         this.tempPic.splice(6,1);
                     }
+                    this.showMon7 = false;
                 }
             },
             picInput8 (url,data) {
@@ -1451,11 +1466,13 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                    this.showMon8 = true;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
                     if (this.tempPic[7]) {
                         this.tempPic.splice(7,1);
                     }
+                    this.showMon8 = false;
                 }
             },
             picInput9 (url,data) {
@@ -1470,11 +1487,13 @@
                     }
                     //this.tempPic.push(this.tempObj);
                     //this.watcher = data.url;
+                    this.showMon9 = true;
                 } else {
                     this.postForm.words = this.postForm.words + ' ';
                     if (this.tempPic[8]) {
                         this.tempPic.splice(8,1);
                     }
+                    this.showMon9 = false;
                 }
             },
             payIcon1 () {
@@ -1709,6 +1728,9 @@
     }
     .el-dialog__headerbtn {
         margin-right:10px
+    }
+    .el-time-spinner .el-time-spinner__item {
+        line-height: 20px;
     }
     .pictureStyle {
         display: inline-block;

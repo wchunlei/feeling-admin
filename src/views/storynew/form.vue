@@ -60,9 +60,24 @@
                         &lt;!&ndash;<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>&ndash;&gt;
                     </el-upload>
                 </el-form-item>-->
-                <el-form-item label="剧情:" label-width="100px" prop="video" style="margin-bottom: 40px" required>
-                    <el-input type="textarea" placeholder="" style='width:350px;' v-model="postForm.video" :rows=5></el-input>
-                    </el-upload>
+                <el-form-item label="剧情视频:" label-width="100px" prop="vtype" style="margin-bottom: 40px" required>
+                    <span @click="showSelect"><el-radio v-model="postForm.vtype" label="1">选择视频</el-radio></span>
+                    <span @click="showInput"><el-radio v-model="postForm.vtype" label="2">手动输入</el-radio></span>
+                </el-form-item>
+                <el-form-item label="" label-width="100px" prop="video" style="margin-bottom: 40px" required>
+                    <span>开头视频:</span>
+                    <el-select v-model="postForm.vStart" placeholder="请选择">
+                        <el-option v-for="item in storySortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select>
+                    <span>A选项:</span>
+                    <el-select v-model="postForm.va" placeholder="请选择">
+                        <el-option v-for="item in storySortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select>
+                    <span>B选项:</span>
+                    <el-select v-model="postForm.vb" placeholder="请选择">
+                        <el-option v-for="item in storySortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select>
+                    <el-input type="textarea" placeholder="输入剧情逻辑" style='width:350px;' v-model="postForm.video" :rows=5></el-input>
                 </el-form-item>
                 <el-form-item class="removeElList" label="背景图:" label-width="100px" prop="picture" style="margin-bottom: 40px">
                     <el-upload
@@ -72,8 +87,19 @@
                             :before-upload="beforeAvatarUpload"
                             :on-success="handleBackImageScucess" style="width:200px">
                         <el-button size="small" type="primary">选择图片文件</el-button>
-                        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
-                        <!--http://192.168.1.43:1442/?act=uploadimg-->
+                        <div slot="tip" class="el-upload__tip">请上传1920*1080jpg格式的文件</div>
+                    </el-upload>
+                </el-form-item>
+                <!--<el-form-item class="removeElList" label="背景图:" label-width="100px" prop="picture" style="margin-bottom: 40px">
+                    <el-upload
+                            :model="postForm.picture"
+                            class="upload-demo"
+                            action="http://111.230.181.40:1442/?act=uploadimg&width=1080"
+                            :before-upload="beforeAvatarUpload"
+                            :on-success="handleBackImageScucess" style="width:200px">
+                        <el-button size="small" type="primary">选择图片文件</el-button>
+                        &lt;!&ndash;<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>&ndash;&gt;
+                        &lt;!&ndash;http://192.168.1.43:1442/?act=uploadimg&ndash;&gt;
                     </el-upload>
                     <div id="showBackColor" class="backPic" style="border: 1px solid #ccc;margin-top: 15px;">
                         <div class="showUploadPic">
@@ -98,12 +124,12 @@
                 <div v-show="showPri" style="display: inline-block;margin-bottom: 0px">
                     <el-form-item label="剧情价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
                         <el-input v-model.number="postForm.price" style="width:150px" placeholder="请输入整数金额"></el-input>
-                        <span>金币</span>
+                        <span>金</span>
                     </el-form-item>
-                </div>
+                </div>-->
                 <el-form-item label="选项价格:" label-width="100px" prop="option" style="margin-bottom: 40px" required>
                     <el-input v-model.number="postForm.option" style="width:150px" placeholder="请输入整数金额"></el-input>
-                    <span>金币</span>
+                    <span>金</span>
                 </el-form-item>
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
@@ -241,6 +267,7 @@
                     actor: '',
                     uploadTxt: '',
                     uploadFile: '',
+                    vtype: '1',
                     video: '',
                     picture: '',
                     pictureBack: '',
@@ -772,12 +799,12 @@
                          }*/
                     ]
                 });
-                myChart.on('click', function (params) {
+                /*myChart.on('click', function (params) {
                     // 控制台打印数据的名称
                     console.log(params);
                     //window.location.href = params.value;
                     window.open(params.value);
-                });
+                });*/
             },
             colorRGB2Hex(color) {
                 var rgb = color.split(',');

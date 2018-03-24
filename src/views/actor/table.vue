@@ -65,19 +65,19 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="加速雇佣价格（金币）" prop="priceTime">
+      <el-table-column width="180px" align="center" label="雇佣价格（金）" prop="priceTime">
         <template scope="scope">
           <span>{{scope.row.priceTime}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="300px" align="center" label="工作时间" prop="workTime">
+      <!--<el-table-column width="300px" align="center" label="工作时间" prop="workTime">
         <template scope="scope">
-          <!--<span v-if="scope.row.gender==1">男</span>
-          <span v-if="scope.row.gender==2">女</span>-->
+          &lt;!&ndash;<span v-if="scope.row.gender==1">男</span>
+          <span v-if="scope.row.gender==2">女</span>&ndash;&gt;
           <span>{{scope.row.workTime}}</span>
         </template>
-      </el-table-column>
+      </el-table-column>-->
 
       <el-table-column class-name="status-col" label="状态" width="100" prop="status" sortable>
         <template scope="scope">
@@ -93,11 +93,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" align="center" label="女仆空间排序" prop="private">
+      <el-table-column min-width="150px" align="center" label="排序" prop="sort">
         <template scope="scope">
           <!--<span>{{scope.row.sort}}</span>-->
           <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
-          <el-select v-model="scope.row.private" placeholder="请选择" :disabled="disable" @visible-change="changeSort(scope.row)">
+          <el-select v-model="scope.row.sort" placeholder="请选择" :disabled="disable" @visible-change="changeSort(scope.row)">
             <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </template>
@@ -232,7 +232,7 @@
       return {
         isColor: true,
         disable: true,
-        private: '0',
+        sort: '0',
         list: [],
         listTemp: [],
         privateOptions: [{
@@ -469,7 +469,7 @@
       changeSort (rows) {
         let sortitem={
           id: rows.id,
-          sort: rows.private
+          sort: rows.sort
         };
         //row.splice(index, 1);
         sortactor(sortitem).then(response => {
@@ -543,10 +543,10 @@
             if (response.data.content[i].time == 4) {
               timeTemp = "周";
             }
-            //this.list[i].priceTime = response.data.content[i].time + timeTemp + response.data.content[i].price + "金币";
-            this.list[i].priceTime = 1 + timeTemp + response.data.content[i].price + "金币";
+            //this.list[i].priceTime = response.data.content[i].time + timeTemp + response.data.content[i].price + "金";
+            this.list[i].priceTime = 1 + timeTemp + response.data.content[i].price + "金";
           }
-          for (let i=0; i<response.data.content.length; i++) {
+          /*for (let i=0; i<response.data.content.length; i++) {
             let dataTemp = [];
             for (let j=0; j<response.data.content[i].worktime.length; j++) {
               let weekTemp = '';
@@ -598,17 +598,17 @@
             }
             this.list[i].workTime = dataTemp.join(',')
             //console.log(dataTemp)
-          }
+          }*/
           for (let i=0; i<response.data.content.length; i++) {
             if(response.data.content[i].status == 0) {
-              this.list[i].status = '上架'
+              this.list[i].status = '上架';
             }
             if(response.data.content[i].status == 1) {
-              this.list[i].status = '下架'
+              this.list[i].status = '下架';
             }
           }
           /*for (let i=0; i<response.data.content.length; i++) {
-            this.list[i].sort = response.data.content[i].private;
+            this.list[i].sort = response.data.content[i].sort;
           }*/
           for (let i=0; i<response.data.content.length; i++) {
             if (response.data.content[i].status == 'published') {

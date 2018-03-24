@@ -53,7 +53,7 @@
             close: false
         },
         created () {
-            this.picUrl = pictureUrl() + "&width=168";
+            this.picUrl = pictureUrl() + "&width=900";
             if (this.close) {
                 this.showClose = true;
             } else {
@@ -233,13 +233,13 @@
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
-        width: 180px;
+        width: 320px;
         height: 180px;
         line-height: 180px;
         text-align: center;
     }
     .avatar {
-        width: 180px;
+        width: 320px;
         height: 180px;
         display: inline-block;
     }

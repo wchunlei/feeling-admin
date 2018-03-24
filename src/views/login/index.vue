@@ -17,8 +17,8 @@
           登录
         </el-button>
       </el-form-item>
-      <div class='tips'>admin账号为:admin@inveno.com 密码123456</div>
-      <div class='tips'>editor账号:editor@inveno.com 密码随便填</div>
+      <!--<div class='tips'>admin账号为:admin@inveno.com 密码123456</div>
+      <div class='tips'>editor账号:editor@inveno.com 密码随便填</div>-->
     </el-form>
 
     <el-dialog title="第三方验证" :visible.sync="showDialog">

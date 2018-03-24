@@ -70,20 +70,20 @@
                 </template>
             </el-table-column>
 
-            <el-table-column class-name="status-col" label="剧情价格（金币）" width="150px" prop="price">
+            <el-table-column class-name="status-col" label="剧情价格（金）" width="150px" prop="price">
                 <template scope="scope">
                     <span>{{scope.row.price}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column min-width="150px" align="center" label="选项价格（金币）" prop="option">
+            <el-table-column min-width="150px" align="center" label="选项价格（金）" prop="option">
                 <template scope="scope">
                     <span>{{scope.row.option}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
                 </template>
             </el-table-column>
 
-            <!--<el-table-column width="180px" align="center" label="加速雇佣价格（金币）" prop="price">
+            <!--<el-table-column width="180px" align="center" label="加速雇佣价格（金）" prop="price">
                 <template scope="scope">
                     <span>{{scope.row.price}}</span>
                 </template>

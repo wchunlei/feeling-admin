@@ -117,11 +117,15 @@ const bannerTable = _import('banner/table');
 const appForm = _import('app/form');
 const appTable = _import('app/table');
 
-/* event 事件管理 */
+/* 辅助模块管理 */
 const eventStory= _import('event/tablestory');
 const rechargeForm = _import('help/recharge');
 const helpPushForm = _import('help/push_msg/form');
 const helpPushTable = _import('help/push_msg/table');
+
+/* 数据模块管理 */
+const dataTable= _import('data/table');
+const dataPay = _import('data/pay/charge');
 
 /* diary 日记管理 */
 const diaryForm = _import('diary/form');
@@ -331,6 +335,26 @@ export const asyncRouterMap = [
         { path: 'form/:id', component: helpPushForm, name: '新增push消息' }
       ]
     }*/
+    ]
+  },
+  {
+    path: '/data',
+    component: Layout,
+    redirect: '/data/index',
+    name: '数据管理',
+    icon: 'zujian',
+    children: [
+      { path: 'table', component: dataTable, name: '数据列表' },
+      {
+        path: '/data/pay',
+        component: AppMain,
+        redirect: '/data/pay/index',
+        name: '付费分析',
+        icon: 'zujian',
+        children: [
+          { path: 'charge', component: dataPay, name: '充值分析' }
+        ]
+      }
     ]
   },
   /*{

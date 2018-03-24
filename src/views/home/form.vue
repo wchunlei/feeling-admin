@@ -428,6 +428,7 @@
                 if(this.$route.params.id && this.$route.params.id != ':id') {
                     this.postForm.name = this.postForm.name + ' ';
                 }
+                console.log(this.postForm.checkedStory)
             },
             handleScriptChange(value) {
                 //this.postForm.name = this.postForm.name + ' ';
@@ -553,6 +554,8 @@
                     }
                     if (this.postForm.configtime == "0000-00-00 00:00:00") {
                         this.postForm.configtime = '';
+                    } else {
+                        this.postForm.configtime = response.data.content.configtime;
                     }
                     if (this.scriptData) {
                         this.scriptData = [];

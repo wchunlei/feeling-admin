@@ -76,7 +76,7 @@
                 <div v-show="showPri" style="display: block;margin-bottom: 20px">
                     <el-form-item label="偷听价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
                         <el-input placeholder="请输入价格" style='width:190px;' v-model.number="postForm.price" :maxlength="10"></el-input>
-                        <span>金币</span>
+                        <span>金</span>
                     </el-form-item>
                 </div>
 

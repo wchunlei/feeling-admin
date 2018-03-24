@@ -36,7 +36,7 @@
                 <div v-show="showH" style="display: inline-block;margin-bottom: 20px">
                     <el-form-item label="跳转地址:" label-width="100px" prop="url" style="margin-bottom: 40px" required>
                         <el-input placeholder="请输入链接" style='width:190px;' v-model="postForm.url" :maxlength="1000"></el-input>
-                        <!--<span>金币</span>-->
+                        <!--<span>金</span>-->
                     </el-form-item>
                     <el-form-item label="用户信息:" label-width="100px" prop="message" style="margin-bottom: 20px" required>
                         <el-select v-model="postForm.message" placeholder="请选择">

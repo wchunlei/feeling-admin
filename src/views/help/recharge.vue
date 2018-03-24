@@ -12,8 +12,8 @@
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount">
-                            <el-input placeholder="金币个数" style='width:100px;' v-model="postForm.amount"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <el-input placeholder="金个数" style='width:100px;' v-model="postForm.amount"></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give">
                             <!--<span>赠送</span>
@@ -25,7 +25,7 @@
                         </el-form-item>
                         <el-form-item v-show="showGi" label="" style="display: inline-block" prop="giveAmount">
                             <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked">
                             <el-checkbox v-model="postForm.defaultChecked">设置为默认选择</el-checkbox>
@@ -39,8 +39,8 @@
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount1">
-                            <el-input placeholder="金币个数" style='width:100px;' v-model="postForm.amount1"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <el-input placeholder="金个数" style='width:100px;' v-model="postForm.amount1"></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give1">
                             <!--<span>赠送</span>
@@ -52,7 +52,7 @@
                         </el-form-item>
                         <el-form-item v-show="showGi1" label="" style="display: inline-block" prop="giveAmount1">
                             <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount1"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked1">
                             <el-checkbox v-model="postForm.defaultChecked1">设置为默认选择</el-checkbox>
@@ -66,8 +66,8 @@
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount2">
-                            <el-input placeholder="金币个数" style='width:100px;' v-model="postForm.amount2"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <el-input placeholder="金个数" style='width:100px;' v-model="postForm.amount2"></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give2">
                             <!--<span>赠送</span>
@@ -79,7 +79,7 @@
                         </el-form-item>
                         <el-form-item v-show="showGi2" label="" style="display: inline-block" prop="giveAmount2">
                             <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount2"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked2">
                             <el-checkbox v-model="postForm.defaultChecked2">设置为默认选择</el-checkbox>
@@ -93,8 +93,8 @@
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount3">
-                            <el-input placeholder="金币个数" style='width:100px;' v-model="postForm.amount3"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <el-input placeholder="金个数" style='width:100px;' v-model="postForm.amount3"></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give3">
                             <!--<span>赠送</span>
@@ -106,7 +106,7 @@
                         </el-form-item>
                         <el-form-item v-show="showGi3" label="" style="display: inline-block" prop="giveAmount3">
                             <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount3"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked3">
                             <el-checkbox v-model="postForm.defaultChecked3">设置为默认选择</el-checkbox>
@@ -120,8 +120,8 @@
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount4">
-                            <el-input placeholder="金币个数" style='width:100px;' v-model="postForm.amount4"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <el-input placeholder="金个数" style='width:100px;' v-model="postForm.amount4"></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give4">
                             <!--<span>赠送</span>
@@ -133,7 +133,7 @@
                         </el-form-item>
                         <el-form-item v-show="showGi4" label="" style="display: inline-block" prop="giveAmount4">
                             <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount4"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked4">
                             <el-checkbox v-model="postForm.defaultChecked4">设置为默认选择</el-checkbox>
@@ -147,8 +147,8 @@
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount5">
-                            <el-input placeholder="金币个数" style='width:100px;' v-model="postForm.amount5"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <el-input placeholder="金个数" style='width:100px;' v-model="postForm.amount5"></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give5">
                             <!--<span>赠送</span>
@@ -160,7 +160,7 @@
                         </el-form-item>
                         <el-form-item v-show="showGi5" label="" style="display: inline-block" prop="giveAmount5">
                             <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount5"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked5">
                             <el-checkbox v-model="postForm.defaultChecked5">设置为默认选择</el-checkbox>
@@ -175,8 +175,8 @@
                             <span style="display: inline-block;margin-right: 20px">兑换</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="amount5">
-                            <el-input placeholder="金币个数" style='width:100px;' v-model="postForm.amount5"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <el-input placeholder="金个数" style='width:100px;' v-model="postForm.amount5"></el-input>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block" prop="give5">
                             <!--<span>赠送</span>
@@ -188,7 +188,7 @@
                         </el-form-item>
                         <el-form-item v-show="showGi5" label="" style="display: inline-block" prop="giveAmount5">
                             <el-input placeholder="整数金额" style='width:100px;margin-left: 20px' v-model="postForm.giveAmount5"></el-input>
-                            <span style="display: inline-block;margin: 0 20px 0 5px">金币</span>
+                            <span style="display: inline-block;margin: 0 20px 0 5px">金</span>
                         </el-form-item>
                         <el-form-item label="" style="display: inline-block;margin-left: 10px" prop="defaultChecked5">
                             <el-checkbox v-model="postForm.defaultChecked5">设置为默认选择</el-checkbox>
