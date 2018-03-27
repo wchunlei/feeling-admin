@@ -1,18 +1,18 @@
 import fetch from 'utils/fetch';
 
-export function addmaidfm(diaryinfo) {
+export function addqa(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=addmaidfm',
+        url: '?act=addqa',
         method: 'post',
         data
     });
 }
 
-export function updatemaidfm(diaryinfo) {
+export function updateqa(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=updatemaidfm',
+        url: '?act=updateqa',
         method: 'post',
         data
     });
@@ -27,9 +27,9 @@ export function diarydelete(diaryinfo) {
     });
 }
 
-export function maidfmlist(query) {
+export function qalist(query) {
     return fetch({
-        url: '?act=maidfmlist',
+        url: '?act=qalist',
         method: 'get',
         params: query
     });
@@ -71,7 +71,7 @@ export function diarylist(query) {
 
 export function maidfminfo(query) {
     return fetch({
-        url: '?act=maidfminfo',
+        url: '?act=qainfo',
         method: 'get',
         params: query
     });
@@ -80,7 +80,7 @@ export function maidfminfo(query) {
 export function delmaidfm(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=delmaidfm',
+        url: '?act=delqa',
         method: 'post',
         data
     });
@@ -89,7 +89,7 @@ export function delmaidfm(diaryinfo) {
 export function sortmaidfm(storyinfo) {
     const data = storyinfo;
     return fetch({
-        url: '?act=sortmaidfm',
+        url: '?act=sortqa',
         method: 'post',
         data
     });
@@ -98,7 +98,7 @@ export function sortmaidfm(storyinfo) {
 export function upmaidfm(storyinfo) {
     const data = storyinfo;
     return fetch({
-        url: '?act=upmaidfm',
+        url: '?act=upqa',
         method: 'post',
         data
     });
@@ -124,7 +124,7 @@ export function homefmcomminfo(query) {
 export function delfmcomment(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=delfmcomment',
+        url: '?act=delqacomm',
         method: 'post',
         data
     });
@@ -133,7 +133,7 @@ export function delfmcomment(diaryinfo) {
 export function sortfmcomment(storyinfo) {
     const data = storyinfo;
     return fetch({
-        url: '?act=sortfmcomment',
+        url: '?act=sortqacomm',
         method: 'post',
         data
     });
@@ -142,7 +142,7 @@ export function sortfmcomment(storyinfo) {
 export function upfmcomment(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=upfmcomment',
+        url: '?act=upqacomm',
         method: 'post',
         data
     });

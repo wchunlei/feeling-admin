@@ -38,15 +38,24 @@
                     </div>
                 </el-form-item>
 
-                <el-form-item label="置顶设置:" label-width="100px" prop="type" style="margin-bottom: 40px" required>
-                    <!--<el-select v-model="postForm.top" placeholder="请选择">
+                <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px">
+                    <el-input type="textarea" placeholder="请输入评论" style='width:280px;' v-model="postForm.comment"  :maxlength="1000" :rows="3"></el-input>
+                    <span style="display: inline-block;color: red;font-size: 12px">(请以"#"符号为每条评论的分隔符)</span>
+                </el-form-item>
+
+                <el-form-item label="偷听人数:" label-width="100px" prop="stealcount" style="margin-bottom: 40px" required>
+                    <el-input type="text" placeholder="最多输入数字" style='width:190px;' v-model="postForm.stealcount"></el-input>
+                </el-form-item>
+
+                <!--<el-form-item label="置顶设置:" label-width="100px" prop="type" style="margin-bottom: 40px" required>
+                    &lt;!&ndash;<el-select v-model="postForm.top" placeholder="请选择">
                         <el-option v-for="item in topOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>-->
+                    </el-select>&ndash;&gt;
                     <template>
                         <span @click="showNotTop"><el-radio v-model="postForm.type" label="0">不置顶</el-radio></span>
                         <span @click="showTop"><el-radio v-model="postForm.type" label="1">置顶</el-radio></span>
                     </template>
-                </el-form-item>
+                </el-form-item>-->
 
                 <el-form-item v-show="showYesTop" label="偷听图片:" label-width="100px" prop="picture" style="margin-bottom: 40px " required>
                     <!--<div style="margin-bottom: 20px;">
@@ -73,25 +82,16 @@
                     <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="0">免费</el-radio></span>
                 </el-form-item>
 
-                <div v-show="showPri" style="display: block;margin-bottom: 20px">
+                <!--<div v-show="showPri" style="display: block;margin-bottom: 20px">
                     <el-form-item label="偷听价格:" label-width="100px" prop="price" style="margin-bottom: 40px" required>
                         <el-input placeholder="请输入价格" style='width:190px;' v-model.number="postForm.price" :maxlength="10"></el-input>
                         <span>金</span>
                     </el-form-item>
-                </div>
+                </div>-->
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
                     <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="未设置" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
-                </el-form-item>
-
-                <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px">
-                    <el-input type="textarea" placeholder="请输入评论" style='width:280px;' v-model="postForm.comment"  :maxlength="1000" :rows="3"></el-input>
-                    <span style="display: inline-block;color: red;font-size: 12px">(请以"#"符号为每条评论的分隔符)</span>
-                </el-form-item>
-
-                <el-form-item label="偷听人数:" label-width="100px" prop="people" style="margin-bottom: 40px" required>
-                    <el-input type="text" placeholder="最多输入数字" style='width:190px;' v-model="postForm.people"></el-input>
                 </el-form-item>
 
                 <!--<el-form-item label="评论内容:" label-width="100px" prop="comments" required>
@@ -201,10 +201,10 @@
     import { userSearch } from 'api/story';
     import MDinput from 'components/MDinput';
     import { validateURL } from 'utils/validate';
-    import { addmaidfm } from 'api/fm';
-    import { updatemaidfm } from 'api/fm';
+    import { addqa } from 'api/fm';
+    import { updateqa } from 'api/fm';
     import { maidfminfo } from 'api/fm';
-    import { maidfmlist } from 'api/fm';
+    import { qalist } from 'api/fm';
     import { upfmcomment } from 'api/fm';
     import { delfmcomment } from 'api/fm';
     import { sortfmcomment } from 'api/fm';
@@ -301,7 +301,7 @@
                     sort: '0',
                     price: 10,
                     comment: '',
-                    people: ''
+                    stealcount: ''
                     //id: '',
                 },
                 postFormComment : {
@@ -542,7 +542,7 @@
             getList() {
                 this.listLoading = true;
                 this.listQuery.limit = 100000000;
-                maidfmlist(this.listQuery).then(response => {
+                qalist(this.listQuery).then(response => {
                     for (let m=0; m<response.data.content.length; m++) {
                         if (this.$route.params.id == response.data.content[m].id) {
                             for (let i=0; i<response.data.content[m].comment.length; i++) {
@@ -601,15 +601,15 @@
                             actorid: this.postForm.actor.value,
                             title: this.postForm.title,
                             content: this.postForm.content,
-                            ispay: this.postForm.ispay,
-                            type: this.postForm.type,
+                            //ispay: this.postForm.ispay,
+                            //type: this.postForm.type,
                             //price: this.postForm.price.toString(),
                             sort: this.postForm.sort,
                             configtime: dateString,
                             comment: commentTemp,
-                            people: this.postForm.people
+                            stealcount: this.postForm.stealcount
                         }
-                        if (this.postForm.type == 1) {
+                        /*if (this.postForm.type == 1) {
                             fminfo.picture = this.postForm.picture;
                             fminfo.ispay = '0';
                         } else {
@@ -619,9 +619,9 @@
                             fminfo.price = this.postForm.price.toString();
                         } else {
                             fminfo.price = '0';
-                        }
+                        }*/
                         if (this.$route.params.id && this.$route.params.id == ':id') {
-                            addmaidfm(fminfo).then(response => {
+                            addqa(fminfo).then(response => {
                                 if(response.data.code == 200) {
                                     this.$message({
                                         message: '发布成功',
@@ -633,7 +633,7 @@
                             });
                         } else {
                             fminfo.id = this.$route.params.id;
-                            updatemaidfm(fminfo).then(response => {
+                            updateqa(fminfo).then(response => {
                                 if(response.data.code == 200) {
                                     this.$message({
                                         message: '发布成功',

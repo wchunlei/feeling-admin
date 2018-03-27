@@ -29,7 +29,7 @@ Vue.component('icon-svg', IconSvg)
 Vue.use(ElementUI);
 Vue.use(vueWaves);
 Vue.prototype.$echarts = echarts
-Vue.prototype.$http = axios;
+//Vue.prototype.$http = axios;
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {

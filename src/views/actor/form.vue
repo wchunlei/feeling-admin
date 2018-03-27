@@ -140,8 +140,8 @@
         </el-form-item>
 
         <el-form-item label="介绍卡片:" label-width="100px" prop="introcard" style="margin-bottom: 40px">
-          <div style="width: 320px; height: 180px;border: 1px dashed #d9d9d9;">
-            <Upload v-model="postForm.introcard" :close="closeStatus" v-on:input="picInput"></Upload>
+          <div style="width: 270px; height: 480px;border: 1px dashed #d9d9d9;">
+            <Upload-card v-model="postForm.introcard" :close="closeStatus" v-on:input="picInput"></Upload-card>
           </div>
         </el-form-item>
 
@@ -245,6 +245,7 @@
 <script type="text/ECMAScript-6">
   import Tinymce from 'components/Tinymce';
   import Upload from 'components/Upload/picture';
+  import UploadCard from 'components/Upload/pictureCard';
   import { pictureUrl } from 'utils/urlConfig';
   import Uploadhead from 'components/Upload/headPhoto'
   import Uploadvideo from 'components/Upload/video';
@@ -260,7 +261,7 @@
 
   export default {
     name: 'articleDetail',
-    components: { Tinymce, MDinput, Upload, Uploadvideo, Uploadhead },
+    components: { Tinymce, MDinput, Upload, Uploadvideo, Uploadhead, UploadCard },
     data() {
       let Base64 = require('js-base64').Base64;
       const checkNumHeight = (rule, value, callback) => {

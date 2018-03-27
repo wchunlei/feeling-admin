@@ -65,30 +65,28 @@
                     <span @click="showInput"><el-radio v-model="postForm.vtype" label="2">手动输入</el-radio></span>
                 </el-form-item>
                 <el-form-item label="" label-width="100px" prop="video" style="margin-bottom: 40px" required>
-                    <span>开头视频:</span>
-                    <el-select v-model="postForm.vStart" placeholder="请选择">
-                        <el-option v-for="item in storySortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
-                    <span>A选项:</span>
-                    <el-select v-model="postForm.va" placeholder="请选择">
-                        <el-option v-for="item in storySortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
-                    <span>B选项:</span>
-                    <el-select v-model="postForm.vb" placeholder="请选择">
-                        <el-option v-for="item in storySortOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
-                    <el-input type="textarea" placeholder="输入剧情逻辑" style='width:350px;' v-model="postForm.video" :rows=5></el-input>
+                    <div v-show="ss">
+                        <span>开头视频:</span>
+                        <el-select v-model="postForm.vStart" placeholder="请选择">
+                            <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                        <span>A选项:</span>
+                        <el-select v-model="postForm.va" placeholder="请选择">
+                            <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                        <span>B选项:</span>
+                        <el-select v-model="postForm.vb" placeholder="请选择">
+                            <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </div>
+                    <div v-show="si">
+                        <el-input type="textarea" placeholder="输入剧情逻辑" style='width:350px;' v-model="postForm.video" :rows=5></el-input>
+                    </div>
                 </el-form-item>
-                <el-form-item class="removeElList" label="背景图:" label-width="100px" prop="picture" style="margin-bottom: 40px">
-                    <el-upload
-                            :model="postForm.picture"
-                            class="upload-demo"
-                            action="http://111.230.181.40:1442/?act=uploadimg&width=1080"
-                            :before-upload="beforeAvatarUpload"
-                            :on-success="handleBackImageScucess" style="width:200px">
-                        <el-button size="small" type="primary">选择图片文件</el-button>
-                        <div slot="tip" class="el-upload__tip">请上传1920*1080jpg格式的文件</div>
-                    </el-upload>
+                <el-form-item label="背景图:" label-width="100px" prop="videoimg" style="margin-bottom: 40px">
+                    <div style="width: 270px; height: 480px;border: 1px dashed #d9d9d9;">
+                        <Upload-card v-model="postForm.videoimg"></Upload-card>
+                    </div>
                 </el-form-item>
                 <!--<el-form-item class="removeElList" label="背景图:" label-width="100px" prop="picture" style="margin-bottom: 40px">
                     <el-upload
@@ -169,6 +167,7 @@
     import Tinymce from 'components/Tinymce';
     import  md5  from 'js-md5';
     import Upload from 'components/Upload/singleImage3';
+    import UploadCard from 'components/Upload/pictureCard';
     import Uploadhead from 'components/Upload/headPhoto'
     import Uploadvideo from 'components/Upload/video';
     import MDinput from 'components/MDinput';
@@ -185,12 +184,13 @@
     import { delMv } from 'api/actor';
     import { addscript } from 'api/story';
     import { updatescript } from 'api/story';
-    import { scriptdetail } from 'api/story';
+    import { scriptinfo } from 'api/story';
     import { actorList } from 'api/actor';
+    import { reslist } from 'api/resource';
 
     export default {
         name: 'articleDetail',
-        components: { Tinymce, MDinput, Upload, Uploadvideo, Uploadhead },
+        components: { Tinymce, MDinput, Upload, Uploadvideo, Uploadhead, UploadCard },
         data() {
             const checkNum = (rule, value, callback) => {
                 if (!value) {
@@ -262,6 +262,8 @@
                 storys: ["佳佳ss","娜美ss"],
                 /*checkedActor: [],*/
                 rgb: '',
+                ss: true,
+                si: false,
                 postForm: {
                     title: '', // 文章内容
                     actor: '',
@@ -269,7 +271,11 @@
                     uploadFile: '',
                     vtype: '1',
                     video: '',
+                    vStart: '',
+                    va: '',
+                    vb: '',
                     picture: '',
+                    videoimg: '',
                     pictureBack: '',
                     csolor: '0',
                     stage: '1',
@@ -279,6 +285,7 @@
                     configtime: '',
                     sort: '0'
                 },
+                videoOptions: [],
                 video: '',
                 videosize: '',
                 videourl: '',
@@ -456,6 +463,7 @@
          }
          },*/
         created() {
+            this.getVideoResource();
             let Query = {};
             this.getRemoteUserList(Query);
             //this.getActor();
@@ -463,7 +471,7 @@
                 this.saveBut = true;
                 this.addBut = false;
                 this.showChart = true;
-                this.listQuery.scriptid = this.$route.params.id;
+                this.listQuery.id = this.$route.params.id;
                 /*this.$nextTick(function () {
                     this.getDetail();
                 })*/
@@ -497,10 +505,29 @@
         },
         watch : {
             "postForm.actor" (val,oldval) {
-                    this.postForm.actor = val;
+                this.postForm.actor = val;
             }
         },
         methods: {
+            getVideoResource () {
+                let typeinfo = {};
+                typeinfo.type = '2';
+                reslist (typeinfo).then(response => {
+                    if(response.data.code==200){
+                        for (let i=0; i<response.data.content.length; i++) {
+                            let temp = {};
+                            temp.value = response.data.content[i].id;
+                            temp.label = response.data.content[i].name;
+                            this.videoOptions.push(temp);
+                        }
+                        console.log(this.videoOptions)
+                        /*this.$message({
+                         message: '新增成功',
+                         type: 'success'
+                         });*/
+                    }
+                });
+            },
             getActor () {
                 actorList(this.listQuery).then(response => {
                     console.log(response.data.content)
@@ -516,11 +543,19 @@
                     }
                 })
             },
+            showSelect () {
+                this.ss = true;
+                this.si = false;
+            },
+            showInput () {
+                this.si = true;
+                this.ss = false;
+            },
             changeActor () {
                // alert()
             },
             getDetail () {
-                scriptdetail (this.listQuery).then(response => {
+                scriptinfo (this.listQuery).then(response => {
                     let logicpicTemp = JSON.stringify(response.data.content.logicpic);
                     this.postForm = response.data.content;
                     let selectBackColor = document.getElementById('showBackColor');
@@ -597,17 +632,23 @@
                     dateString = '0000-00-00 00:00:00';
                 }
                 //console.log(this.video,this.videosize,this.videourl)
-                let tempVideo = this.postForm.video.replace(/(\s)/g, "")
+                let tempVideo;
+                if (this.postForm.vtype == 2) {
+                    tempVideo = this.postForm.video.replace(/(\s)/g, "");
+                } else {
+                    tempVideo = this.postForm.vStart + '#' +this.postForm.va + '#' + this.postForm.vb;
+                }
                 let storyinfo = {
                     //channel: "女仆团",
                     actorid: this.postForm.actor.value,
                     title: this.postForm.title,
+                    videoimg: this.postForm.videoimg,
                     //video: this.postForm.uploadFile,
-                    picture: this.postForm.picture,
-                    csolor: this.rgb,
-                    stage: this.postForm.stage,
-                    cost: this.postForm.cost,
-                    price: this.postForm.price.toString(),
+                    //picture: this.postForm.picture,
+                    //csolor: this.rgb,
+                    //stage: this.postForm.stage,
+                    //cost: this.postForm.cost,
+                    //price: this.postForm.price.toString(),
                     option: this.postForm.option.toString(),
                     configtime: dateString,
                     sort: this.postForm.sort,

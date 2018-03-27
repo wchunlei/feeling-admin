@@ -221,9 +221,9 @@ export function delscript(storyinfo) {
   });
 }
 
-export function scriptdetail(query) {
+export function scriptinfo(query) {
   return fetch({
-    url: '?act=scriptdetail',
+    url: '?act=scriptinfo',
     method: 'get',
     params: query
   });

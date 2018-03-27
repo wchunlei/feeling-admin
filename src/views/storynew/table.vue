@@ -64,7 +64,7 @@
               </template>
             </el-table-column>-->
 
-            <el-table-column width="150px" align="center" label="剧情阶段" prop="stage">
+            <!--<el-table-column width="150px" align="center" label="剧情阶段" prop="stage">
                 <template scope="scope">
                     <span>{{scope.row.stage}}</span>
                 </template>
@@ -74,7 +74,7 @@
                 <template scope="scope">
                     <span>{{scope.row.price}}</span>
                 </template>
-            </el-table-column>
+            </el-table-column>-->
 
             <el-table-column min-width="150px" align="center" label="选项价格（金）" prop="option">
                 <template scope="scope">
