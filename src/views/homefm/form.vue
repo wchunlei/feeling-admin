@@ -38,16 +38,25 @@
                     </div>
                 </el-form-item>
 
-                <el-form-item label="偷听图片:" label-width="100px" prop="picture" style="margin-bottom: 40px " required>
-                    <!--<div style="margin-bottom: 20px;">
+                <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px">
+                    <el-input type="textarea" placeholder="请输入评论" style='width:280px;' v-model="postForm.comment"  :maxlength="1000" :rows="3"></el-input>
+                    <span style="display: inline-block;color: red;font-size: 12px">(请以"#"符号为每条评论的分隔符)</span>
+                </el-form-item>
+
+                <el-form-item label="偷听人数:" label-width="100px" prop="stealcount" style="margin-bottom: 40px" required>
+                    <el-input type="text" placeholder="最多输入数字" style='width:190px;' v-model="postForm.stealcount"></el-input>
+                </el-form-item>
+
+                <!--<el-form-item label="偷听图片:" label-width="100px" prop="picture" style="margin-bottom: 40px " required>
+                    &lt;!&ndash;<div style="margin-bottom: 20px;">
                         <Upload v-model="postForm.backImg" v-on:input="picInput"></Upload>
                         <span style="font-size:12px">（注：请上传比例4：3，不小于100Kb的图片）</span>
-                    </div>-->
+                    </div>&ndash;&gt;
                     <div style="margin-right: 20px;width: 320px;height: 180px;border: 1px dashed #d9d9d9;">
                         <Upload v-model="postForm.picture" v-on:input="picInput"></Upload>
                     </div>
                     <span style="font-size:12px;margin-top: -30px;display:inline-block">（注：请上传16:9，不小于10kb，jpg、png等格式的文件）</span>
-                </el-form-item>
+                </el-form-item>-->
 
                 <div style="display: block;margin-bottom: 20px">
                     <el-form-item label="偷听排序:" label-width="100px" prop="sort" style="margin-bottom: 40px" required>
@@ -58,7 +67,7 @@
                     </el-form-item>
                 </div>
 
-                <el-form-item label="收费设置:" label-width="100px" prop="ispay" style="margin-bottom: 40px" required>
+                <!--<el-form-item label="收费设置:" label-width="100px" prop="ispay" style="margin-bottom: 40px" required>
                     <span @click="showPrice"><el-radio v-model="postForm.ispay" label="1">收费</el-radio></span>
                     <span @click="hidePrice"><el-radio v-model="postForm.ispay" label="0">免费</el-radio></span>
                 </el-form-item>
@@ -68,20 +77,11 @@
                         <el-input placeholder="请输入价格" style='width:190px;' v-model.number="postForm.price" :maxlength="10"></el-input>
                         <span>金</span>
                     </el-form-item>
-                </div>
+                </div>-->
 
                 <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
                     <el-date-picker v-model="postForm.configtime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="未设置" :picker-options="pickerOptions1"></el-date-picker>
                     <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
-                </el-form-item>
-
-                <el-form-item label="新增评论:" label-width="100px" prop="comment" style="margin-bottom: 40px">
-                    <el-input type="textarea" placeholder="请输入评论" style='width:280px;' v-model="postForm.comment"  :maxlength="1000" :rows="3"></el-input>
-                    <span style="display: inline-block;color: red;font-size: 12px">(请以"#"符号为每条评论的分隔符)</span>
-                </el-form-item>
-
-                <el-form-item label="偷听人数:" label-width="100px" prop="people" style="margin-bottom: 40px" required>
-                    <el-input type="text" placeholder="最多输入数字" style='width:190px;' v-model="postForm.people"></el-input>
                 </el-form-item>
 
                 <!--<el-form-item label="评论内容:" label-width="100px" prop="comments" required>
@@ -291,7 +291,7 @@
                     sort: '0',
                     price: 5,
                     comment: '',
-                    people: ''
+                    stealcount: ''
                     //id: '',
                 },
                 postFormComment : {
@@ -482,12 +482,13 @@
                     let logicpicTemp = JSON.stringify(response.data.content.logicpic);
                     this.postForm = response.data.content;
                     this.postForm.price = parseInt(response.data.content.price);
-                    /*let temp = [];
-                     for (let i=0; i<response.data.content.comment.length; i++) {
-                     temp.push(response.data.content.comment[i].content)
-                     }
-                     this.postForm.comment = temp.join('#');*/
-                    this.postForm.comment = '';
+                    let temp = [];
+                    for (let i=0; i<response.data.content.comment.length; i++) {
+                        temp.push(response.data.content.comment[i].content)
+                    }
+                    console.log(temp)
+                    this.postForm.comment = temp.join('#');
+                    //this.postForm.comment = '';
                     for ( let j=0; j<this.userLIstOptions.length; j++) {
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.actor = this.userLIstOptions[j];
@@ -586,22 +587,22 @@
                     actorid: this.postForm.actor.value,
                     title: this.postForm.title,
                     content: this.postForm.content,
-                    ispay: this.postForm.ispay,
-                    type: '1',
+                    //ispay: this.postForm.ispay,
+                    //type: '1',
                     //price: this.postForm.price.toString(),
                     sort: this.postForm.sort,
                     configtime: dateString,
                     comment: commentTemp,
-                    people: this.postForm.people
+                    stealcount: this.postForm.stealcount
                 }
-                if (this.postForm.type == 1) {
+                /*if (this.postForm.type == 1) {
                     fminfo.picture = this.postForm.picture;
                 }
                 if (this.postForm.ispay == 1) {
                     fminfo.price = this.postForm.price.toString();
                 } else {
                     fminfo.price = '0';
-                }
+                }*/
                 if (this.$route.params.id && this.$route.params.id == ':id') {
                     addhomefm(fminfo).then(response => {
                         if(response.data.code == 200) {

@@ -3,7 +3,7 @@ import fetch from 'utils/fetch';
 export function addhomefm(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=addhomefm',
+        url: '?act=addfm',
         method: 'post',
         data
     });
@@ -12,7 +12,7 @@ export function addhomefm(diaryinfo) {
 export function updatehomefm(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=updatehomefm',
+        url: '?act=updatefm',
         method: 'post',
         data
     });
@@ -29,7 +29,7 @@ export function diarydelete(diaryinfo) {
 
 export function homefmlist(query) {
     return fetch({
-        url: '?act=homefmlist',
+        url: '?act=fmlist',
         method: 'get',
         params: query
     });
@@ -71,7 +71,7 @@ export function diarylist(query) {
 
 export function homefminfo(query) {
     return fetch({
-        url: '?act=homefminfo',
+        url: '?act=fminfo',
         method: 'get',
         params: query
     });
@@ -80,7 +80,7 @@ export function homefminfo(query) {
 export function delhomefm(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=delhomefm',
+        url: '?act=delfm',
         method: 'post',
         data
     });
@@ -89,7 +89,7 @@ export function delhomefm(diaryinfo) {
 export function sorthomefm(storyinfo) {
     const data = storyinfo;
     return fetch({
-        url: '?act=sorthomefm',
+        url: '?act=sortfm',
         method: 'post',
         data
     });
@@ -98,7 +98,7 @@ export function sorthomefm(storyinfo) {
 export function uphomefm(storyinfo) {
     const data = storyinfo;
     return fetch({
-        url: '?act=uphomefm',
+        url: '?act=upfm',
         method: 'post',
         data
     });
@@ -107,7 +107,7 @@ export function uphomefm(storyinfo) {
 export function addhomefmcomm(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=addhomefmcomm',
+        url: '?act=addfmcomm',
         method: 'post',
         data
     });
@@ -115,7 +115,7 @@ export function addhomefmcomm(diaryinfo) {
 export function delhomefmcomm(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=delhomefmcomm',
+        url: '?act=delfmcomm',
         method: 'post',
         data
     });
@@ -123,7 +123,7 @@ export function delhomefmcomm(diaryinfo) {
 export function sorthomefmcomm(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=sorthomefmcomm',
+        url: '?act=sortfmcomm',
         method: 'post',
         data
     });
@@ -131,7 +131,7 @@ export function sorthomefmcomm(diaryinfo) {
 export function uphomefmcomm(diaryinfo) {
     const data = diaryinfo;
     return fetch({
-        url: '?act=uphomefmcomm',
+        url: '?act=upfmcomm',
         method: 'post',
         data
     });

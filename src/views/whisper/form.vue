@@ -498,12 +498,12 @@
                     let logicpicTemp = JSON.stringify(response.data.content.logicpic);
                     this.postForm = response.data.content;
                     this.postForm.price = parseInt(response.data.content.price);
-                    /*let temp = [];
+                    let temp = [];
                     for (let i=0; i<response.data.content.comment.length; i++) {
                         temp.push(response.data.content.comment[i].content)
                     }
-                    this.postForm.comment = temp.join('#');*/
-                    this.postForm.comment = '';
+                    this.postForm.comment = temp.join('#');
+                    //this.postForm.comment = '';
                     for ( let j=0; j<this.userLIstOptions.length; j++) {
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
                             this.postForm.actor = this.userLIstOptions[j];

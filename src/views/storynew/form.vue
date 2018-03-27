@@ -64,18 +64,18 @@
                     <span @click="showSelect"><el-radio v-model="postForm.vtype" label="1">选择视频</el-radio></span>
                     <span @click="showInput"><el-radio v-model="postForm.vtype" label="2">手动输入</el-radio></span>
                 </el-form-item>
-                <el-form-item label="" label-width="100px" prop="video" style="margin-bottom: 40px" required>
+                <el-form-item label="" label-width="100px" prop="" style="margin-bottom: 40px" required>
                     <div v-show="ss">
                         <span>开头视频:</span>
-                        <el-select v-model="postForm.vStart" placeholder="请选择">
+                        <el-select v-model="postForm.vStart" filterable placeholder="请选择">
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
                         <span>A选项:</span>
-                        <el-select v-model="postForm.va" placeholder="请选择">
+                        <el-select v-model="postForm.va" filterable placeholder="请选择">
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
                         <span>B选项:</span>
-                        <el-select v-model="postForm.vb" placeholder="请选择">
+                        <el-select v-model="postForm.vb" filterable placeholder="请选择">
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
                     </div>

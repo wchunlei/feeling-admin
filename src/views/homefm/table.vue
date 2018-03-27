@@ -76,7 +76,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column width="200px" align="center" label="偷听价格（金）" prop="price">
+            <!--<el-table-column width="200px" align="center" label="偷听价格（金）" prop="price">
                 <template scope="scope">
                     <span>{{scope.row.price}}</span>
                 </template>
@@ -84,11 +84,11 @@
 
             <el-table-column width="150px" align="center" label="置顶状态" prop="type">
                 <template scope="scope">
-                    <!--<span v-if="scope.row.gender==1">男</span>
-                    <span v-if="scope.row.gender==2">女</span>-->
+                    &lt;!&ndash;<span v-if="scope.row.gender==1">男</span>
+                    <span v-if="scope.row.gender==2">女</span>&ndash;&gt;
                     <span>{{scope.row.type}}</span>
                 </template>
-            </el-table-column>
+            </el-table-column>-->
 
             <el-table-column class-name="status-col" label="状态" width="100" prop="status" sortable>
                 <template scope="scope">
