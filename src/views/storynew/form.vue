@@ -67,7 +67,7 @@
                 <el-form-item label="" label-width="100px" prop="" style="margin-bottom: 40px" required>
                     <div v-show="ss">
                         <span>开头视频:</span>
-                        <el-select v-model="postForm.vStart" filterable placeholder="请选择">
+                        <el-select v-model="postForm.vStart" filterable placeholder="请选择" @visible-change="selectVS">
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
                         <span>A选项:</span>
@@ -520,7 +520,7 @@
                             temp.label = response.data.content[i].name;
                             this.videoOptions.push(temp);
                         }
-                        console.log(this.videoOptions)
+                        //console.log(this.videoOptions[0])
                         /*this.$message({
                          message: '新增成功',
                          type: 'success'
@@ -546,18 +546,24 @@
             showSelect () {
                 this.ss = true;
                 this.si = false;
+                this.postForm.title = this.postForm.title + ' ';
             },
             showInput () {
                 this.si = true;
                 this.ss = false;
+                this.postForm.title = this.postForm.title + ' ';
             },
             changeActor () {
                // alert()
+            },
+            selectVS () {
+                this.postForm.title = this.postForm.title + ' ';
             },
             getDetail () {
                 scriptinfo (this.listQuery).then(response => {
                     let logicpicTemp = JSON.stringify(response.data.content.logicpic);
                     this.postForm = response.data.content;
+                    this.postForm.vtype = '1';
                     let selectBackColor = document.getElementById('showBackColor');
                     if (response.data.content.csolor) {
                         selectBackColor.style.backgroundColor = response.data.content.csolor;
@@ -566,6 +572,20 @@
                     this.postForm.option = parseInt(response.data.content.option);
                     this.postForm.pictureBack = response.data.content.picture;
                     //this.postForm.pictureBack = URL.createObjectURL(response.data.content.picture);
+                    /*this.postForm.vStart = response.data.content.video[0];
+                    this.postForm.va = response.data.content.video[1];
+                    this.postForm.vb = response.data.content.video[2];*/
+                    for (let i=0; i<this.videoOptions.length; i++) {
+                        if (this.videoOptions[i].label == response.data.content.video[0]) {
+                            this.postForm.vStart = this.videoOptions[i].value;
+                        }
+                        if (this.videoOptions[i].label == response.data.content.video[1]) {
+                            this.postForm.va = this.videoOptions[i].value;
+                        }
+                        if (this.videoOptions[i].label == response.data.content.video[2]) {
+                            this.postForm.vb = this.videoOptions[i].value;
+                        }
+                    }
                     this.postForm.video = response.data.content.video.join("#");
                     /*this.videosize = response.data.content.videosize;
                     this.videourl = response.data.content.videourl;*/
@@ -636,6 +656,18 @@
                 if (this.postForm.vtype == 2) {
                     tempVideo = this.postForm.video.replace(/(\s)/g, "");
                 } else {
+                    for (let i=0; i<this.videoOptions.length; i++) {
+                        //console.log(this.videoOptions[i].id)
+                        if (this.videoOptions[i].value == this.postForm.vStart) {
+                            this.postForm.vStart = this.videoOptions[i].label;
+                        }
+                        if (this.videoOptions[i].value == this.postForm.va) {
+                            this.postForm.va = this.videoOptions[i].label;
+                        }
+                        if (this.videoOptions[i].value == this.postForm.vb) {
+                            this.postForm.vb = this.videoOptions[i].label;
+                        }
+                    }
                     tempVideo = this.postForm.vStart + '#' +this.postForm.va + '#' + this.postForm.vb;
                 }
                 let storyinfo = {
@@ -657,6 +689,7 @@
                     /*videosize: this.videosize.toString(),
                     videourl: this.videourl*/
                 };
+                storyinfo.title = this.postForm.title.replace(/(\s*$)/g, "");
                 this.$refs.postForm.validate(valid => {
                  if (valid) {
                      this.loading = true;

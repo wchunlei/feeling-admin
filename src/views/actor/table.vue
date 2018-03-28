@@ -65,9 +65,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="雇佣价格（金）" prop="priceTime">
+      <el-table-column width="180px" align="center" label="雇佣价格（金）" prop="price">
         <template scope="scope">
-          <span>{{scope.row.priceTime}}</span>
+          <span>{{scope.row.price}}</span>
         </template>
       </el-table-column>
 
@@ -526,7 +526,7 @@
               this.list[i].style = 'coser女仆'
             }
           }
-          for (let i=0; i<response.data.content.length; i++) {
+          /*for (let i=0; i<response.data.content.length; i++) {
             let timeTemp = '';
             if (response.data.content[i].time == 0) {
               timeTemp = "小时";
@@ -545,7 +545,7 @@
             }
             //this.list[i].priceTime = response.data.content[i].time + timeTemp + response.data.content[i].price + "金";
             this.list[i].priceTime = 1 + timeTemp + response.data.content[i].price + "金";
-          }
+          }*/
           /*for (let i=0; i<response.data.content.length; i++) {
             let dataTemp = [];
             for (let j=0; j<response.data.content[i].worktime.length; j++) {
