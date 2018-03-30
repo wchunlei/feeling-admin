@@ -577,13 +577,13 @@
                     this.postForm.va = response.data.content.video[1];
                     this.postForm.vb = response.data.content.video[2];*/
                     for (let i=0; i<this.videoOptions.length; i++) {
-                        if (this.videoOptions[i].label == response.data.content.video[0]) {
+                        if (this.videoOptions[i].label == response.data.content.video[0].split('__')[1]) {
                             this.postForm.vStart = this.videoOptions[i].value;
                         }
-                        if (this.videoOptions[i].label == response.data.content.video[1]) {
+                        if (this.videoOptions[i].label == response.data.content.video[1].split('__')[1]) {
                             this.postForm.va = this.videoOptions[i].value;
                         }
-                        if (this.videoOptions[i].label == response.data.content.video[2]) {
+                        if (this.videoOptions[i].label == response.data.content.video[2].split('__')[1]) {
                             this.postForm.vb = this.videoOptions[i].value;
                         }
                     }
@@ -723,7 +723,7 @@
                             }
                         });
                     } else {
-                        storyinfo.scriptid = this.$route.params.id;
+                        storyinfo.id = this.$route.params.id;
                         updatescript(storyinfo).then(response => {
                             /*if (!response.data.items) return;
                              console.log(response)
