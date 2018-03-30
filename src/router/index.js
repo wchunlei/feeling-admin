@@ -129,6 +129,7 @@ const feedbackTable = _import('help/feedback');
 /* 数据模块管理 */
 const dataTable= _import('data/table');
 const dataPay = _import('data/pay/charge');
+const dataConsume = _import('data/pay/consume');
 
 /* diary 日记管理 */
 const diaryForm = _import('diary/form');
@@ -358,7 +359,8 @@ export const asyncRouterMap = [
         name: '付费分析',
         icon: 'zujian',
         children: [
-          { path: 'charge', component: dataPay, name: '充值分析' }
+          { path: 'charge', component: dataPay, name: '充值分析' },
+          { path: 'consume', component: dataConsume, name: '消费分析' }
         ]
       }
     ]

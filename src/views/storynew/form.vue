@@ -23,7 +23,7 @@
                 </el-form-item>
 
                 <el-form-item label="剧情标题:" label-width="100px" prop="title" style="margin-bottom: 40px" required>
-                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.title" :maxlength="10"></el-input>
+                    <el-input placeholder="最多输入10个字" style='width:220px;' v-model="postForm.title" :maxlength="1000"></el-input>
                 </el-form-item>
 
                 <el-form-item label-width="100px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
@@ -518,6 +518,7 @@
                             let temp = {};
                             temp.value = response.data.content[i].id;
                             temp.label = response.data.content[i].name;
+                            temp.fileid = response.data.content[i].fileid;
                             this.videoOptions.push(temp);
                         }
                         //console.log(this.videoOptions[0])
@@ -653,6 +654,7 @@
                 }
                 //console.log(this.video,this.videosize,this.videourl)
                 let tempVideo;
+                let fileid1,fileid2,fileid3;
                 if (this.postForm.vtype == 2) {
                     tempVideo = this.postForm.video.replace(/(\s)/g, "");
                 } else {
@@ -660,16 +662,20 @@
                         //console.log(this.videoOptions[i].id)
                         if (this.videoOptions[i].value == this.postForm.vStart) {
                             this.postForm.vStart = this.videoOptions[i].label;
+                            fileid1 = this.videoOptions[i].fileid;
                         }
                         if (this.videoOptions[i].value == this.postForm.va) {
                             this.postForm.va = this.videoOptions[i].label;
+                            fileid2 = this.videoOptions[i].fileid;
                         }
                         if (this.videoOptions[i].value == this.postForm.vb) {
                             this.postForm.vb = this.videoOptions[i].label;
+                            fileid3 = this.videoOptions[i].fileid;
                         }
                     }
-                    tempVideo = this.postForm.vStart + '#' +this.postForm.va + '#' + this.postForm.vb;
+                    tempVideo = '1__' + this.postForm.vStart + '__'+fileid1 + '#'+ '11__' +this.postForm.va + '__'+fileid2 + '#' + '12__' + this.postForm.vb + '__'+fileid3;
                 }
+                console.log(tempVideo)
                 let storyinfo = {
                     //channel: "女仆团",
                     actorid: this.postForm.actor.value,
@@ -685,6 +691,7 @@
                     configtime: dateString,
                     sort: this.postForm.sort,
                     //video: this.postForm.video.split('#'),
+                    type: this.postForm.vtype,
                     video: tempVideo.split('#'),
                     /*videosize: this.videosize.toString(),
                     videourl: this.videourl*/
