@@ -463,7 +463,7 @@
          }
          },*/
         created() {
-            this.getVideoResource();
+            this.getVideoResource();    //数据较多造成网页加载卡顿
             let Query = {};
             this.getRemoteUserList(Query);
             //this.getActor();

@@ -122,6 +122,9 @@ const eventStory= _import('event/tablestory');
 const rechargeForm = _import('help/recharge');
 const helpPushForm = _import('help/push_msg/form');
 const helpPushTable = _import('help/push_msg/table');
+const helpReward = _import('help/reward');
+const helpRewardInfo = _import('help/reward_info');
+const feedbackTable = _import('help/feedback');
 
 /* 数据模块管理 */
 const dataTable= _import('data/table');
@@ -324,6 +327,9 @@ export const asyncRouterMap = [
     icon: 'zujian',
     children: [
       { path: 'form', component: rechargeForm, name: '充值管理' },
+      { path: 'rewardForm', component: helpReward, name: '奖励设置' },
+      { path: 'rewardFormInfo/:id', component: helpRewardInfo, name: '奖励详情' },
+      { path: 'table', component: feedbackTable, name: '帮助与反馈' },
       /*{
       path: '/help/push_msg',
       component: AppMain,

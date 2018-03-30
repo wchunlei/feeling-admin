@@ -607,7 +607,7 @@
       }
     },*/
     created() {
-      this.getVideoResource();
+      this.getVideoResource();  //数据较多造成网页加载卡顿
       this.picUrl = pictureUrl() + "&width=1080";
       if(this.$route.params.id && this.$route.params.id != ':id'){
         this.saveBut = true;

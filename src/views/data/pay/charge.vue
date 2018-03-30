@@ -37,6 +37,7 @@
     import { delroom } from 'api/room';
     import { actorList } from 'api/actor';
     import { scriptlist } from 'api/story';
+    import { rechargeanaly } from 'api/reward';
 
     const calendarTypeOptions = [
         { key: 'CN', display_name: '中国' },
@@ -392,53 +393,63 @@
                  });*/
             },
             getList() {
-                /*$.ajax({
-                 "url":"http://111.230.181.40:9000",
-                 "type": "GET",
-                 //'data': '{}',
-                 "dataType": "json",
-                 success:function(data){
-                 if(data.code==200){
-                 alert()
-                 }
-                 },
-                 error:function (data) {
-                 console.log('_请求失败_');
-                 }
-                 })*/
-                let _this = this;
-                fetch("http://111.230.181.40:9000", {
-                    method: 'GET',
-                    mode: "cors",
-                    type: 'json',
-                    //credentials: 'include',
-                    headers:{
-                        //'Accept': 'application/json',
-                        "Content-Type":"multipart/form-data",
-                        //"Content-Type":"application/x-www-form-urlencoded",
-                        //"Content-type": "text/plain",
-                        //"Access-Control-Allow-Origin": '*'
-                        //'Access-Control-Allow-Credentials':'false',
-                    }
-                }).then(function(response){
+                this.listLoading = true;
+                let rechargedata = {
+                    begintime: '2017-01-02 00:00:00',
+                    endtime: '2018-02-19 23:59:59',
+                    type: '2'
+                };
+                rechargeanaly(rechargedata).then(response => {
                     console.log(response)
-                    if(response.status!=200){
-                        console.log("存在一个问题，状态码为："+response);
-                        return;
+                    //逆序显示
+                    //this.list = response.data.content.reverse();
+                    this.list = response.data.content;
+                    for (let i=0; i<response.data.content.length; i++) {
+                        this.list[i].ids = i+1;
                     }
-                    //let str = JSON.stringify(response);
-                    response.json().then(function(data){
-                        console.log(data);
-                        _this.data.alluser = data.alluser;
-                        _this.data.yesterdayuser = data.yesterdayuser;
-                        _this.data.todayuser = data.todayuser;
-                        _this.data.allpay = data.allpay;
-                        _this.data.yesterdaypay = data.yesterdaypay;
-                        _this.data.todaypay = data.todaypay;
-                    });
-                }).catch(function(err){
-                    console.log("Fetch错误123aa:"+err);
+                    this.total = response.data.total;
+                    for (let i=0; i< response.data.content.length; i++) {
+                        if(response.data.content[i].cost == 1) {
+                            this.list[i].price = "免费";
+                        }
+                    }
+                    for (let i=0; i< response.data.content.length; i++) {
+                        this.list[i].disable = false;
+                        if (response.data.content[i].status == "1" && response.data.content[i].configtime == '0000-00-00 00:00:00') {
+                            this.list[i].configtime = "未设置";
+                        } else {
+                            this.list[i].configtime = response.data.content[i].configtime;
+                        }
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        for ( let j=0; j<this.actorOptions.length; j++) {
+                            if (response.data.content[i].actorid == this.actorOptions[j].value) {
+                                this.list[i].name = this.actorOptions[j].label;
+                            }
+                        }
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if(response.data.content[i].status == 0) {
+                            this.list[i].status = '上架'
+                        }
+                        if(response.data.content[i].status == 1) {
+                            this.list[i].status = '下架'
+                        }
+                    }
+                    for (let i=0; i<response.data.content.length; i++) {
+                        if(response.data.content[i].vstatus == 0) {
+                            this.list[i].vstatus = '配置中'
+                        }
+                        if(response.data.content[i].vstatus == 1) {
+                            this.list[i].vstatus = '配置失败'
+                        }
+                        if(response.data.content[i].vstatus == 2) {
+                            this.list[i].vstatus = '配置成功'
+                        }
+                    }
+                    this.listLoading = false;
                 })
+                this.listLoading = false;
             },
         }
     }
