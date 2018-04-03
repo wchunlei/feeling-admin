@@ -254,7 +254,7 @@ export const asyncRouterMap = [
       //{ path: 'tableall', component: storyTableall, name: '剧情列表详细' },
     ]
   },
-  {
+  /*{
     path: '/home',
     component: Layout,
     redirect: '/home/index',
@@ -264,7 +264,7 @@ export const asyncRouterMap = [
       { path: 'table', component: homeTable, name: '房间列表' },
       { path: 'form/:id', component: homeForm, name: '新增房间' },
     ]
-  },
+  },*/
   {
     path: '/space',
     component: Layout,
@@ -309,7 +309,7 @@ export const asyncRouterMap = [
       { path: 'form/:id', component: homefmForm, name: '新增FM' },
     ]
   },
-  {
+  /*{
     path: '/banner',
     component: Layout,
     redirect: '/banner/index',
@@ -319,7 +319,7 @@ export const asyncRouterMap = [
       { path: 'table', component: bannerTable, name: 'banner列表' },
       { path: 'form/:id', component: bannerForm, name: '新增banner' },
     ]
-  },
+  },*/
   {
     path: '/help',
     component: Layout,

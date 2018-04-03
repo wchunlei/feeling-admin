@@ -3,10 +3,10 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%" max-height="500">
 
-            <el-table-column align="center" label="序号" width="500" prop="ids">
+            <el-table-column align="center" label="序号" width="500" prop="id">
                 <template scope="scope">
                     <!--<span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.ids}}</span>
+                    <span>{{scope.row.id}}</span>
                 </template>
             </el-table-column>
 
@@ -71,12 +71,7 @@
                 total: null,
                 listLoading: true,
                 actorOptions: [],
-                list: [{
-                    ids: '',
-                    actorid: '',
-                    actor: '',
-                    operate: '奖励设置'
-                }],
+                list: [],
                 tableKey: 0,
                 listQuery: {
                     page: 1,
@@ -133,12 +128,20 @@
                     for (let i=0; i<response.data.content.length; i++) {
                         //alert(response.data.content[i].id)
                         let temp = {};
+                        let obj = {
+                            id: 0,
+                            actorid: undefined,
+                            actor: undefined,
+                            operate: '奖励设置'
+                        };
                         temp.value = response.data.content[i].id;
                         temp.label = response.data.content[i].name;
                         this.actorOptions.push(temp);
-                        this.list[i].ids = i + 1;
-                        this.list[i].actor = response.data.content[i].name;
-                        this.list[i].actorid = response.data.content[i].id;
+                        //console.log(obj.id)
+                        obj.id = i + 1;
+                        obj.actor = response.data.content[i].name;
+                        obj.actorid = response.data.content[i].id;
+                        this.list.push(obj);
                     }
                     //this.getList();
                     this.listLoading =false;

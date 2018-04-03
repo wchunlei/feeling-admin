@@ -95,7 +95,7 @@
           <div style="margin-bottom: 0px;width: 180px;height: 180px; border: 1px dashed #d9d9d9;">
             <Uploadhead v-model="postForm.headurl" v-on:input="picInput"></Uploadhead>
           </div>
-          <span style="font-size:12px;display:inline-block; margin-top: -40px">（注：请上传1:1，不小于10kb，jpg、png等格式的文件）</span>
+          <span style="font-size:12px;display:inline-block; margin-top: -40px">(请上传132*132，jpg格式的文件)</span>
           <!--<input type="file" @change="uploadfile(this)" />-->
         </el-form-item>
 
@@ -129,7 +129,7 @@
               <Upload v-model="postForm.backImg5" :close="closeStatus" v-on:input="picInput"></Upload>
             </div>
           </el-form-item>
-          <span style="font-size:12px;display: block">（注：请上传4:3，不小于10kb，jpg、png等格式的文件）</span>
+          <span style="font-size:12px;display: block">（请上传800*600,jpg格式的文件）</span>
         </el-form-item>
 
         <el-form-item label="介绍视频:" label-width="100px" prop="introvideo" style="margin-bottom: 40px">
@@ -143,6 +143,7 @@
           <div style="width: 270px; height: 480px;border: 1px dashed #d9d9d9;">
             <Upload-card v-model="postForm.introcard" :close="closeStatus" v-on:input="picInput"></Upload-card>
           </div>
+          <div style="font-size: 12px;margin: 5px 0 0 15px">(请上传1080*1920jpg格式的文件)</div>
         </el-form-item>
 
         <el-form-item label="FM播放图:" label-width="100px" prop="playimg" style="margin-bottom: 40px">
@@ -169,7 +170,7 @@
           <span style="font-size:12px">（注：不设置上架时间默认为下架状态）</span>
         </el-form-item>
 
-        <el-form-item label="空间排序:" label-width="100px" prop="sort" style="margin-bottom: 40px" required>
+        <el-form-item label="摇一摇排序:" label-width="100px" prop="sort" style="margin-bottom: 40px" required>
           <el-select v-model="postForm.sort" placeholder="请选择">
             <el-option v-for="item in privateOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>

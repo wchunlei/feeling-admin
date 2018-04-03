@@ -232,12 +232,12 @@
                 /*checkedActor: [],*/
                 postForm: {
                     name: '', // 文章内容
-                    first: '',
-                    second: '',
-                    third: '',
-                    num1: '',
-                    num2: '',
-                    num3: '',
+                    first: '1',
+                    second: '2',
+                    third: '2',
+                    num1: '2',
+                    num2: '2',
+                    num3: '1',
                     checkedActor: '',
                     checkedStory: [],
                     checkAudio: [],
@@ -249,7 +249,7 @@
                 audioOptions: [],
                 typeOptions: [{
                     value: '1',
-                    label: '视频'
+                    label: '剧情'
                 },{
                     value: '2',
                     label: 'FM'

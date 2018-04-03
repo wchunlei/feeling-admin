@@ -94,8 +94,9 @@
             },
             beforeAvatarUpload(file) {
                 const isLt2M = file.size / 1024 / 1024 > 0.01;
-                if (!(file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
+                if (!(file.type === 'image/jpeg')) {
                     this.$message.error('图片格式有误!');
+                    return false;
                 }
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不小于 10kb!');
