@@ -352,10 +352,26 @@
                 tableKey: 0
             }
         },
+        beforeRouteLeave(to, from, next){
+            //打开详情页（或者下一个任意界面）之前，把筛选条件保存到localStorage，如果离开列表页并且打开的不是详情页则清除，也可以选择不清除
+            console.log(to,from);
+            if (to.name == '新增剧情') {
+                /*let condition = JSON.stringify(this.searchForm)
+                localStorage.setItem('condition', condition)*/
+                localStorage.setItem('page', this.listQuery.page);
+            }else{
+                localStorage.removeItem('page')
+            }
+            next()
+        },
         created() {
             this.getActor();
             let Query = {};
             //this.getRemoteUserList(Query);
+            let hisPage = parseInt(localStorage.getItem('page'));
+            if (hisPage) {
+                this.listQuery.page = hisPage;
+            }
             this.getList();
         },
         filters: {
@@ -624,8 +640,8 @@
                 this.getList();
             },
             handleCurrentChange(val) {
-                /*console.log(val)
-                window.location.href = window.location.href + '?' + val;*/
+                console.log(val)
+                 /*window.location.href = window.location.href + '?' + val;*/
                 this.listQuery.page = val;
                 this.getList();
             },
