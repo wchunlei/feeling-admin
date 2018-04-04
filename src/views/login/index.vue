@@ -121,6 +121,7 @@
                 //sessionStorage.setItem('token',response.data.token);
                 //this.$refs[formName].resetFields();
                 //alert(localStorage.getItem('token'))
+                console.log(response.data.code)
               } else {
                 this.$message({
                   message: '账号或密码错误',

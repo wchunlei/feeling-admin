@@ -83,10 +83,11 @@
                         <el-input type="textarea" placeholder="输入剧情逻辑" style='width:350px;' v-model="postForm.video" :rows=5></el-input>
                     </div>
                 </el-form-item>
-                <el-form-item label="背景图:" label-width="100px" prop="videoimg" style="margin-bottom: 40px">
+                <el-form-item label="视频缩略图:" label-width="100px" prop="videoimg" style="margin-bottom: 40px">
                     <div style="width: 270px; height: 480px;border: 1px dashed #d9d9d9;">
                         <Upload-card v-model="postForm.videoimg"></Upload-card>
                     </div>
+                    <div style="font-size: 12px;margin: 5px 0 0 15px">(请上传1080*1920jpg格式的文件)</div>
                 </el-form-item>
                 <!--<el-form-item class="removeElList" label="背景图:" label-width="100px" prop="picture" style="margin-bottom: 40px">
                     <el-upload
@@ -302,7 +303,7 @@
                     configtime: '',
                     sort: '0'
                 },
-                videoOptions: [],
+                //videoOptions: [],
                 video: '',
                 videosize: '',
                 videourl: '',
@@ -462,7 +463,8 @@
          }
          },*/
         created() {
-            this.getVideoResource();    //数据较多造成网页加载卡顿
+            //this.getVideoResource();    //数据较多造成网页加载卡顿
+            //this.$store.commit('getVideoResource','');
             let Query = {};
             this.getRemoteUserList(Query);
             //this.getActor();
@@ -482,6 +484,12 @@
             /*if (this.isEdit) {
              this.fetchData();
              }*/
+        },
+        computed: {
+            videoOptions: function () {
+                console.log(this.$store.state.app.resource)
+                return this.$store.state.app.resource;
+            }
         },
         mounted(){
             this.drawLine();

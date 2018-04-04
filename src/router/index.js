@@ -327,9 +327,9 @@ export const asyncRouterMap = [
     name: '辅助内容管理',
     icon: 'zujian',
     children: [
-      { path: 'form', component: rechargeForm, name: '充值管理' },
-      { path: 'rewardForm', component: helpReward, name: '奖励设置' },
-      { path: 'rewardFormInfo/:id', component: helpRewardInfo, name: '奖励详情' },
+      /*{ path: 'form', component: rechargeForm, name: '充值管理' },*/
+      { path: 'rewardForm', component: helpReward, name: '排行榜管理' },
+      /*{ path: 'rewardFormInfo/:id', component: helpRewardInfo, name: '奖励详情' },*/
       { path: 'table', component: feedbackTable, name: '帮助与反馈' },
       /*{
       path: '/help/push_msg',
@@ -351,18 +351,8 @@ export const asyncRouterMap = [
     name: '数据管理',
     icon: 'zujian',
     children: [
-      { path: 'table', component: dataTable, name: '数据列表' },
-      {
-        path: '/data/pay',
-        component: AppMain,
-        redirect: '/data/pay/index',
-        name: '付费分析',
-        icon: 'zujian',
-        children: [
-          { path: 'charge', component: dataPay, name: '充值分析' },
-          { path: 'consume', component: dataConsume, name: '消费分析' }
-        ]
-      }
+      { path: 'charge', component: dataPay, name: '充值分析' },
+      { path: 'consume', component: dataConsume, name: '消费分析' }
     ]
   },
   /*{

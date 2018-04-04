@@ -624,6 +624,8 @@
                 this.getList();
             },
             handleCurrentChange(val) {
+                /*console.log(val)
+                window.location.href = window.location.href + '?' + val;*/
                 this.listQuery.page = val;
                 this.getList();
             },

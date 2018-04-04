@@ -129,7 +129,7 @@
               <Upload v-model="postForm.backImg5" :close="closeStatus" v-on:input="picInput"></Upload>
             </div>
           </el-form-item>
-          <span style="font-size:12px;display: block">（请上传800*600,jpg格式的文件）</span>
+          <span style="font-size:12px;display: block;margin-top: -40px">（请上传800*600,jpg格式的文件）</span>
         </el-form-item>
 
         <el-form-item label="介绍视频:" label-width="100px" prop="introvideo" style="margin-bottom: 40px">
@@ -157,7 +157,7 @@
                   :file-list="fileList"
                   style="width:200px">
             <el-button size="small" type="primary">选择图片</el-button>
-            <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+            <div slot="tip" class="el-upload__tip">(请上传1080*1920jpg格式的文件)</div>
           </el-upload>
         </el-form-item>
 
@@ -419,7 +419,7 @@
             value1: '00:00'
           }],
         },
-        videoOptions: [],
+        //videoOptions: [],
         pickerOptions1: {
           disabledDate(time) {
             return time.getTime() + 86400000 < Date.now();
@@ -608,7 +608,8 @@
       }
     },*/
     created() {
-      this.getVideoResource();  //数据较多造成网页加载卡顿
+      //this.getVideoResource();  //数据较多造成网页加载卡顿
+      this.$store.commit('getVideoResource','');
       this.picUrl = pictureUrl() + "&width=1080";
       if(this.$route.params.id && this.$route.params.id != ':id'){
         this.saveBut = true;
@@ -620,6 +621,12 @@
         /*this.showPhoto = false;
         this.disable = false;
         this.showHr =false;*/
+      }
+    },
+    computed: {
+      videoOptions: function () {
+        console.log(this.$store.state.app.resource)
+        return this.$store.state.app.resource;
       }
     },
     watch : {
@@ -654,8 +661,9 @@
         console.log(file);
         this.playImgName = file.name;
         const isLt2M = file.size / 1024 / 1024 > 0.01 && file.size / 1024 / 1024 < 1;
-        if (!(file.type === 'image/jpeg' || file.type === 'image/gif' || file.type === 'image/bmp' || file.type === 'image/raw')) {
-          this.$message.error('图片格式有误!(不能上传png格式)');
+        if (!(file.type === 'image/jpeg')) {
+          this.$message.error('图片格式有误!');
+          return false;
         }
         if (!isLt2M) {
           this.$message.error('上传头像图片大小不小于 10kb且不能大于1M!');

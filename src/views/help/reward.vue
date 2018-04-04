@@ -1,7 +1,7 @@
 <template>
     <div class="app-container calendar-list-container">
 
-        <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%" max-height="500">
+        <el-table v-if="showTable" :key='tableKey' :data="list" v-loading.body="listLoading" border fithighlight-current-row style="width: 100%" max-height="500">
 
             <el-table-column align="center" label="序号" width="500" prop="id">
                 <template scope="scope">
@@ -22,8 +22,8 @@
                   <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
                 </template>-->
                 <template scope="scope">
-                    <!--<span>{{scope.row.actor}}</span>-->
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/help/rewardFormInfo/' + scope.row.actorid }">{{scope.row.actor}}</router-link></span>
+                    <span>{{scope.row.actor}}</span>
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/help/rewardFormInfo/' + scope.row.actorid }">{{scope.row.actor}}</router-link></span>-->
                 </template>
             </el-table-column>
 
@@ -32,23 +32,27 @@
                   <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
                 </template>-->
                 <template scope="scope">
-                    <span>{{scope.row.operate}}</span>
-                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/actor/form/' + scope.row.id }">{{scope.row.name}}</router-link></span>-->
+                    <!--<span>{{scope.row.operate}}</span>-->
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/help/rewardForm' }">{{scope.row.operate}}</router-link></span>-->
+                    <el-button @click.native.prevent="gotoInfo(scope.row, list)" type="text" size="normal">奖励设置</el-button>
                 </template>
             </el-table-column>
 
         </el-table>
 
-        <div v-show="!listLoading" class="pagination-container">
+        <div v-if="showTable" v-show="!listLoading" class="pagination-container">
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
                            :page-sizes="[10,20,30, 40]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>
 
+        <Reward v-if="showReward" :actorId="actorid"></Reward>
+
     </div>
 </template>
 
 <script type="text/ECMAScript-6">
+    import Reward from 'components/reward/reward_info';
     import { actorList } from 'api/actor';
 
     const calendarTypeOptions = [
@@ -66,8 +70,12 @@
 
     export default {
         name: 'table_demo',
+        components: { Reward },
         data() {
             return {
+                showReward: false,
+                showTable: true,
+                actorid: '',
                 total: null,
                 listLoading: true,
                 actorOptions: [],
@@ -146,6 +154,11 @@
                     //this.getList();
                     this.listLoading =false;
                 })
+            },
+            gotoInfo (row, list) {
+                this.showTable = false;
+                this.showReward = true;
+                this.actorid = row.actorid;
             },
             getRemoteUserList(query) {
                 console.log("getRemoteUserList")
