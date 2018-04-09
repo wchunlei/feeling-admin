@@ -9,7 +9,7 @@
             <div style="margin: 20px"><span>今天充值（元）： </span>{{ data.todaypay }}</div>
         </div>-->
         <div class="block" style="margin-bottom: 30px">
-            <span class="demonstration">带快捷选项</span>
+            <span class="demonstration">请选择时间段:</span>
             <el-date-picker
                     v-model="value4"
                     type="datetimerange"
@@ -24,6 +24,41 @@
             </el-select>
         </div>
         <div id="myChart" :style="{width: '1600px', height: '800px'}"></div>
+
+        <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border highlight-current-row style="width: 100%;" max-height="500">
+
+            <el-table-column align="center" label="序号" width="150" column-key="id" prop="id">
+                <template scope="scope">
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                    <span>{{scope.row.id}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column align="center" label="时间" min-width="200" prop="time">
+                <template scope="scope">
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                    <span>{{scope.row.time}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column align="center" label="时段总充值" width="300" prop="rechnum">
+                <template scope="scope">
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                    <span>{{scope.row.rechnum}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column align="center" label="时段充值用户总数" width="300" prop="usernum">
+                <template scope="scope">
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                    <span>{{scope.row.usernum}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column align="center" label="ARPU值" width="300" prop="arpu">
+                <template scope="scope">
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                    <span>{{scope.row.arpu}}</span>
+                </template>
+            </el-table-column>
+
+        </el-table>
     </div>
 </template>
 
@@ -376,7 +411,7 @@
                             name:'充值用户数' + this.alluser,
                             type:'line',
                             data: this.usernum,
-                            markPoint: {
+                            /*markPoint: {
                                 data: [
                                     {type: 'max', name: '最大值'},
                                     {type: 'min', name: '最小值'}
@@ -386,7 +421,7 @@
                                 data: [
                                     {type: 'average', name: '平均值'}
                                 ]
-                            },
+                            },*/
                             /*label: {
                                 show: true,
                                 position: [10, 10],
@@ -396,7 +431,7 @@
                             name:'总充值' + '(' +this.allMoney + '元)',
                             type:'line',
                             data:this.rechnum,
-                            markPoint: {
+                            /*markPoint: {
                                 data: [
                                     {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
                                 ]
@@ -420,13 +455,13 @@
                                         name: '最高点'
                                     }]
                                 ]
-                            }
+                            }*/
                         },
                         {
                             name:'ARPU值' + this.allArpu,
                             type:'line',
                             data:this.arpu,
-                            markPoint: {
+                            /*markPoint: {
                                 data: [
                                     {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
                                 ]
@@ -450,7 +485,7 @@
                                         name: '最高点'
                                     }]
                                 ]
-                            }
+                            }*/
                         }
                     ]
                 });
@@ -477,7 +512,11 @@
                     type: this.time
                 };
                 rechargeanaly(rechargedata).then(response => {
-                    console.log(response)
+                    console.log(response);
+                    this.list = response.data.content;
+                    for (let i=0; i<response.data.content.length; i++) {
+                        this.list[i].id = i+1;
+                    }
                     if (this.timeData) {
                         this.timeData = [];
                     }

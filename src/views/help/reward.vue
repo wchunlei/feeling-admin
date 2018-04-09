@@ -73,8 +73,8 @@
         components: { Reward },
         data() {
             return {
-                showReward: false,
-                showTable: true,
+                //showReward: false,
+                //showTable: true,
                 actorid: '',
                 total: null,
                 listLoading: true,
@@ -112,6 +112,7 @@
         },
         created() {
             this.$store.commit('scripts','');
+            //this.$store.commit('rewardTa','');
             this.getActor();
         },
         filters: {
@@ -125,6 +126,14 @@
             },
             typeFilter(type) {
                 return calendarTypeKeyValue[type]
+            }
+        },
+        computed: {
+            showTable: function() {
+                return this.$store.state.app.rewardTable;
+            },
+            showReward: function() {
+                return this.$store.state.app.rewardInfo;
             }
         },
         methods: {
@@ -157,8 +166,9 @@
                 })
             },
             gotoInfo (row, list) {
-                this.showTable = false;
-                this.showReward = true;
+                this.$store.commit('rewardIn','');
+                //this.showTable = false;
+                //this.showReward = true;
                 this.actorid = row.actorid;
             },
             getRemoteUserList(query) {

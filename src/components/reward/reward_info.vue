@@ -668,6 +668,7 @@
                         });
                     }
                     if(response.data.code == 200) {
+                        this.$store.commit('rewardTa','');
                         this.$message({
                             message: '发布成功',
                             type: 'success'

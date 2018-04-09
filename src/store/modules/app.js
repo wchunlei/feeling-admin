@@ -13,7 +13,9 @@ const app = {
     visitedViews: [],
     resource: [],
     scripts: [],
-    fms: []
+    fms: [],
+    rewardTable: true,
+    rewardInfo: false
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {
@@ -68,6 +70,14 @@ const app = {
           label: v.title
         }))
       })
+    },
+    rewardTa: state => {
+      state.rewardTable = true;
+      state.rewardInfo = false;
+    },
+    rewardIn: state => {
+      state.rewardTable = false;
+      state.rewardInfo = true;
     }
   },
   actions: {
