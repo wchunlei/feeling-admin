@@ -111,6 +111,7 @@
             }
         },
         created() {
+            this.$store.commit('scripts','');
             this.getActor();
         },
         filters: {

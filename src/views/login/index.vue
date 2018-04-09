@@ -53,6 +53,7 @@
         }
       };
       return {
+        //videoOptions: [],
         loginForm: {
           email: 'admin@inveno.com',
           password: ''
@@ -70,6 +71,12 @@
         tokenFlag: false
       }
     },
+    /*computed: {
+      videoOptions: function () {
+        console.log(this.$store.state.app.resource)
+        return this.$store.state.app.resource;
+      }
+    },*/
     /*mounted () {
       if (localStorage.getItem('token')) {
         this.$router.push({ path: '/' });

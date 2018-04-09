@@ -1,5 +1,7 @@
 import Cookies from 'js-cookie';
 import { reslist } from 'api/resource';
+import { scriptlist } from 'api/story';
+import { homefmlist } from 'api/homefm';
 
 const app = {
   state: {
@@ -9,7 +11,9 @@ const app = {
     theme: 'default',
     livenewsChannels: Cookies.get('livenewsChannels') || '[]',
     visitedViews: [],
-    resource: []
+    resource: [],
+    scripts: [],
+    fms: []
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {
@@ -45,6 +49,25 @@ const app = {
           }
         }
       });
+    },
+    scripts: state => {
+      let listQuery = {
+        page: '1',
+        limit: '1000'
+      };
+      scriptlist(listQuery).then(response => {
+        state.scripts = response.data.content.map(v => ({
+          key: v.id,
+          label: v.title
+        }))
+        //console.log('state.scripts',state.scripts)
+      })
+      homefmlist(this.listQuery).then(response => {
+        state.fms = response.data.content.map(v => ({
+          key: v.id,
+          label: v.title
+        }))
+      })
     }
   },
   actions: {

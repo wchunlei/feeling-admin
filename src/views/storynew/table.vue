@@ -355,12 +355,15 @@
         beforeRouteLeave(to, from, next){
             //打开详情页（或者下一个任意界面）之前，把筛选条件保存到localStorage，如果离开列表页并且打开的不是详情页则清除，也可以选择不清除
             console.log(to,from);
-            if (to.name == '新增剧情') {
+            if (to.name == '新增剧情' && to.fullPath !== '/storynew/form/:id') {
                 /*let condition = JSON.stringify(this.searchForm)
                 localStorage.setItem('condition', condition)*/
                 localStorage.setItem('page', this.listQuery.page);
+                localStorage.setItem('actorid',this.listQuery.actorid);
+                //console.log(localStorage.getItem('actorid'))
             }else{
-                localStorage.removeItem('page')
+                localStorage.removeItem('page');
+                localStorage.removeItem('actorid');
             }
             next()
         },
@@ -369,8 +372,12 @@
             let Query = {};
             //this.getRemoteUserList(Query);
             let hisPage = parseInt(localStorage.getItem('page'));
+            let hisActorid = localStorage.getItem('actorid');
             if (hisPage) {
                 this.listQuery.page = hisPage;
+            }
+            if (hisActorid && hisActorid !== 'undefined') {
+                this.listQuery.actorid = hisActorid;
             }
             this.getList();
         },

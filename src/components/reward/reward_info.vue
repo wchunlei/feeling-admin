@@ -27,8 +27,8 @@
                     <!--<el-checkbox-group v-model="postForm.checkedActor">
                         <el-checkbox v-for="actor in actors" :label="actor" :key="actor">{{actor}}</el-checkbox>
                     </el-checkbox-group>-->
-                    <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.checkedActor" placeholder="选择主角" @visible-change="changeScr">
-                        <el-option v-for="item in  actorOptions" :key="item.label" :label="item.label" :value="item.value">
+                    <el-select clearable class="filter-item" style="width: 190px" v-model="postForm.checkedActor" placeholder="选择主角">
+                        <el-option v-for="item in  actorOptions" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                     <!--<multiselect v-model="postForm.checkedActor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
@@ -249,8 +249,8 @@
                     configtime: '',
                     roomsort: '0',
                 },
-                videoOptions: [],
-                audioOptions: [],
+                //videoOptions: [],
+                //audioOptions: [],
                 typeOptions: [{
                     value: '1',
                     label: '剧情'
@@ -352,9 +352,10 @@
          }
          },*/
         created() {
+            this.postForm.checkedActor = this.actorId;
             this.getActor();
-            this.getVideoResource();
-            this.getAudioResource();
+            //this.getVideoResource();
+            //this.getAudioResource();
             //this.getRemoteUserList(this.listQuery);
             /*if(this.$route.params.id && this.$route.params.id != ':id') {
                 this.saveBut = true;
@@ -387,12 +388,35 @@
          })
          }
          },*/
+        computed: {
+            /*videoOptions: function () {
+                console.log(this.$store.state)
+                return this.$store.state.app.resource;
+            }*/
+            videoOptions: function() {
+                return this.$store.state.app.scripts;
+            },
+            audioOptions: function() {
+                return this.$store.state.app.fms;
+            }
+        },
         watch : {
             "postForm.checkedActor": {
                 handler:function(val,oldval) {
                     this.listQuery1.actorid = val;
+                    //console.log(this.postForm.checkedActor == this.actorId)
+                    var reg = /[0-9]/g;
+                    console.log(val)
+                    //console.log(reg.test(val));
+                    if(!reg.test(val)) {
+                        val = '';
+                    } else {
+                        let home = {};
+                        home.id = val;
+                        this.getDetail(home);
+                    }
                 },
-                deep:true,
+                //deep:true,
             }
             /*"postForm.checkedActor": {
              handler:function(val,oldval) {
@@ -449,7 +473,7 @@
                             temp.label = response.data.content[i].name;
                             this.audioOptions.push(temp);
                         }
-                        console.log(this.audioOptions)
+                        //console.log(this.audioOptions)
                         /*this.$message({
                          message: '新增成功',
                          type: 'success'
@@ -627,6 +651,10 @@
                 if (this.actorId) {
                     homeinfo.actorid = this.actorId;
                 }
+                console.log('this.postForm.checkedActor',this.postForm.checkedActor)
+                if (this.postForm.checkedActor !== this.actorId) {
+                    homeinfo.actorid = this.postForm.checkedActor;
+                }
                 addreward(homeinfo).then(response => {
                     /*if (!response.data.items) return;
                      console.log(response)
@@ -729,7 +757,7 @@
                              //console.log(this.$el.textContent) // => '更新完成'
                              this.postForm.checkedActor = this.actorOptions[j].label;
                              })*/
-                            this.postForm.checkedActor = this.actorOptions[j].label;
+                            //this.postForm.checkedActor = this.actorOptions[j].label;
                         }
                     }
                     if (this.postForm.configtime == "0000-00-00 00:00:00") {

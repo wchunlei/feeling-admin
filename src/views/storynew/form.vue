@@ -487,7 +487,7 @@
         },
         computed: {
             videoOptions: function () {
-                console.log(this.$store.state.app.resource)
+                console.log(this.$store)
                 return this.$store.state.app.resource;
             }
         },
