@@ -110,6 +110,14 @@
                 //statusOptions: ['0', '1', ''],
             }
         },
+        directives: {
+            focus: {
+                // 指令的定义
+                inserted: function (el) {
+                    el.focus()
+                }
+            }
+        },
         created() {
             this.$store.commit('scripts','');
             //this.$store.commit('rewardTa','');

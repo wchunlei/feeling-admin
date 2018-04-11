@@ -320,6 +320,7 @@
     },
     created() {
       this.getList();
+      this.$store.commit('getVideoResource','');
     },
     filters: {
       statusFilter(status) {

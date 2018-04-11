@@ -158,10 +158,14 @@
                     <div style="margin-top: -100px">
                         <!--<el-form-item label-width="90px" label="视频:" prop="video">只能上传一个视频</el-form-item>-->
                         <!--<Uploadvideo v-model="postForm.video" :progresses="progressesData"></Uploadvideo>-->
-                        <el-select v-model="postForm.video" filterable placeholder="请选择">
+                        <!--<el-select v-model="postForm.video" filterable placeholder="请选择">
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value">
                             </el-option>
-                        </el-select>
+                        </el-select>-->
+                        <multiselect v-model="postForm.video" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel="选择"
+                                     deselectLabel="" track-by="label" :internalSearch="false" label="label" style="width:180px;display: inline-block;">
+                            <span slot='noResult'>无结果</span>
+                        </multiselect>
                     </div>
                 </el-form-item>
                 <!--<el-form-item label-width="110px" label="" class="postInfo-container-item" prop="" style="width:400px;margin-top:-30px">
@@ -712,6 +716,10 @@
                     }
                 });
             },
+            getSource() {
+                //this.$store.commit('getVideoResource','');
+                console.log(this.videoOptions)
+            },
             fetchData(listQuery) {
                 diaryinfo(listQuery).then(response => {
                     //this.postForm.actor.value = response.data.content.actorid;
@@ -841,7 +849,12 @@
                     }
                     if (response.data.content.type == 2) {
                         this.postForm.type = response.data.content.type;
-                        this.postForm.video = response.data.content.video;
+                        //this.postForm.video = response.data.content.video;
+                        for (let i=0; i<this.videoOptions.length; i++) {
+                            if(response.data.content.introvideo == this.videoOptions[i].value) {
+                                this.postForm.introvideo = this.videoOptions[i];
+                            }
+                        }
                         this.postForm.vtype = response.data.content.vtype;
                         if (response.data.content.vtype == 1) {
                             this.postForm.thumbnail = response.data.content.thumbnail;
@@ -977,7 +990,7 @@
                             }
                         } else if (this.postForm.type == 2) {
                             diaryinfo.type = this.postForm.type;
-                            diaryinfo.video = this.postForm.video;
+                            diaryinfo.video = this.postForm.video.value;
                             diaryinfo.vtype = this.postForm.vtype;
                             diaryinfo.ispay = this.postForm.ispay;
                             if (this.postForm.ispay == 0) {

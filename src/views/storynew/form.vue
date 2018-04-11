@@ -67,17 +67,29 @@
                 <el-form-item label="" label-width="100px" prop="" style="margin-bottom: 40px" required>
                     <div v-show="ss">
                         <span>开头视频:</span>
-                        <el-select v-model="postForm.vStart" filterable placeholder="请选择" @visible-change="selectVS">
+                        <!--<el-select v-model="postForm.vStart" filterable placeholder="请选择" @visible-change="selectVS">
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
+                        </el-select>-->
+                        <multiselect v-model="postForm.vStart" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel="选择"
+                                     deselectLabel="" track-by="label" :internalSearch="false" label="label" style="width:180px;display: inline-block;">
+                            <span slot='noResult'>无结果</span>
+                        </multiselect>
                         <span>A选项:</span>
-                        <el-select v-model="postForm.va" filterable placeholder="请选择">
+                        <!--<el-select v-model="postForm.va" filterable placeholder="请选择">
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
+                        </el-select>-->
+                        <multiselect v-model="postForm.va" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel="选择"
+                                     deselectLabel="" track-by="label" :internalSearch="false" label="label" style="width:180px;display: inline-block;">
+                            <span slot='noResult'>无结果</span>
+                        </multiselect>
                         <span>B选项:</span>
-                        <el-select v-model="postForm.vb" filterable placeholder="请选择">
+                        <!--<el-select v-model="postForm.vb" filterable placeholder="请选择">
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                        </el-select>
+                        </el-select>-->
+                        <multiselect v-model="postForm.vb" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel="选择"
+                                     deselectLabel="" track-by="label" :internalSearch="false" label="label" style="width:180px;display: inline-block;">
+                            <span slot='noResult'>无结果</span>
+                        </multiselect>
                     </div>
                     <div v-show="si">
                         <el-input type="textarea" placeholder="输入剧情逻辑" style='width:350px;' v-model="postForm.video" :rows=5></el-input>
@@ -551,6 +563,10 @@
                     }
                 })
             },
+            getSource() {
+                //this.$store.commit('getVideoResource','');
+                console.log(this.videoOptions)
+            },
             showSelect () {
                 this.ss = true;
                 this.si = false;
@@ -585,13 +601,13 @@
                     this.postForm.vb = response.data.content.video[2];*/
                     for (let i=0; i<this.videoOptions.length; i++) {
                         if (this.videoOptions[i].label == response.data.content.video[0].split('__')[1]) {
-                            this.postForm.vStart = this.videoOptions[i].value;
+                            this.postForm.vStart = this.videoOptions[i];
                         }
                         if (this.videoOptions[i].label == response.data.content.video[1].split('__')[1]) {
-                            this.postForm.va = this.videoOptions[i].value;
+                            this.postForm.va = this.videoOptions[i];
                         }
                         if (this.videoOptions[i].label == response.data.content.video[2].split('__')[1]) {
-                            this.postForm.vb = this.videoOptions[i].value;
+                            this.postForm.vb = this.videoOptions[i];
                         }
                     }
                     this.postForm.video = response.data.content.video.join("#");
@@ -662,20 +678,22 @@
                 //console.log(this.video,this.videosize,this.videourl)
                 let tempVideo;
                 let fileid1,fileid2,fileid3;
+                console.log(this.postForm.vStart)
                 if (this.postForm.vtype == 2) {
                     tempVideo = this.postForm.video.replace(/(\s)/g, "");
                 } else {
                     for (let i=0; i<this.videoOptions.length; i++) {
                         //console.log(this.videoOptions[i].id)
-                        if (this.videoOptions[i].value == this.postForm.vStart) {
+                        if (this.videoOptions[i].value == this.postForm.vStart.value) {
                             this.postForm.vStart = this.videoOptions[i].label;
                             fileid1 = this.videoOptions[i].fileid;
+                            console.log(this.postForm.vStart)
                         }
-                        if (this.videoOptions[i].value == this.postForm.va) {
+                        if (this.videoOptions[i].value == this.postForm.va.value) {
                             this.postForm.va = this.videoOptions[i].label;
                             fileid2 = this.videoOptions[i].fileid;
                         }
-                        if (this.videoOptions[i].value == this.postForm.vb) {
+                        if (this.videoOptions[i].value == this.postForm.vb.value) {
                             this.postForm.vb = this.videoOptions[i].label;
                             fileid3 = this.videoOptions[i].fileid;
                         }
@@ -1202,7 +1220,7 @@
             getRemoteUserList(query) {
                 actorList(query).then(response => {
                     if (!response.data.content) return;
-                    console.log(response)
+                    console.log('response',response)
                     this.userLIstOptions = response.data.content.map(v => ({
                         key: v.name,
                         value: v.id

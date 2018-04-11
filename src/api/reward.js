@@ -34,10 +34,10 @@ export function rechargeanaly(actorinfo) {
     });
 }
 
-export function upactor(actorinfo) {
+export function consumeanaly(actorinfo) {
     const data = actorinfo;
     return fetch({
-        url: '?act=upactor',
+        url: '?act=consumeanaly',
         method: 'post',
         data
     });

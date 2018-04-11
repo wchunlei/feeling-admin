@@ -634,6 +634,10 @@
                  }
                  });*/
             },
+            getSource() {
+                //this.$store.commit('getVideoResource','');
+                console.log(this.videoOptions)
+            },
             editRow (row, list) {
                 let date = new Date();
                 let year=date.getFullYear(),

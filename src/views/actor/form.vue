@@ -133,13 +133,17 @@
         </el-form-item>
 
         <el-form-item label="介绍视频:" label-width="100px" prop="introvideo" style="margin-bottom: 40px">
-          <el-select v-model="postForm.introvideo" filterable placeholder="请选择">
+          <!--<el-select v-model="postForm.introvideo" filterable placeholder="请选择">
             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
-          </el-select>
+          </el-select>-->
+          <multiselect v-model="postForm.introvideo" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel="选择"
+                       deselectLabel="" track-by="label" :internalSearch="false" label="label" style="width:180px;display: inline-block;">
+            <span slot='noResult'>无结果</span>
+          </multiselect>
         </el-form-item>
 
-        <el-form-item label="介绍卡片:" label-width="100px" prop="introcard" style="margin-bottom: 40px">
+       <!-- <el-form-item label="介绍卡片:" label-width="100px" prop="introcard" style="margin-bottom: 40px">
           <div style="width: 270px; height: 480px;border: 1px dashed #d9d9d9;">
             <Upload-card v-model="postForm.introcard" :close="closeStatus" v-on:input="picInput"></Upload-card>
           </div>
@@ -159,7 +163,7 @@
             <el-button size="small" type="primary">选择图片</el-button>
             <div slot="tip" class="el-upload__tip">(请上传1080*1920jpg格式的文件)</div>
           </el-upload>
-        </el-form-item>
+        </el-form-item>-->
 
         <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
           <!--<el-select v-model="postForm.config" placeholder="请选择">
@@ -657,6 +661,10 @@
           }
         });
       },
+      getSource() {
+        //this.$store.commit('getVideoResource','');
+        console.log(this.videoOptions)
+      },
       beforeAvatarUploadVideo(file) {
         console.log(file);
         this.playImgName = file.name;
@@ -833,9 +841,9 @@
           style: this.postForm.style,
           headurl: this.postForm.headurl,
           backimg: backimg,
-          introcard: this.postForm.introcard,
-          introvideo: this.postForm.introvideo,
-          playimg: this.postForm.playimg,
+          //introcard: this.postForm.introcard,
+          introvideo: this.postForm.introvideo.value,
+          //playimg: this.postForm.playimg,
           feature: this.postForm.feature,
           configtime: dateString,
           sort: this.postForm.sort,
@@ -991,6 +999,11 @@
             this.postForm.worktimes[i].time1 = response.data.content.worktime[i].time1;
             this.postForm.worktimes[i].value1 = response.data.content.worktime[i].value1;
           }*/
+          for (let i=0; i<this.videoOptions.length; i++) {
+            if(response.data.content.introvideo == this.videoOptions[i].value) {
+              this.postForm.introvideo = this.videoOptions[i];
+            }
+          }
           if (response.data.content.backimg[0]) {
             this.postForm.backImg1 = response.data.content.backimg[0];
           }
