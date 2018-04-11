@@ -28,7 +28,7 @@
 
                 <el-form-item label-width="100px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
                     <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="选择主角" selectLabel="✔"
-                                 deselectLabel="✖" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                                 deselectLabel="✖" track-by="key" :internalSearch="true" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                     <!--<el-select v-model="postForm.actor" placeholder="请选择" @change="changeActor">
@@ -71,7 +71,7 @@
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>-->
                         <multiselect v-model="postForm.vStart" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel="选择"
-                                     deselectLabel="" track-by="label" :internalSearch="false" label="label" style="width:180px;display: inline-block;">
+                                     deselectLabel="" track-by="label" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                         <span>A选项:</span>
@@ -79,7 +79,7 @@
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>-->
                         <multiselect v-model="postForm.va" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel="选择"
-                                     deselectLabel="" track-by="label" :internalSearch="false" label="label" style="width:180px;display: inline-block;">
+                                     deselectLabel="" track-by="label" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                         <span>B选项:</span>
@@ -87,7 +87,7 @@
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>-->
                         <multiselect v-model="postForm.vb" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel="选择"
-                                     deselectLabel="" track-by="label" :internalSearch="false" label="label" style="width:180px;display: inline-block;">
+                                     deselectLabel="" track-by="label" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                     </div>
@@ -1218,6 +1218,9 @@
                 },2000)*/
             },
             getRemoteUserList(query) {
+                if (this.postForm.actor) {
+                    console.log(this.postForm.actor)
+                }
                 actorList(query).then(response => {
                     if (!response.data.content) return;
                     console.log('response',response)

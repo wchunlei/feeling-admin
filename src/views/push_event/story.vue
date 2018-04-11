@@ -4,7 +4,7 @@
             <el-form ref="actorValue" :model="actorValue" label-width="100px" style="margin-top:20px;padding-top:20px;">
                 <el-form-item label="主角:" label-width="100px" prop="actor">
                     <multiselect v-model="actorValue.actor" required autofocus :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                                 deselectLabel="" track-by="key" :internalSearch="true" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>

@@ -6,7 +6,7 @@
 
                 <el-form-item label-width="110px" label="主角:" class="postInfo-container-item" prop="actor" style="margin-bottom: 40px;" required>
                     <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                                 deselectLabel="" track-by="key" :internalSearch="true" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>
@@ -163,7 +163,7 @@
                             </el-option>
                         </el-select>-->
                         <multiselect v-model="postForm.video" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel="选择"
-                                     deselectLabel="" track-by="label" :internalSearch="false" label="label" style="width:180px;display: inline-block;">
+                                     deselectLabel="" track-by="label" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                     </div>

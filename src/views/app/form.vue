@@ -22,7 +22,7 @@
 
       <el-form-item label="主角:" prop="actor" style="margin-top:40px;">
         &lt;!&ndash;<multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                     deselectLabel="删除" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                     deselectLabel="删除" track-by="key" :internalSearch="true" label="key" style="width:150px;">
           <span slot='noResult'>无结果</span>
         </multiselect>&ndash;&gt;
         <el-checkbox-group v-model="postForm.actor">

@@ -4,7 +4,7 @@
             <el-form class="form-container" :model="postFormCommon" ref="postFormCommon" style="margin-top:40px">
                 <el-form-item label-width="120px" label="选择主角:" class="postInfo-container-item" prop="actor">
                     <multiselect v-model="postFormCommon.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                                 deselectLabel="" track-by="key" :internalSearch="true" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>

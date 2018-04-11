@@ -27,7 +27,7 @@
                 <el-col :span="8">
                   <el-form-item label-width="45px" label="主角:" class="postInfo-container-item" prop="actor">
                     <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
+                      deselectLabel="删除" track-by="key" :internalSearch="true" label="key">
                       <span slot='noResult'>无结果</span>
                     </multiselect>
                   </el-form-item>

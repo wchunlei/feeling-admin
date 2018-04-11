@@ -6,7 +6,7 @@
 
                 <el-form-item label-width="100px" label="主角:" prop="actor" style="margin-bottom: 40px;">
                     <multiselect v-model="postForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:150px;">
+                                 deselectLabel="" track-by="key" :internalSearch="true" label="key" style="width:150px;">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>

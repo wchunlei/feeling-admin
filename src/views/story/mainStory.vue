@@ -17,7 +17,7 @@
 
                     <el-form-item label="主角:" prop="actor" style="margin-top: 40px">
                         <multiselect v-model="form.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                     deselectLabel="" track-by="key" :internalSearch="false" label="key" :disabled="disable" style="width:200px">
+                                     deselectLabel="" track-by="key" :internalSearch="true" label="key" :disabled="disable" style="width:200px">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                     </el-form-item>
@@ -88,7 +88,7 @@
                 </el-form-item>-->
                 <!--<el-form-item v-if="addBut" label="对象:" prop="actor" style="width:280px">
                     <multiselect v-model="storyForm.actor" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                                 deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
+                                 deselectLabel="删除" track-by="key" :internalSearch="true" label="key">
                         <span slot='noResult'>无结果</span>
                     </multiselect>
                 </el-form-item>

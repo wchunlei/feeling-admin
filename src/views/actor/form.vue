@@ -138,7 +138,7 @@
             </el-option>
           </el-select>-->
           <multiselect v-model="postForm.introvideo" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel="选择"
-                       deselectLabel="" track-by="label" :internalSearch="false" label="label" style="width:180px;display: inline-block;">
+                       deselectLabel="" track-by="label" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
             <span slot='noResult'>无结果</span>
           </multiselect>
         </el-form-item>

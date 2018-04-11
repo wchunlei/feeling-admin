@@ -9,7 +9,7 @@
               </el-option>
             </el-select>-->
             <!--<multiselect v-model="listQuery.name" required :options="userLIstOptions" @search-change="getRemoteUserList" placeholder="搜索用户" selectLabel="选择"
-                         deselectLabel="" track-by="key" :internalSearch="false" label="key" style="width:130px;height: 20px;display: inline-block;" >
+                         deselectLabel="" track-by="key" :internalSearch="true" label="key" style="width:130px;height: 20px;display: inline-block;" >
                 <span slot='noResult'>无结果</span>
             </multiselect>-->
             <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.actorid" placeholder="主角">
