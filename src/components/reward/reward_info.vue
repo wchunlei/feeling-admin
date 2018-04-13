@@ -411,6 +411,7 @@
                     var reg = /[0-9]/g;
                     console.log(val)
                     //console.log(reg.test(val));
+                    this.$store.commit('scripts',val);
                     if(!reg.test(val)) {
                         val = '';
                     } else {
