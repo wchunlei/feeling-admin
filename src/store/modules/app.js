@@ -52,20 +52,40 @@ const app = {
         }
       });
     },
-    scripts: state => {
+    scripts: (state,actorid) => {
       let listQuery = {
         page: '1',
         limit: '1000'
       };
       scriptlist(listQuery).then(response => {
-        state.scripts = response.data.content.map(v => ({
+        /*state.scripts = response.data.content.map(v => ({
+          key: v.id,
+          label: v.title
+        }))*/
+        let arr = [];
+        response.data.content.forEach((val,index,arr1) => {
+          if(val.actorid == actorid) {
+            arr.push(val);
+          }
+        })
+        state.scripts = arr.map(v => ({
           key: v.id,
           label: v.title
         }))
         //console.log('state.scripts',state.scripts)
       })
       homefmlist(this.listQuery).then(response => {
-        state.fms = response.data.content.map(v => ({
+        /*state.fms = response.data.content.map(v => ({
+          key: v.id,
+          label: v.title
+        }))*/
+        let arr = [];
+        response.data.content.forEach((val,index,arr1) => {
+          if(val.actorid == actorid) {
+            arr.push(val);
+          }
+        })
+        state.fms = arr.map(v => ({
           key: v.id,
           label: v.title
         }))

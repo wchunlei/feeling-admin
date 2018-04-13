@@ -119,7 +119,7 @@
             }
         },
         created() {
-            this.$store.commit('scripts','');
+            //this.$store.commit('scripts','');
             //this.$store.commit('rewardTa','');
             this.$store.commit('rewardTa','');
             this.getActor();

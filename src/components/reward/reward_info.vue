@@ -354,6 +354,8 @@
         created() {
             this.postForm.checkedActor = this.actorId;
             this.getActor();
+            this.$store.commit('scripts',this.actorId);
+            console.log(1)
             //this.getVideoResource();
             //this.getAudioResource();
             //this.getRemoteUserList(this.listQuery);
@@ -394,6 +396,7 @@
                 return this.$store.state.app.resource;
             }*/
             videoOptions: function() {
+                console.log(2)
                 return this.$store.state.app.scripts;
             },
             audioOptions: function() {
