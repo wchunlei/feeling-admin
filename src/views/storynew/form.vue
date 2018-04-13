@@ -19,7 +19,7 @@
 
             <div class="createPost-main-container">
                 <el-form-item v-show="showChart" label="剧情图:" label-width="100px" style="margin-bottom: 40px">
-                    <div id="myChart" :style="{width: '1200px', height: '800px'}"></div>
+                    <div id="myChart" :style="{width: '1000px', height: '800px'}"></div>
                 </el-form-item>
 
                 <el-form-item label="剧情标题:" label-width="100px" prop="title" style="margin-bottom: 40px" required>
@@ -477,6 +477,7 @@
         created() {
             //this.getVideoResource();    //数据较多造成网页加载卡顿
             //this.$store.commit('getVideoResource','');
+            this.$store.commit('getVideoResource','');
             let Query = {};
             this.getRemoteUserList(Query);
             //this.getActor();
@@ -587,7 +588,7 @@
                 scriptinfo (this.listQuery).then(response => {
                     let logicpicTemp = JSON.stringify(response.data.content.logicpic);
                     this.postForm = response.data.content;
-                    this.postForm.vtype = '1';
+                    this.postForm.vtype = response.data.content.type;
                     let selectBackColor = document.getElementById('showBackColor');
                     if (response.data.content.csolor) {
                         selectBackColor.style.backgroundColor = response.data.content.csolor;
@@ -610,7 +611,15 @@
                             this.postForm.vb = this.videoOptions[i];
                         }
                     }
-                    this.postForm.video = response.data.content.video.join("#");
+                    if (response.data.content.type == 2) {
+                        this.postForm.video = response.data.content.video.join("#");
+                        this.si = true;
+                        this.ss = false;
+                    } else {
+                        this.postForm.video = '';
+                        this.ss = true;
+                        this.si = false;
+                    }
                     /*this.videosize = response.data.content.videosize;
                     this.videourl = response.data.content.videourl;*/
                     //this.postForm.uploadPicture = response.data.content.picture;
