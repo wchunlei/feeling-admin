@@ -683,7 +683,7 @@
                     tempVideo = this.postForm.video.replace(/(\s)/g, "");
                 } else {
                     for (let i=0; i<this.videoOptions.length; i++) {
-                        //console.log(this.videoOptions[i].id)
+                        console.log(this.videoOptions[i].id)
                         if (this.videoOptions[i].value == this.postForm.vStart.value) {
                             this.postForm.vStart = this.videoOptions[i].label;
                             fileid1 = this.videoOptions[i].fileid;
