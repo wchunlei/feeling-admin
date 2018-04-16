@@ -90,6 +90,11 @@
                                      deselectLabel="" track-by="label" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
+                        <div>
+                            <span style="display: inline-block;">{{ vStartid }}</span>
+                            <span style="display: inline-block; margin-left:90px;">{{ vaid }}</span>
+                            <span style="display: inline-block; margin-left:80px;">{{ vbid }}</span>
+                        </div>
                     </div>
                     <div v-show="si">
                         <el-input type="textarea" placeholder="输入剧情逻辑" style='width:350px;' v-model="postForm.video" :rows=5></el-input>
@@ -315,6 +320,9 @@
                     configtime: '',
                     sort: '0'
                 },
+                vStartid: '',
+                vaid: '',
+                vbid: '',
                 //videoOptions: [],
                 video: '',
                 videosize: '',
@@ -526,6 +534,18 @@
         watch : {
             "postForm.actor" (val,oldval) {
                 this.postForm.actor = val;
+            },
+            "postForm.vStart" (val,oldval) {
+                //console.log(val.fileid)
+                this.vStartid = val.fileid;
+            },
+            "postForm.va" (val,oldval) {
+                //console.log(val.fileid)
+                this.vaid = val.fileid;
+            },
+            "postForm.vb" (val,oldval) {
+                //console.log(val.fileid)
+                this.vbid = val.fileid;
             }
         },
         methods: {
@@ -564,9 +584,9 @@
                     }
                 })
             },
-            getSource() {
+            getSource(query) {
                 //this.$store.commit('getVideoResource','');
-                console.log(this.videoOptions)
+                console.log(query);
             },
             showSelect () {
                 this.ss = true;
