@@ -91,9 +91,9 @@
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                         <div>
-                            <span style="display: inline-block;">{{ vStartid }}</span>
-                            <span style="display: inline-block; margin-left:90px;">{{ vaid }}</span>
-                            <span style="display: inline-block; margin-left:80px;">{{ vbid }}</span>
+                            <span style="display: inline-block; margin-left:78px; color: #0066ff;">{{ vStartid }}</span>
+                            <span style="display: inline-block; margin-left:78px; color: #0066ff;">{{ vaid }}</span>
+                            <span style="display: inline-block; margin-left:78px; color: #0066ff;">{{ vbid }}</span>
                         </div>
                     </div>
                     <div v-show="si">
@@ -485,6 +485,52 @@
         created() {
             //this.getVideoResource();    //数据较多造成网页加载卡顿
             //this.$store.commit('getVideoResource','');
+           /* function Test(name) {
+                this.name = name;
+            };
+            let test1 = new Test();
+            console.log('test1.__proto__',test1.__proto__);
+            console.log('Test.prototype',Test.prototype);
+            console.log('test1.__proto__==Test.prototype',test1.__proto__==Test.prototype);
+            console.log('Test.__proto__',Test.__proto__);
+            console.log('Function.prototype',Function.prototype);
+            console.log('Test.__proto__==Function.prototype',Test.__proto__==Function.prototype);
+            console.log('Test.prototype.__proto__',Test.prototype.__proto__);
+            console.log('Object.prototype',Object.prototype);
+            console.log('Test.prototype.__proto__==Object.prototype',Test.prototype.__proto__==Object.prototype);
+            console.log('Object.__proto__',Object.__proto__);
+            console.log('Function.prototype',Function.prototype);
+            console.log('Object.__proto__==Function.prototype',Object.__proto__==Function.prototype);
+            console.log('Object.prototype.__proto__',Object.prototype.__proto__); //null*/
+            /*var num = new Array();
+            console.log('num.join()',num.join())*/
+            var obj1 = {
+                a1: '123'
+            }
+            var obj2 = {
+                b1: '456'
+            }
+            /*function obj(o) {
+                function F(){};
+                F.prototype = o;
+                return new F();
+            }*/
+            function object(o) {
+
+                function F() {}
+
+                F.prototype = o;
+
+                return new F();
+
+            }
+            console.log(obj2.b1)
+            obj2 = object(obj1);
+            console.log(obj2.a1+obj2.b1);
+            console.log(obj2.b1)
+            console.log('obj2',obj2)
+
+
             this.$store.commit('getVideoResource','');
             let Query = {};
             this.getRemoteUserList(Query);
@@ -773,7 +819,7 @@
                                     type: 'success'
                                 });
                                 //this.$refs[formName].resetFields();
-                                //this.postForm.status = 'published';
+                                this.postForm.title = '';
                             }
                         });
                     } else {
