@@ -255,6 +255,23 @@
         components: { Upload },
         name: 'table_demo',
         data() {
+            const storySortOptions = () => {
+                let arr = [];
+                for (let i = 0;i <= 40;i++) {
+                    let obj = {};
+                    if (i == 0) {
+                        obj.value = '0';
+                        obj.label = '默认';
+                        arr.push(obj);
+                    } else {
+                        obj.value = i.toString();
+                        obj.label = i.toString();
+                        arr.push(obj);
+                    }
+                }
+                //console.log(arr);
+                return arr;
+            };
             return {
                 isColor: true,
                 userLIstOptions: [],
@@ -262,22 +279,7 @@
                 disable: true,
                 sort: '0',
                 list: [],
-                privateOptions: [{
-                    value: '0',
-                    label: '默认'
-                },{
-                    value: '1',
-                    label: '1'
-                },{
-                    value: '2',
-                    label: '2'
-                },{
-                    value: '3',
-                    label: '3'
-                },{
-                    value: '4',
-                    label: '4'
-                }],
+                privateOptions: storySortOptions(),
                 total: null,
                 listLoading: true,
                 listQuery: {

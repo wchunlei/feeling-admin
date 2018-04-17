@@ -504,32 +504,30 @@
             console.log('Object.prototype.__proto__',Object.prototype.__proto__); //null*/
             /*var num = new Array();
             console.log('num.join()',num.join())*/
-            var obj1 = {
-                a1: '123'
+            /*function test() {
+                let arr=[];
+                for(let i=0;i<2;i++){
+                    function f1(num){
+                        return num;
+                    }
+                    arr[i] = f1(i);
+                }
+                return arr;
             }
-            var obj2 = {
-                b1: '456'
+            let aa=test();
+
+            console.log(aa[0]);
+            console.log(aa[1]);*/
+            function outer(){
+                var scope = "outer";
+                function inner(){
+                    return scope;
+                }
+                return inner;
             }
-            /*function obj(o) {
-                function F(){};
-                F.prototype = o;
-                return new F();
-            }*/
-            function object(o) {
-
-                function F() {}
-
-                F.prototype = o;
-
-                return new F();
-
-            }
-            console.log(obj2.b1)
-            obj2 = object(obj1);
-            console.log(obj2.a1+obj2.b1);
-            console.log(obj2.b1)
-            console.log('obj2',obj2)
-
+            var fn = outer();
+            let a = fn();
+            console.log(a)
 
             this.$store.commit('getVideoResource','');
             let Query = {};
@@ -679,6 +677,9 @@
                     }
                     if (response.data.content.type == 2) {
                         this.postForm.video = response.data.content.video.join("#");
+                        this.postForm.vStart = '';
+                        this.postForm.va = '';
+                        this.postForm.vb = '';
                         this.si = true;
                         this.ss = false;
                     } else {
