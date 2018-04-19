@@ -34,21 +34,21 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border highlight-current-row style="width: 100%;" max-height="500">
 
-            <el-table-column align="center" label="序号" width="80" column-key="id" prop="ids">
+            <el-table-column align="center" label="序号" width="150" column-key="id" prop="ids">
                 <template scope="scope">
                     <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
                     <span>{{scope.row.ids}}</span>
                 </template>
             </el-table-column>
 
-            <el-table-column width="220px" align="center" label="问题内容" prop="content">
+            <el-table-column min-width="220px" align="center" label="问题内容" prop="content">
                 <template scope="scope">
-                    <!--<span>{{scope.row.title}}</span>-->
-                    <span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.content}}</router-link></span>
+                    <span>{{scope.row.content}}</span>
+                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.content}}</router-link></span>-->
                 </template>
             </el-table-column>
 
-            <el-table-column width="150px" align="center" label="用户昵称" prop="nickname">
+            <el-table-column width="200px" align="center" label="用户ID" prop="nickname">
                 <!--<template scope="scope">
                   <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
                 </template>-->
@@ -76,7 +76,7 @@
                 </template>
             </el-table-column>-->
 
-            <el-table-column min-width="150px" align="center" label="发布时间" prop="time">
+            <el-table-column width="200px" align="center" label="发布时间" prop="time">
                 <template scope="scope">
                     <span>{{scope.row.time}}</span>
                     <!--<span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>-->
@@ -89,7 +89,7 @@
                 </template>
             </el-table-column>-->
 
-            <el-table-column label="联系方式" width="100" align="center" prop="status" contact>
+            <el-table-column label="联系方式" width="200" align="center" prop="status" contact>
                 <template scope="scope">
                     <!--<el-tag :type="scope.row.status | statusFilter" :class="{activeColor: isColor}">{{scope.row.status}}</el-tag>-->
                     <span>{{scope.row.contact}}</span>

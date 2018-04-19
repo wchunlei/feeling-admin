@@ -74,7 +74,7 @@ const app = {
         }))
         //console.log('state.scripts',state.scripts)
       })
-      homefmlist(this.listQuery).then(response => {
+      homefmlist(listQuery).then(response => {
         /*state.fms = response.data.content.map(v => ({
           key: v.id,
           label: v.title

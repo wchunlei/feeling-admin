@@ -518,8 +518,10 @@
 
             console.log(aa[0]);
             console.log(aa[1]);*/
-            function outer(){
+            //window.aa = 'aq';
+            /*function outer(){
                 var scope = "outer";
+                //console.log('window.scope',window.scope)
                 function inner(){
                     return scope;
                 }
@@ -527,7 +529,14 @@
             }
             var fn = outer();
             let a = fn();
-            console.log(a)
+            console.log('window.scope',window)*/
+            function fn()
+            {
+                this.user = '追梦子';
+                return null;
+            }
+            var a = new fn;
+            console.log(a.user); //追梦子
 
             this.$store.commit('getVideoResource','');
             let Query = {};
