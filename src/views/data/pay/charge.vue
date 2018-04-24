@@ -27,35 +27,37 @@
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border highlight-current-row style="width: 100%;" max-height="500">
 
-            <el-table-column align="center" label="序号" width="150" column-key="id" prop="id">
-                <template scope="scope">
-                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.id}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column align="center" label="时间" min-width="200" prop="time">
-                <template scope="scope">
-                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.time}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column align="center" label="时段总充值" width="300" prop="rechnum">
-                <template scope="scope">
-                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.rechnum}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column align="center" label="时段充值用户总数" width="300" prop="usernum">
-                <template scope="scope">
-                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.usernum}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column align="center" label="ARPU值" width="300" prop="arpu">
-                <template scope="scope">
-                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.arpu}}</span>
-                </template>
+            <el-table-column label="充值明细">
+                <el-table-column align="center" label="序号" width="150" column-key="id" prop="id">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.id}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="时间" min-width="200" prop="time">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.time}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="时段总充值" width="300" prop="rechnum">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.rechnum}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="时段充值用户总数" width="300" prop="usernum">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.usernum}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="ARPU值" width="300" prop="arpu">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.arpu}}</span>
+                    </template>
+                </el-table-column>
             </el-table-column>
 
         </el-table>
@@ -193,7 +195,7 @@
                     label: '7'
                 }],
                 total: null,
-                listLoading: true,
+                listLoading: false,
                 listQuery: {
                     page: 1,
                     limit: 10,
@@ -270,7 +272,7 @@
             }
         },
         created() {
-            this.getList();
+            //this.getList();
         },
         mounted () {
             console.log();
@@ -374,7 +376,7 @@
                 myChart.setOption({
                     title: {
                         text: '充值趋势',
-                        subtext: '纯属虚构',
+                        subtext: '充值趋势？',
                         padding: [5, 150]
                     },
                     tooltip: {
@@ -403,7 +405,7 @@
                     yAxis: {
                         type: 'value',
                         axisLabel: {
-                            formatter: '{value} ' + str
+                            formatter: '{value} '
                         }
                     },
                     series: [

@@ -19,43 +19,126 @@
                     end-placeholder="结束日期"
                     align="right">
             </el-date-picker>
-            <el-select v-model="time" placeholder="请选择" @change="changeTime">
+            <el-select v-model="time" placeholder="请选择" @change="changeTime" style="width: 150px">
                 <el-option v-for="item in timeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+            <el-select clearable class="filter-item" style="width: 150px" v-model="actorid" placeholder="主角" @change="changeActor">
+                <el-option v-for="item in  actorOptions" :key="item.label" :label="item.label" :value="item.value">
+                </el-option>
+            </el-select>
+            <el-select v-model="type" placeholder="请选择" @change="changeType" style="width: 150px">
+                <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
         </div>
         <div id="myChart" :style="{width: '1600px', height: '800px'}"></div>
 
         <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border highlight-current-row style="width: 100%;" max-height="500">
 
-            <el-table-column align="center" label="序号" width="150" column-key="id" prop="id">
-                <template scope="scope">
-                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.id}}</span>
-                </template>
+            <el-table-column label="时段消费明细？">
+                <el-table-column align="center" label="序号" width="150" column-key="id" prop="id">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.id}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="时间" min-width="200" prop="time">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.time}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="总消费（钻石）" width="300" prop="consumenum">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.consumenum}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="消费用户数" width="300" prop="usernum">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.usernum}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="ARPU值" width="300" prop="arpu">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.arpu}}</span>
+                    </template>
+                </el-table-column>
             </el-table-column>
-            <el-table-column align="center" label="时间" min-width="200" prop="time">
-                <template scope="scope">
-                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.time}}</span>
-                </template>
+
+        </el-table>
+
+        <el-table :key='tableKey1' :data="list1" v-loading.body="listLoading" border highlight-current-row style="width: 100%;" max-height="500">
+
+            <el-table-column label="时段类型消费明细？">
+                <el-table-column align="center" label="序号" width="150" column-key="id" prop="id">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.id}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="类型" min-width="200" prop="type">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.type}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="总消费（钻石）" width="300" prop="consumenum">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.consumenum}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="消费用户数" width="300" prop="usernum">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.usernum}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="ARPU值" width="300" prop="arpu">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.arpu}}</span>
+                    </template>
+                </el-table-column>
             </el-table-column>
-            <el-table-column align="center" label="时段总充值" width="300" prop="rechnum">
-                <template scope="scope">
-                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.rechnum}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column align="center" label="时段充值用户总数" width="300" prop="usernum">
-                <template scope="scope">
-                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.usernum}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column align="center" label="ARPU值" width="300" prop="arpu">
-                <template scope="scope">
-                    <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
-                    <span>{{scope.row.arpu}}</span>
-                </template>
+
+        </el-table>
+
+        <el-table :key='tableKey2' :data="list2" v-loading.body="listLoading" border highlight-current-row style="width: 100%;" max-height="500">
+
+            <el-table-column label="时段主角消费明细？">
+                <el-table-column align="center" label="序号" width="150" column-key="id" prop="id">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.id}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="类型" min-width="200" prop="actorid">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.actorid}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="总消费（钻石）" width="300" prop="consumenum">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.consumenum}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="消费用户数" width="300" prop="usernum">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.usernum}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="ARPU值" width="300" prop="arpu">
+                    <template scope="scope">
+                        <!--<span style="color:#337ab7;"><router-link :to="{ path: '/storynew/form/' + scope.row.id }">{{scope.row.id}}</router-link></span>-->
+                        <span>{{scope.row.arpu}}</span>
+                    </template>
+                </el-table-column>
             </el-table-column>
 
         </el-table>
@@ -131,6 +214,8 @@
                 allArpu: 0,
                 alluser: 0,
                 time: '2',
+                actorid: '0',
+                type: '0',
                 beginTime: '',
                 endTime: '',
                 timeRange: {
@@ -151,6 +236,19 @@
                     value: '4',
                     label: '按月'
                 }],
+                typeOptions: [{
+                    value: '0',
+                    label: '全部'
+                },{
+                    value: '1',
+                    label: '选项'
+                },{
+                    value: '2',
+                    label: '众筹'
+                },{
+                    value: '3',
+                    label: '打赏'
+                }],
                 dateString: '',
                 data: {
                     alluser: '',
@@ -167,6 +265,8 @@
                 disable: true,
                 roomsort: '0',
                 list: [],
+                list1: [],
+                list2: [],
                 privateOptions: [{
                     value: '0',
                     label: '默认'
@@ -193,7 +293,7 @@
                     label: '7'
                 }],
                 total: null,
-                listLoading: true,
+                listLoading: false,
                 listQuery: {
                     page: 1,
                     limit: 10,
@@ -206,6 +306,7 @@
                     //sort: '+id'
                 },
                 Query: {
+                    page: 1,
                     limit: 100000,
                 },
                 temp: {
@@ -270,7 +371,8 @@
             }
         },
         created() {
-            this.getList();
+            this.getActor();
+            //this.getList();
         },
         mounted () {
             console.log();
@@ -290,6 +392,7 @@
                 console.log(this.timeRange.start,this.timeRange.end)
                 this.beginTime = this.timeRange.start;
                 this.endTime = this.timeRange.end;
+                console.log(newval)
                 //console.log(this.endTime.split(' '),'test')
                 if (this.endTime.split(' ')[1] == '00:00:00') {
                     this.endTime = this.endTime.split(' ')[0] + ' ' + '23:59:59';
@@ -374,7 +477,7 @@
                 myChart.setOption({
                     title: {
                         text: '充值趋势',
-                        subtext: '纯属虚构',
+                            subtext: '消费趋势？',
                         padding: [5, 150]
                     },
                     tooltip: {
@@ -403,7 +506,7 @@
                     yAxis: {
                         type: 'value',
                         axisLabel: {
-                            formatter: '{value} ' + str
+                            formatter: '{value} '
                         }
                     },
                     series: [
@@ -504,20 +607,42 @@
                     console.log('请选择日期')
                 }
             },
+            changeType (value) {
+                if (this.value4) {
+                    this.getList();
+                } else {
+                    console.log('请选择日期')
+                }
+            },
+            changeActor (value) {
+                if (this.value4) {
+                    this.getList();
+                } else {
+                    console.log('请选择日期')
+                }
+            },
             getList() {
                 this.listLoading = true;
                 let rechargedata = {
                     begintime: this.beginTime,
                     endtime: this.endTime,
                     timetype: this.time,
-                    actorid: '48',
-                    consumetype: '0'
+                    actorid: this.actorid,
+                    consumetype: this.type
                 };
                 consumeanaly(rechargedata).then(response => {
                     console.log(response);
-                    this.list = response.data.content;
-                    for (let i=0; i<response.data.content.length; i++) {
+                    this.list = response.data.timecontent;
+                    this.list1 = response.data.typecontent;
+                    this.list2 = response.data.actorcontent;
+                    for (let i=0; i<response.data.timecontent.length; i++) {
                         this.list[i].id = i+1;
+                    }
+                    for (let i=0; i<response.data.typecontent.length; i++) {
+                        this.list1[i].id = i+1;
+                    }
+                    for (let i=0; i<response.data.actorcontent.length; i++) {
+                        this.list2[i].id = i+1;
                     }
                     if (this.timeData) {
                         this.timeData = [];
@@ -540,13 +665,14 @@
                     if (this.alluser) {
                         this.alluser = 0;
                     }
-                    if (response.data.content) {
-                        response.data.content.map(arr=>{
+                    console.log('response.data.timecontent.timeconten',response.data.timecontent.timeconten)
+                    if (response.data.timecontent) {
+                        response.data.timecontent.map(arr=>{
                             this.timeData.push(arr.time);
-                            this.rechnum.push(arr.rechnum);
+                            this.rechnum.push(arr.consumenum);
                             this.arpu.push(arr.arpu);
                             this.usernum.push(arr.usernum);
-                            this.allMoney += parseFloat(arr.rechnum);
+                            this.allMoney += parseFloat(arr.consumenum);
                             this.allArpu += parseFloat(arr.arpu);
                             this.alluser += parseInt(arr.usernum);
                         })
@@ -610,6 +736,23 @@
                     this.listLoading = false;
                 })
                 this.listLoading = false;
+            },
+            getActor () {
+                actorList(this.Query).then(response => {
+                    //console.log(response)
+                    /*this.actorOptions = response.data.content.map(v => ({
+                     key: v.name
+                     }));*/
+                    this.actorOptions.push({value:'0',label:'全部'});
+                    for (let i=0; i<response.data.content.length; i++) {
+                        //alert(response.data.content[i].id)
+                        let temp = {};
+                        temp.value = response.data.content[i].id;
+                        temp.label = response.data.content[i].name;
+                        this.actorOptions.push(temp);
+                    }
+                    //this.getList();
+                })
             },
         }
     }

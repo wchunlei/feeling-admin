@@ -468,7 +468,7 @@
                     /*height: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],
                     weight: [{ type: 'number', trigger: 'blur', message: '请输入数值' }],*/
                     price: [{ validator: checkNum, trigger: 'blur' }],
-                    option: [{ validator: checkNum, trigger: 'blur' }],
+                    //option: [{ validator: checkNum, trigger: 'blur' }],
                     //bust: [{ validator: checkNum, trigger: 'blur' }],
                 }
             }
@@ -530,13 +530,24 @@
             var fn = outer();
             let a = fn();
             console.log('window.scope',window)*/
-            function fn()
-            {
-                this.user = '追梦子';
-                return null;
-            }
-            var a = new fn;
-            console.log(a.user); //追梦子
+            /*Array.prototype.map = function(fun /!*, thisp*!/) {
+                var len = this.length;
+                console.log('arguments',arguments[1])
+                if (typeof fun != "function")
+                    throw new TypeError();
+
+                var res = new Array(len);
+                var thisp = arguments[1];
+
+                for (var i = 0; i < len; i++)
+                {
+                    if (i in this)
+                        res[i] = fun.call(thisp, this[i], i, this);
+                }
+
+                return res;
+            };*/
+
 
             this.$store.commit('getVideoResource','');
             let Query = {};

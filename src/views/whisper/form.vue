@@ -549,7 +549,7 @@
                                 let tempObj = {};
                                 tempObj.id = response.data.content[m].comment[i].id;
                                 tempObj.ids = i + 1;
-                                tempObj.content = response.data.content[m].comment[i].content;
+                                tempObj.content = decodeURI(response.data.content[m].comment[i].content);
                                 tempObj.publish = response.data.content[m].comment[i].uid;
                                 tempObj.configtime = response.data.content[m].comment[i].configtime;
                                 tempObj.commentsort = response.data.content[m].comment[i].sort;
