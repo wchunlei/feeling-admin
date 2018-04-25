@@ -367,7 +367,9 @@
                 flag: false,
                 pvData: [],
                 showAuditor: false,
-                tableKey: 0
+                tableKey: 0,
+                tableKey1: 0,
+                tableKey2: 0
             }
         },
         created() {

@@ -578,7 +578,7 @@
             },*/
             getList() {
                 this.listLoading = true;
-                console.log(decodeURI('%F0%9F%98%81%F0%9F%98%81%F0%9F%98%81'))
+                console.log(decodeURI('8J+YgfCfmIHwn5iB'))
                 feedbacklist(this.listQuery).then(response => {
                     console.log(response)
                     //逆序显示

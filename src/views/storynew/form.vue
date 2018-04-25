@@ -148,6 +148,10 @@
                     <span>金</span>
                 </el-form-item>
 
+                <el-form-item label="点赞初始值:" label-width="100px" prop="likenum" style="margin-bottom: 40px" required>
+                    <el-input v-model.number="postForm.likenum" style="width:150px" placeholder="请输入整数"></el-input>
+                </el-form-item>
+
                 <el-form-item label="上架时间:" label-width="100px" prop="configtime" style="margin-bottom: 40px">
                     <!--<el-select v-model="postForm.config" placeholder="请选择">
                         <el-option v-for="item in configOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
@@ -317,6 +321,7 @@
                     cost: '0',
                     price: 68,
                     option: 38,
+                    likenum: '',
                     configtime: '',
                     sort: '0'
                 },
@@ -809,6 +814,7 @@
                     //cost: this.postForm.cost,
                     //price: this.postForm.price.toString(),
                     option: this.postForm.option.toString(),
+                    likenum: this.postForm.likenum.toString(),
                     configtime: dateString,
                     sort: this.postForm.sort,
                     //video: this.postForm.video.split('#'),
