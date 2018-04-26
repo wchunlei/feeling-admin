@@ -542,7 +542,7 @@
                     }
                     if (response.data.content) {
                         response.data.content.map(arr=>{
-                            this.timeData.push(arr.time);
+                            this.timeData.push(arr.time.split(':')[0]);
                             this.rechnum.push(arr.rechnum);
                             this.arpu.push(arr.arpu);
                             this.usernum.push(arr.usernum);
