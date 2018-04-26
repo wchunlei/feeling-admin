@@ -487,7 +487,8 @@
                         temp.push(response.data.content.comment[i].content)
                     }
                     console.log(temp)
-                    this.postForm.comment = temp.join('#');
+                    //this.postForm.comment = temp.join('#');
+                    this.postForm.comment = '';
                     //this.postForm.comment = '';
                     for ( let j=0; j<this.userLIstOptions.length; j++) {
                         if (response.data.content.actorid == this.userLIstOptions[j].value) {
