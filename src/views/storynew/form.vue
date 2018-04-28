@@ -181,6 +181,11 @@
 
             </div>
         </el-form>
+        <!--<div style="background: #ccc;overflow:hidden">
+            <div style="margin:20px">123456</div>
+        </div>
+        <div style="margin:30px;background: blue;border: 1px solid red">369</div>
+        <span style="background: #ccc;margin-right:10px;margin-top:220px">test</span><span style="background: red;margin-left:10px">123test</span>-->
 
     </div>
 </template>
@@ -779,29 +784,51 @@
                 //console.log(this.video,this.videosize,this.videourl)
                 let tempVideo;
                 let fileid1,fileid2,fileid3;
-                console.log(this.postForm.vStart)
+                console.log('this.postForm.va',this.postForm.va)
+                console.log('this.postForm.vb',this.postForm.vb)
                 if (this.postForm.vtype == 2) {
                     tempVideo = this.postForm.video.replace(/(\s)/g, "");
                 } else {
                     for (let i=0; i<this.videoOptions.length; i++) {
-                        console.log(this.videoOptions[i].id)
-                        if (this.videoOptions[i].value == this.postForm.vStart.value) {
-                            this.postForm.vStart = this.videoOptions[i].label;
-                            fileid1 = this.videoOptions[i].fileid;
-                            console.log(this.postForm.vStart)
+                        if (this.postForm.vStart.value ) {
+                            if (this.videoOptions[i].value == this.postForm.vStart.value) {
+                                this.postForm.vStart = this.videoOptions[i].label;
+                                fileid1 = this.videoOptions[i].fileid;
+                            }
+                        } else {
+                            if (this.videoOptions[i].label == this.postForm.vStart) {
+                                this.postForm.vStart = this.videoOptions[i].label;
+                                fileid1 = this.videoOptions[i].fileid;
+                            }
                         }
-                        if (this.videoOptions[i].value == this.postForm.va.value) {
-                            this.postForm.va = this.videoOptions[i].label;
-                            fileid2 = this.videoOptions[i].fileid;
+
+                        if (this.postForm.va.value) {
+                            if (this.videoOptions[i].value == this.postForm.va.value) {
+                                this.postForm.va = this.videoOptions[i].label;
+                                fileid2 = this.videoOptions[i].fileid;
+                            }
+                        } else {
+                            if (this.videoOptions[i].label == this.postForm.va) {
+                                this.postForm.va = this.videoOptions[i].label;
+                                fileid2 = this.videoOptions[i].fileid;
+                            }
                         }
-                        if (this.videoOptions[i].value == this.postForm.vb.value) {
-                            this.postForm.vb = this.videoOptions[i].label;
-                            fileid3 = this.videoOptions[i].fileid;
+
+                        if (this.postForm.vb.value) {
+                            if (this.videoOptions[i].value == this.postForm.vb.value) {
+                                this.postForm.vb = this.videoOptions[i].label;
+                                fileid3 = this.videoOptions[i].fileid;
+                            }
+                        } else {
+                            if (this.videoOptions[i].label == this.postForm.vb) {
+                                this.postForm.vb = this.videoOptions[i].label;
+                                fileid3 = this.videoOptions[i].fileid;
+                            }
                         }
                     }
                     tempVideo = '1__' + this.postForm.vStart + '__'+fileid1 + '#'+ '11__' +this.postForm.va + '__'+fileid2 + '#' + '12__' + this.postForm.vb + '__'+fileid3;
                 }
-                console.log(tempVideo)
+                //console.log(tempVideo)
                 let storyinfo = {
                     //channel: "女仆团",
                     actorid: this.postForm.actor.value,
