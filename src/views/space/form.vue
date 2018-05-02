@@ -163,7 +163,7 @@
                             </el-option>
                         </el-select>-->
                         <multiselect v-model="postForm.video" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel=""
-                                     deselectLabel="" selectedLabel="" track-by="label" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
+                                     deselectLabel="" selectedLabel="" track-by="value" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                     </div>

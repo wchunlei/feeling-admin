@@ -71,7 +71,7 @@
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>-->
                         <multiselect v-model="postForm.vStart" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel=""
-                                     deselectLabel="" selectedLabel="" track-by="label" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
+                                     deselectLabel="" selectedLabel="" track-by="value" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                         <span>A选项:</span>
@@ -79,7 +79,7 @@
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>-->
                         <multiselect v-model="postForm.va" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel=""
-                                     deselectLabel="" selectedLabel="" track-by="label" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
+                                     deselectLabel="" selectedLabel="" track-by="value" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                         <span>B选项:</span>
@@ -87,7 +87,7 @@
                             <el-option v-for="item in videoOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>-->
                         <multiselect v-model="postForm.vb" required :options="videoOptions" @search-change="getSource" placeholder="搜索视频" selectLabel=""
-                                     deselectLabel="" selectedLabel="" track-by="label" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
+                                     deselectLabel="" selectedLabel="" track-by="value" :internalSearch="true" label="label" style="width:180px;display: inline-block;">
                             <span slot='noResult'>无结果</span>
                         </multiselect>
                         <div>
@@ -610,7 +610,7 @@
                 this.postForm.actor = val;
             },
             "postForm.vStart" (val,oldval) {
-                //console.log(val.fileid)
+                console.log(val)
                 this.vStartid = val.fileid;
             },
             "postForm.va" (val,oldval) {
