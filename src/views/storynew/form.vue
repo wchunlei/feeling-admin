@@ -610,7 +610,7 @@
                 this.postForm.actor = val;
             },
             "postForm.vStart" (val,oldval) {
-                console.log(val)
+                console.log(val);
                 this.vStartid = val.fileid;
             },
             "postForm.va" (val,oldval) {
