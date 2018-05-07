@@ -186,6 +186,21 @@
         </div>
         <div style="margin:30px;background: blue;border: 1px solid red">369</div>
         <span style="background: #ccc;margin-right:10px;margin-top:220px">test</span><span style="background: red;margin-left:10px">123test</span>-->
+        <!--<div style="background: #cccccc;:after{content:'';clear:both;display:block;}">
+            <div style="background: red;width:100px;height:150px;float:left">left</div>
+            <div style="background: red;width:150px;height:150px;float:right">right</div>
+            <div style="background: blue;height:150px;margin-left: 100px">自适应</div>
+        </div>-->
+        <!--<div style=":after{content:'';clear:both;display:block">
+            <div class="center" style="width:100%;float:left;height:100px;background: blue">center，可以自适应浏览器宽度，高度可固定也可以由内容撑开。</div>
+            <div class="left" style="width:100px;float:left;height:100px;background: red;margin-left:-100px;">left，宽度固定，高度可固定也可以由内容撑开</div>
+            <div class="right" style="width:150px;float:right;height:100px;background: blue;margin-right:-150px">right，宽度固定，高度可固定也可以由内容撑开</div>
+        </div>-->
+        <!--<div class="wrap" style="font-size:0;letter-spacing:normal;margin-left: 100px;margin-right:150px;">
+            <div class="left" style="font-size: 1rem;vertical-align: top;display:inline-block;background: red;width:100px;height:150px;margin-left: -100px;">left，宽度高度固定</div>
+            <div class="center" style="font-size: 1rem;display:inline-block;background: blue;width:100%;height:150px">center，可以自适应浏览器宽度，高度固定。</div>
+            <div class="right" style="font-size: 1rem;display:inline-block;background: red;width:150px;height:150px;margin-right:-150px">right，宽度高度固定</div>
+        </div>-->
 
     </div>
 </template>
@@ -325,7 +340,7 @@
                     stage: '1',
                     cost: '0',
                     price: 68,
-                    option: 38,
+                    option: 18,
                     likenum: '',
                     configtime: '',
                     sort: '0'
@@ -557,7 +572,6 @@
 
                 return res;
             };*/
-
 
             this.$store.commit('getVideoResource','');
             let Query = {};
