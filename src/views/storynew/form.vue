@@ -572,6 +572,33 @@
 
                 return res;
             };*/
+            class Point {
+
+                constructor(x, y) {
+                     this.a = x;
+                     this.b = y;
+                }
+                sum () {
+                    console.log(this.a+this.b);
+                    return this.a+this.b;
+                }
+            }
+
+            let promise = new Promise(function(resolve, reject) {
+                // ... some code
+                let point1 = new Point(1,2);
+                let tt = point1.sum();
+                resolve(tt);
+            }).then(function(value) {
+                console.log('value',value)
+            }, function(error) {
+                // failure
+            });
+
+
+
+
+
 
             this.$store.commit('getVideoResource','');
             let Query = {};

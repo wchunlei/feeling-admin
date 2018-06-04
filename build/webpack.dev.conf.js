@@ -6,6 +6,7 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
@@ -15,6 +16,9 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 function resolveApp(relativePath) {
     return path.resolve(relativePath);
 }
+let pathsToClean = [
+    '../dist',
+]
 
 module.exports = merge(baseWebpackConfig, {
     module: {
@@ -42,6 +46,7 @@ module.exports = merge(baseWebpackConfig, {
             inject: true,
             path:config.dev.staticPath
         }),
+        new CleanWebpackPlugin(pathsToClean),
         new FriendlyErrorsPlugin()
     ]
 })

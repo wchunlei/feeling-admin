@@ -11,12 +11,19 @@ export function loginByEmail(email, password) {
     data
   });
 }
-export function loginByEmailMessage(loginInfo) {
+/*export function loginByEmailMessage(loginInfo) {
   const data = loginInfo;
   return fetch({
     url: '?act=login',
     method: 'post',
     data
+  });
+}*/
+export function loginByEmailMessage(query) {
+  return fetch({
+    url: 'api/login',
+    method: 'get',
+    params: query
   });
 }
 
